@@ -44,32 +44,24 @@
   }
 
   .content {
-    overflow-x: auto;
-    justify-content: flex-start;
-    padding: 0 1rem 1rem 1rem;
+    flex-direction: column;
     gap: 2.5rem;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-    mask-image: linear-gradient(to right, black 85%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
-  }
-  
-  .content::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
+    align-items: center;
+    text-align: center;
   }
 
   .item {
-    flex: 0 0 auto;
-    align-items: flex-start;
+    width: 100%;
+  }
+
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: var(--glass-border);
   }
 
   .value {
-    font-size: 1.3rem;
-  }
-  
-  .divider {
-    flex: 0 0 auto;
-    height: 30px;
+    font-size: 1.5rem;
   }
 }
 
