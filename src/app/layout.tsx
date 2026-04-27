@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${instrumentSerif.variable}`}>
+    <html lang="en" className={`${outfit.variable} ${instrumentSerif.variable}`} suppressHydrationWarning>
       <body style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <div className="grain-overlay"></div>
         <Navbar />
