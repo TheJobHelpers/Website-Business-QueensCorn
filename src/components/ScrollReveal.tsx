@@ -13,6 +13,7 @@ export default function ScrollReveal({ children, className = '', delay = 0, type
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const currentElement = elementRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -25,16 +26,17 @@ export default function ScrollReveal({ children, className = '', delay = 0, type
       { threshold: 0.1 }
     );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
+    if (currentElement) {
+      observer.observe(currentElement);
     }
 
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
+      if (currentElement) {
+        observer.unobserve(currentElement);
       }
     };
   }, []);
+
 
   const typeClass = type === 'fade-up' ? '' : type;
   const delayClass = delay > 0 ? `reveal-delay-${delay}` : '';

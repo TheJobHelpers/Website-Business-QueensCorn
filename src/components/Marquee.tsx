@@ -1,4 +1,3 @@
-import styles from './Marquee.module.css';
 
 export default function Marquee() {
   const keywords = [

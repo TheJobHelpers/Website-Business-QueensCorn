@@ -91,8 +91,9 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
           <h2 className={styles.relatedTitle}>You May Also Like</h2>
           <div className={styles.relatedGrid}>
             {relatedProducts.map(p => (
-              <ProductCard key={p.id} name={p.name} price={p.price} image={p.image} />
+              <ProductCard key={p.id} id={p.id} name={p.name} price={p.price} image={p.image} />
             ))}
+
           </div>
         </section>
       </div>
