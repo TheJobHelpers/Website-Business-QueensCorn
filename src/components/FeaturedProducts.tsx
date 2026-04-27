@@ -1,6 +1,7 @@
 import ProductCard from './ProductCard';
 import styles from './FeaturedProducts.module.css';
 import ScrollReveal from './ScrollReveal';
+import Link from 'next/link';
 
 const FEATURED_PRODUCTS = [
   { id: '4', name: 'Jalapeno', price: '$6.00', image: '/flavor-jalapeno.png', description: 'Hand-stirred kettle corn with a spicy, savory kick.' },
@@ -27,7 +28,9 @@ export default function FeaturedProducts() {
           ))}
         </div>
         <div className={styles.footer}>
-          <button className={styles.viewAllBtn}>View All Products</button>
+          <Link href="/shop">
+            <button className={styles.viewAllBtn}>View All Products</button>
+          </Link>
         </div>
       </div>
     </section>

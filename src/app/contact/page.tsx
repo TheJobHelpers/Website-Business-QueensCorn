@@ -1,7 +1,18 @@
+'use client';
+
+import { useState } from 'react';
 import ScrollReveal from '@/components/ScrollReveal';
 import styles from './Contact.module.css';
 
 export default function ContactPage() {
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+    // In a real app, you'd send data to an API here
+  };
+
   return (
     <main className={styles.contactPage}>
       <div className="main-container">
@@ -18,36 +29,44 @@ export default function ContactPage() {
           {/* Left: Contact Form */}
           <ScrollReveal type="slide-right">
             <div className={styles.formContainer}>
-              <form>
-                <div className={styles.formGroup}>
-                  <label htmlFor="name">Your Name</label>
-                  <input type="text" id="name" className={styles.input} placeholder="Queen of Hearts" />
+              {submitted ? (
+                <div className={styles.successMessage}>
+                  <h3>Message Sent!</h3>
+                  <p>The Queen&apos;s team will get back to you shortly. Thank you for reaching out!</p>
+                  <button onClick={() => setSubmitted(false)} className={styles.submitBtn}>Send Another Message</button>
                 </div>
-                
-                <div className={styles.formGroup}>
-                  <label htmlFor="email">Email Address</label>
-                  <input type="email" id="email" className={styles.input} placeholder="hello@royalcorn.com" />
-                </div>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="name">Your Name</label>
+                    <input type="text" id="name" className={styles.input} placeholder="Queen of Hearts" required />
+                  </div>
+                  
+                  <div className={styles.formGroup}>
+                    <label htmlFor="email">Email Address</label>
+                    <input type="email" id="email" className={styles.input} placeholder="hello@royalcorn.com" required />
+                  </div>
 
-                <div className={styles.formGroup}>
-                  <label htmlFor="subject">Subject</label>
-                  <select id="subject" className={styles.input}>
-                    <option>General Inquiry</option>
-                    <option>Event Booking</option>
-                    <option>Wholesale Request</option>
-                    <option>Flavor Suggestion</option>
-                  </select>
-                </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="subject">Subject</label>
+                    <select id="subject" className={styles.input}>
+                      <option>General Inquiry</option>
+                      <option>Event Booking</option>
+                      <option>Wholesale Request</option>
+                      <option>Flavor Suggestion</option>
+                    </select>
+                  </div>
 
-                <div className={styles.formGroup}>
-                  <label htmlFor="message">How can we make you smile?</label>
-                  <textarea id="message" className={styles.textarea} placeholder="Tell us about your event or craving..."></textarea>
-                </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="message">How can we make you smile?</label>
+                    <textarea id="message" className={styles.textarea} placeholder="Tell us about your event or craving..." required></textarea>
+                  </div>
 
-                <button type="submit" className={`${styles.submitBtn} shimmer-btn`}>
-                  Send Message
-                </button>
-              </form>
+                  <button type="submit" className={`${styles.submitBtn} shimmer-btn`}>
+                    Send Message
+                  </button>
+                </form>
+              )}
             </div>
           </ScrollReveal>
 

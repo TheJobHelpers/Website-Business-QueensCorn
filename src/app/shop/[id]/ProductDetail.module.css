@@ -151,6 +151,12 @@
   border-color: white;
 }
 
+.added {
+  background: #22c55e !important;
+  border-color: #22c55e !important;
+  color: white !important;
+}
+
 .extraInfo {
   display: flex;
   flex-direction: column;

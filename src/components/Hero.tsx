@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from './Hero.module.css';
 
 export default function Hero() {
@@ -30,8 +31,12 @@ export default function Hero() {
           favorite gourmet popcorn destination.
         </p>
         <div className={styles.actions}>
-          <button className={`${styles.primaryBtn} shimmer-btn`}>Shop Our Flavors</button>
-          <button className={styles.secondaryBtn}>See Us In Action</button>
+          <Link href="/shop">
+            <button className={`${styles.primaryBtn} shimmer-btn`}>Shop Our Flavors</button>
+          </Link>
+          <Link href="/events">
+            <button className={styles.secondaryBtn}>See Us In Action</button>
+          </Link>
         </div>
       </div>
       <div className={styles.scrollIndicator}>

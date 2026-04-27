@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/layout/Navbar';
 import ProductCard from '@/components/ProductCard';
+import ProductActions from './ProductActions';
 import styles from './ProductDetail.module.css';
 
 // This would normally come from a database/CMS
@@ -51,30 +52,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               <p>{product.description}</p>
             </div>
 
-            <div className={styles.options}>
-              <div className={styles.optionGroup}>
-                <label>Size</label>
-                <select className={styles.select}>
-                  <option>Small (Individual)</option>
-                  <option>Medium (Family)</option>
-                  <option>Large (Party)</option>
-                </select>
-              </div>
-
-              <div className={styles.optionGroup}>
-                <label>Quantity</label>
-                <div className={styles.quantity}>
-                  <button>-</button>
-                  <span>1</span>
-                  <button>+</button>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.actions}>
-              <button className={styles.buyBtn}>Buy Now</button>
-              <button className={styles.cartBtn}>Add to Cart</button>
-            </div>
+            <ProductActions />
 
             <div className={styles.extraInfo}>
               <div className={styles.infoItem}>
