@@ -1,0 +1,250 @@
+.storyPage {
+  background: var(--background);
+  color: white;
+  padding-top: calc(var(--header-height) + 3rem);
+  padding-bottom: 6rem;
+}
+
+@media (max-width: 768px) {
+  .storyPage {
+    padding-top: calc(var(--header-height) + 1.5rem);
+  }
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* Editorial Header */
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 768px) {
+  .header {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.label {
+  display: block;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+@media (max-width: 480px) {
+  .label {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 1rem;
+  }
+}
+
+.mainTitle {
+  font-size: clamp(2.5rem, 8vw, 5.5rem);
+  line-height: 1.05;
+  font-family: var(--font-serif);
+  color: white;
+}
+
+/* Story Section - Magazine Style */
+.narrativeSection {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr; 
+  gap: 6rem;
+  align-items: center;
+  margin-bottom: 8rem;
+}
+
+@media (max-width: 1024px) {
+  .narrativeSection {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-bottom: 6rem;
+  }
+}
+
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .textBlock {
+    gap: 1.5rem;
+  }
+}
+
+.textBlock p {
+  font-size: 1.4rem;
+  line-height: 2.0;
+  color: #e5e5e5;
+  font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .textBlock p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+}
+
+.textBlock p strong {
+  color: white;
+  font-weight: 500;
+}
+
+.accentLine {
+  width: 60px;
+  height: 2px;
+  background: var(--primary);
+  margin-bottom: 1rem;
+}
+
+/* Framed Image */
+.framedImage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: 20px 20px 0px var(--surface);
+  border: 1px solid var(--glass-border);
+}
+
+@media (max-width: 768px) {
+  .framedImage {
+    box-shadow: 10px 10px 0px var(--surface);
+  }
+}
+
+.img {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Photo Journal Collage */
+.journalSection {
+  margin-top: 6rem;
+}
+
+@media (max-width: 768px) {
+  .journalSection {
+    margin-top: 4rem;
+  }
+}
+
+.journalGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .journalGrid {
+    gap: 1rem;
+  }
+}
+
+.itemLarge, .itemSmall, .itemMedium {
+  position: relative;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--glass-border);
+}
+
+.itemLarge {
+  grid-column: span 8;
+  aspect-ratio: 16 / 9;
+}
+
+.itemSmall {
+  grid-column: span 4;
+  aspect-ratio: 1 / 1;
+}
+
+.itemMedium {
+  grid-column: span 6;
+  aspect-ratio: 4 / 3;
+}
+
+/* Quote */
+.quoteBlock {
+  grid-column: span 12;
+  padding: 8rem 4rem;
+  margin: 4rem 0;
+  text-align: center;
+  background: #141414;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-lg);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 768px) {
+  .quoteBlock {
+    padding: 4rem 1.5rem;
+    margin: 2rem 0;
+  }
+}
+
+.quoteBlock::before {
+  content: '“';
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-serif);
+  font-size: 8rem;
+  color: var(--accent);
+  opacity: 0.15;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .quoteBlock::before {
+    font-size: 5rem;
+    top: 0.5rem;
+  }
+}
+
+.quote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.4;
+  font-style: italic;
+  max-width: 900px;
+  margin-bottom: 2.5rem;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .quote {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .itemLarge, .itemSmall, .itemMedium {
+    grid-column: span 12;
+  }
+}

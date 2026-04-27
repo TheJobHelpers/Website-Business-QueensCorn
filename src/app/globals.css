@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@100..900&display=swap');
+
+:root {
+  /* Brand Colors - Red & Gold Pivot */
+  --primary: #dc2626; /* Rich Crimson Red */
+  --primary-hover: #b91c1c;
+  --accent: #fbbf24; /* Royal Gold */
+  --accent-soft: rgba(251, 191, 36, 0.1);
+  
+  /* Neutral Palette */
+  --background: #0a0a0a;
+  --surface: #171717;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --gold-glow: rgba(251, 191, 36, 0.15);
+  
+  /* Typography */
+  --font-sans: 'Outfit', sans-serif;
+  --font-serif: 'Instrument Serif', serif;
+  
+  /* Spacing & Layout */
+  --header-height: 80px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  
+  /* Transitions */
+  --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background);
+  color: white;
+  font-family: var(--font-sans);
+  font-size: 1.1rem; /* Increased from 1rem */
+  line-height: 1.7; /* Improved for readability */
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+h1 { font-size: 4.5rem; }
+h2 { font-size: 3.5rem; }
+h3 { font-size: 2.5rem; }
+
+@media (max-width: 1024px) {
+  h1 { font-size: 3.5rem; }
+  h2 { font-size: 2.8rem; }
+  h3 { font-size: 2rem; }
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 2.8rem; }
+  h2 { font-size: 2.2rem; }
+  h3 { font-size: 1.8rem; }
+  body { font-size: 1rem; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 2.4rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.6rem; }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-sans);
+}
+
+.main-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+  .main-container {
+    padding: 0 1.25rem;
+  }
+}
+
+/* Global Utilities */
+.text-gradient {
+  background: linear-gradient(to right, #fff, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hover-lift {
+  transition: var(--transition-smooth);
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Animation Utilities */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+.slide-right { transform: translateX(-50px); }
+.slide-left { transform: translateX(50px); }
+
+.reveal.active.slide-right,
+.reveal.active.slide-left {
+  transform: translateX(0);
+}
+
+/* Premium Shimmer Effect */
+.shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 45%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.05) 55%,
+    transparent 100%
+  );
+  transform: rotate(45deg);
+  animation: shimmer 4s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
+}
+
+/* Premium Marquee */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  background: var(--surface);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 2.5rem 0;
+  white-space: nowrap;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .marquee-container {
+    padding: 1.5rem 0;
+  }
+}
+
+.marquee-content {
+  display: inline-block;
+  animation: marqueeScroll 40s linear infinite;
+}
+
+.marquee-text {
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+  padding-right: 4rem;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 1024px) {
+  .marquee-text {
+    font-size: 3.5rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .marquee-text {
+    font-size: 2.5rem;
+    padding-right: 2rem;
+  }
+}
+
+.marquee-text-active {
+  color: var(--accent);
+  -webkit-text-stroke: 0;
+}
+
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Gold Grain Texture */
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.03;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+}

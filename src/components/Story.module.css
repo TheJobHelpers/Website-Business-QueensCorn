@@ -1,0 +1,140 @@
+.storySection {
+  padding: 10rem 0;
+  background: var(--background);
+  position: relative;
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+.imageContainer {
+  position: relative;
+}
+
+.imageWrapper {
+  position: relative;
+  height: 600px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.imageWrapper:hover .image {
+  transform: scale(1.05);
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.6), transparent);
+}
+
+.experienceBadge {
+  position: absolute;
+  bottom: -2rem;
+  right: -2rem;
+  background: var(--primary);
+  color: black;
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+  z-index: 10;
+}
+
+.badgeYear {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.badgeText {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  white-space: nowrap;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.subtitle {
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+}
+
+.title {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  color: white;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  opacity: 0.7;
+  font-weight: 300;
+}
+
+.quote {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: var(--primary);
+  font-style: italic;
+  margin: 1rem 0;
+  padding-left: 2rem;
+  border-left: 2px solid var(--primary);
+}
+
+.storyBtn {
+  margin-top: 1rem;
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem 2rem;
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  border-radius: var(--radius-sm);
+}
+
+.storyBtn:hover {
+  background: white;
+  color: black;
+  border-color: white;
+}
+
+@media (max-width: 968px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+  
+  .imageWrapper {
+    height: 400px;
+  }
+}

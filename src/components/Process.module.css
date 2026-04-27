@@ -1,0 +1,165 @@
+.processSection {
+  padding: 6rem 0;
+  background: var(--background);
+}
+
+@media (max-width: 768px) {
+  .processSection {
+    padding: 3rem 0;
+  }
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+  margin-bottom: 8rem;
+}
+
+@media (max-width: 1024px) {
+  .row {
+    gap: 3rem;
+  }
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+.reverse {
+  direction: rtl;
+}
+
+.reverse .content {
+  direction: ltr;
+}
+
+.imageWrapper {
+  position: relative;
+  height: 450px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--glass-border);
+  transition: var(--transition-smooth);
+}
+
+@media (max-width: 1024px) {
+  .imageWrapper {
+    height: 350px;
+  }
+}
+
+.imageWrapper:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+@media (max-width: 768px) {
+  .content {
+    gap: 0.8rem;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.subtitle {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: var(--font-sans);
+}
+
+@media (max-width: 480px) {
+  .subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+  }
+}
+
+.title {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  line-height: 1.15;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+}
+
+.description {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  opacity: 0.85;
+  font-weight: 300;
+  max-width: 550px;
+}
+
+@media (max-width: 768px) {
+  .description {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1.2rem;
+  background: rgba(251, 191, 36, 0.05);
+  border-radius: var(--radius-sm);
+  width: fit-content;
+  border: 1px solid rgba(251, 191, 36, 0.1);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-top: 0.5rem;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+@media (max-width: 968px) {
+  .row {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 5rem;
+  }
+  
+  .reverse {
+    direction: ltr;
+  }
+  
+  .imageWrapper {
+    height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .imageWrapper {
+    height: 250px;
+  }
+}

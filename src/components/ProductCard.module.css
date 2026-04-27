@@ -1,0 +1,98 @@
+.card {
+  background: var(--surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+.imageWrapper {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.card:hover .image {
+  transform: scale(1.1);
+}
+
+.info {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.name {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: white;
+}
+
+.price {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.description {
+  font-size: 0.95rem;
+  color: #a3a3a3;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+.viewBtn {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  margin-top: auto;
+}
+
+.viewBtn:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
+}
+
+@media (max-width: 768px) {
+  .info {
+    padding: 1.5rem;
+  }
+  
+  .name {
+    font-size: 1.5rem;
+  }
+}
