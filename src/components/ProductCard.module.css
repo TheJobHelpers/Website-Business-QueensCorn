@@ -19,11 +19,9 @@
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
-  overflow: hidden;
 }
 
 .image {
-  object-fit: cover;
   transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 

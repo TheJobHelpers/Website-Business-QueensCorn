@@ -38,11 +38,6 @@
 .imageWrapper {
   position: relative;
   height: 450px;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--glass-border);
-  transition: var(--transition-smooth);
 }
 
 @media (max-width: 1024px) {
@@ -51,13 +46,10 @@
   }
 }
 
-.imageWrapper:hover {
-  transform: translateY(-10px);
-  border-color: var(--primary);
-}
+/* Removed local hover as global img-wrapper-treatment handles it */
 
 .image {
-  object-fit: cover;
+  /* handled by global img-treatment */
 }
 
 .content {

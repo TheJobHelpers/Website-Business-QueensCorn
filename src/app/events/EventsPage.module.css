@@ -169,9 +169,6 @@
 .galleryItem {
   position: relative;
   height: 400px;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  border: 1px solid var(--glass-border);
 }
 
 @media (max-width: 768px) {

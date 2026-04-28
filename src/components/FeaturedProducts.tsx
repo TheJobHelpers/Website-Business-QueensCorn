@@ -4,9 +4,9 @@ import ScrollReveal from './ScrollReveal';
 import Link from 'next/link';
 
 const FEATURED_PRODUCTS = [
-  { id: '4', name: 'Jalapeno', price: '$6.00', image: '/flavor-jalapeno.png', description: 'Hand-stirred kettle corn with a spicy, savory kick.' },
-  { id: '2', name: 'Caramel', price: '$6.00', image: '/flavor-caramel.png', description: 'Deep, glossy amber glaze with a rich buttery finish.' },
-  { id: '3', name: 'Cheddar', price: '$6.00', image: '/flavor-cheddar.png', description: 'Bursting with bold, savory aged cheddar flavor.' },
+  { id: '4', name: 'Jalapeno', price: '$6.00', image: '/flavor-jalapeno-real.png', description: 'Hand-stirred kettle corn with a spicy, savory kick.' },
+  { id: '2', name: 'Caramel', price: '$6.00', image: '/flavor-caramel-real.png', description: 'Deep, glossy amber glaze with a rich buttery finish.' },
+  { id: '3', name: 'Cheddar', price: '$6.00', image: '/flavor-cheddar-real.png', description: 'Bursting with bold, savory aged cheddar flavor.' },
 ];
 
 export default function FeaturedProducts() {

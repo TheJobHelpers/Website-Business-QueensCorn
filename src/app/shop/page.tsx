@@ -8,14 +8,14 @@ import ScrollReveal from '@/components/ScrollReveal';
 import styles from './Shop.module.css';
 
 const ALL_PRODUCTS = [
-  { id: '1', name: 'Regular Sweet & Salty', price: '$6.00', image: '/flavor-regular.png', category: 'Sweet' },
-  { id: '2', name: 'Caramel', price: '$6.00', image: '/flavor-caramel.png', category: 'Sweet' },
-  { id: '3', name: 'Cheddar', price: '$6.00', image: '/flavor-cheddar.png', category: 'Savory' },
-  { id: '4', name: 'Jalapeno', price: '$6.00', image: '/flavor-jalapeno.png', category: 'Spicy' },
-  { id: '5', name: 'Caramel Apple', price: '$6.00', image: '/flavor-mix.png', category: 'Sweet' },
-  { id: '6', name: 'Caramel & Cheddar', price: '$6.00', image: '/flavor-caramel-cheddar.png', category: 'Savory' },
-  { id: '7', name: 'Holiday Mix', price: '$6.00', image: '/flavor-mix.png', category: 'Seasonal' },
-  { id: '8', name: 'Patriot Mix', price: '$6.00', image: '/flavor-patriot.png', category: 'Seasonal' },
+  { id: '1', name: 'Regular Sweet & Salty', price: '$6.00', image: '/flavor-regular-real.png', category: 'Sweet' },
+  { id: '2', name: 'Caramel', price: '$6.00', image: '/flavor-caramel-real.png', category: 'Sweet' },
+  { id: '3', name: 'Cheddar', price: '$6.00', image: '/flavor-cheddar-real.png', category: 'Savory' },
+  { id: '4', name: 'Jalapeno', price: '$6.00', image: '/flavor-jalapeno-real.png', category: 'Spicy' },
+  { id: '5', name: 'Caramel Apple', price: '$6.00', image: '/flavor-mix-real.png', category: 'Sweet' },
+  { id: '6', name: 'Caramel & Cheddar', price: '$6.00', image: '/flavor-mix-real.png', category: 'Savory' },
+  { id: '7', name: 'Holiday Mix', price: '$6.00', image: '/flavor-mix-real.png', category: 'Seasonal' },
+  { id: '8', name: 'Patriot Mix', price: '$6.00', image: '/flavor-patriot-real.png', category: 'Seasonal' },
 ];
 
 const CATEGORIES = ['All Flavors', 'Sweet', 'Savory', 'Spicy', 'Seasonal'];
@@ -125,13 +125,13 @@ export default function ShopPage() {
         <ScrollReveal type="fade-up">
           <div className={styles.orderingCard}>
             <div className={styles.orderingGrid}>
-              <div className={styles.orderingImage}>
+              <div className={`${styles.orderingImage} img-wrapper-treatment`}>
                 <Image 
-                  src="/flavor-mix.png" 
+                  src="/flavor-mix-real.png" 
                   alt="Assorted Kettle Corn" 
                   width={400} 
                   height={400} 
-                  className={styles.productImg}
+                  className={`${styles.productImg} img-treatment`}
                 />
               </div>
               <div className={styles.orderingContent}>

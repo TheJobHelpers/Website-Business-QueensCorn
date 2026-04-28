@@ -99,18 +99,18 @@ export default function EventsPage() {
 
           <div className={styles.galleryGrid}>
             <ScrollReveal delay={1}>
-              <div className={styles.galleryItem}>
-                <Image src="/our-story-team.webp" alt="Event setup" fill className="object-cover" />
+              <div className={`${styles.galleryItem} img-wrapper-treatment`}>
+                <Image src="/our-story-team.webp" alt="Event setup" fill className="object-cover img-treatment" />
               </div>
             </ScrollReveal>
             <ScrollReveal delay={2}>
-              <div className={styles.galleryItem}>
-                <Image src="/story-market.png" alt="Market stand" fill className="object-cover" />
+              <div className={`${styles.galleryItem} img-wrapper-treatment`}>
+                <Image src="/hero-market-real.png" alt="Market stand" fill className="object-cover img-treatment" />
               </div>
             </ScrollReveal>
             <ScrollReveal delay={3}>
-              <div className={styles.galleryItem}>
-                <Image src="/process-paddle.png" alt="Popping fresh" fill className="object-cover" />
+              <div className={`${styles.galleryItem} img-wrapper-treatment`}>
+                <Image src="/process-paddle-real.png" alt="Popping fresh" fill className="object-cover img-treatment" />
               </div>
             </ScrollReveal>
           </div>

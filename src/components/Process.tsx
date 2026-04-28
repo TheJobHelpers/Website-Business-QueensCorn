@@ -10,13 +10,13 @@ export default function Process() {
         {/* Section 1: The Artisanal Standard */}
         <div className={styles.row}>
           <ScrollReveal type="slide-right" className={styles.imageContainer}>
-            <div className={styles.imageWrapper}>
+            <div className={`${styles.imageWrapper} img-wrapper-treatment`}>
               <Image 
-                src="/process-paddle.png" 
+                src="/process-paddle-real.png" 
                 alt="Traditional wooden paddle stirring kettle corn" 
                 fill 
                 sizes="(max-width: 968px) 100vw, 50vw"
-                className={styles.image}
+                className={`${styles.image} img-treatment`}
               />
             </div>
           </ScrollReveal>
@@ -37,13 +37,13 @@ export default function Process() {
         {/* Section 2: Who We Are - Emotional Storytelling */}
         <div className={`${styles.row} ${styles.reverse}`}>
           <ScrollReveal type="slide-left" className={styles.imageContainer}>
-            <div className={styles.imageWrapper}>
+            <div className={`${styles.imageWrapper} img-wrapper-treatment`}>
               <Image 
-                src="/variety-mix.png" 
+                src="/variety-mix-real.png" 
                 alt="Variety of flavored kettle corn" 
                 fill 
                 sizes="(max-width: 968px) 100vw, 50vw"
-                className={styles.image}
+                className={`${styles.image} img-treatment`}
               />
             </div>
           </ScrollReveal>
@@ -66,13 +66,13 @@ export default function Process() {
         {/* Section 3: The Production */}
         <div className={styles.row}>
           <ScrollReveal type="slide-right" className={styles.imageContainer}>
-            <div className={styles.imageWrapper}>
+            <div className={`${styles.imageWrapper} img-wrapper-treatment`}>
               <Image 
-                src="/hero.png" 
+                src="/detail-kernels-real.png" 
                 alt="Production Detail" 
                 fill 
                 sizes="(max-width: 968px) 100vw, 50vw"
-                className={styles.image}
+                className={`${styles.image} img-treatment`}
               />
             </div>
           </ScrollReveal>

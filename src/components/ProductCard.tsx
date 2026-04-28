@@ -14,13 +14,13 @@ export default function ProductCard({ id, name, price, image, description }: Pro
   return (
     <div className={`${styles.card} hover-lift`}>
       <Link href={`/shop/${id}`}>
-        <div className={styles.imageWrapper}>
+        <div className={`${styles.imageWrapper} img-wrapper-treatment`}>
           <Image 
             src={image} 
             alt={name} 
             fill 
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className={styles.image}
+            className={`${styles.image} img-treatment`}
           />
         </div>
       </Link>

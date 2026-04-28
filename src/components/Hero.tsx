@@ -19,7 +19,7 @@ export default function Hero() {
 
       <div className={styles.content}>
         <div className={styles.badge}>
-          <span>Premium Kettle Corn</span>
+          <span>Family-Owned Kettle Corn</span>
         </div>
         <h1 className={styles.title}>
           The Queen&apos;s Corn is a <br />
@@ -27,15 +27,23 @@ export default function Hero() {
         </h1>
         <p className={styles.description}>
           Creating smiles one kernel at a time. From our family to yours, 
-          experience the handcrafted flavors that have made us Arizona&apos;s 
-          favorite gourmet popcorn destination.
+          enjoy handcrafted kettle corn made fresh for Arizona’s markets, 
+          events, and happy moments.
         </p>
+        <div className={styles.flavorChips}>
+          <span className={styles.chip}>Sweet & Salty</span>
+          <span className={styles.chip}>Jalapeño</span>
+          <span className={styles.chip}>Caramel</span>
+          <span className={styles.chip}>Cheddar</span>
+          <span className={styles.chip}>Caramel Apple</span>
+          <span className={styles.chip}>Seasonal</span>
+        </div>
         <div className={styles.actions}>
           <Link href="/shop">
             <button className={`${styles.primaryBtn} shimmer-btn`}>Shop Our Flavors</button>
           </Link>
-          <Link href="/#process">
-            <button className={styles.secondaryBtn}>See Us In Action</button>
+          <Link href="/contact">
+            <button className={styles.secondaryBtn}>Book Us for Events</button>
           </Link>
         </div>
       </div>

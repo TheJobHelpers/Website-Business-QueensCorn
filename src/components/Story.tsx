@@ -9,13 +9,13 @@ export default function Story() {
       <div className="main-container">
         <div className={styles.grid}>
           <ScrollReveal type="slide-right" className={styles.imageContainer}>
-            <div className={styles.imageWrapper}>
+            <div className={`${styles.imageWrapper} img-wrapper-treatment`}>
               <Image 
                 src="/bob-reina.webp" 
                 alt="Bob and Reina - Founders of The Queen's Corn" 
                 fill
                 sizes="(max-width: 968px) 100vw, 50vw"
-                className={styles.image}
+                className={`${styles.image} img-treatment`}
               />
               <div className={styles.imageOverlay}></div>
             </div>

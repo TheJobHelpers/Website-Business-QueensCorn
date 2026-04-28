@@ -34,12 +34,12 @@ export default function StoryPage() {
             </ScrollReveal>
           </div>
           <ScrollReveal type="slide-left">
-            <div className={styles.framedImage}>
+            <div className={`${styles.framedImage} img-wrapper-treatment`}>
               <Image 
                 src="/our-story-team.webp" 
                 alt="Bob and Reina" 
                 fill 
-                className={styles.img}
+                className={`${styles.img} img-treatment`}
                 sizes="(max-width: 1024px) 100vw, 500px"
               />
             </div>
@@ -61,20 +61,20 @@ export default function StoryPage() {
               </ScrollReveal>
             </div>
 
-            <ScrollReveal className={styles.itemLarge} delay={1}>
-              <Image src="/story-paddle.png" alt="Hand stirring" fill className={styles.img} />
+            <ScrollReveal className={`${styles.itemLarge} img-wrapper-treatment`} delay={1}>
+              <Image src="/process-paddle-real.png" alt="Hand stirring" fill className={`${styles.img} img-treatment`} />
             </ScrollReveal>
 
-            <ScrollReveal className={styles.itemSmall} delay={2}>
-              <Image src="/variety-mix.png" alt="Flavors" fill className={styles.img} />
+            <ScrollReveal className={`${styles.itemSmall} img-wrapper-treatment`} delay={2}>
+              <Image src="/variety-mix-real.png" alt="Flavors" fill className={`${styles.img} img-treatment`} />
             </ScrollReveal>
 
-            <ScrollReveal className={styles.itemMedium} delay={3}>
-              <Image src="/story-market.png" alt="Market display" fill className={styles.img} />
+            <ScrollReveal className={`${styles.itemMedium} img-wrapper-treatment`} delay={3}>
+              <Image src="/hero-market-real.png" alt="Market display" fill className={`${styles.img} img-treatment`} />
             </ScrollReveal>
 
-            <ScrollReveal className={styles.itemMedium} delay={4}>
-              <Image src="/hero-v3.png" alt="Popcorn cravings" fill className={styles.img} />
+            <ScrollReveal className={`${styles.itemMedium} img-wrapper-treatment`} delay={4}>
+              <Image src="/detail-kernels-real.png" alt="Popcorn cravings" fill className={`${styles.img} img-treatment`} />
             </ScrollReveal>
 
           </div>
@@ -83,12 +83,12 @@ export default function StoryPage() {
         {/* Closing Narrative */}
         <section className={styles.narrativeSection} style={{ marginTop: '10rem' }}>
           <ScrollReveal type="slide-right">
-            <div className={styles.framedImage} style={{ boxShadow: '-20px 20px 0px var(--surface)' }}>
+            <div className={`${styles.framedImage} img-wrapper-treatment`} style={{ boxShadow: '-20px 20px 0px var(--surface)' }}>
               <Image 
-                src="/process-paddle.png" 
+                src="/process-paddle-real.png" 
                 alt="Our Process" 
                 fill 
-                className={styles.img}
+                className={`${styles.img} img-treatment`}
               />
             </div>
           </ScrollReveal>

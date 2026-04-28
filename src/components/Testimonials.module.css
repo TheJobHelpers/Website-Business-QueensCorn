@@ -25,6 +25,16 @@
   color: white;
 }
 
+.tagline {
+  font-size: 1.1rem;
+  color: #a3a3a3;
+  margin-top: 1.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 300;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -83,12 +93,24 @@
   font-weight: 700;
 }
 
-.authorInfo span {
+.authorMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.role {
   font-size: 0.85rem;
   color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  font-weight: 600;
+  font-weight: 700;
+}
+
+.context {
+  font-size: 0.85rem;
+  color: #737373;
+  font-weight: 400;
 }
 
 @media (max-width: 1024px) {
