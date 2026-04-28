@@ -4,7 +4,7 @@ import styles from './Process.module.css';
 
 export default function Process() {
   return (
-    <section className={styles.processSection}>
+    <section id="process" className={styles.processSection}>
       <div className="main-container">
         
         {/* Section 1: The Artisanal Standard */}

@@ -34,7 +34,7 @@ export default function Hero() {
           <Link href="/shop">
             <button className={`${styles.primaryBtn} shimmer-btn`}>Shop Our Flavors</button>
           </Link>
-          <Link href="/events">
+          <Link href="/#process">
             <button className={styles.secondaryBtn}>See Us In Action</button>
           </Link>
         </div>
