@@ -16,6 +16,26 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   title: "The Queen's Corn | Premium Popcorn & Experiences",
   description: "Handcrafted gourmet popcorn for the royalty in you. Experience the finest flavors at The Queen's Corn.",
+  icons: {
+    icon: "/favicon.webp",
+    apple: "/favicon.webp",
+  },
+  openGraph: {
+    title: "The Queen's Corn | Premium Popcorn & Experiences",
+    description: "Arizona's favorite handcrafted kettle corn. Pure ingredients, hand-stirred excellence.",
+    url: "https://the-queens-corn.vercel.app",
+    siteName: "The Queen's Corn",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "The Queen's Corn - Premium Handcrafted Popcorn",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 import Navbar from "@/components/layout/Navbar";
