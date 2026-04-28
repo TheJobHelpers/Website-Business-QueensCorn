@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Hero.module.css';
 
@@ -12,10 +11,7 @@ export default function Hero() {
       </div>
       <div className={styles.overlay}></div>
       
-      {/* Royal Seal Watermark */}
-      <div className={styles.sealWrapper}>
-        <Image src="/royal-seal.png" alt="Royal Seal" width={300} height={300} className={styles.seal} />
-      </div>
+
 
       <div className={styles.content}>
         <div className={styles.badge}>
