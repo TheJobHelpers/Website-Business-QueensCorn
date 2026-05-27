@@ -2,6 +2,7 @@
   position: relative;
   min-height: 100vh;
   padding-top: var(--header-height);
+  padding-bottom: 8rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,6 +47,9 @@
 }
 
 @media (max-width: 768px) {
+  .hero {
+    padding-bottom: 2rem;
+  }
   .content {
     padding: 2rem 1rem;
     background: radial-gradient(circle at center, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
