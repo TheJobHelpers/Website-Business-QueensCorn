@@ -5,24 +5,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import ScrollReveal from '@/components/ScrollReveal';
+import { ALL_PRODUCTS, CATEGORIES } from '@/data/products';
+import { ACTIVE_FUNDRAISERS } from '@/data/fundraisers';
+import { useCart } from '@/context/CartContext';
 import styles from './Shop.module.css';
 
-const ALL_PRODUCTS = [
-  { id: '1', name: 'Regular Sweet & Salty', price: '$6.00', image: '/flavor-regular-real.png', category: 'Sweet' },
-  { id: '2', name: 'Caramel', price: '$6.00', image: '/flavor-caramel-real.png', category: 'Sweet' },
-  { id: '3', name: 'Cheddar', price: '$6.00', image: '/flavor-cheddar-real.png', category: 'Savory' },
-  { id: '4', name: 'Jalapeno', price: '$6.00', image: '/flavor-jalapeno-real.png', category: 'Spicy' },
-  { id: '5', name: 'Caramel Apple', price: '$6.00', image: '/flavor-mix-real.png', category: 'Sweet' },
-  { id: '6', name: 'Caramel & Cheddar', price: '$6.00', image: '/flavor-mix-real.png', category: 'Savory' },
-  { id: '7', name: 'Holiday Mix', price: '$6.00', image: '/flavor-mix-real.png', category: 'Seasonal' },
-  { id: '8', name: 'Patriot Mix', price: '$6.00', image: '/flavor-patriot-real.png', category: 'Seasonal' },
-];
-
-const CATEGORIES = ['All Flavors', 'Sweet', 'Savory', 'Spicy', 'Seasonal'];
-
 export default function ShopPage() {
-  const [activeCategory, setActiveCategory] = useState('All Flavors');
+  const [activeCategory, setActiveCategory] = useState<string>('All Flavors');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const {
+    fulfillmentMethod,
+    selectedPickupEvent,
+    selectedFundraiserCode,
+    setFulfillmentMethod,
+    setSelectedFundraiserCode,
+  } = useCart();
+
+  const activeFundraiser = ACTIVE_FUNDRAISERS.find(
+    (f) => f.code === selectedFundraiserCode
+  );
 
   const filteredProducts = useMemo(() => {
     if (activeCategory === 'All Flavors') return ALL_PRODUCTS;
@@ -48,10 +49,43 @@ export default function ShopPage() {
             </div>
           </ScrollReveal>
         </div>
-        
       </section>
 
-      <div className="main-container">
+      <div id="flavor-grid" className="main-container">
+        {/* Active Context Banner (Fundraiser or Market Pickup) */}
+        {(activeFundraiser || fulfillmentMethod === 'pickup') && (
+          <div className={styles.contextBanner}>
+            {activeFundraiser && (
+              <div className={styles.contextItem}>
+                <span>
+                  🎗️ Supporting <strong>{activeFundraiser.organization}</strong> (50% Giveback • Code: {activeFundraiser.code})
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setSelectedFundraiserCode('')}
+                  className={styles.clearContextBtn}
+                >
+                  Clear
+                </button>
+              </div>
+            )}
+            {fulfillmentMethod === 'pickup' && (
+              <div className={styles.contextItem}>
+                <span>
+                  🎪 Free Market Pickup Selected: <strong>{selectedPickupEvent}</strong>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setFulfillmentMethod('shipping')}
+                  className={styles.clearContextBtn}
+                >
+                  Switch to AZ Shipping
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Mobile Filter Selector - Custom Premium Dropdown */}
         <div className={styles.mobileFilter}>
           <div 
@@ -87,7 +121,6 @@ export default function ShopPage() {
           )}
         </div>
 
-
         {/* Desktop Filter Bar */}
         <div className={styles.filterBar}>
           {CATEGORIES.map(cat => (
@@ -103,7 +136,7 @@ export default function ShopPage() {
 
         <div className={styles.grid}>
           {filteredProducts.map((product, i) => (
-            <ScrollReveal key={`${activeCategory}-${product.id}`} delay={i * 0.1} type="fade-up">
+            <ScrollReveal key={`${activeCategory}-${product.id}`} delay={(i % 3) + 1} type="fade-up">
               <ProductCard {...product} />
             </ScrollReveal>
           ))}
@@ -121,7 +154,7 @@ export default function ShopPage() {
           )}
         </div>
 
-        {/* Branded Delivery/Coming Soon Section */}
+        {/* Arizona Shipping, Market Pickup & Fundraising Card */}
         <ScrollReveal type="fade-up">
           <div className={styles.orderingCard}>
             <div className={styles.orderingGrid}>
@@ -135,30 +168,24 @@ export default function ShopPage() {
                 />
               </div>
               <div className={styles.orderingContent}>
-                <h2 className={styles.orderingTitle}>Online Ordering Coming Soon</h2>
+                <h2 className={styles.orderingTitle}>Arizona Shipping, Market Pickup &amp; 50% Fundraising</h2>
                 <p className={styles.orderingText}>
-                  We&apos;re working on bringing more of our handcrafted kettle corn flavors to Grubhub soon. 
-                  In the meantime, explore our flavors below or reach out to book The Queen&apos;s Corn 
-                  for your next event.
+                  Enjoy 1–2 day USPS Ground Advantage shipping across Arizona (free on orders $35+), 
+                  reserve bags for free pickup at our weekend Farmers&apos; Markets, or partner with 
+                  us to raise 50% profit for your school or team.
                 </p>
                 <div className={styles.orderingActions}>
-                  <button 
-                    className={`${styles.primaryBtn} shimmer-btn`}
-                    onClick={() => document.getElementById('flavor-grid')?.scrollIntoView({ behavior: 'smooth' })}
-                  >
-                    Explore Flavors
-                  </button>
-                  <Link href="/contact" className={styles.secondaryBtn}>
-                    Book an Event
+                  <Link href="/fundraising" className={`${styles.primaryBtn} shimmer-btn`}>
+                    Explore 50% Fundraising
+                  </Link>
+                  <Link href="/events" className={styles.secondaryBtn}>
+                    View Market Pickup Dates
                   </Link>
                 </div>
               </div>
             </div>
           </div>
         </ScrollReveal>
-
-        {/* Anchor point for the grid */}
-        <div id="flavor-grid" style={{ paddingTop: '4rem' }}></div>
 
       </div>
     </main>

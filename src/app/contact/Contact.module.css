@@ -111,6 +111,11 @@
   box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
 }
 
+.input option {
+  background: #171717;
+  color: white;
+}
+
 .textarea {
   min-height: 150px;
   resize: vertical;

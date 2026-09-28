@@ -17,6 +17,22 @@
   margin-bottom: 8rem;
 }
 
+@media (max-width: 1200px) {
+  .processSection {
+    padding: 4.5rem 0;
+  }
+  .row {
+    gap: 3.5rem;
+    margin-bottom: 5.5rem;
+  }
+  .imageWrapper {
+    height: 380px;
+  }
+  .title {
+    font-size: 2.4rem;
+  }
+}
+
 @media (max-width: 1024px) {
   .row {
     gap: 3rem;

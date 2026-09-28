@@ -26,33 +26,43 @@
 .imageWrapper {
   position: relative;
   height: 600px;
-  background: #111;
+  background: var(--surface);
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--glass-border);
 }
 
 .image {
-  object-fit: contain;
-  padding: 2rem;
+  object-fit: cover;
+}
+
+.categoryBadge {
+  display: inline-block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
 }
 
 .name {
   font-family: var(--font-serif);
-  font-size: 4rem;
+  font-size: clamp(2.8rem, 5vw, 4rem);
   margin-bottom: 1rem;
 }
 
 .price {
   font-size: 2rem;
   color: var(--accent);
+  font-weight: 700;
   margin-bottom: 2rem;
 }
 
 .description {
   font-size: 1.1rem;
   line-height: 1.8;
-  opacity: 0.8;
+  opacity: 0.85;
   margin-bottom: 3rem;
   font-weight: 300;
 }
@@ -74,24 +84,37 @@
   text-transform: uppercase;
   font-size: 0.8rem;
   letter-spacing: 0.1em;
-  opacity: 0.5;
+  color: #a3a3a3;
+  font-weight: 600;
 }
 
 .select {
-  background: var(--glass-bg);
+  background: var(--surface);
   color: white;
   border: 1px solid var(--glass-border);
-  padding: 1rem;
+  padding: 1rem 1.25rem;
   border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 1rem;
   outline: none;
   cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.select:focus {
+  border-color: var(--accent);
+}
+
+.select option {
+  background: #171717;
+  color: white;
 }
 
 .quantity {
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  background: var(--glass-bg);
+  background: var(--surface);
   width: fit-content;
   padding: 0.5rem 1rem;
   border-radius: var(--radius-sm);
@@ -116,7 +139,7 @@
 
 .buyBtn {
   background: var(--primary);
-  color: black;
+  color: white;
   border: none;
   padding: 1.2rem;
   font-weight: 700;
@@ -128,9 +151,9 @@
 }
 
 .buyBtn:hover {
-  background: var(--accent);
+  background: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 10px 25px rgba(220, 38, 38, 0.35);
 }
 
 .cartBtn {

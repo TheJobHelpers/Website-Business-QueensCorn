@@ -14,6 +14,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://the-queens-corn.vercel.app"),
   title: "The Queen's Corn | Premium Popcorn & Experiences",
   description: "Handcrafted gourmet popcorn for the royalty in you. Experience the finest flavors at The Queen's Corn.",
   icons: {
@@ -40,6 +41,8 @@ export const metadata: Metadata = {
 
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { CartProvider } from "@/context/CartContext";
+import CartDrawer from "@/components/cart/CartDrawer";
 
 export default function RootLayout({
   children,
@@ -49,12 +52,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${instrumentSerif.variable}`} suppressHydrationWarning>
       <body style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-        <div className="grain-overlay"></div>
-        <Navbar />
-        <div style={{ flex: 1 }}>
-          {children}
-        </div>
-        <Footer />
+        <CartProvider>
+          <div className="grain-overlay"></div>
+          <Navbar />
+          <CartDrawer />
+          <div style={{ flex: 1 }}>
+            {children}
+          </div>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

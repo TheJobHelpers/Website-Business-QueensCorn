@@ -39,12 +39,18 @@ export default function ScrollReveal({ children, className = '', delay = 0, type
 
 
   const typeClass = type === 'fade-up' ? '' : type;
-  const delayClass = delay > 0 ? `reveal-delay-${delay}` : '';
+  const isIntegerStep = Number.isInteger(delay) && delay >= 1 && delay <= 4;
+  const delayClass = isIntegerStep ? `reveal-delay-${delay}` : '';
+  const customStyle =
+    delay > 0 && !isIntegerStep
+      ? { transitionDelay: `${Number((delay * 0.1).toFixed(2))}s` }
+      : undefined;
 
   return (
     <div 
       ref={elementRef} 
-      className={`reveal ${typeClass} ${delayClass} ${className}`}
+      className={`reveal ${typeClass} ${delayClass} ${className}`.trim()}
+      style={customStyle}
     >
       {children}
     </div>

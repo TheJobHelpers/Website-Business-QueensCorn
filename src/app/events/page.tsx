@@ -1,56 +1,22 @@
+'use client';
+
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import ScrollReveal from '@/components/ScrollReveal';
+import { UPCOMING_EVENTS, EventItem } from '@/data/events';
+import { useCart } from '@/context/CartContext';
 import styles from './EventsPage.module.css';
 
-const EVENTS = [
-  {
-    month: 'Feb',
-    day: '21',
-    year: '2026',
-    title: "Desert West Farmer's Market",
-    desc: 'Join us at the Estrella Mountain Community College for a great location with hundreds of vendors.',
-    time: '9:00 am - 1:00 pm',
-    location: 'Avondale, AZ 85392'
-  },
-  {
-    month: 'Feb',
-    day: '28',
-    year: '2026',
-    title: 'Oro Valley Fine Art & Wine Festival',
-    desc: 'Located south of Tucson against the Sonoran Desert. Featuring fine arts and signature wines.',
-    time: '11:00 am - 5:00 pm',
-    location: 'James Kreigh Park, Valley, AZ'
-  },
-  {
-    month: 'Mar',
-    day: '07-08',
-    year: '2026',
-    title: 'High Street Arts Festival',
-    desc: 'Artists, more artists, and premium wine tasting. A perfect weekend for the whole family.',
-    time: '10:00 am - 5:00 pm',
-    location: 'Desert Ridge Marketplace'
-  },
-  {
-    month: 'Mar',
-    day: '07-08',
-    year: '2026',
-    title: 'Litchfield Park Spring Art and Wine Festival',
-    desc: 'Located in the beautiful new Litchfield Square Park. Come browse and enjoy a delicious bag of kettle corn.',
-    time: '10:00 am - 4:00 pm',
-    location: 'Litchfield Park Square'
-  },
-  {
-    month: 'Mar',
-    day: '14',
-    year: '2026',
-    title: "Desert West Farmer's Market",
-    desc: 'A return to the Estrella Mountain Community College. Partnering with dozens of local creators.',
-    time: '9:00 am - 1:00 pm',
-    location: 'Avondale, AZ 85392'
-  }
-];
-
 export default function EventsPage() {
+  const router = useRouter();
+  const { selectPickupForEvent, selectedPickupEvent, fulfillmentMethod } = useCart();
+
+  const handlePreOrderPickup = (event: EventItem) => {
+    const label = `${event.title} (${event.month} ${event.day})`;
+    selectPickupForEvent(label);
+    router.push('/shop#flavor-grid');
+  };
+
   return (
     <main className={styles.page}>
       <div className="main-container">
@@ -60,32 +26,50 @@ export default function EventsPage() {
           <ScrollReveal>
             <span className={styles.label}>Where to find us</span>
             <h1 className={styles.title}>Upcoming Events</h1>
+            <p className={styles.subtitle}>
+              Visit our kettle stand across Arizona or pre-order online for free market pickup.
+            </p>
           </ScrollReveal>
         </header>
 
         {/* Events List */}
         <div className={styles.eventsContainer}>
-          {EVENTS.map((event, i) => (
-            <ScrollReveal key={i} delay={i} type={i % 2 === 0 ? 'slide-right' : 'slide-left'}>
-              <div className={styles.eventCard}>
-                <div className={styles.dateBlock}>
-                  <span className={styles.month}>{event.month}</span>
-                  <span className={styles.day}>{event.day}</span>
-                  <span className={styles.year}>{event.year}</span>
+          {UPCOMING_EVENTS.map((event, i) => {
+            const label = `${event.title} (${event.month} ${event.day})`;
+            const isSelectedPickup =
+              fulfillmentMethod === 'pickup' && selectedPickupEvent === label;
+
+            return (
+              <ScrollReveal key={event.id} delay={(i % 3) + 1} type={i % 2 === 0 ? 'slide-right' : 'slide-left'}>
+                <div className={styles.eventCard}>
+                  <div className={styles.dateBlock}>
+                    <span className={styles.month}>{event.month}</span>
+                    <span className={styles.day}>{event.day}</span>
+                    <span className={styles.year}>{event.year}</span>
+                  </div>
+                  
+                  <div className={styles.infoBlock}>
+                    <h3 className={styles.eventTitle}>{event.title}</h3>
+                    <p className={styles.eventDesc}>{event.desc}</p>
+                  </div>
+                  
+                  <div className={styles.locationBlock}>
+                    <span className={styles.time}>{event.time}</span>
+                    <span className={styles.address}>{event.location}</span>
+                    {event.pickupAvailable && (
+                      <button
+                        type="button"
+                        onClick={() => handlePreOrderPickup(event)}
+                        className={styles.pickupBtn}
+                      >
+                        {isSelectedPickup ? '✓ Pickup Selected' : 'Pre-Order for Pickup'}
+                      </button>
+                    )}
+                  </div>
                 </div>
-                
-                <div className={styles.infoBlock}>
-                  <h3 className={styles.eventTitle}>{event.title}</h3>
-                  <p className={styles.eventDesc}>{event.desc}</p>
-                </div>
-                
-                <div className={styles.locationBlock}>
-                  <span className={styles.time}>{event.time}</span>
-                  <span className={styles.address}>{event.location}</span>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
+              </ScrollReveal>
+            );
+          })}
         </div>
 
         {/* Photo Gallery */}

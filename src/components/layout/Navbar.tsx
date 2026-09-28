@@ -3,11 +3,24 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useCart } from '@/context/CartContext';
 import styles from './Navbar.module.css';
+
+const NAV_ITEMS = [
+  { href: '/', label: 'Home' },
+  { href: '/shop', label: 'Shop' },
+  { href: '/events', label: 'Events' },
+  { href: '/fundraising', label: 'Fundraising' },
+  { href: '/story', label: 'Our Story' },
+  { href: '/contact', label: 'Contact' },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const { totalItems, openDrawer } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +42,9 @@ export default function Navbar() {
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href);
+
   return (
     <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''} ${isOpen ? styles.menuOpen : ''}`}>
       <div className={styles.container}>
@@ -38,8 +54,8 @@ export default function Navbar() {
             <Image 
               src="/logo.webp" 
               alt="The Queen's Corn" 
-              width={80} 
-              height={80} 
+              width={60} 
+              height={60} 
               className={styles.logo}
               priority
             />
@@ -48,23 +64,32 @@ export default function Navbar() {
 
         {/* Center: Nav Links (Desktop) */}
         <div className={styles.links}>
-          <Link href="/" className={styles.link}>Home</Link>
-          <Link href="/shop" className={styles.link}>Shop</Link>
-          <Link href="/events" className={styles.link}>Events</Link>
-          <Link href="/story" className={styles.link}>Our Story</Link>
-          <Link href="/contact" className={styles.link}>Contact</Link>
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`${styles.link} ${isActive(item.href) ? styles.activeLink : ''}`}
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
 
         {/* Right: Actions */}
         <div className={styles.actions}>
-          <Link href="/shop" className={styles.cartIcon} aria-label="Cart">
+          <button
+            type="button"
+            className={styles.cartIcon}
+            onClick={openDrawer}
+            aria-label={`Cart (${totalItems} items)`}
+          >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
               <line x1="3" y1="6" x2="21" y2="6"></line>
               <path d="M16 10a4 4 0 0 1-8 0"></path>
             </svg>
-            <span className={styles.cartBadge}>0</span>
-          </Link>
+            <span className={styles.cartBadge}>{totalItems}</span>
+          </button>
           
           <Link href="/shop" className={styles.desktopOnly}>
             <button className={`${styles.orderBtn} shimmer-btn`}>Order Now</button>
@@ -86,11 +111,16 @@ export default function Navbar() {
       {/* Mobile Menu Overlay */}
       <div className={`${styles.mobileMenu} ${isOpen ? styles.mobileMenuVisible : ''}`}>
         <div className={styles.mobileLinks}>
-          <Link href="/" className={styles.mobileLink} onClick={closeMenu}>Home</Link>
-          <Link href="/shop" className={styles.mobileLink} onClick={closeMenu}>Shop</Link>
-          <Link href="/events" className={styles.mobileLink} onClick={closeMenu}>Events</Link>
-          <Link href="/story" className={styles.mobileLink} onClick={closeMenu}>Our Story</Link>
-          <Link href="/contact" className={styles.mobileLink} onClick={closeMenu}>Contact</Link>
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`${styles.mobileLink} ${isActive(item.href) ? styles.activeMobileLink : ''}`}
+              onClick={closeMenu}
+            >
+              {item.label}
+            </Link>
+          ))}
           
           <div className={styles.mobileActions}>
             <Link href="/shop" onClick={closeMenu}>

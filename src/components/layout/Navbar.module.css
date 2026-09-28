@@ -35,15 +35,18 @@
 }
 
 .logoBox {
-  width: 80px;
-  height: 80px;
+  width: 58px;
+  height: 58px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white; /* Optional: adds a distinct box feel */
-  border-radius: var(--radius-sm);
-  padding: 5px;
+  background: white;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+  padding: 4px;
   overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .logo {
@@ -53,32 +56,46 @@
 }
 
 .scrolled .logoBox {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
 }
 
 .links {
   display: flex;
-  gap: 3rem; 
+  gap: 2.25rem; 
   flex: 1;
   justify-content: center;
   padding-left: 2rem;
 }
 
 .link {
+  position: relative;
   font-size: 0.85rem;
   font-weight: 500;
   color: white;
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  opacity: 0.8;
+  opacity: 0.75;
   transition: all 0.3s ease;
+  padding: 0.25rem 0;
 }
 
-.link:hover {
+.link:hover,
+.activeLink {
   opacity: 1;
   color: var(--accent);
+}
+
+.activeLink::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
 }
 
 .actions {
@@ -95,6 +112,13 @@
 .cartIcon {
   position: relative;
   color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
   transition: color 0.3s ease;
 }
 
@@ -215,6 +239,10 @@
   transform: translateY(0);
 }
 
+.activeMobileLink {
+  color: var(--accent);
+}
+
 .mobileMenuVisible .mobileLink:nth-child(1) { transition-delay: 0.1s; }
 .mobileMenuVisible .mobileLink:nth-child(2) { transition-delay: 0.2s; }
 .mobileMenuVisible .mobileLink:nth-child(3) { transition-delay: 0.3s; }
@@ -234,7 +262,28 @@
   transform: translateY(0);
 }
 
-@media (max-width: 968px) {
+@media (max-width: 1240px) {
+  .links {
+    gap: 1.75rem;
+    padding-left: 1rem;
+  }
+
+  .link {
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+  }
+
+  .actions {
+    gap: 1.5rem;
+  }
+
+  .orderBtn {
+    padding: 0.7rem 1.4rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 1024px) {
   .navbar {
     height: 80px;
   }
@@ -260,8 +309,8 @@
   }
 
   .logoBox {
-    width: 60px;
-    height: 60px;
+    width: 52px;
+    height: 52px;
   }
 }
 

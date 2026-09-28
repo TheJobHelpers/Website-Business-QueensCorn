@@ -1,16 +1,40 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ScrollReveal from '@/components/ScrollReveal';
 import styles from './Contact.module.css';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [subject, setSubject] = useState('General Inquiry');
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const paramSubject = params.get('subject');
+    const paramGoal = params.get('goal');
+    const paramFundraiser = params.get('fundraiser');
+
+    if (paramSubject === 'Fundraising') {
+      setSubject('50% School / Team Fundraising');
+      if (paramGoal) {
+        setMessage(
+          `Hi Bob & Reina! We would love to set up a 50% Giveback Popcorn Fundraiser with an estimated goal of $${Number(
+            paramGoal
+          ).toLocaleString()}.`
+        );
+      }
+    } else if (paramSubject === 'Market Pickup Order' || paramSubject === 'Arizona Shipping Order') {
+      setSubject(paramSubject);
+      if (paramFundraiser) {
+        setMessage(`Supporting Fundraiser Code: ${paramFundraiser}\n\n`);
+      }
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    // In a real app, you'd send data to an API here
   };
 
   return (
@@ -49,17 +73,31 @@ export default function ContactPage() {
 
                   <div className={styles.formGroup}>
                     <label htmlFor="subject">Subject</label>
-                    <select id="subject" className={styles.input}>
-                      <option>General Inquiry</option>
-                      <option>Event Booking</option>
-                      <option>Wholesale Request</option>
-                      <option>Flavor Suggestion</option>
+                    <select
+                      id="subject"
+                      className={styles.input}
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+                    >
+                      <option value="General Inquiry">General Inquiry</option>
+                      <option value="50% School / Team Fundraising">50% School / Team Fundraising</option>
+                      <option value="Event Booking">Event Booking</option>
+                      <option value="Market Pickup Order">Market Pickup Order</option>
+                      <option value="Arizona Shipping Order">Arizona Shipping Order</option>
+                      <option value="Wholesale Request">Wholesale Request</option>
                     </select>
                   </div>
 
                   <div className={styles.formGroup}>
                     <label htmlFor="message">How can we make you smile?</label>
-                    <textarea id="message" className={styles.textarea} placeholder="Tell us about your event or craving..." required></textarea>
+                    <textarea
+                      id="message"
+                      className={styles.textarea}
+                      placeholder="Tell us about your event, fundraiser, or craving..."
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      required
+                    ></textarea>
                   </div>
 
                   <button type="submit" className={`${styles.submitBtn} shimmer-btn`}>
