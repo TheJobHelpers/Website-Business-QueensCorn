@@ -50,7 +50,7 @@ export const UPCOMING_EVENTS: EventItem[] = [
     day: '07-08',
     year: '2026',
     title: 'Litchfield Park Fall Art & Wine Festival',
-    desc: 'Located in scenic Litchfield Square Park. Browse local art and pick up your pre-ordered Royal Bags fresh from the kettle.',
+    desc: "Located in scenic Litchfield Square Park. Browse local art and pick up your pre-ordered Queen's Corn bags fresh from the kettle.",
     time: '10:00 am - 4:00 pm',
     location: 'Litchfield Park Square, AZ',
     pickupAvailable: true,

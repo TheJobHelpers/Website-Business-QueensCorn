@@ -5,8 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import ScrollReveal from '@/components/ScrollReveal';
-import { ALL_PRODUCTS, CATEGORIES } from '@/data/products';
-import { ACTIVE_FUNDRAISERS } from '@/data/fundraisers';
+import { CATEGORIES } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import styles from './Shop.module.css';
 
@@ -14,6 +13,8 @@ export default function ShopPage() {
   const [activeCategory, setActiveCategory] = useState<string>('All Flavors');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const {
+    products,
+    fundraisers,
     fulfillmentMethod,
     selectedPickupEvent,
     selectedFundraiserCode,
@@ -21,14 +22,14 @@ export default function ShopPage() {
     setSelectedFundraiserCode,
   } = useCart();
 
-  const activeFundraiser = ACTIVE_FUNDRAISERS.find(
+  const activeFundraiser = fundraisers.find(
     (f) => f.code === selectedFundraiserCode
   );
 
   const filteredProducts = useMemo(() => {
-    if (activeCategory === 'All Flavors') return ALL_PRODUCTS;
-    return ALL_PRODUCTS.filter(p => p.category === activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === 'All Flavors') return products;
+    return products.filter(p => p.category === activeCategory);
+  }, [activeCategory, products]);
 
   return (
     <main className={styles.shopPage}>

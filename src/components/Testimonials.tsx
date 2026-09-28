@@ -28,7 +28,7 @@ export default function Testimonials() {
       <div className="main-container">
         <header className={styles.header}>
           <ScrollReveal>
-            <span className={styles.label}>Royal Praise</span>
+            <span className={styles.label}>The Queen&apos;s Community</span>
             <h2 className={styles.title}>What Our Community Says</h2>
             <p className={styles.tagline}>Loved at markets, events, and family gatherings across Arizona.</p>
           </ScrollReveal>

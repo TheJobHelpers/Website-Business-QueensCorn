@@ -3,13 +3,13 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import ScrollReveal from '@/components/ScrollReveal';
-import { UPCOMING_EVENTS, EventItem } from '@/data/events';
+import { EventItem } from '@/data/events';
 import { useCart } from '@/context/CartContext';
 import styles from './EventsPage.module.css';
 
 export default function EventsPage() {
   const router = useRouter();
-  const { selectPickupForEvent, selectedPickupEvent, fulfillmentMethod } = useCart();
+  const { events, selectPickupForEvent, selectedPickupEvent, fulfillmentMethod } = useCart();
 
   const handlePreOrderPickup = (event: EventItem) => {
     const label = `${event.title} (${event.month} ${event.day})`;
@@ -34,7 +34,7 @@ export default function EventsPage() {
 
         {/* Events List */}
         <div className={styles.eventsContainer}>
-          {UPCOMING_EVENTS.map((event, i) => {
+          {events.map((event, i) => {
             const label = `${event.title} (${event.month} ${event.day})`;
             const isSelectedPickup =
               fulfillmentMethod === 'pickup' && selectedPickupEvent === label;

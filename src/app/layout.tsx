@@ -16,7 +16,7 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL("https://the-queens-corn.vercel.app"),
   title: "The Queen's Corn | Premium Popcorn & Experiences",
-  description: "Handcrafted gourmet popcorn for the royalty in you. Experience the finest flavors at The Queen's Corn.",
+  description: "Arizona's favorite handcrafted kettle corn. Popped fresh with pure corn oil and stirred with a hickory wooden paddle at The Queen's Corn.",
   icons: {
     icon: "/favicon.webp",
     apple: "/favicon.webp",

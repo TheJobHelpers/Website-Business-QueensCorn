@@ -5,8 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart, FREE_AZ_SHIPPING_THRESHOLD } from '@/context/CartContext';
-import { UPCOMING_EVENTS } from '@/data/events';
-import { ACTIVE_FUNDRAISERS } from '@/data/fundraisers';
 import { createShopifyCheckout, isShopifyConfigured } from '@/lib/shopify';
 import styles from './CartDrawer.module.css';
 
@@ -21,6 +19,8 @@ export default function CartDrawer() {
     fulfillmentMethod,
     selectedPickupEvent,
     selectedFundraiserCode,
+    events,
+    fundraisers,
     closeDrawer,
     setFulfillmentMethod,
     setSelectedPickupEvent,
@@ -33,7 +33,7 @@ export default function CartDrawer() {
 
   const remainingForFreeShipping = Math.max(0, FREE_AZ_SHIPPING_THRESHOLD - subtotal);
   const shippingProgress = Math.min(100, (subtotal / FREE_AZ_SHIPPING_THRESHOLD) * 100);
-  const activeFundraiser = ACTIVE_FUNDRAISERS.find((f) => f.code === selectedFundraiserCode);
+  const activeFundraiser = fundraisers.find((f) => f.code === selectedFundraiserCode);
 
   const handleCheckout = async () => {
     setIsCheckingOut(true);
@@ -80,8 +80,8 @@ export default function CartDrawer() {
       >
         <div className={styles.header}>
           <div>
-            <span className={styles.eyebrow}>Your Selection</span>
-            <h2 className={styles.title}>Royal Bag ({totalItems})</h2>
+            <span className={styles.eyebrow}>The Queen&apos;s Corn</span>
+            <h2 className={styles.title}>Your Queen&apos;s Bag ({totalItems})</h2>
           </div>
           <button
             className={styles.closeBtn}
@@ -221,14 +221,16 @@ export default function CartDrawer() {
                     onChange={(e) => setSelectedPickupEvent(e.target.value)}
                     aria-label="Select Farmers Market Pickup Location"
                   >
-                    {UPCOMING_EVENTS.map((evt) => {
-                      const label = `${evt.title} (${evt.month} ${evt.day})`;
-                      return (
-                        <option key={evt.id} value={label}>
-                          {label} — {evt.location}
-                        </option>
-                      );
-                    })}
+                    {events
+                      .filter((evt) => evt.pickupAvailable !== false)
+                      .map((evt) => {
+                        const label = `${evt.title} (${evt.month} ${evt.day})`;
+                        return (
+                          <option key={evt.id} value={label}>
+                            {label} — {evt.location}
+                          </option>
+                        );
+                      })}
                   </select>
                 )}
               </div>
@@ -245,7 +247,7 @@ export default function CartDrawer() {
                   aria-label="Select a Fundraiser to Support"
                 >
                   <option value="">None — Standard Order</option>
-                  {ACTIVE_FUNDRAISERS.map((fund) => (
+                  {fundraisers.map((fund) => (
                     <option key={fund.id} value={fund.code}>
                       {fund.organization} (Code: {fund.code})
                     </option>

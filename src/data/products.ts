@@ -74,7 +74,7 @@ export const ALL_PRODUCTS: Product[] = [
     price: '$6.00',
     image: '/flavor-patriot-real.png',
     category: 'Seasonal',
-    description: 'A vibrant red, white, and blue kettle corn medley crafted to celebrate in royal style.',
+    description: "A vibrant red, white, and blue kettle corn medley crafted by The Queen's Corn to celebrate in style.",
   },
 ];
 

@@ -45,7 +45,7 @@ export default function ContactPage() {
         <div className={styles.hero}>
           <ScrollReveal type="fade-up">
             <span className={styles.label}>Get in Touch</span>
-            <h1 className={styles.title}>Connect with the <br /> <span className="text-accent">Royal Kettle</span></h1>
+            <h1 className={styles.title}>Connect with <br /> <span className="text-accent">The Queen&apos;s Corn</span></h1>
           </ScrollReveal>
         </div>
 
@@ -56,19 +56,19 @@ export default function ContactPage() {
               {submitted ? (
                 <div className={styles.successMessage}>
                   <h3>Message Sent!</h3>
-                  <p>The Queen&apos;s team will get back to you shortly. Thank you for reaching out!</p>
+                  <p>The Queen&apos;s Corn team will get back to you shortly. Thank you for reaching out!</p>
                   <button onClick={() => setSubmitted(false)} className={styles.submitBtn}>Send Another Message</button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit}>
                   <div className={styles.formGroup}>
                     <label htmlFor="name">Your Name</label>
-                    <input type="text" id="name" className={styles.input} placeholder="Queen of Hearts" required />
+                    <input type="text" id="name" className={styles.input} placeholder="Your Full Name" required />
                   </div>
                   
                   <div className={styles.formGroup}>
                     <label htmlFor="email">Email Address</label>
-                    <input type="email" id="email" className={styles.input} placeholder="hello@royalcorn.com" required />
+                    <input type="email" id="email" className={styles.input} placeholder="you@example.com" required />
                   </div>
 
                   <div className={styles.formGroup}>
@@ -123,7 +123,7 @@ export default function ContactPage() {
               </div>
 
               <div className={styles.infoBlock}>
-                <h3>The Castle</h3>
+                <h3>Home Base</h3>
                 <p>Marana, Arizona <br /> Serving the Southwest</p>
               </div>
 

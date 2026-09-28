@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import ScrollReveal from '@/components/ScrollReveal';
-import { ACTIVE_FUNDRAISERS, FundraiserCampaign } from '@/data/fundraisers';
+import { FundraiserCampaign } from '@/data/fundraisers';
 import { useCart } from '@/context/CartContext';
 import styles from './Fundraising.module.css';
 
@@ -12,7 +12,7 @@ const STEPS = [
   {
     num: '01',
     title: 'Register Your Cause',
-    desc: 'Apply in two minutes. We create your dedicated campaign card and tracking code inside our Shopify portal—zero upfront cost or minimums.',
+    desc: 'Apply in two minutes. We create your dedicated campaign card and tracking code inside our portal—zero upfront cost or minimums.',
   },
   {
     num: '02',
@@ -28,7 +28,7 @@ const STEPS = [
 
 export default function FundraisingPage() {
   const router = useRouter();
-  const { selectFundraiser, selectedFundraiserCode } = useCart();
+  const { fundraisers, selectFundraiser, selectedFundraiserCode } = useCart();
   const [participants, setParticipants] = useState(25);
   const [bagsPerPerson, setBagsPerPerson] = useState(12);
 
@@ -51,7 +51,7 @@ export default function FundraisingPage() {
             <div className={styles.heroContent}>
               <span className={styles.label}>50% Profit Back to Your Cause</span>
               <h1 className={styles.title}>
-                Royal Popcorn <span className="text-accent">Fundraising</span>
+                The Queen&apos;s Corn <span className="text-accent">Fundraising</span>
               </h1>
               <p className={styles.description}>
                 Arizona schools, youth sports teams, and community clubs earn a full 50%
@@ -166,14 +166,14 @@ export default function FundraisingPage() {
               <span className={styles.label}>Live Community Campaigns</span>
               <h2 className={styles.sectionTitle}>Support an Active Arizona Fundraiser</h2>
               <p className={styles.sectionSubtitle}>
-                Click &ldquo;Shop &amp; Support&rdquo; on any campaign below—your Royal Bag will
+                Click &ldquo;Shop &amp; Support&rdquo; on any campaign below—your Queen&apos;s Corn Bag will
                 automatically credit 50% of your order to that organization at checkout.
               </p>
             </div>
           </ScrollReveal>
 
           <div className={styles.campaignsGrid}>
-            {ACTIVE_FUNDRAISERS.map((campaign, idx) => {
+            {fundraisers.map((campaign, idx) => {
               const percent = Math.min(
                 100,
                 Math.round((campaign.raisedAmount / campaign.goalAmount) * 100)

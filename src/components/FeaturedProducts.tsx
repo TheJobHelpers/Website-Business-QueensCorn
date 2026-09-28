@@ -10,9 +10,9 @@ export default function FeaturedProducts() {
       <div className="main-container">
         <ScrollReveal>
           <div className={styles.header}>
-            <span className={styles.label}>Royal Selection</span>
+            <span className={styles.label}>The Queen&apos;s Selection</span>
             <h2 className={styles.title}>Featured Flavors</h2>
-            <p className={styles.subtitle}>Our most popular creations, handcrafted for royalty.</p>
+            <p className={styles.subtitle}>Our most popular handcrafted kettle corn creations, popped fresh in Arizona.</p>
           </div>
         </ScrollReveal>
 

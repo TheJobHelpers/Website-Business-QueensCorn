@@ -74,7 +74,7 @@ export default function ProductActions({ product }: { product: Product }) {
           className={`${styles.cartBtn} ${added ? styles.added : ''}`}
           onClick={handleAddToCart}
         >
-          {added ? '✓ Added to Royal Bag' : 'Add to Cart'}
+          {added ? "✓ Added to Queen's Bag" : 'Add to Cart'}
         </button>
       </div>
     </>

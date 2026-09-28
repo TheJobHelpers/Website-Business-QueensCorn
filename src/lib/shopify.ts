@@ -188,7 +188,7 @@ export async function getFundraisers(): Promise<FundraiserCampaign[]> {
       id: node.id || `fund-${idx}`,
       organization: fieldMap.organization || 'Community Fundraiser',
       category: fieldMap.category || 'School & Community',
-      code: fieldMap.code || 'ROYAL50',
+      code: fieldMap.code || 'QUEENS50',
       description: fieldMap.description || '',
       goalAmount: Number(fieldMap.goal_amount || 2000),
       raisedAmount: Number(fieldMap.raised_amount || 0),

@@ -1,8 +1,9 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
-import { Product } from '@/data/products';
-import { UPCOMING_EVENTS } from '@/data/events';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { ALL_PRODUCTS, Product } from '@/data/products';
+import { UPCOMING_EVENTS, EventItem } from '@/data/events';
+import { ACTIVE_FUNDRAISERS, FundraiserCampaign } from '@/data/fundraisers';
 
 export interface CartItem {
   product: Product;
@@ -21,6 +22,9 @@ interface CartContextType {
   fulfillmentMethod: FulfillmentMethod;
   selectedPickupEvent: string;
   selectedFundraiserCode: string;
+  products: Product[];
+  events: EventItem[];
+  fundraisers: FundraiserCampaign[];
   openDrawer: () => void;
   closeDrawer: () => void;
   setFulfillmentMethod: (method: FulfillmentMethod) => void;
@@ -32,6 +36,15 @@ interface CartContextType {
   updateQuantity: (productId: string, size: string, delta: number) => void;
   removeItem: (productId: string, size: string) => void;
   clearCart: () => void;
+  // Admin Portal Actions
+  addEvent: (event: Omit<EventItem, 'id'>) => void;
+  deleteEvent: (id: string) => void;
+  toggleEventPickup: (id: string) => void;
+  addFundraiser: (campaign: Omit<FundraiserCampaign, 'id'>) => void;
+  updateFundraiserRaised: (id: string, newAmount: number) => void;
+  deleteFundraiser: (id: string) => void;
+  updateProductPrice: (id: string, newPrice: string) => void;
+  resetStoreData: () => void;
 }
 
 const SIZE_PRICES: Record<string, number> = {
@@ -42,16 +55,40 @@ const SIZE_PRICES: Record<string, number> = {
 
 export const FREE_AZ_SHIPPING_THRESHOLD = 35;
 
+const STORAGE_KEYS = {
+  PRODUCTS: 'queens_corn_products_v1',
+  EVENTS: 'queens_corn_events_v1',
+  FUNDRAISERS: 'queens_corn_fundraisers_v1',
+};
+
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [fulfillmentMethod, setFulfillmentMethod] = useState<FulfillmentMethod>('shipping');
+  const [products, setProducts] = useState<Product[]>(ALL_PRODUCTS);
+  const [events, setEvents] = useState<EventItem[]>(UPCOMING_EVENTS);
+  const [fundraisers, setFundraisers] = useState<FundraiserCampaign[]>(ACTIVE_FUNDRAISERS);
   const [selectedPickupEvent, setSelectedPickupEvent] = useState<string>(
     `${UPCOMING_EVENTS[0].title} (${UPCOMING_EVENTS[0].month} ${UPCOMING_EVENTS[0].day})`
   );
   const [selectedFundraiserCode, setSelectedFundraiserCode] = useState<string>('');
+
+  // Hydrate owner-edited store data from localStorage
+  useEffect(() => {
+    try {
+      const savedProducts = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+      const savedEvents = localStorage.getItem(STORAGE_KEYS.EVENTS);
+      const savedFundraisers = localStorage.getItem(STORAGE_KEYS.FUNDRAISERS);
+
+      if (savedProducts) setProducts(JSON.parse(savedProducts));
+      if (savedEvents) setEvents(JSON.parse(savedEvents));
+      if (savedFundraisers) setFundraisers(JSON.parse(savedFundraisers));
+    } catch {
+      // Ignore storage errors
+    }
+  }, []);
 
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
@@ -66,7 +103,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const addItem = (product: Product, size: string, quantity: number) => {
-    const unitPrice = SIZE_PRICES[size] ?? 6;
+    const basePrice = parseFloat(product.price.replace(/[^0-9.]/g, '')) || 6;
+    const sizeMultiplier =
+      size === 'Large (Party)' ? 15 / 6 : size === 'Medium (Family)' ? 10 / 6 : 1;
+    const unitPrice = Math.round((basePrice * sizeMultiplier || SIZE_PRICES[size] || 6) * 100) / 100;
+
     setItems((prev) => {
       const existingIndex = prev.findIndex(
         (item) => item.product.id === product.id && item.size === size
@@ -103,6 +144,77 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = () => setItems([]);
 
+  // Admin Portal Actions
+  const addEvent = (event: Omit<EventItem, 'id'>) => {
+    setEvents((prev) => {
+      const next = [{ ...event, id: `evt-${Date.now()}` }, ...prev];
+      localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const deleteEvent = (id: string) => {
+    setEvents((prev) => {
+      const next = prev.filter((e) => e.id !== id);
+      localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const toggleEventPickup = (id: string) => {
+    setEvents((prev) => {
+      const next = prev.map((e) =>
+        e.id === id ? { ...e, pickupAvailable: !e.pickupAvailable } : e
+      );
+      localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const addFundraiser = (campaign: Omit<FundraiserCampaign, 'id'>) => {
+    setFundraisers((prev) => {
+      const next = [{ ...campaign, id: `fund-${Date.now()}` }, ...prev];
+      localStorage.setItem(STORAGE_KEYS.FUNDRAISERS, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const updateFundraiserRaised = (id: string, newAmount: number) => {
+    setFundraisers((prev) => {
+      const next = prev.map((f) =>
+        f.id === id ? { ...f, raisedAmount: Math.max(0, newAmount) } : f
+      );
+      localStorage.setItem(STORAGE_KEYS.FUNDRAISERS, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const deleteFundraiser = (id: string) => {
+    setFundraisers((prev) => {
+      const next = prev.filter((f) => f.id !== id);
+      localStorage.setItem(STORAGE_KEYS.FUNDRAISERS, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const updateProductPrice = (id: string, newPrice: string) => {
+    const formatted = newPrice.startsWith('$') ? newPrice : `$${newPrice}`;
+    setProducts((prev) => {
+      const next = prev.map((p) => (p.id === id ? { ...p, price: formatted } : p));
+      localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const resetStoreData = () => {
+    localStorage.removeItem(STORAGE_KEYS.PRODUCTS);
+    localStorage.removeItem(STORAGE_KEYS.EVENTS);
+    localStorage.removeItem(STORAGE_KEYS.FUNDRAISERS);
+    setProducts(ALL_PRODUCTS);
+    setEvents(UPCOMING_EVENTS);
+    setFundraisers(ACTIVE_FUNDRAISERS);
+  };
+
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
 
@@ -116,6 +228,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         fulfillmentMethod,
         selectedPickupEvent,
         selectedFundraiserCode,
+        products,
+        events,
+        fundraisers,
         openDrawer,
         closeDrawer,
         setFulfillmentMethod,
@@ -127,6 +242,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
         updateQuantity,
         removeItem,
         clearCart,
+        addEvent,
+        deleteEvent,
+        toggleEventPickup,
+        addFundraiser,
+        updateFundraiserRaised,
+        deleteFundraiser,
+        updateProductPrice,
+        resetStoreData,
       }}
     >
       {children}
