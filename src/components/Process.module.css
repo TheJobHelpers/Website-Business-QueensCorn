@@ -82,13 +82,46 @@
   }
 }
 
+.photoBadge {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(22, 18, 14, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(245, 186, 49, 0.35);
+  border-radius: 8px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  color: #FAF6EF;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  letter-spacing: 0.04em;
+}
+
+.stepNum {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--primary);
+  background: rgba(217, 35, 42, 0.1);
+  border: 1px solid rgba(217, 35, 42, 0.3);
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  width: fit-content;
+}
+
 .subtitle {
   color: var(--accent);
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  font-size: 0.9rem;
+  letter-spacing: 0.25em;
+  font-size: 0.85rem;
   font-weight: 700;
   font-family: var(--font-sans);
+  margin-top: -0.25rem;
 }
 
 @media (max-width: 480px) {
@@ -99,9 +132,11 @@
 }
 
 .title {
+  font-family: var(--font-serif);
   font-size: clamp(2.2rem, 4vw, 3rem);
   line-height: 1.15;
-  color: white;
+  color: #FAF6EF;
+  font-weight: 400;
 }
 
 @media (max-width: 768px) {

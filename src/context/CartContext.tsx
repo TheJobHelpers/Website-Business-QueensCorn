@@ -4,6 +4,13 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { ALL_PRODUCTS, Product } from '@/data/products';
 import { UPCOMING_EVENTS, EventItem } from '@/data/events';
 import { ACTIVE_FUNDRAISERS, FundraiserCampaign } from '@/data/fundraisers';
+import {
+  fetchServerEvents,
+  addServerEvent,
+  deleteServerEvent,
+  toggleServerEventPickup,
+  resetServerEvents,
+} from '@/app/actions/events';
 
 export interface CartItem {
   product: Product;
@@ -44,6 +51,7 @@ interface CartContextType {
   updateFundraiserRaised: (id: string, newAmount: number) => void;
   deleteFundraiser: (id: string) => void;
   updateProductPrice: (id: string, newPrice: string) => void;
+  syncProducts: (newProducts: Product[]) => void;
   resetStoreData: () => void;
 }
 
@@ -75,7 +83,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
   const [selectedFundraiserCode, setSelectedFundraiserCode] = useState<string>('');
 
-  // Hydrate owner-edited store data from localStorage
+  // Hydrate owner-edited store data from localStorage and sync latest events from server DB
   useEffect(() => {
     try {
       const savedProducts = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
@@ -88,6 +96,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
     } catch {
       // Ignore storage errors
     }
+
+    // Always fetch latest synced events from server database
+    fetchServerEvents().then((serverEvents) => {
+      if (serverEvents && serverEvents.length > 0) {
+        setEvents(serverEvents);
+        try {
+          localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(serverEvents));
+        } catch {
+          // Ignore storage errors
+        }
+      }
+    }).catch(() => {});
   }, []);
 
   const openDrawer = () => setIsDrawerOpen(true);
@@ -148,17 +168,33 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addEvent = (event: Omit<EventItem, 'id'>) => {
     setEvents((prev) => {
       const next = [{ ...event, id: `evt-${Date.now()}` }, ...prev];
-      localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(next));
+      try {
+        localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(next));
+      } catch {
+        // Ignore storage errors
+      }
       return next;
     });
+    // Persist to server database
+    addServerEvent(event).then((created) => {
+      if (created) {
+        setEvents((prev) => prev.map((e, idx) => (idx === 0 ? created : e)));
+      }
+    }).catch(() => {});
   };
 
   const deleteEvent = (id: string) => {
     setEvents((prev) => {
       const next = prev.filter((e) => e.id !== id);
-      localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(next));
+      try {
+        localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(next));
+      } catch {
+        // Ignore storage errors
+      }
       return next;
     });
+    // Persist to server database
+    deleteServerEvent(id).catch(() => {});
   };
 
   const toggleEventPickup = (id: string) => {
@@ -166,9 +202,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const next = prev.map((e) =>
         e.id === id ? { ...e, pickupAvailable: !e.pickupAvailable } : e
       );
-      localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(next));
+      try {
+        localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(next));
+      } catch {
+        // Ignore storage errors
+      }
       return next;
     });
+    // Persist to server database
+    toggleServerEventPickup(id).catch(() => {});
   };
 
   const addFundraiser = (campaign: Omit<FundraiserCampaign, 'id'>) => {
@@ -206,6 +248,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const syncProducts = (newProducts: Product[]) => {
+    setProducts(newProducts);
+    localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(newProducts));
+  };
+
   const resetStoreData = () => {
     localStorage.removeItem(STORAGE_KEYS.PRODUCTS);
     localStorage.removeItem(STORAGE_KEYS.EVENTS);
@@ -213,6 +260,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setProducts(ALL_PRODUCTS);
     setEvents(UPCOMING_EVENTS);
     setFundraisers(ACTIVE_FUNDRAISERS);
+    resetServerEvents().catch(() => {});
   };
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -249,6 +297,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         updateFundraiserRaised,
         deleteFundraiser,
         updateProductPrice,
+        syncProducts,
         resetStoreData,
       }}
     >

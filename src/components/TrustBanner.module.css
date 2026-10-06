@@ -1,67 +1,122 @@
 .banner {
-  background: var(--glass-bg);
-  border-top: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
-  padding: 3rem 0;
+  background: #1A140F;
+  border-top: 1px solid rgba(245, 186, 49, 0.15);
+  border-bottom: 1px solid rgba(245, 186, 49, 0.15);
+  padding: 2.25rem 0;
+  position: relative;
+  z-index: 10;
 }
 
 .content {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
 }
 
-.item {
+.stampItem {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1.5px dashed rgba(245, 186, 49, 0.28);
+  border-radius: 14px;
+  padding: 1.15rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.2s ease;
+}
+
+.stampItem:hover {
+  background: rgba(245, 186, 49, 0.07);
+  border-color: rgba(245, 186, 49, 0.5);
+  transform: translateY(-2px);
+}
+
+.stampIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(245, 186, 49, 0.08);
+  border: 1px solid rgba(245, 186, 49, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.stampItem:hover .stampIcon {
+  background: rgba(245, 186, 49, 0.16);
+  border-color: rgba(245, 186, 49, 0.5);
+  transform: scale(1.06);
+}
+
+.stampText {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
 }
 
-.label {
-  font-size: 0.8rem; /* Increased from 0.7rem */
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  opacity: 0.7; /* Increased for readability */
-  font-weight: 600;
+.stampTitle {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #FAF6EF;
+  line-height: 1.25;
 }
 
-.value {
-  font-family: var(--font-serif);
-  font-size: 1.8rem; /* Increased from 1.5rem */
-  color: var(--primary);
+.stampSub {
+  font-size: 0.74rem;
+  color: #A89D8F;
+  margin-top: 0.2rem;
+  line-height: 1.4;
 }
 
-.divider {
-  width: 1px;
-  height: 40px;
-  background: var(--glass-border);
-}
-
-@media (max-width: 768px) {
-  .banner {
-    padding: 2rem 0;
-  }
-
+@media (max-width: 1024px) {
   .content {
-    flex-direction: column;
-    gap: 2.5rem;
-    align-items: center;
-    text-align: center;
-  }
-
-  .item {
-    width: 100%;
-  }
-
-  .divider {
-    width: 60px;
-    height: 1px;
-    background: var(--glass-border);
-  }
-
-  .value {
-    font-size: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.15rem;
   }
 }
 
+@media (max-width: 640px) {
+  .banner {
+    padding: 1.75rem 0;
+  }
+  .content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .stampItem {
+    padding: 0.85rem;
+    gap: 0.75rem;
+  }
+  .stampIcon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+  .stampTitle {
+    font-size: 0.8rem;
+  }
+  .stampSub {
+    font-size: 0.68rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .stampItem {
+    padding: 1rem 1.15rem;
+    gap: 1rem;
+  }
+  .stampIcon {
+    width: 42px;
+    height: 42px;
+  }
+  .stampTitle {
+    font-size: 0.85rem;
+  }
+  .stampSub {
+    font-size: 0.72rem;
+  }
+}

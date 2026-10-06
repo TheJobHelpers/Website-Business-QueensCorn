@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowRight, Heart } from 'lucide-react';
 import styles from './Story.module.css';
 import ScrollReveal from './ScrollReveal';
 
@@ -11,39 +12,59 @@ export default function Story() {
           <ScrollReveal type="slide-right" className={styles.imageContainer}>
             <div className={`${styles.imageWrapper} img-wrapper-treatment`}>
               <Image 
-                src="/bob-reina.webp" 
-                alt="Bob and Reina - Founders of The Queen's Corn" 
+                src="/reina-stirring-kettle.jpg" 
+                alt="Reina Andersen hand-stirring the copper kettle with paddle - Co-Founder of The Queen's Corn" 
                 fill
                 sizes="(max-width: 968px) 100vw, 50vw"
                 className={`${styles.image} img-treatment`}
+                priority
               />
-              <div className={styles.imageOverlay}></div>
+              <div className={styles.imageOverlay} />
             </div>
             <div className={styles.experienceBadge}>
-              <span className={styles.badgeYear}>EST.</span>
-              <span className={styles.badgeText}>Family Owned</span>
+              <span className={styles.badgeYear}>MARANA, AZ</span>
+              <span className={styles.badgeText}>Hand-Popped Daily</span>
             </div>
           </ScrollReveal>
           
           <ScrollReveal type="slide-left" className={styles.content}>
-            <h2 className={styles.subtitle}>Our Story</h2>
-            <h3 className={styles.title}>Meet Bob and Reina</h3>
+            <span className={styles.subtitle}>
+              <Heart size={14} style={{ display: 'inline', color: 'var(--primary)', verticalAlign: '-2px' }} /> Real People, Real Passion
+            </span>
+            <h2 className={styles.title}>Meet Bob &amp; Reina</h2>
+            
             <p className={styles.description}>
-              The Queen&apos;s Corn is a happy place, creating smiles one kernel at a time. 
-              As a family-owned kettle corn supplier in Arizona, we believe there&apos;s 
-              never a dull moment when you&apos;re working together to bring joy to others.
+              It started at a local Arizona festival where the popcorn was cold and the smiles were missing. 
+              Bob and Reina, both with healthcare backgrounds, knew there was a better way to nourish the spirit. 
+              They traded their stethoscopes for 8-foot hickory paddles because they believe a hot, fresh bag 
+              of handcrafted kettle corn can turn any day into a &ldquo;Happy Place.&rdquo;
             </p>
-            <p className={styles.description}>
-              What started as a passion for the perfect pop has grown into a legacy of 
-              quality. From our jalapeno and regular kettle corn to our seasonal favorites, 
-              every batch is crafted with the same love and care that Bob and Reina 
-              put into the business every single day.
-            </p>
-            <div className={styles.quote}>
-              &ldquo;The best kettle corn you can buy, period.&rdquo;
+
+            <blockquote className={styles.quote}>
+              &ldquo;When you visit our kettle stand, you smell the caramelized sugar 200 feet away. 
+              No factories, no chemical powders—just pure cane sugar, monster mushroom corn, and real love.&rdquo;
+            </blockquote>
+
+            <div className={styles.statsRow}>
+              <div className={styles.statItem}>
+                <strong className={styles.statNumber} style={{ color: 'var(--accent)' }}>100%</strong>
+                <span className={styles.statLabel}>Hand-Stirred Batches</span>
+              </div>
+              <div className={styles.statDivider} />
+              <div className={styles.statItem}>
+                <strong className={styles.statNumber} style={{ color: 'var(--primary)' }}>50%</strong>
+                <span className={styles.statLabel}>School Giveback</span>
+              </div>
+              <div className={styles.statDivider} />
+              <div className={styles.statItem}>
+                <strong className={styles.statNumber} style={{ color: '#4ADE80' }}>0</strong>
+                <span className={styles.statLabel}>Artificial Preservatives</span>
+              </div>
             </div>
+
             <Link href="/story" className={styles.storyBtn}>
-              Read Our Full Story
+              <span>Read Bob &amp; Reina&apos;s Full Story</span>
+              <ArrowRight size={16} />
             </Link>
           </ScrollReveal>
         </div>

@@ -36,8 +36,8 @@ export default function StoryPage() {
           <ScrollReveal type="slide-left">
             <div className={`${styles.framedImage} img-wrapper-treatment`}>
               <Image 
-                src="/our-story-team.webp" 
-                alt="Bob and Reina" 
+                src="/reina-stirring-kettle.jpg" 
+                alt="Reina Andersen stirring the copper kettle with an 8-foot wooden paddle" 
                 fill 
                 className={`${styles.img} img-treatment`}
                 sizes="(max-width: 1024px) 100vw, 500px"
@@ -62,19 +62,19 @@ export default function StoryPage() {
             </div>
 
             <ScrollReveal className={`${styles.itemLarge} img-wrapper-treatment`} delay={1}>
-              <Image src="/process-paddle-real.png" alt="Hand stirring" fill className={`${styles.img} img-treatment`} />
+              <Image src="/bob-pouring-kernels.jpg" alt="Bob pouring fresh corn kernels into the kettle" fill className={`${styles.img} img-treatment`} />
             </ScrollReveal>
 
             <ScrollReveal className={`${styles.itemSmall} img-wrapper-treatment`} delay={2}>
-              <Image src="/variety-mix-real.png" alt="Flavors" fill className={`${styles.img} img-treatment`} />
+              <Image src="/trailer-rainbow.jpg" alt="The Queen's Corn trailer under an Arizona rainbow" fill className={`${styles.img} img-treatment`} />
             </ScrollReveal>
 
             <ScrollReveal className={`${styles.itemMedium} img-wrapper-treatment`} delay={3}>
-              <Image src="/hero-market-real.png" alt="Market display" fill className={`${styles.img} img-treatment`} />
+              <Image src="/booth-palm-trees.jpg" alt="The Queen's Corn market stand under Arizona palm trees" fill className={`${styles.img} img-treatment`} />
             </ScrollReveal>
 
             <ScrollReveal className={`${styles.itemMedium} img-wrapper-treatment`} delay={4}>
-              <Image src="/detail-kernels-real.png" alt="Popcorn cravings" fill className={`${styles.img} img-treatment`} />
+              <Image src="/popcorn-scoop-fresh.jpg" alt="Freshly popped Caramel and Cheddar kettle corn" fill className={`${styles.img} img-treatment`} />
             </ScrollReveal>
 
           </div>
@@ -85,8 +85,8 @@ export default function StoryPage() {
           <ScrollReveal type="slide-right">
             <div className={`${styles.framedImage} img-wrapper-treatment`} style={{ boxShadow: '-20px 20px 0px var(--surface)' }}>
               <Image 
-                src="/process-paddle-real.png" 
-                alt="Our Process" 
+                src="/bob-pouring-kernels.jpg" 
+                alt="Bob Andersen popping kettle corn fresh on site" 
                 fill 
                 className={`${styles.img} img-treatment`}
               />

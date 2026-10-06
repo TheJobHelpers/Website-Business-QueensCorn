@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import ScrollReveal from '@/components/ScrollReveal';
 import { EventItem } from '@/data/events';
 import { useCart } from '@/context/CartContext';
+import { Check } from 'lucide-react';
 import styles from './EventsPage.module.css';
 
 export default function EventsPage() {
@@ -62,7 +63,13 @@ export default function EventsPage() {
                         onClick={() => handlePreOrderPickup(event)}
                         className={styles.pickupBtn}
                       >
-                        {isSelectedPickup ? '✓ Pickup Selected' : 'Pre-Order for Pickup'}
+                        {isSelectedPickup ? (
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                            <Check size={14} /> Pickup Selected
+                          </span>
+                        ) : (
+                          'Pre-Order for Pickup'
+                        )}
                       </button>
                     )}
                   </div>
@@ -84,17 +91,22 @@ export default function EventsPage() {
           <div className={styles.galleryGrid}>
             <ScrollReveal delay={1}>
               <div className={`${styles.galleryItem} img-wrapper-treatment`}>
-                <Image src="/our-story-team.webp" alt="Event setup" fill className="object-cover img-treatment" />
+                <Image src="/trailer-rainbow.jpg" alt="The Queen's Corn trailer under an Arizona rainbow" fill className="object-cover img-treatment" />
               </div>
             </ScrollReveal>
             <ScrollReveal delay={2}>
               <div className={`${styles.galleryItem} img-wrapper-treatment`}>
-                <Image src="/hero-market-real.png" alt="Market stand" fill className="object-cover img-treatment" />
+                <Image src="/booth-palm-trees.jpg" alt="The Queen's Corn market stand under Arizona palm trees" fill className="object-cover img-treatment" />
               </div>
             </ScrollReveal>
             <ScrollReveal delay={3}>
               <div className={`${styles.galleryItem} img-wrapper-treatment`}>
-                <Image src="/process-paddle-real.png" alt="Popping fresh" fill className="object-cover img-treatment" />
+                <Image src="/bob-pouring-kernels.jpg" alt="Bob popping fresh kettle corn on site" fill className="object-cover img-treatment" />
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={4}>
+              <div className={`${styles.galleryItem} img-wrapper-treatment`}>
+                <Image src="/popcorn-scoop-fresh.jpg" alt="Freshly popped Caramel and Cheddar kettle corn" fill className="object-cover img-treatment" />
               </div>
             </ScrollReveal>
           </div>

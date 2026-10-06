@@ -79,9 +79,10 @@ export const ALL_PRODUCTS: Product[] = [
 ];
 
 export const FEATURED_PRODUCTS: Product[] = [
-  ALL_PRODUCTS[3], // Jalapeño
-  ALL_PRODUCTS[1], // Caramel
-  ALL_PRODUCTS[2], // Cheddar
+  ALL_PRODUCTS[5], // Caramel & Cheddar (#1 Best Seller)
+  ALL_PRODUCTS[0], // Regular Sweet & Salty (Original Classic)
+  ALL_PRODUCTS[3], // Jalapeño (Desert Kick)
+  ALL_PRODUCTS[1], // Caramel (Amber Glaze)
 ];
 
 export const CATEGORIES = ['All Flavors', 'Sweet', 'Savory', 'Spicy', 'Seasonal'] as const;

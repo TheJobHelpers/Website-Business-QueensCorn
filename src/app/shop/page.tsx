@@ -7,6 +7,7 @@ import ProductCard from '@/components/ProductCard';
 import ScrollReveal from '@/components/ScrollReveal';
 import { CATEGORIES } from '@/data/products';
 import { useCart } from '@/context/CartContext';
+import { Heart, Calendar } from 'lucide-react';
 import styles from './Shop.module.css';
 
 export default function ShopPage() {
@@ -58,8 +59,9 @@ export default function ShopPage() {
           <div className={styles.contextBanner}>
             {activeFundraiser && (
               <div className={styles.contextItem}>
-                <span>
-                  🎗️ Supporting <strong>{activeFundraiser.organization}</strong> (50% Giveback • Code: {activeFundraiser.code})
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <Heart size={16} style={{ color: '#D9232A' }} />
+                  <span>Supporting <strong>{activeFundraiser.organization}</strong> (50% Giveback • Code: {activeFundraiser.code})</span>
                 </span>
                 <button
                   type="button"
@@ -72,8 +74,9 @@ export default function ShopPage() {
             )}
             {fulfillmentMethod === 'pickup' && (
               <div className={styles.contextItem}>
-                <span>
-                  🎪 Free Market Pickup Selected: <strong>{selectedPickupEvent}</strong>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <Calendar size={16} style={{ color: '#F5BA31' }} />
+                  <span>Free Market Pickup Selected: <strong>{selectedPickupEvent}</strong></span>
                 </span>
                 <button
                   type="button"

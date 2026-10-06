@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ProductCard from '@/components/ProductCard';
 import { ALL_PRODUCTS } from '@/data/products';
+import { Check } from 'lucide-react';
 import ProductActions from './ProductActions';
 import styles from './ProductDetail.module.css';
 
@@ -44,13 +45,13 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
             <div className={styles.extraInfo}>
               <div className={styles.infoItem}>
-                <span>✓</span> Handcrafted in Arizona
+                <Check size={15} style={{ color: '#F5BA31', flexShrink: 0 }} /> Handcrafted in Arizona
               </div>
               <div className={styles.infoItem}>
-                <span>✓</span> A+ BBB Rated Quality
+                <Check size={15} style={{ color: '#F5BA31', flexShrink: 0 }} /> A+ BBB Rated Quality
               </div>
               <div className={styles.infoItem}>
-                <span>✓</span> 100% Pure Corn Oil — No Cheap Blends
+                <Check size={15} style={{ color: '#F5BA31', flexShrink: 0 }} /> 100% Pure Corn Oil — No Cheap Blends
               </div>
             </div>
           </div>

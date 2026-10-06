@@ -42,20 +42,37 @@
 }
 
 .card {
-  background: var(--surface);
-  border: 1px solid var(--glass-border);
-  padding: 4rem; /* Increased padding */
+  background: var(--surface-card);
+  border: 1px solid rgba(245, 186, 49, 0.18);
+  padding: 2.25rem 2rem;
   border-radius: var(--radius-lg);
   position: relative;
-  transition: var(--transition-smooth);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 4px 0px rgba(0, 0, 0, 0.25), 0 12px 28px -6px rgba(0, 0, 0, 0.35);
 }
 
 .card:hover {
-  transform: translateY(-10px);
-  border-color: var(--accent);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  transform: translateY(-6px);
+  border-color: rgba(245, 186, 49, 0.45);
+  box-shadow: 0 8px 0px rgba(0, 0, 0, 0.3), 0 24px 38px -8px rgba(0, 0, 0, 0.5);
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(245, 186, 49, 0.12);
+  border: 1.5px solid rgba(245, 186, 49, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--accent);
+  flex-shrink: 0;
 }
 
 .stars {

@@ -1,14 +1,17 @@
 .storySection {
-  padding: 10rem 0;
-  background: var(--background);
+  padding: 8rem 0;
+  background: radial-gradient(circle at 10% 30%, rgba(217, 35, 42, 0.06) 0%, transparent 60%),
+              radial-gradient(circle at 90% 70%, rgba(245, 186, 49, 0.08) 0%, transparent 50%),
+              #18130E;
   position: relative;
   overflow: hidden;
+  border-top: 1px solid rgba(245, 186, 49, 0.15);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6rem;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 5rem;
   align-items: center;
 }
 
@@ -18,150 +21,188 @@
 
 .imageWrapper {
   position: relative;
-  height: 600px;
+  height: 540px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(245, 186, 49, 0.25);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
 }
 
 .image {
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  object-fit: cover;
+  object-position: center 25%;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .imageWrapper:hover .image {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 .imageOverlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to top, rgba(10, 10, 10, 0.6), transparent);
+  inset: 0;
+  background: linear-gradient(to top, rgba(22, 18, 14, 0.75) 0%, transparent 60%);
 }
 
 .experienceBadge {
   position: absolute;
-  bottom: -2rem;
-  right: -2rem;
+  bottom: -1.25rem;
+  right: -1.25rem;
   background: var(--primary);
   color: white;
-  padding: 2rem;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1.25rem 1.75rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 15px 35px rgba(220, 38, 38, 0.35);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
   z-index: 10;
 }
 
 .badgeYear {
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
   color: var(--accent);
+  text-transform: uppercase;
 }
 
 .badgeText {
   font-family: var(--font-serif);
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   white-space: nowrap;
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .subtitle {
   color: var(--accent);
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  font-size: 0.9rem;
-  font-weight: 700;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  font-weight: 800;
   font-family: var(--font-sans);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .title {
-  font-size: 3.5rem;
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5vw, 3.8rem);
   line-height: 1.1;
-  color: white;
+  color: #FAF6EF;
 }
 
 .description {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  opacity: 0.8;
-  font-weight: 300;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #C7BCAD;
 }
 
 .quote {
   font-family: var(--font-serif);
-  font-size: 1.8rem;
-  color: var(--accent);
+  font-size: 1.35rem;
+  color: #FAF6EF;
+  line-height: 1.5;
   font-style: italic;
-  margin: 1rem 0;
-  padding-left: 2rem;
-  border-left: 2px solid var(--primary);
+  margin: 0.5rem 0;
+  padding: 1.25rem 1.5rem;
+  background: rgba(245, 186, 49, 0.08);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+}
+
+.statsRow {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 1.75rem 0;
+  flex-wrap: wrap;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.statNumber {
+  font-family: var(--font-serif);
+  font-size: 2.1rem;
+  line-height: 1.05;
+  font-weight: 600;
+}
+
+.statLabel {
+  font-size: 0.76rem;
+  color: #A89D8F;
+  margin-top: 0.2rem;
+  font-weight: 500;
+}
+
+.statDivider {
+  width: 1px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 480px) {
+  .statsRow {
+    gap: 1.25rem;
+  }
+  .statDivider {
+    display: none;
+  }
 }
 
 .storyBtn {
-  margin-top: 1rem;
-  background: transparent;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 1rem 2rem;
+  background: var(--accent);
+  color: #16120E;
+  padding: 0.95rem 1.75rem;
   width: fit-content;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 600;
+  font-weight: 800;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: var(--transition-smooth);
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
+  box-shadow: 0 4px 0 #C48D08;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  margin-top: 0.5rem;
 }
 
 .storyBtn:hover {
-  background: white;
-  color: black;
-  border-color: white;
+  background: var(--accent-hover);
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #C48D08;
 }
 
-@media (max-width: 1200px) {
-  .storySection {
-    padding: 6rem 0;
-  }
+@media (max-width: 1024px) {
   .grid {
+    grid-template-columns: 1fr;
     gap: 3.5rem;
   }
   .imageWrapper {
-    height: 480px;
-  }
-  .title {
-    font-size: 2.8rem;
-  }
-  .quote {
-    font-size: 1.5rem;
+    height: 400px;
   }
   .experienceBadge {
-    padding: 1.5rem;
-    bottom: -1.5rem;
-    right: -1.5rem;
+    bottom: -1rem;
+    right: 1rem;
   }
 }
 
-@media (max-width: 968px) {
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 4rem;
+@media (max-width: 640px) {
+  .storySection {
+    padding: 4.5rem 0;
   }
-  
   .imageWrapper {
-    height: 400px;
-  }
-
-  .experienceBadge {
-    right: 1rem;
-    bottom: -1.5rem;
-    padding: 1.25rem 1.5rem;
+    height: 320px;
   }
 }

@@ -95,8 +95,8 @@ export default function Navbar() {
             <span className={styles.cartBadge}>{totalItems}</span>
           </button>
           
-          <Link href="/shop" className={styles.desktopOnly}>
-            <button className={`${styles.orderBtn} shimmer-btn`}>Order Now</button>
+          <Link href="/shop" className={`${styles.orderBtn} ${styles.desktopOnly} shimmer-btn`}>
+            Order Now
           </Link>
 
           {/* Mobile Toggle */}
@@ -127,8 +127,8 @@ export default function Navbar() {
           ))}
           
           <div className={styles.mobileActions}>
-            <Link href="/shop" onClick={closeMenu}>
-              <button className={`${styles.orderBtn} shimmer-btn`}>Order Now</button>
+            <Link href="/shop" onClick={closeMenu} className={`${styles.orderBtn} shimmer-btn`}>
+              Order Now
             </Link>
           </div>
         </div>

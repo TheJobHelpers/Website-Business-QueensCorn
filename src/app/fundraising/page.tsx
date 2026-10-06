@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import ScrollReveal from '@/components/ScrollReveal';
 import { FundraiserCampaign } from '@/data/fundraisers';
 import { useCart } from '@/context/CartContext';
+import { Check } from 'lucide-react';
 import styles from './Fundraising.module.css';
 
 const STEPS = [
@@ -222,9 +223,13 @@ export default function FundraisingPage() {
                       onClick={() => handleSupportCampaign(campaign)}
                       className={`${styles.supportBtn} shimmer-btn`}
                     >
-                      {isSelected
-                        ? `✓ Supporting (${campaign.code}) — Shop Flavors`
-                        : 'Shop & Support (50% Giveback)'}
+                      {isSelected ? (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                          <Check size={16} /> Supporting ({campaign.code}) — Shop Flavors
+                        </span>
+                      ) : (
+                        'Shop & Support (50% Giveback)'
+                      )}
                     </button>
                   </div>
                 </ScrollReveal>

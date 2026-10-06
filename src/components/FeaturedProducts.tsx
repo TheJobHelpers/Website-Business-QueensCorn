@@ -2,17 +2,22 @@ import ProductCard from './ProductCard';
 import styles from './FeaturedProducts.module.css';
 import ScrollReveal from './ScrollReveal';
 import Link from 'next/link';
+import { ArrowRight, Flame } from 'lucide-react';
 import { FEATURED_PRODUCTS } from '@/data/products';
 
 export default function FeaturedProducts() {
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="featured-flavors">
       <div className="main-container">
         <ScrollReveal>
           <div className={styles.header}>
-            <span className={styles.label}>The Queen&apos;s Selection</span>
-            <h2 className={styles.title}>Featured Flavors</h2>
-            <p className={styles.subtitle}>Our most popular handcrafted kettle corn creations, popped fresh in Arizona.</p>
+            <span className={styles.label}>
+              <Flame size={14} /> The Queen&apos;s Signature Batch
+            </span>
+            <h2 className={styles.title}>Most Loved Arizona Flavors</h2>
+            <p className={styles.subtitle}>
+              Hand-stirred in small copper kettle batches with monster mushroom kernels and real ingredients.
+            </p>
           </div>
         </ScrollReveal>
 
@@ -23,9 +28,11 @@ export default function FeaturedProducts() {
             </ScrollReveal>
           ))}
         </div>
+
         <div className={styles.footer}>
-          <Link href="/shop">
-            <button className={`${styles.viewAllBtn} shimmer-btn`}>View All Products</button>
+          <Link href="/shop" className={styles.viewAllBtn}>
+            <span>Explore All Gourmet Flavors</span>
+            <ArrowRight size={17} />
           </Link>
         </div>
       </div>
