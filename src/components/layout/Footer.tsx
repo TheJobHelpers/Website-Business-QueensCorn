@@ -93,8 +93,8 @@ export default function Footer() {
           <p>&copy; {currentYear} The Queen&apos;s Corn. All Rights Reserved.</p>
           <div className={styles.legal}>
             <Link href="/admin">Admin Portal</Link>
-            <Link href="#">Privacy Policy</Link>
-            <Link href="#">Terms of Service</Link>
+            <Link href="/terms-of-service#privacy-policy">Privacy Policy</Link>
+            <Link href="/terms-of-service">Terms of Service</Link>
           </div>
         </div>
       </div>
