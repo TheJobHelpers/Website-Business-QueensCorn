@@ -9,7 +9,7 @@
   padding: calc(var(--header-height, 80px) + 2rem) 1.5rem 3.5rem;
   text-align: center;
   overflow: hidden;
-  background: var(--background, #16120E);
+  background: #16120E;
 }
 
 .bgWrapper {
@@ -43,9 +43,8 @@
   background: linear-gradient(
     180deg,
     rgba(22, 18, 14, 0.72) 0%,
-    rgba(22, 18, 14, 0.45) 35%,
-    rgba(22, 18, 14, 0.78) 72%,
-    #FAF6EF 100%
+    rgba(22, 18, 14, 0.42) 35%,
+    rgba(22, 18, 14, 0.82) 100%
   );
 }
 
@@ -252,14 +251,15 @@
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: #382E24;
+  color: #FAF6EF;
   font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
 .line {
   width: 1px;
   height: 36px;
-  background: linear-gradient(180deg, var(--accent, #F5BA31), var(--primary, #D9232A));
+  background: linear-gradient(180deg, var(--accent, #F5BA31), transparent);
 }
 
 .scrollIndicator:hover {
