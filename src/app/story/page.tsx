@@ -83,7 +83,7 @@ export default function StoryPage() {
         {/* Closing Narrative */}
         <section className={styles.narrativeSection} style={{ marginTop: '10rem' }}>
           <ScrollReveal type="slide-right">
-            <div className={`${styles.framedImage} img-wrapper-treatment`} style={{ boxShadow: '-20px 20px 0px var(--surface)' }}>
+            <div className={`${styles.framedImage} img-wrapper-treatment`} style={{ boxShadow: '-16px 16px 0px var(--surface-warm)' }}>
               <Image 
                 src="/bob-pouring-kernels.jpg" 
                 alt="Bob Andersen popping kettle corn fresh on site" 
@@ -95,7 +95,7 @@ export default function StoryPage() {
           <div className={styles.textBlock}>
             <ScrollReveal>
               <div className={styles.accentLine}></div>
-              <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', color: 'white' }}>The Mission Continues</h2>
+              <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>The Mission Continues</h2>
               <p>
                 Today, we pop at local farmers&apos; markets and events across Phoenix, Payson, 
                 and the East Valley. We are passionate about our product and enjoy our 

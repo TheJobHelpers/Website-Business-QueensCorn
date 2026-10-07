@@ -115,7 +115,7 @@
 }
 
 .subtitle {
-  color: var(--accent);
+  color: var(--primary);
   text-transform: uppercase;
   letter-spacing: 0.25em;
   font-size: 0.85rem;
@@ -135,7 +135,7 @@
   font-family: var(--font-serif);
   font-size: clamp(2.2rem, 4vw, 3rem);
   line-height: 1.15;
-  color: #FAF6EF;
+  color: var(--text-primary);
   font-weight: 400;
 }
 
@@ -148,8 +148,8 @@
 .description {
   font-size: 1.15rem;
   line-height: 1.8;
-  opacity: 0.85;
-  font-weight: 300;
+  color: #5A4E40;
+  font-weight: 400;
   max-width: 550px;
 }
 
@@ -165,15 +165,15 @@
   align-items: center;
   gap: 1rem;
   padding: 0.8rem 1.2rem;
-  background: rgba(251, 191, 36, 0.05);
+  background: rgba(245, 186, 49, 0.15);
   border-radius: var(--radius-sm);
   width: fit-content;
-  border: 1px solid rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(245, 186, 49, 0.4);
   font-weight: 700;
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--accent);
+  color: #8C6400;
   margin-top: 0.5rem;
 }
 

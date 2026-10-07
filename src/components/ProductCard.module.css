@@ -1,32 +1,32 @@
 .card {
   background: var(--surface-card);
-  border: 1px solid rgba(245, 186, 49, 0.14);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 100%;
-  box-shadow: 0 4px 0px rgba(0, 0, 0, 0.25), 0 12px 28px -6px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 0px rgba(24, 18, 12, 0.06), 0 12px 28px -6px rgba(24, 18, 12, 0.1);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
   position: relative;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  border-color: rgba(245, 186, 49, 0.35);
-  box-shadow: 0 8px 0px rgba(0, 0, 0, 0.3), 0 24px 38px -8px rgba(0, 0, 0, 0.5);
+  border-color: rgba(245, 186, 49, 0.5);
+  box-shadow: 0 8px 0px rgba(24, 18, 12, 0.08), 0 20px 36px -8px rgba(24, 18, 12, 0.14);
 }
 
 .imageFrame {
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
-  background: radial-gradient(circle at center, rgba(36, 28, 21, 0.8) 0%, rgba(20, 16, 12, 0.95) 100%);
+  background: #FAF6EF;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid #F0E8DC;
 }
 
 .tasteBadge {
@@ -42,14 +42,14 @@
   padding: 0.25rem 0.65rem;
   border-radius: 20px;
   z-index: 5;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .image {
   object-fit: contain;
   padding: 1.5rem;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 8px 18px rgba(24, 18, 12, 0.18));
 }
 
 .card:hover .image {
@@ -74,25 +74,25 @@
 .name {
   font-family: var(--font-serif);
   font-size: 1.5rem;
-  color: #FAF6EF;
+  color: var(--text-primary);
   line-height: 1.2;
 }
 
 .name:hover {
-  color: var(--accent);
+  color: var(--primary);
 }
 
 .price {
   font-family: var(--font-sans);
   font-size: 1.15rem;
   font-weight: 800;
-  color: var(--accent);
+  color: var(--primary);
   white-space: nowrap;
 }
 
 .description {
   font-size: 0.85rem;
-  color: #A89D8F;
+  color: var(--text-muted);
   line-height: 1.5;
   margin-bottom: 1.25rem;
   display: -webkit-box;
@@ -103,8 +103,8 @@
 
 /* Taste Meter Box */
 .tasteBox {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #FAF6EF;
+  border: 1px solid #EFE7DA;
   border-radius: 10px;
   padding: 0.65rem 0.85rem;
   margin-bottom: 1.25rem;
@@ -118,14 +118,14 @@
   justify-content: space-between;
   align-items: center;
   font-size: 0.72rem;
-  color: #C7BCAD;
+  color: #5A4E40;
   font-weight: 600;
 }
 
 .tasteMeter {
   width: 50%;
-  height: 5px;
-  background: rgba(255, 255, 255, 0.1);
+  height: 6px;
+  background: #E5DCB8;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -190,9 +190,9 @@
 }
 
 .detailsBtn {
-  background: rgba(255, 255, 255, 0.05);
-  color: #FAF6EF;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #FAF6EF;
+  color: var(--text-primary);
+  border: 1px solid var(--border-card);
   border-radius: 10px;
   padding: 0.65rem 0.85rem;
   font-size: 0.8rem;
@@ -205,7 +205,7 @@
 }
 
 .detailsBtn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(245, 186, 49, 0.3);
-  color: var(--accent);
+  background: #F3EBDD;
+  border-color: var(--primary);
+  color: var(--primary);
 }

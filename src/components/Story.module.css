@@ -1,11 +1,9 @@
 .storySection {
   padding: 8rem 0;
-  background: radial-gradient(circle at 10% 30%, rgba(217, 35, 42, 0.06) 0%, transparent 60%),
-              radial-gradient(circle at 90% 70%, rgba(245, 186, 49, 0.08) 0%, transparent 50%),
-              #18130E;
+  background: #F5EFE4;
   position: relative;
   overflow: hidden;
-  border-top: 1px solid rgba(245, 186, 49, 0.15);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .grid {
@@ -24,8 +22,8 @@
   height: 540px;
   border-radius: 24px;
   overflow: hidden;
-  border: 1px solid rgba(245, 186, 49, 0.25);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 16px 40px rgba(24, 18, 12, 0.12);
 }
 
 .image {
@@ -41,7 +39,7 @@
 .imageOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(22, 18, 14, 0.75) 0%, transparent 60%);
+  background: linear-gradient(to top, rgba(24, 18, 12, 0.45) 0%, transparent 60%);
 }
 
 .experienceBadge {
@@ -56,7 +54,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 12px 30px rgba(24, 18, 12, 0.25);
   z-index: 10;
 }
 
@@ -81,7 +79,7 @@
 }
 
 .subtitle {
-  color: var(--accent);
+  color: var(--primary);
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.8rem;
@@ -96,26 +94,28 @@
   font-family: var(--font-serif);
   font-size: clamp(2.5rem, 5vw, 3.8rem);
   line-height: 1.1;
-  color: #FAF6EF;
+  color: var(--text-primary);
 }
 
 .description {
   font-size: 1.05rem;
   line-height: 1.7;
-  color: #C7BCAD;
+  color: #5A4E40;
 }
 
 .quote {
   font-family: var(--font-serif);
   font-size: 1.35rem;
-  color: #FAF6EF;
+  color: var(--text-primary);
   line-height: 1.5;
   font-style: italic;
   margin: 0.5rem 0;
   padding: 1.25rem 1.5rem;
-  background: rgba(245, 186, 49, 0.08);
-  border-left: 3px solid var(--accent);
+  background: #FFFDF9;
+  border: 1px solid var(--border-card);
+  border-left: 4px solid var(--accent);
   border-radius: 0 12px 12px 0;
+  box-shadow: 0 4px 14px rgba(24, 18, 12, 0.04);
 }
 
 .statsRow {
@@ -140,7 +140,7 @@
 
 .statLabel {
   font-size: 0.76rem;
-  color: #A89D8F;
+  color: var(--text-muted);
   margin-top: 0.2rem;
   font-weight: 500;
 }
@@ -148,7 +148,7 @@
 .statDivider {
   width: 1px;
   height: 36px;
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--border-subtle);
 }
 
 @media (max-width: 480px) {

@@ -48,9 +48,10 @@ export default function Navbar() {
 
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
+  const isHome = pathname === '/';
 
   return (
-    <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''} ${isOpen ? styles.menuOpen : ''}`}>
+    <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''} ${!isHome ? styles.subpageNav : ''} ${isOpen ? styles.menuOpen : ''}`}>
       <div className={styles.container}>
         {/* Left: Logo */}
         <Link href="/" className={styles.logoWrapper} onClick={closeMenu}>

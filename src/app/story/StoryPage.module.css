@@ -1,6 +1,6 @@
 .storyPage {
   background: var(--background);
-  color: white;
+  color: var(--text-primary);
   padding-top: calc(var(--header-height) + 3rem);
   padding-bottom: 6rem;
 }
@@ -17,7 +17,7 @@
   padding: 0 1.25rem;
 }
 
-/* Editorial Header */
+/* Editorial Header - No full bleed image */
 .header {
   text-align: center;
   margin-bottom: 4rem;
@@ -37,7 +37,7 @@
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.5em;
-  color: var(--accent);
+  color: var(--primary);
   margin-bottom: 1.5rem;
   font-weight: 700;
 }
@@ -54,7 +54,7 @@
   font-size: clamp(2.5rem, 8vw, 5.5rem);
   line-height: 1.05;
   font-family: var(--font-serif);
-  color: white;
+  color: var(--text-primary);
 }
 
 /* Story Section - Magazine Style */
@@ -87,10 +87,10 @@
 }
 
 .textBlock p {
-  font-size: 1.4rem;
-  line-height: 2.0;
-  color: #e5e5e5;
-  font-weight: 300;
+  font-size: 1.35rem;
+  line-height: 1.95;
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
 @media (max-width: 768px) {
@@ -101,8 +101,8 @@
 }
 
 .textBlock p strong {
-  color: white;
-  font-weight: 500;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .accentLine {
@@ -119,13 +119,13 @@
   aspect-ratio: 16 / 9;
   border-radius: var(--radius-sm);
   overflow: hidden;
-  box-shadow: 20px 20px 0px var(--surface);
-  border: 1px solid var(--glass-border);
+  box-shadow: 16px 16px 0px var(--surface-warm);
+  border: 1px solid var(--border-subtle);
 }
 
 @media (max-width: 768px) {
   .framedImage {
-    box-shadow: 10px 10px 0px var(--surface);
+    box-shadow: 10px 10px 0px var(--surface-warm);
   }
 }
 
@@ -161,8 +161,8 @@
   position: relative;
   border-radius: var(--radius-sm);
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--glass-border);
+  box-shadow: 0 12px 30px rgba(36, 27, 19, 0.08);
+  border: 1px solid var(--border-subtle);
 }
 
 .itemLarge {
@@ -183,23 +183,24 @@
 /* Quote */
 .quoteBlock {
   grid-column: span 12;
-  padding: 8rem 4rem;
+  padding: 6rem 4rem;
   margin: 4rem 0;
   text-align: center;
-  background: #141414;
-  border: 1px solid var(--accent);
+  background: var(--surface-card);
+  border: 1px solid var(--border-card);
+  border-left: 6px solid var(--accent);
   border-radius: var(--radius-lg);
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 16px 36px rgba(36, 27, 19, 0.05);
 }
 
 @media (max-width: 768px) {
   .quoteBlock {
-    padding: 4rem 1.5rem;
+    padding: 3.5rem 1.5rem;
     margin: 2rem 0;
   }
 }
@@ -213,7 +214,7 @@
   font-family: var(--font-serif);
   font-size: 8rem;
   color: var(--accent);
-  opacity: 0.15;
+  opacity: 0.18;
   line-height: 1;
 }
 
@@ -231,7 +232,7 @@
   font-style: italic;
   max-width: 900px;
   margin-bottom: 2.5rem;
-  color: white;
+  color: var(--text-primary);
   position: relative;
   z-index: 1;
 }

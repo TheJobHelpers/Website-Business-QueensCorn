@@ -1,7 +1,7 @@
 .banner {
-  background: #1A140F;
-  border-top: 1px solid rgba(245, 186, 49, 0.15);
-  border-bottom: 1px solid rgba(245, 186, 49, 0.15);
+  background: var(--surface);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
   padding: 2.25rem 0;
   position: relative;
   z-index: 10;
@@ -14,8 +14,8 @@
 }
 
 .stampItem {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1.5px dashed rgba(245, 186, 49, 0.28);
+  background: var(--background);
+  border: 1.5px dashed #DCD3C3;
   border-radius: 14px;
   padding: 1.15rem 1.25rem;
   display: flex;
@@ -25,17 +25,18 @@
 }
 
 .stampItem:hover {
-  background: rgba(245, 186, 49, 0.07);
-  border-color: rgba(245, 186, 49, 0.5);
+  background: #FFFFFF;
+  border-color: var(--accent);
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(24, 18, 12, 0.08);
 }
 
 .stampIcon {
   width: 46px;
   height: 46px;
   border-radius: 12px;
-  background: rgba(245, 186, 49, 0.08);
-  border: 1px solid rgba(245, 186, 49, 0.22);
+  background: rgba(245, 186, 49, 0.14);
+  border: 1px solid rgba(245, 186, 49, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,8 +45,8 @@
 }
 
 .stampItem:hover .stampIcon {
-  background: rgba(245, 186, 49, 0.16);
-  border-color: rgba(245, 186, 49, 0.5);
+  background: rgba(245, 186, 49, 0.22);
+  border-color: rgba(245, 186, 49, 0.6);
   transform: scale(1.06);
 }
 
@@ -57,13 +58,13 @@
 .stampTitle {
   font-size: 0.9rem;
   font-weight: 800;
-  color: #FAF6EF;
+  color: var(--text-primary);
   line-height: 1.25;
 }
 
 .stampSub {
   font-size: 0.74rem;
-  color: #A89D8F;
+  color: var(--text-muted);
   margin-top: 0.2rem;
   line-height: 1.4;
 }

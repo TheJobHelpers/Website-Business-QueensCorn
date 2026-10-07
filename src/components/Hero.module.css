@@ -44,8 +44,8 @@
     180deg,
     rgba(22, 18, 14, 0.72) 0%,
     rgba(22, 18, 14, 0.45) 35%,
-    rgba(22, 18, 14, 0.8) 75%,
-    #16120E 100%
+    rgba(22, 18, 14, 0.78) 72%,
+    #FAF6EF 100%
   );
 }
 
@@ -252,14 +252,14 @@
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: #EAE3D2;
-  font-weight: 600;
+  color: #382E24;
+  font-weight: 700;
 }
 
 .line {
   width: 1px;
   height: 36px;
-  background: linear-gradient(180deg, var(--accent, #F5BA31), transparent);
+  background: linear-gradient(180deg, var(--accent, #F5BA31), var(--primary, #D9232A));
 }
 
 .scrollIndicator:hover {

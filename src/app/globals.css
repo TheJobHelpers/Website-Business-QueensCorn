@@ -8,17 +8,20 @@
   --sage: #2D5A3E; /* Arizona Market Sage */
   --copper: #9B4D1B; /* Copper Kettle */
   
-  /* Neutral Surfaces - Warm Roasted & Cream Tones */
-  --background: #16120E; /* Roasted Espresso (No cold pitch-black) */
-  --surface: #1E1711;
-  --surface-card: #241C15;
+  /* Neutral Surfaces - Warm Roasted & Cream Tones from Design System */
+  --background: #FAF6EF; /* Warm Buttercream (Organic Paper Texture Base) */
+  --surface: #FFFDF9; /* Buttercream White */
+  --surface-card: #FFFDF9;
+  --surface-warm: #F3EBDD;
   --cream: #FAF6EF; /* Warm Buttercream */
   --cream-card: #FFFDF9;
-  --text-primary: #FAF6EF;
-  --text-muted: #A89D8F;
-  --border-subtle: rgba(245, 186, 49, 0.18);
-  --border-card: rgba(255, 255, 255, 0.08);
-  --gold-glow: rgba(245, 186, 49, 0.2);
+  --dark-espresso: #1E1711; /* Deep Roasted Espresso for Chalkboard & Contrast */
+  --text-primary: #241B13; /* Roasted Espresso Dark Brown (High Contrast & Legible) */
+  --text-muted: #7A6E5F; /* Warm Stone Muted */
+  --border-subtle: #E8DFD1;
+  --border-card: #EAE1D3;
+  --glass-border: rgba(36, 27, 19, 0.12);
+  --gold-glow: rgba(245, 186, 49, 0.25);
   
   /* Typography - Restored Instrument Serif & Outfit */
   --font-sans: var(--font-outfit), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -61,6 +64,7 @@ h1, h2, h3, h4 {
   font-weight: 600;
   line-height: 1.18;
   letter-spacing: -0.015em;
+  color: var(--text-primary);
 }
 
 h1 { font-size: clamp(2.6rem, 5.5vw, 4.4rem); }
@@ -119,7 +123,7 @@ button {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #D8CEBF;
   border-radius: 4px;
 }
 
@@ -156,7 +160,7 @@ button {
 
 /* Image Treatment Utilities */
 .img-treatment {
-  filter: brightness(1.02) contrast(1.05) sepia(0.05);
+  filter: brightness(1.02) contrast(1.05) sepia(0.04);
   object-fit: cover;
   transition: var(--transition-smooth);
 }
@@ -164,16 +168,16 @@ button {
 .img-wrapper-treatment {
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7);
-  border: 1px solid var(--glass-border);
+  box-shadow: 0 16px 40px -10px rgba(24, 18, 12, 0.12);
+  border: 1px solid var(--border-card);
   transition: var(--transition-smooth);
   background: var(--surface);
 }
 
 .img-wrapper-treatment:hover {
   border-color: var(--primary);
-  transform: translateY(-5px);
-  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.9);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 50px -10px rgba(24, 18, 12, 0.18);
 }
 
 /* Premium Shimmer Effect */
@@ -211,9 +215,9 @@ button {
 .marquee-container {
   width: 100%;
   overflow: hidden;
-  background: var(--surface);
-  border-top: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
+  background: var(--surface-warm);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
   padding: 1.25rem 0;
   white-space: nowrap;
   position: relative;
@@ -235,7 +239,7 @@ button {
   font-size: 3rem;
   text-transform: uppercase;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
+  -webkit-text-stroke: 1px rgba(36, 27, 19, 0.22);
   padding-right: 4rem;
   letter-spacing: 0.1em;
 }
@@ -255,7 +259,7 @@ button {
 }
 
 .marquee-text-active {
-  color: var(--accent);
+  color: var(--primary);
   -webkit-text-stroke: 0;
 }
 
@@ -265,7 +269,7 @@ button {
 
 .marquee-bullet {
   color: var(--accent);
-  opacity: 0.6;
+  opacity: 0.7;
   margin-left: 2rem;
   margin-right: 0.5rem;
   display: inline-block;
@@ -281,14 +285,14 @@ button {
   background: var(--surface-card);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
-  box-shadow: 0 4px 0px rgba(0, 0, 0, 0.25), 0 12px 28px -6px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 0px rgba(24, 18, 12, 0.06), 0 12px 28px -6px rgba(24, 18, 12, 0.1);
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
 }
 
 .tactile-card:hover {
   transform: translateY(-4px);
-  border-color: var(--border-subtle);
-  box-shadow: 0 8px 0px rgba(0, 0, 0, 0.3), 0 20px 36px -8px rgba(0, 0, 0, 0.45);
+  border-color: rgba(245, 186, 49, 0.45);
+  box-shadow: 0 8px 0px rgba(24, 18, 12, 0.08), 0 20px 36px -8px rgba(24, 18, 12, 0.15);
 }
 
 .market-stamp {

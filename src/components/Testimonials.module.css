@@ -15,24 +15,24 @@
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.4em;
-  color: var(--accent);
+  color: var(--primary);
   margin-bottom: 1.5rem;
   font-weight: 700;
 }
 
 .title {
   font-size: clamp(2.5rem, 6vw, 4rem);
-  color: white;
+  color: var(--text-primary);
 }
 
 .tagline {
   font-size: 1.1rem;
-  color: #a3a3a3;
+  color: var(--text-muted);
   margin-top: 1.5rem;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .grid {
@@ -43,35 +43,35 @@
 
 .card {
   background: var(--surface-card);
-  border: 1px solid rgba(245, 186, 49, 0.18);
+  border: 1px solid var(--border-card);
   padding: 2.25rem 2rem;
   border-radius: var(--radius-lg);
   position: relative;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 0px rgba(0, 0, 0, 0.25), 0 12px 28px -6px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 0px rgba(24, 18, 12, 0.06), 0 12px 24px -6px rgba(24, 18, 12, 0.08);
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(245, 186, 49, 0.45);
-  box-shadow: 0 8px 0px rgba(0, 0, 0, 0.3), 0 24px 38px -8px rgba(0, 0, 0, 0.5);
+  transform: translateY(-5px);
+  border-color: rgba(245, 186, 49, 0.5);
+  box-shadow: 0 8px 0px rgba(24, 18, 12, 0.08), 0 20px 36px -8px rgba(24, 18, 12, 0.14);
 }
 
 .avatar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(245, 186, 49, 0.12);
-  border: 1.5px solid rgba(245, 186, 49, 0.35);
+  background: rgba(245, 186, 49, 0.15);
+  border: 1.5px solid rgba(245, 186, 49, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 800;
-  color: var(--accent);
+  color: #8C6400;
   flex-shrink: 0;
 }
 
@@ -87,9 +87,9 @@
 }
 
 .text {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   line-height: 1.7;
-  color: #e5e5e5;
+  color: #382E24;
   margin-bottom: 2.5rem;
   font-style: italic;
   flex: 1;
@@ -99,14 +99,14 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  border-top: 1px solid var(--glass-border);
-  padding-top: 2rem;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1.5rem;
 }
 
 .authorInfo h4 {
-  font-size: 1.2rem;
-  color: white;
-  margin-bottom: 0.3rem;
+  font-size: 1.15rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
   font-weight: 700;
 }
 
@@ -117,17 +117,17 @@
 }
 
 .role {
-  font-size: 0.85rem;
-  color: var(--accent);
+  font-size: 0.82rem;
+  color: var(--primary);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   font-weight: 700;
 }
 
 .context {
-  font-size: 0.85rem;
-  color: #737373;
-  font-weight: 400;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 @media (max-width: 1280px) {
