@@ -12,8 +12,8 @@ export default function Story() {
           <ScrollReveal type="slide-right" className={styles.imageContainer}>
             <div className={`${styles.imageWrapper} img-wrapper-treatment`}>
               <Image 
-                src="/reina-stirring-kettle.jpg" 
-                alt="Reina Andersen hand-stirring the copper kettle with paddle - Co-Founder of The Queen's Corn" 
+                src="/bob-reina.webp" 
+                alt="Bob and Reina Andersen - Founders of The Queen's Corn" 
                 fill
                 sizes="(max-width: 968px) 100vw, 50vw"
                 className={`${styles.image} img-treatment`}
