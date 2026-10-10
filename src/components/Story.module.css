@@ -1,7 +1,7 @@
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: var(--space-7);
+  gap: clamp(24px, 4.5vw, 88px);
   align-items: center;
 }
 

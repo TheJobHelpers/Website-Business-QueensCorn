@@ -42,7 +42,8 @@
   --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;  /* headlines, prices, big numbers (400 only) */
   --font-body: "Outfit", "Segoe UI", system-ui, -apple-system, sans-serif; /* everything else */
 
-  --text-hero: clamp(2.75rem, 1.5rem + 5vw, 5.25rem);  /* 44 → 84px */
+  /* Hero size follows the screen's width AND height, so short laptops keep the buttons in view */
+  --text-hero: clamp(2.75rem, min(1.4rem + 4.6vw, 10.5svh), 6.75rem);  /* 44 → 108px */
   --text-h1: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
   --text-h2: clamp(2rem, 1.6rem + 1.6vw, 3rem);        /* serif needs more size than a slab */
   --text-h3: 1.625rem;
@@ -69,8 +70,13 @@
   --space-8: 64px;
   --space-9: 96px;
   --space-10: 128px;
-  --container: 1200px;
-  --gutter: clamp(16px, 4vw, 32px);
+  /* Responsive layout: everything scales with the screen, no fixed caps that leave big monitors empty */
+  --container: min(max(1320px, 80vw), 1760px);   /* 1320 → 1760px on large monitors */
+  --gutter: clamp(16px, 3vw, 48px);
+  --section-space: clamp(64px, 7vw, 136px);       /* gap between page sections */
+  --hero-min-h: min(100svh, 1120px);              /* hero fills the screen, within reason */
+  --hero-visual: min(36vw, 62svh, 720px);         /* food plate: width- and height-aware */
+  --root-size: clamp(16px, 0.32vw + 11.4px, 19px);  /* base text: 16px → 19px on big screens */
 
   /* ---- Radius ---- */
   --radius-sm: 6px;

@@ -4,6 +4,8 @@ Append-only history, **newest first**. Format and types are defined in [CLAUDE.m
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
 ## 2026-10-10 | restructure | Manula (with Claude)
+- Responsive tokens added (`--container`, `--gutter`, `--section-space`, `--hero-min-h`, `--hero-visual`,
+  `--root-size`, height-aware `--text-hero`); homepage checked at 360 → 3440px wide
 - Homepage built in v3.1 on `feature/landing-page-v3` (all 9 blueprint sections)
 - Hero made appetizing: food visual added (real caramel & cheddar close-up on a warm glow, Reina snapshot,
   "Hand-popped in Arizona" sticker, one-tap "+ Add" card); blueprint section 1 updated to match

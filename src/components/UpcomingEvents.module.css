@@ -1,6 +1,6 @@
 /* Mid-page dark band: balances the dark hero and footer (components.css → .dark-band). */
 .band {
-  padding: var(--space-8) var(--space-6);
+  padding: clamp(40px, 5vw, 96px) clamp(20px, 4vw, 72px);
   background: var(--espresso);
   color: var(--paper);
   border-radius: var(--radius-lg);
@@ -37,8 +37,15 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-5);
+  /* 3 markets: stacked until there's room for 3 full tickets side by side. Never 2 + 1. */
+  grid-template-columns: minmax(0, 640px);
+  gap: clamp(16px, 2vw, 32px);
+}
+
+@media (min-width: 1080px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .ticket {
@@ -65,13 +72,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-}
-
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: 1fr;
-    max-width: 560px;
-  }
 }
 
 @media (max-width: 640px) {

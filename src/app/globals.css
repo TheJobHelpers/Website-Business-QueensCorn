@@ -70,7 +70,7 @@
   --font-display: var(--font-instrument), Georgia, "Times New Roman", serif;
   --font-body: var(--font-outfit), "Segoe UI", system-ui, -apple-system, sans-serif;
 
-  --text-hero: clamp(2.75rem, 1.5rem + 5vw, 5.25rem);
+  --text-hero: clamp(2.75rem, min(1.4rem + 4.6vw, 10.5svh), 6.75rem);
   --text-h1: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
   --text-h2: clamp(2rem, 1.6rem + 1.6vw, 3rem);
   --text-h3: 1.625rem;
@@ -95,6 +95,13 @@
   --space-8: 64px;
   --space-9: 96px;
   --space-10: 128px;
+
+  --container: min(max(1320px, 80vw), 1760px);
+  --gutter: clamp(16px, 3vw, 48px);
+  --section-space: clamp(64px, 7vw, 136px);
+  --hero-min-h: min(100svh, 1120px);
+  --hero-visual: min(36vw, 62svh, 720px);
+  --root-size: clamp(16px, 0.32vw + 11.4px, 19px);
 
   --radius-pill: 999px;
   --border: 1px solid var(--line);
@@ -122,7 +129,7 @@
 
 /* Shared v3 section rhythm for the homepage */
 .v3-section {
-  padding-block: var(--space-9) 0;
+  padding-block: var(--section-space) 0;
   font-family: var(--font-body);
   color: var(--ink);
 }
@@ -149,13 +156,13 @@
   font-size: var(--text-body);
   max-width: 60ch;
 }
-@media (max-width: 640px) {
-  .v3-section { padding-block: var(--space-8) 0; }
-}
+
 
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  /* v3.1: base text scales gently with the screen (16px phones/laptops → 19px large monitors) */
+  font-size: var(--root-size);
 }
 
 * {
@@ -197,9 +204,9 @@ button {
 
 .main-container {
   width: 100%;
-  max-width: 1400px;
+  max-width: var(--container);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--gutter);
 }
 
 @media (max-width: 768px) {

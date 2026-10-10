@@ -4,8 +4,8 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-5);
-  margin-bottom: var(--space-9);
-  padding: var(--space-6);
+  margin-bottom: var(--section-space);
+  padding: clamp(24px, 3vw, 56px);
   background: var(--white);
   border: var(--border);
   border-radius: var(--radius-lg);
