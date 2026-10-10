@@ -24,6 +24,8 @@ wiki/
 ├── products/        ← flavors, sizes, pricing, ingredients
 ├── website/         ← how the website is built and works
 ├── decisions/       ← why we chose X (one page per decision)
+├── design-system/   ← VISUAL SOURCE OF TRUTH: tokens.css, components.css, design-system.html,
+│                      landing-page-blueprint.html (photos come from public/)
 └── templates/       ← page templates to copy when creating pages
 ```
 
@@ -69,6 +71,10 @@ wiki/
 - **Never write secrets** (passwords, API tokens, session secrets, customer personal data) into the
   wiki. Say "hardcoded default credentials exist in `src/lib/auth.ts`" — never the value itself.
 - Never delete a page without moving its useful content elsewhere and noting it in `log.md`.
+- **Design system:** `design-system/tokens.css` and `design-system/design-system.html` define how the
+  website looks. Any UI change in the codebase must follow them; any change to them must be mirrored
+  into `src/app/globals.css`, explained in `decisions/` and logged. Keep [[brand-and-design-system]]
+  as the short text summary of it.
 - Wiki operations only touch files under `wiki/` (plus the pointer lines in the root `CLAUDE.md`/`AGENTS.md`).
   Do not change website code as part of a wiki operation.
 
