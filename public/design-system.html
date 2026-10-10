@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Queen's Corn — Fresh Artisanal Design System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Outfit', -apple-system, sans-serif;
+      --font-accent: 'Outfit', sans-serif;
+    }
+    .font-display { font-family: var(--font-display); }
+    .font-sans-brand { font-family: var(--font-sans); }
+    .font-accent { font-family: var(--font-accent); }
+    
+    .tactile-card {
+      box-shadow: 0 4px 0px rgba(24, 18, 12, 0.08), 0 12px 28px -6px rgba(24, 18, 12, 0.12);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .tactile-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 0px rgba(24, 18, 12, 0.1), 0 20px 32px -8px rgba(24, 18, 12, 0.16);
+    }
+    .market-stamp {
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 800;
+      border: 1.5px dashed currentColor;
+    }
+    .color-swatch {
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    .color-swatch:hover {
+      transform: scale(1.04);
+    }
+  </style>
+</head>
+<body class="bg-[#FAF6EF] text-[#241B13] font-sans-brand antialiased min-h-screen">
+
+  <!-- TOP BRAND HEADER -->
+  <header class="border-b border-[#E8DFD1] bg-[#FFFDF9]/90 backdrop-blur sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 bg-white rounded-xl border border-[#E8DFD1] p-1 shadow-sm flex items-center justify-center">
+          <img src="/logo.webp" alt="The Queen's Corn" class="w-full h-full object-contain" />
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-bold text-lg text-[#241B13] tracking-tight">The Queen's Corn</h1>
+            <span class="bg-[#D9232A]/10 text-[#D9232A] text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Design System v2.0</span>
+          </div>
+          <p class="text-xs text-[#7A6E5F]">Fresh, Motivated, Human Artisanal Identity &bull; Farewell to AI Templates</p>
+        </div>
+      </div>
+
+      <!-- Quick Nav Jump -->
+      <nav class="hidden md:flex items-center gap-1 text-sm font-semibold text-[#5A4E40]">
+        <a href="#philosophy" class="px-3 py-1.5 rounded-lg hover:bg-[#F2ECE1] transition">Philosophy</a>
+        <a href="#palette" class="px-3 py-1.5 rounded-lg hover:bg-[#F2ECE1] transition">Colors</a>
+        <a href="#typography" class="px-3 py-1.5 rounded-lg hover:bg-[#F2ECE1] transition">Typography</a>
+        <a href="#components" class="px-3 py-1.5 rounded-lg hover:bg-[#F2ECE1] transition">Components</a>
+        <a href="#voice" class="px-3 py-1.5 rounded-lg hover:bg-[#F2ECE1] transition">Brand Voice</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO STATEMENT -->
+  <section id="philosophy" class="max-w-7xl mx-auto px-6 pt-12 pb-8">
+    <div class="bg-gradient-to-br from-[#1E1711] to-[#120E0A] text-white rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-2xl">
+      <div class="absolute -right-12 -bottom-12 w-96 h-96 bg-[#F5BA31]/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute top-0 right-1/4 w-80 h-80 bg-[#D9232A]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-3xl relative z-10">
+        <span class="inline-flex items-center gap-2 bg-[#F5BA31]/20 text-[#F5BA31] border border-[#F5BA31]/30 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-6">
+          <svg class="w-3.5 h-3.5 text-[#F5BA31]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/></svg>
+          Beyond Generic AI Aesthetics
+        </span>
+        <h2 class="font-display text-4xl sm:text-6xl text-[#FAF6EF] leading-[1.08] mb-6">
+          Warm. Tactile. Delicious. <br/>
+          <span class="italic text-[#F5BA31]">Made for real humans in Arizona.</span>
+        </h2>
+        <p class="text-[#D1C7BA] text-lg leading-relaxed mb-8">
+          AI templates default to pitch-black backgrounds, sterile neon glassmorphism, and corporate jargon. 
+          The Queen's Corn is an artisanal food brand founded by Bob &amp; Reina. Our design system reflects 
+          <strong>golden sugar glazes, roaring copper kettles, sunny weekend markets, and genuine warmth.</strong>
+        </p>
+
+        <!-- Before vs After Pill Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-white/10 text-sm">
+          <div class="bg-white/5 border border-white/10 rounded-xl p-4">
+            <div class="text-[#EF4444] font-bold text-xs uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-[#EF4444]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              What We Are Retiring (AI Tropes)
+            </div>
+            <ul class="text-[#9C9286] space-y-1 text-xs">
+              <li>&bull; Cold pitch-black void (<code class="text-white/60">#0a0a0a</code>)</li>
+              <li>&bull; Generic translucent glassmorphism blur</li>
+              <li>&bull; Corporate filler: &ldquo;Elevate your snacking journey&rdquo;</li>
+              <li>&bull; Robotic 3-column identical card rows</li>
+            </ul>
+          </div>
+          <div class="bg-[#F5BA31]/10 border border-[#F5BA31]/30 rounded-xl p-4">
+            <div class="text-[#F5BA31] font-bold text-xs uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-[#F5BA31]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              What We Are Unleashing (Fresh Brand)
+            </div>
+            <ul class="text-[#E5DCB8] space-y-1 text-xs">
+              <li>&bull; Warm roasted espresso &amp; rich buttercream surfaces</li>
+              <li>&bull; Tactile market stamps, physical shadows &amp; badges</li>
+              <li>&bull; Honest, proud founder voice (Bob &amp; Reina's story)</li>
+              <li>&bull; Interactive flavor tasting meters &amp; weekend pop-up boards</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. COLOR PALETTE -->
+  <section id="palette" class="max-w-7xl mx-auto px-6 py-12">
+    <div class="mb-8">
+      <span class="text-[#D9232A] font-bold text-xs uppercase tracking-widest">Core Aesthetics</span>
+      <h3 class="font-display text-4xl text-[#241B13] mt-1">Appetizing Artisanal Palette</h3>
+      <p class="text-[#7A6E5F] text-sm mt-1">Grounded in the official logo's crimson red, kettle copper glaze, and Arizona warmth.</p>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      
+      <!-- Heritage Crimson -->
+      <div class="color-swatch bg-white rounded-2xl p-4 border border-[#E8DFD1] shadow-sm">
+        <div class="h-24 rounded-xl bg-[#D9232A] shadow-inner mb-3 flex items-end p-2">
+          <span class="text-white/90 text-xs font-mono font-bold">#D9232A</span>
+        </div>
+        <h4 class="font-bold text-sm text-[#241B13]">Heritage Crimson</h4>
+        <p class="text-xs text-[#7A6E5F]">Official Logo Red &bull; Primary CTA &amp; Brand Anchor</p>
+      </div>
+
+      <!-- Kettle Gold -->
+      <div class="color-swatch bg-white rounded-2xl p-4 border border-[#E8DFD1] shadow-sm">
+        <div class="h-24 rounded-xl bg-[#F5BA31] shadow-inner mb-3 flex items-end p-2">
+          <span class="text-[#241B13] text-xs font-mono font-bold">#F5BA31</span>
+        </div>
+        <h4 class="font-bold text-sm text-[#241B13]">Kettle Gold</h4>
+        <p class="text-xs text-[#7A6E5F]">Caramel Glaze &bull; Accent Badges &amp; Highlights</p>
+      </div>
+
+      <!-- Roasted Espresso -->
+      <div class="color-swatch bg-white rounded-2xl p-4 border border-[#E8DFD1] shadow-sm">
+        <div class="h-24 rounded-xl bg-[#1E1711] shadow-inner mb-3 flex items-end p-2">
+          <span class="text-[#FAF6EF]/80 text-xs font-mono font-bold">#1E1711</span>
+        </div>
+        <h4 class="font-bold text-sm text-[#241B13]">Roasted Espresso</h4>
+        <p class="text-xs text-[#7A6E5F]">Deep Warm Surface &bull; Replaces Pitch Black</p>
+      </div>
+
+      <!-- Warm Buttercream -->
+      <div class="color-swatch bg-white rounded-2xl p-4 border border-[#E8DFD1] shadow-sm">
+        <div class="h-24 rounded-xl bg-[#FAF6EF] border border-[#E2D8C7] shadow-inner mb-3 flex items-end p-2">
+          <span class="text-[#5A4E40] text-xs font-mono font-bold">#FAF6EF</span>
+        </div>
+        <h4 class="font-bold text-sm text-[#241B13]">Buttercream Cream</h4>
+        <p class="text-xs text-[#7A6E5F]">Paper Texture Canvas &bull; Natural Organic Base</p>
+      </div>
+
+      <!-- Desert Market Sage -->
+      <div class="color-swatch bg-white rounded-2xl p-4 border border-[#E8DFD1] shadow-sm">
+        <div class="h-24 rounded-xl bg-[#2D5A3E] shadow-inner mb-3 flex items-end p-2">
+          <span class="text-white/90 text-xs font-mono font-bold">#2D5A3E</span>
+        </div>
+        <h4 class="font-bold text-sm text-[#241B13]">Market Sage</h4>
+        <p class="text-xs text-[#7A6E5F]">Non-GMO &amp; Freshness &bull; Trust Verification</p>
+      </div>
+
+      <!-- Copper Hearth -->
+      <div class="color-swatch bg-white rounded-2xl p-4 border border-[#E8DFD1] shadow-sm">
+        <div class="h-24 rounded-xl bg-[#9B4D1B] shadow-inner mb-3 flex items-end p-2">
+          <span class="text-white/90 text-xs font-mono font-bold">#9B4D1B</span>
+        </div>
+        <h4 class="font-bold text-sm text-[#241B13]">Copper Hearth</h4>
+        <p class="text-xs text-[#7A6E5F]">Kettle Flame &bull; Warm Secondary Actions</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2. TYPOGRAPHY SYSTEM -->
+  <section id="typography" class="max-w-7xl mx-auto px-6 py-12 border-t border-[#E8DFD1]">
+    <div class="mb-8">
+      <span class="text-[#D9232A] font-bold text-xs uppercase tracking-widest">Editorial Character</span>
+      <h3 class="font-display text-4xl text-[#241B13] mt-1">Typography with Charisma</h3>
+      <p class="text-[#7A6E5F] text-sm mt-1">Paired for artisanal royalty: bold editorial headline serif + ultra-clean modern geometric sans.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Instrument Serif Display -->
+      <div class="bg-white rounded-3xl p-8 border border-[#E8DFD1] shadow-sm">
+        <div class="flex items-center justify-between border-b border-[#F0E8DC] pb-4 mb-6">
+          <span class="font-mono text-xs uppercase tracking-wider text-[#998B7A]">Display &bull; Instrument Serif</span>
+          <span class="text-xs bg-[#F5BA31]/20 text-[#9B7000] font-bold px-2 py-0.5 rounded">Headlines &amp; Soul</span>
+        </div>
+        <h2 class="font-display text-5xl text-[#241B13] leading-tight mb-2">Hand-Popped Fit for Royalty.</h2>
+        <h3 class="font-display italic text-3xl text-[#D9232A] mb-4">Every single kernel tells a happy story.</h3>
+        <p class="text-xs text-[#7A6E5F] leading-relaxed">
+          Used for Hero headlines, section titles, and signature statements. Has genuine vintage warmth without feeling dusty.
+        </p>
+      </div>
+
+      <!-- Outfit Body -->
+      <div class="bg-white rounded-3xl p-8 border border-[#E8DFD1] shadow-sm">
+        <div class="flex items-center justify-between border-b border-[#F0E8DC] pb-4 mb-6">
+          <span class="font-mono text-xs uppercase tracking-wider text-[#998B7A]">Body &bull; Outfit</span>
+          <span class="text-xs bg-[#2D5A3E]/10 text-[#2D5A3E] font-bold px-2 py-0.5 rounded">High Clarity &amp; UI</span>
+        </div>
+        <p class="text-xl font-bold text-[#241B13] mb-2">Clean, friendly, modern UI readability.</p>
+        <p class="text-[#5A4E40] text-sm leading-relaxed mb-4">
+          Bob &amp; Reina started Queen's Corn at local Arizona markets with monster mushroom corn, 
+          real cane sugar, and giant hickory paddles. When you pop fresh, you don't need artificial flavors or chemical coatings.
+        </p>
+        <div class="flex items-center gap-4 text-xs font-semibold text-[#8C7E6E]">
+          <span class="bg-[#FAF6EF] px-3 py-1.5 rounded-lg border border-[#E8DFD1]">14px / 22px Body</span>
+          <span class="bg-[#FAF6EF] px-3 py-1.5 rounded-lg border border-[#E8DFD1]">12px Stamp Caps</span>
+          <span class="bg-[#FAF6EF] px-3 py-1.5 rounded-lg border border-[#E8DFD1]">Weight 500 &bull; 700 &bull; 800</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. TACTILE COMPONENTS & LIVE SHOWCASE -->
+  <section id="components" class="max-w-7xl mx-auto px-6 py-12 border-t border-[#E8DFD1]">
+    <div class="mb-8">
+      <span class="text-[#D9232A] font-bold text-xs uppercase tracking-widest">Physical &amp; Appetizing</span>
+      <h3 class="font-display text-4xl text-[#241B13] mt-1">Core Component Library</h3>
+      <p class="text-[#7A6E5F] text-sm mt-1">Real buttons, physical market stamps, interactive flavor meters, and live pop-up boards.</p>
+    </div>
+
+    <!-- 3.1 ACTION BUTTONS -->
+    <div class="bg-white rounded-3xl p-8 border border-[#E8DFD1] shadow-sm mb-8">
+      <h4 class="font-bold text-lg text-[#241B13] mb-1">1. Artisanal Buttons &amp; Interactive CTAs</h4>
+      <p class="text-xs text-[#7A6E5F] mb-6">Designed with solid weight and tactile feedback instead of generic continuous shimmer lines.</p>
+      
+      <div class="flex flex-wrap items-center gap-4">
+        <!-- Primary Kettle Gold -->
+        <button class="bg-[#F5BA31] hover:bg-[#E5A920] active:scale-95 text-[#241B13] font-bold text-sm px-6 py-3.5 rounded-xl shadow-[0_4px_0_#C48D08] hover:shadow-[0_2px_0_#C48D08] hover:translate-y-[2px] transition-all flex items-center gap-2">
+          <svg class="w-4 h-4 text-[#241B13]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span>Shop Best Sellers</span>
+        </button>
+
+        <!-- Signature Crimson -->
+        <button class="bg-[#D9232A] hover:bg-[#BF181F] active:scale-95 text-white font-bold text-sm px-6 py-3.5 rounded-xl shadow-[0_4px_0_#911116] hover:shadow-[0_2px_0_#911116] hover:translate-y-[2px] transition-all flex items-center gap-2">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span>Order for Free Market Pickup</span>
+        </button>
+
+        <!-- Secondary Outline Paper -->
+        <button class="bg-[#FFFDF9] hover:bg-[#F2ECE1] text-[#241B13] font-bold text-sm px-5 py-3.5 rounded-xl border-2 border-[#DCD3C3] shadow-sm hover:border-[#241B13] transition-all">
+          <span>View Weekend Schedule &rarr;</span>
+        </button>
+
+        <!-- Compact Chip -->
+        <button class="bg-[#FAF6EF] hover:bg-[#EFE8DA] text-[#5A4E40] text-xs font-bold px-3.5 py-2 rounded-lg border border-[#E2D8C7] flex items-center gap-1.5 transition">
+          <span class="w-2 h-2 rounded-full bg-[#2D5A3E]"></span>
+          <span>Popping Fresh Today</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3.2 PHYSICAL MARKET STAMPS -->
+    <div class="bg-white rounded-3xl p-8 border border-[#E8DFD1] shadow-sm mb-8">
+      <h4 class="font-bold text-lg text-[#241B13] mb-1">2. Physical Market Badges &amp; Guarantee Stamps</h4>
+      <p class="text-xs text-[#7A6E5F] mb-6">Replaces robotic glassmorphism cards with authentic farmers' market seal aesthetics.</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="market-stamp p-4 rounded-xl border-[#D9232A]/30 bg-[#D9232A]/5 text-[#D9232A] text-center">
+          <svg class="w-6 h-6 mx-auto mb-1 text-[#D9232A]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/></svg>
+          <span class="text-xs font-bold block">100% Non-GMO</span>
+          <span class="text-[11px] opacity-80">Mushroom Kernels</span>
+        </div>
+
+        <div class="market-stamp p-4 rounded-xl border-[#2D5A3E]/30 bg-[#2D5A3E]/5 text-[#2D5A3E] text-center">
+          <svg class="w-6 h-6 mx-auto mb-1 text-[#2D5A3E]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span class="text-xs font-bold block">Popped Fresh</span>
+          <span class="text-[11px] opacity-80">Local Arizona Markets</span>
+        </div>
+
+        <div class="market-stamp p-4 rounded-xl border-[#C48D08]/40 bg-[#F5BA31]/10 text-[#9B7000] text-center">
+          <svg class="w-6 h-6 mx-auto mb-1 text-[#9B7000]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+          <span class="text-xs font-bold block">BBB A+ Rated</span>
+          <span class="text-[11px] opacity-80">Accredited Business</span>
+        </div>
+
+        <div class="market-stamp p-4 rounded-xl border-[#9B4D1B]/30 bg-[#9B4D1B]/5 text-[#9B4D1B] text-center">
+          <svg class="w-6 h-6 mx-auto mb-1 text-[#D9232A]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span class="text-xs font-bold block">50% Giveback</span>
+          <span class="text-[11px] opacity-80">Arizona School Teams</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3.3 INTERACTIVE FLAVOR CARD (WITH TASTE METERS) -->
+    <div class="bg-white rounded-3xl p-8 border border-[#E8DFD1] shadow-sm mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h4 class="font-bold text-lg text-[#241B13]">3. Interactive Flavor Card Prototype</h4>
+          <p class="text-xs text-[#7A6E5F]">Engaging taste profiles (Sweetness, Savory, Crunch) that help customers discover their favorite bag.</p>
+        </div>
+        <span class="text-xs bg-[#F5BA31]/20 text-[#8C6400] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Customer Experience</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Card 1: Caramel & Cheddar Mix -->
+        <div class="tactile-card bg-[#FFFDF9] rounded-2xl border border-[#EAE1D3] p-5 flex flex-col justify-between">
+          <div>
+            <div class="relative w-full h-48 bg-[#FAF6EF] rounded-xl overflow-hidden mb-4 border border-[#F0E8DC] flex items-center justify-center">
+              <span class="absolute top-2.5 left-2.5 bg-[#D9232A] text-white text-[11px] font-extrabold uppercase px-2.5 py-0.5 rounded-full shadow-sm">#1 Best Seller</span>
+              <img src="/flavor-mix-real.png" alt="Caramel & Cheddar Mix" class="w-40 h-40 object-contain drop-shadow-md hover:scale-105 transition-transform duration-300" />
+            </div>
+            <h5 class="font-display text-2xl text-[#241B13] mb-1">Caramel &amp; Cheddar Mix</h5>
+            <p class="text-xs text-[#7A6E5F] mb-4">The ultimate Arizona contrast: rich buttery caramel paired with sharp, real cheddar.</p>
+            
+            <!-- Taste Meters -->
+            <div class="space-y-2 mb-5 bg-[#FAF6EF] p-3 rounded-xl border border-[#EFE7DA] text-xs">
+              <div>
+                <div class="flex justify-between text-[#5A4E40] font-semibold mb-1">
+                  <span>Sweetness</span>
+                  <span>85%</span>
+                </div>
+                <div class="w-full bg-[#E5DCB8] h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-[#F5BA31] h-full rounded-full" style="width: 85%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[#5A4E40] font-semibold mb-1">
+                  <span>Savory Cheddar</span>
+                  <span>90%</span>
+                </div>
+                <div class="w-full bg-[#E5DCB8] h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-[#D9232A] h-full rounded-full" style="width: 90%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-3 border-t border-[#F0E8DC]">
+            <div>
+              <span class="text-xs text-[#8C7E6E] block">Starting at</span>
+              <span class="text-xl font-bold text-[#241B13]">$6.00</span>
+            </div>
+            <button class="bg-[#241B13] hover:bg-[#D9232A] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition">
+              + Quick Add
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2: Jalapeño Cheddar -->
+        <div class="tactile-card bg-[#FFFDF9] rounded-2xl border border-[#EAE1D3] p-5 flex flex-col justify-between">
+          <div>
+            <div class="relative w-full h-48 bg-[#FAF6EF] rounded-xl overflow-hidden mb-4 border border-[#F0E8DC] flex items-center justify-center">
+              <span class="absolute top-2.5 left-2.5 bg-[#2D5A3E] text-white text-[11px] font-extrabold uppercase px-2.5 py-0.5 rounded-full shadow-sm">Desert Heat</span>
+              <img src="/flavor-jalapeno-real.png" alt="Jalapeño Cheddar" class="w-40 h-40 object-contain drop-shadow-md hover:scale-105 transition-transform duration-300" />
+            </div>
+            <h5 class="font-display text-2xl text-[#241B13] mb-1">Jalapeño Cheddar</h5>
+            <p class="text-xs text-[#7A6E5F] mb-4">Savory white cheddar infused with zesty roasted jalapeño pepper spice.</p>
+            
+            <!-- Taste Meters -->
+            <div class="space-y-2 mb-5 bg-[#FAF6EF] p-3 rounded-xl border border-[#EFE7DA] text-xs">
+              <div>
+                <div class="flex justify-between text-[#5A4E40] font-semibold mb-1">
+                  <span>Savory Sharpness</span>
+                  <span>95%</span>
+                </div>
+                <div class="w-full bg-[#E5DCB8] h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-[#F5BA31] h-full rounded-full" style="width: 95%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[#5A4E40] font-semibold mb-1">
+                  <span>Jalapeño Spice Kick</span>
+                  <span>65%</span>
+                </div>
+                <div class="w-full bg-[#E5DCB8] h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-[#2D5A3E] h-full rounded-full" style="width: 65%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-3 border-t border-[#F0E8DC]">
+            <div>
+              <span class="text-xs text-[#8C7E6E] block">Starting at</span>
+              <span class="text-xl font-bold text-[#241B13]">$6.00</span>
+            </div>
+            <button class="bg-[#241B13] hover:bg-[#D9232A] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition">
+              + Quick Add
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3: Sweet & Salty Classic -->
+        <div class="tactile-card bg-[#FFFDF9] rounded-2xl border border-[#EAE1D3] p-5 flex flex-col justify-between">
+          <div>
+            <div class="relative w-full h-48 bg-[#FAF6EF] rounded-xl overflow-hidden mb-4 border border-[#F0E8DC] flex items-center justify-center">
+              <span class="absolute top-2.5 left-2.5 bg-[#C48D08] text-white text-[11px] font-extrabold uppercase px-2.5 py-0.5 rounded-full shadow-sm">Original Kettle</span>
+              <img src="/flavor-regular-real.png" alt="Sweet & Salty Regular" class="w-40 h-40 object-contain drop-shadow-md hover:scale-105 transition-transform duration-300" />
+            </div>
+            <h5 class="font-display text-2xl text-[#241B13] mb-1">Sweet &amp; Salty Classic</h5>
+            <p class="text-xs text-[#7A6E5F] mb-4">The nostalgic recipe: giant mushroom corn glazed in pure cane sugar and fine sea salt.</p>
+            
+            <!-- Taste Meters -->
+            <div class="space-y-2 mb-5 bg-[#FAF6EF] p-3 rounded-xl border border-[#EFE7DA] text-xs">
+              <div>
+                <div class="flex justify-between text-[#5A4E40] font-semibold mb-1">
+                  <span>Crisp Sweet Glaze</span>
+                  <span>75%</span>
+                </div>
+                <div class="w-full bg-[#E5DCB8] h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-[#F5BA31] h-full rounded-full" style="width: 75%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[#5A4E40] font-semibold mb-1">
+                  <span>Sea Salt Balance</span>
+                  <span>70%</span>
+                </div>
+                <div class="w-full bg-[#E5DCB8] h-1.5 rounded-full overflow-hidden">
+                  <div class="bg-[#8C7E6E] h-full rounded-full" style="width: 70%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-3 border-t border-[#F0E8DC]">
+            <div>
+              <span class="text-xs text-[#8C7E6E] block">Starting at</span>
+              <span class="text-xl font-bold text-[#241B13]">$6.00</span>
+            </div>
+            <button class="bg-[#241B13] hover:bg-[#D9232A] text-white text-xs font-bold px-4 py-2.5 rounded-xl transition">
+              + Quick Add
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 3.4 WEEKEND MARKET CHALKBOARD -->
+    <div class="bg-[#1E1711] text-white rounded-3xl p-8 border border-white/10 shadow-xl mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6 mb-6">
+        <div>
+          <span class="inline-flex items-center gap-1.5 text-[#F5BA31] text-xs font-bold uppercase tracking-widest mb-1">
+            <span class="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse"></span>
+            Live Arizona Stand Schedule
+          </span>
+          <h4 class="font-display text-3xl text-[#FAF6EF]">Where We&rsquo;re Popping This Weekend</h4>
+        </div>
+        <a href="/events" class="text-xs font-bold text-[#F5BA31] bg-white/5 hover:bg-white/10 border border-[#F5BA31]/30 px-4 py-2.5 rounded-xl transition inline-flex items-center gap-2 self-start sm:self-auto">
+          <span>View All 5 Valley Locations &rarr;</span>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-[#F5BA31]/40 transition">
+          <div class="flex items-start justify-between gap-4 mb-3">
+            <div class="bg-[#F5BA31]/15 border border-[#F5BA31]/30 text-[#F5BA31] text-center px-3 py-2 rounded-xl min-w-[64px]">
+              <span class="text-[11px] font-extrabold uppercase block tracking-wider">SAT</span>
+              <span class="text-2xl font-display font-bold leading-none block">24</span>
+              <span class="text-[10px] text-white/60 block">OCT</span>
+            </div>
+            <div class="flex-1">
+              <span class="text-[11px] bg-[#22C55E]/15 text-[#4ADE80] font-bold px-2 py-0.5 rounded-full">Free Pickup Available</span>
+              <h5 class="text-lg font-bold text-white mt-1">Marana Saturday Farmers' Market</h5>
+              <p class="text-xs text-[#A89D8F]">9:00 AM &ndash; 1:00 PM &bull; Marana Main Plaza, AZ</p>
+            </div>
+          </div>
+          <button class="w-full bg-[#F5BA31] hover:bg-[#E5A920] text-[#1E1711] font-bold text-xs py-2.5 rounded-xl transition">
+            Pre-Order for Free Pickup at This Stand
+          </button>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-[#F5BA31]/40 transition">
+          <div class="flex items-start justify-between gap-4 mb-3">
+            <div class="bg-[#F5BA31]/15 border border-[#F5BA31]/30 text-[#F5BA31] text-center px-3 py-2 rounded-xl min-w-[64px]">
+              <span class="text-[11px] font-extrabold uppercase block tracking-wider">SUN</span>
+              <span class="text-2xl font-display font-bold leading-none block">25</span>
+              <span class="text-[10px] text-white/60 block">OCT</span>
+            </div>
+            <div class="flex-1">
+              <span class="text-[11px] bg-[#22C55E]/15 text-[#4ADE80] font-bold px-2 py-0.5 rounded-full">Free Pickup Available</span>
+              <h5 class="text-lg font-bold text-white mt-1">Rillito Park Heirloom Farmers Market</h5>
+              <p class="text-xs text-[#A89D8F]">8:30 AM &ndash; 12:30 PM &bull; Tucson, AZ</p>
+            </div>
+          </div>
+          <button class="w-full bg-[#F5BA31] hover:bg-[#E5A920] text-[#1E1711] font-bold text-xs py-2.5 rounded-xl transition">
+            Pre-Order for Free Pickup at This Stand
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- 4. BRAND VOICE & STORY -->
+  <section id="voice" class="max-w-7xl mx-auto px-6 py-12 border-t border-[#E8DFD1]">
+    <div class="mb-8">
+      <span class="text-[#D9232A] font-bold text-xs uppercase tracking-widest">Real People, Real Craft</span>
+      <h3 class="font-display text-4xl text-[#241B13] mt-1">Bob &amp; Reina&rsquo;s Authentic Story</h3>
+      <p class="text-[#7A6E5F] text-sm mt-1">Replacing generic corporate marketing speak with the heart of two Arizona founders.</p>
+    </div>
+
+    <div class="bg-[#FFFDF9] rounded-3xl p-8 md:p-12 border border-[#E8DFD1] shadow-sm flex flex-col md:flex-row items-center gap-8">
+      <div class="w-full md:w-1/3">
+        <div class="relative rounded-2xl overflow-hidden border-4 border-white shadow-lg bg-[#FAF6EF]">
+          <img src="/our-story-team.webp" alt="Bob and Reina stirring kettle corn" class="w-full h-80 object-cover" />
+          <div class="absolute bottom-3 left-3 right-3 bg-[#1E1711]/90 backdrop-blur text-white p-3 rounded-xl border border-white/10 text-xs">
+            <span class="font-bold block text-[#F5BA31]">Bob &amp; Reina</span>
+            <span class="text-[#A89D8F]">Founders &bull; Head Poppers in Marana, AZ</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-1">
+        <span class="text-4xl text-[#F5BA31] font-display">&ldquo;</span>
+        <blockquote class="font-display text-2xl md:text-3xl text-[#241B13] leading-snug mb-6 -mt-4">
+          We traded our stethoscopes for 8-foot hickory paddles because we believe one fresh, hot bag of kettle corn can turn anyone&rsquo;s day into a &lsquo;Happy Place.&rsquo;
+        </blockquote>
+        <p class="text-[#5A4E40] text-sm leading-relaxed mb-6">
+          When we pop at farmers' markets across Arizona, you smell the caramelized sugar 200 feet away. 
+          There are no secret factories, no warehouse storage, and no artificial flavor powders. 
+          Just pure cane sugar, monster mushroom corn, hot oil, and sea salt stirred by hand.
+        </p>
+        <div class="flex items-center gap-6">
+          <div>
+            <span class="block text-2xl font-bold text-[#D9232A]">100%</span>
+            <span class="text-xs text-[#7A6E5F]">Hand-Stirred Batches</span>
+          </div>
+          <div class="w-px h-8 bg-[#E8DFD1]"></div>
+          <div>
+            <span class="block text-2xl font-bold text-[#2D5A3E]">50%</span>
+            <span class="text-xs text-[#7A6E5F]">School Giveback</span>
+          </div>
+          <div class="w-px h-8 bg-[#E8DFD1]"></div>
+          <div>
+            <span class="block text-2xl font-bold text-[#C48D08]">0</span>
+            <span class="text-xs text-[#7A6E5F]">Preservatives</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#1E1711] text-[#9C9286] py-12 border-t border-white/10 mt-16">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <p class="text-xs text-[#FAF6EF]/80 mb-2">The Queen's Corn &bull; Hand Popped Kettle Corn Fit for Royalty &bull; Marana, Arizona</p>
+      <p class="text-[11px] text-[#7A6E5F]">Artisanal Design System Guide &bull; Ready for Landing Page Integration</p>
+    </div>
+  </footer>
+
+</body>
+</html>

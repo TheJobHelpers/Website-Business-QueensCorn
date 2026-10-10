@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Product } from '@/data/products';
 import { useCart } from '@/context/CartContext';
+import { Check } from 'lucide-react';
 import styles from './ProductDetail.module.css';
 
 export default function ProductActions({ product }: { product: Product }) {
@@ -74,7 +75,13 @@ export default function ProductActions({ product }: { product: Product }) {
           className={`${styles.cartBtn} ${added ? styles.added : ''}`}
           onClick={handleAddToCart}
         >
-          {added ? "✓ Added to Queen's Bag" : 'Add to Cart'}
+          {added ? (
+            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+              <Check size={16} /> Added to Queen&apos;s Bag
+            </span>
+          ) : (
+            'Add to Cart'
+          )}
         </button>
       </div>
     </>

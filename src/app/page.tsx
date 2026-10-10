@@ -5,6 +5,7 @@ import FeaturedProducts from '@/components/FeaturedProducts';
 import Process from '@/components/Process';
 import Testimonials from '@/components/Testimonials';
 import Marquee from '@/components/Marquee';
+import UpcomingEvents from '@/components/UpcomingEvents';
 
 export default function Home() {
   return (
@@ -15,6 +16,9 @@ export default function Home() {
       
       {/* Marquee as a high-end section divider */}
       <Marquee />
+      
+      {/* Dynamic Pop-Up Schedule synced from Admin DB */}
+      <UpcomingEvents />
       
       <Process />
       <Testimonials />

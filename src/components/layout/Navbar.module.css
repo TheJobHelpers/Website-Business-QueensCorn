@@ -12,12 +12,43 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.scrolled {
+.scrolled,
+.subpageNav {
   height: 72px;
-  background: rgba(10, 10, 10, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--glass-border);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 253, 249, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: 0 4px 20px rgba(36, 27, 19, 0.06);
+}
+
+.scrolled .link,
+.subpageNav .link {
+  color: var(--text-primary);
+  opacity: 0.85;
+}
+
+.scrolled .link:hover,
+.scrolled .activeLink,
+.subpageNav .link:hover,
+.subpageNav .activeLink {
+  color: var(--primary);
+  opacity: 1;
+}
+
+.scrolled .activeLink::after,
+.subpageNav .activeLink::after {
+  background: var(--primary);
+}
+
+.scrolled .cartIcon,
+.subpageNav .cartIcon {
+  color: var(--text-primary);
+}
+
+.scrolled .mobileToggle span,
+.subpageNav .mobileToggle span {
+  background: var(--text-primary);
 }
 
 .container {
@@ -154,6 +185,10 @@
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .orderBtn:hover {
@@ -179,6 +214,10 @@
   height: 2px;
   background: white;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menuOpen .mobileToggle span {
+  background: var(--text-primary);
 }
 
 .toggleActive span:nth-child(1) {
@@ -228,7 +267,7 @@
 .mobileLink {
   font-family: var(--font-serif);
   font-size: 2.5rem;
-  color: white;
+  color: var(--text-primary);
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -240,7 +279,7 @@
 }
 
 .activeMobileLink {
-  color: var(--accent);
+  color: var(--primary);
 }
 
 .mobileMenuVisible .mobileLink:nth-child(1) { transition-delay: 0.1s; }

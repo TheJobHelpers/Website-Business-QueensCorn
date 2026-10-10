@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart, FREE_AZ_SHIPPING_THRESHOLD } from '@/context/CartContext';
 import { createShopifyCheckout, isShopifyConfigured } from '@/lib/shopify';
+import { X, Check, Truck, Calendar, Heart } from 'lucide-react';
 import styles from './CartDrawer.module.css';
 
 export default function CartDrawer() {
@@ -88,7 +89,7 @@ export default function CartDrawer() {
             onClick={closeDrawer}
             aria-label="Close cart"
           >
-            ✕
+            <X size={20} />
           </button>
         </div>
 
@@ -98,7 +99,8 @@ export default function CartDrawer() {
             <div className={styles.shippingText}>
               {remainingForFreeShipping === 0 ? (
                 <span className={styles.unlockedText}>
-                  ✓ Unlocked Free Arizona Shipping (1–2 Day USPS)!
+                  <Check size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '4px' }} />
+                  Unlocked Free Arizona Shipping (1–2 Day USPS)!
                 </span>
               ) : (
                 <span>
@@ -201,7 +203,8 @@ export default function CartDrawer() {
                     }`}
                     onClick={() => setFulfillmentMethod('shipping')}
                   >
-                    🚚 Ship in AZ (1–2 Days)
+                    <Truck size={15} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '6px' }} />
+                    Ship in AZ (1–2 Days)
                   </button>
                   <button
                     type="button"
@@ -210,7 +213,8 @@ export default function CartDrawer() {
                     }`}
                     onClick={() => setFulfillmentMethod('pickup')}
                   >
-                    🎪 Free Market Pickup
+                    <Calendar size={15} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '6px' }} />
+                    Free Market Pickup
                   </button>
                 </div>
 
@@ -238,7 +242,8 @@ export default function CartDrawer() {
               {/* Fundraiser Attribution Selector */}
               <div className={styles.controlGroup}>
                 <span className={styles.controlLabel}>
-                  🎗️ Support an Arizona Fundraiser (50% Giveback)
+                  <Heart size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '6px', color: '#D9232A' }} />
+                  Support an Arizona Fundraiser (50% Giveback)
                 </span>
                 <select
                   className={styles.drawerSelect}
@@ -255,7 +260,8 @@ export default function CartDrawer() {
                 </select>
                 {activeFundraiser && (
                   <p className={styles.fundraiserCredit}>
-                    ✓ <strong>${(subtotal * 0.5).toFixed(2)} (50%)</strong> of your order goes directly to{' '}
+                    <Check size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '4px' }} />
+                    <strong>${(subtotal * 0.5).toFixed(2)} (50%)</strong> of your order goes directly to{' '}
                     <strong>{activeFundraiser.organization}</strong>!
                   </p>
                 )}
