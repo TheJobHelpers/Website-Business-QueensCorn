@@ -3,6 +3,10 @@
 Append-only history, **newest first**. Format and types are defined in [CLAUDE.md](CLAUDE.md).
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
+## 2026-10-10 | ingest | Manula (with Claude)
+- Created `design-system/shop-page-blueprint.html` (shop plan v1): "how do you want it" first, taste chips with
+  counts, size + quantity on every card, bag bar with free-shipping progress, three helpers
+
 ## 2026-10-10 | restructure | Manula (with Claude)
 - Responsive tokens added (`--container`, `--gutter`, `--section-space`, `--hero-min-h`, `--hero-visual`,
   `--root-size`, height-aware `--text-hero`); homepage checked at 360 → 3440px wide

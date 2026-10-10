@@ -26,6 +26,7 @@ How to use the wiki: [README](README.md) · Rules for agents: [CLAUDE.md](CLAUDE
 - [design-system.html](design-system/design-system.html): v3.1 "Warm Canopy": colors, type, components, imagery, voice, change rules (open in a browser)
 - [tokens.css](design-system/tokens.css): all design tokens; `src/app/globals.css` must mirror it
 - [components.css](design-system/components.css): reference CSS for every component (shared by both pages)
+- [shop-page-blueprint.html](design-system/shop-page-blueprint.html): shop plan: delivery choice up front, taste chips, size picker on every card, bag bar, helpers
 - [landing-page-blueprint.html](design-system/landing-page-blueprint.html): homepage plan: 9 sections with hi-fi mockups, final copy, data, mobile rules, build plan
 
 ## Decisions
