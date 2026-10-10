@@ -27,29 +27,33 @@ Timeline:
   - Old v2 spec `public/design-system.html`
 - **2026-10-10, PR #2 merged** (`docs/llm-wiki`): this wiki.
 
-## Open branches
+## Open branches & PRs
 
-- `docs/design-system-v3`: design system v3 "Canopy" in `wiki/design-system/`, wiki sync to `ee5b44c`,
-  and the design-system rule in `AGENTS.md`/`CLAUDE.md`. Docs only, no site changes.
+| Branch | What | State |
+|---|---|---|
+| `docs/design-system-v3` → **PR #3** | Design system v3.1 "Warm Canopy" (`wiki/design-system/`), homepage blueprint, wiki sync, design rules in `AGENTS.md`/`CLAUDE.md` | Open. Docs only: no code changes vs `main` |
+| `feature/landing-page-v3` | **New homepage built** in v3.1 + responsive layout + shop blueprint | Pushed, no PR yet. Builds and lints clean (2 lint errors already on `main`, untouched) |
 
 ## Plan (updated 2026-10-10)
 
-The live site is Buttercream. The agreed direction is v3 "Canopy" ([[design-palette-decision]]).
+Design direction: **v3.1 "Warm Canopy"** ([[design-palette-decision]]): today's cream, Instrument Serif
+and Outfit, with the brand's red and canopy yellow as accents and the espresso-brown hero shade.
 
-1. **Merge `docs/design-system-v3`** so every agent follows the new rules.
-2. **Get Bob & Reina's sign-off** on Canopy and their printer's red/yellow codes. Tweak `tokens.css` if needed.
-3. **Urgent, separate from design:** set `ADMIN_EMAIL`, `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET` in
-   Vercel (the hardcoded fallbacks are live). See [[admin-portal]].
-4. **Apply v3 to the code** in a `feature/design-system-v3` branch, in this order:
-   1. Tokens: rewrite `:root` in `src/app/globals.css` to mirror `wiki/design-system/tokens.css`, keeping
-      the old variable names as aliases for one release so nothing breaks.
-   2. Fonts: swap Instrument Serif + Outfit for Alfa Slab One + Figtree in `src/app/layout.tsx`.
-   3. Homepage per `wiki/design-system/landing-page-blueprint.html` ([[landing-page-structure]]); components, landing page first: Button, Navbar, Hero, TrustBanner, ProductCard, UpcomingEvents
-      (ticket), Process/Story, Testimonials, Footer, CartDrawer; then the shop, product, events,
-      fundraising, story and contact pages; admin last.
-   4. Content fixes from the landing review: "From $6" pricing, free AZ shipping over $35 in the hero,
-      2-column product cards on mobile, no fade-in hiding content, remove admin links from the footer,
-      and remove unconfirmed claims and testimonials.
-   5. Delete `public/design-system.html` and remove the old variable aliases.
-   6. Check 375px and 1440px, run `npm run build`, open a PR with before/after screenshots.
-5. **Then:** real flavor bag photos, a persistent store for events/fundraisers, and Shopify variants. See [[open-questions]].
+**Done**
+- Design system v3.1 + homepage blueprint (PR #3).
+- Homepage rebuilt per the blueprint ([[landing-page-structure]]): food hero, floating trust strip, three
+  ways to buy, flavors with sizes up front, dark markets band, fundraising slider, one story section,
+  reviews hidden until real, questions band, admin links removed from the footer.
+- Responsive from 360px phones to 3440px monitors: hero fills the screen, sizes follow width *and* height,
+  orphan-free grids.
+- Shop page designed ([[shop-page-structure]]), compact header revision.
+
+**Next**
+1. **Urgent, separate from design:** set `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` in Vercel
+   (hardcoded fallbacks are live). See [[admin-portal]].
+2. Owner sign-off on v3.1, the homepage and the shop design; collect real bag photos and 3 real reviews.
+3. Build the shop page per `wiki/design-system/shop-page-blueprint.html`.
+4. Open a PR for `feature/landing-page-v3` with before/after screenshots; merge PR #3 first.
+5. Then migrate the remaining pages (product, events, fundraising, story, contact, admin last) to v3.1 tokens;
+   delete `public/design-system.html`; remove the old Buttercream variables from `globals.css`.
+6. Later: Shopify checkout with size variants, persistent store for events/fundraisers. See [[open-questions]].

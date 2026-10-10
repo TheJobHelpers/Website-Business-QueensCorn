@@ -4,6 +4,13 @@ Append-only history, **newest first**. Format and types are defined in [CLAUDE.m
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
 ## 2026-10-10 | ingest | Manula (with Claude)
+- Shop design revised after feedback ("top part is mostly empty"): delivery choice moved into a compact
+  header band (247px desktop, 313px phone, was ~450px / 628px); helper cards fixed on phones
+- Created [[shop-page-structure]]; refreshed [[branches-and-status]] (open PRs, done / next plan),
+  [[landing-page-structure]] (built), [[website-architecture]] (new components), [[product-catalog]]
+  (taste values, from-$6 cards), [[open-questions]] (#12 updated, #14 taste levels, #15 real reviews), index
+
+## 2026-10-10 | ingest | Manula (with Claude)
 - Created `design-system/shop-page-blueprint.html` (shop plan v1): "how do you want it" first, taste chips with
   counts, size + quantity on every card, bag bar with free-shipping progress, three helpers
 
