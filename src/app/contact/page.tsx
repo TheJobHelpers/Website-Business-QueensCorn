@@ -24,6 +24,8 @@ export default function ContactPage() {
           ).toLocaleString()}.`
         );
       }
+    } else if (paramSubject === 'Event Booking') {
+      setSubject('Event Booking');
     } else if (paramSubject === 'Market Pickup Order' || paramSubject === 'Arizona Shipping Order') {
       setSubject(paramSubject);
       if (paramFundraiser) {

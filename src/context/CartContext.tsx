@@ -61,7 +61,7 @@ const SIZE_PRICES: Record<string, number> = {
   'Large (Party)': 15,
 };
 
-export const FREE_AZ_SHIPPING_THRESHOLD = 35;
+export { FREE_AZ_SHIPPING_THRESHOLD } from '@/lib/shop';
 
 const STORAGE_KEYS = {
   PRODUCTS: 'queens_corn_products_v1',

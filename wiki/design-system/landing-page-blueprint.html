@@ -88,20 +88,36 @@
   .m-nav .bag { min-width: 44px; height: 44px; padding: 0 8px; font-size: var(--text-xs); border: var(--border); border-radius: var(--radius-md); display: grid; place-items: center; font-weight: 800; background: var(--white); position: relative; }
   .m-nav .bag::after { content: "2"; position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; border-radius: 50%; background: var(--red); color: var(--white); font-size: 11px; display: grid; place-items: center; border: 2px solid var(--ink); }
 
-  /* ---------- Mockup: Hero (real photo under the espresso shade) ---------- */
+  /* ---------- Mockup: Hero (espresso shade + the food) ---------- */
   .m-hero { position: relative; isolation: isolate; background: var(--hero-ground); color: var(--paper); overflow: hidden; }
-  .m-hero .bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 70% 40%; }
-  .m-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--scrim-side), linear-gradient(180deg, transparent 55%, rgba(22, 18, 14, 0.7) 100%); }
-  .m-hero .inner { display: flex; flex-direction: column; align-items: flex-start; padding: var(--space-9) var(--space-7) var(--space-8); max-width: 760px; }
-  .m-hero .badge { display: inline-flex; padding: 6px 14px; border-radius: var(--radius-pill); background: var(--glass-dark); border: 1px solid rgba(255, 216, 74, 0.4); font-size: var(--text-label); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--paper); }
-  .m-hero h1 { font-size: var(--text-hero); margin: var(--space-5) 0 var(--space-4); color: var(--paper); text-shadow: var(--text-shadow-hero); }
+  .m-hero .bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 30% 30%; filter: saturate(.85); }
+  .m-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(60% 70% at 78% 50%, rgba(22,18,14,.35), rgba(22,18,14,.85) 70%), linear-gradient(90deg, rgba(22,18,14,.92) 0%, rgba(22,18,14,.7) 50%, rgba(22,18,14,.75) 100%); }
+  .m-hero .inner { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: var(--space-7); align-items: center; padding: var(--space-8) var(--space-6) var(--space-9); }
+  .m-hero .copy { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+  .m-hero .badge { display: inline-flex; padding: 6px 14px; border-radius: var(--radius-pill); background: var(--glass-dark); border: 1px solid rgba(255, 216, 74, 0.4); font-size: var(--text-label); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .m-hero h1 { font-size: var(--text-h1); margin: var(--space-5) 0 var(--space-4); color: var(--paper); text-shadow: var(--text-shadow-hero); }
   .m-hero h1 em { color: var(--yellow); }
-  .m-hero p.sub { font-size: var(--text-lg); margin: 0 0 var(--space-6); max-width: 46ch; color: rgba(250, 246, 239, 0.9); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5); }
+  .m-hero p.sub { font-size: var(--text-body); margin: 0 0 var(--space-5); max-width: 44ch; color: rgba(250, 246, 239, 0.9); }
   .m-hero .actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
-  .m-hero .popup-pill { margin-top: var(--space-6); width: 100%; }
-  .m-hero .perks { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-top: var(--space-4); font-size: var(--text-sm); color: rgba(250, 246, 239, 0.85); }
+  .m-hero .popup-pill { margin-top: var(--space-5); width: 100%; }
+  .m-hero .perks { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-top: var(--space-4); font-size: var(--text-xs); color: rgba(250, 246, 239, 0.85); }
   .m-hero .perks span::before { content: "✓ "; color: var(--yellow); font-weight: 700; }
-  .m-hero .credit { position: absolute; right: var(--space-5); bottom: var(--space-4); font-size: var(--text-xs); color: rgba(250, 246, 239, 0.75); }
+  .m-visual { position: relative; width: 100%; max-width: 420px; aspect-ratio: 1; justify-self: center; }
+  .m-visual .glow { position: absolute; inset: -12%; background: radial-gradient(circle at 55% 50%, rgba(255, 216, 74, 0.38) 0%, rgba(217, 35, 42, 0.16) 38%, transparent 66%); filter: blur(8px); }
+  .m-visual .plate { position: absolute; inset: 8%; border-radius: 50%; overflow: hidden; border: 6px solid rgba(250, 246, 239, 0.92); box-shadow: 0 0 0 10px rgba(255, 216, 74, 0.18), 0 40px 80px -20px rgba(0, 0, 0, 0.75); }
+  .m-visual .plate img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 80%; transform: scale(1.35); }
+  .m-visual .snap { position: absolute; left: -2%; bottom: 2%; width: 34%; margin: 0; padding: 7px 7px 9px; background: var(--white); border-radius: 6px; box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6); transform: rotate(-6deg); }
+  .m-visual .snap img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 3px; }
+  .m-visual .snap figcaption { margin-top: 5px; font-family: var(--font-display); font-size: .85rem; line-height: 1.1; color: var(--ink); text-align: center; }
+  .m-visual .sticker { position: absolute; top: 2%; left: 4%; width: 24%; transform: rotate(-12deg); filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45)); }
+  .m-visual .sticker circle { fill: var(--red); }
+  .m-visual .sticker text { fill: #fff; font-family: var(--font-body); font-size: 11.5px; font-weight: 800; letter-spacing: 2.4px; }
+  .m-visual .sticker .star { fill: var(--yellow); font-size: 28px; letter-spacing: 0; }
+  .m-visual .fcard { position: absolute; right: -2%; bottom: 10%; display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4); background: var(--white); color: var(--ink); border-radius: var(--radius-lg); box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.65); }
+  .m-visual .fcard > div { display: flex; flex-direction: column; }
+  .m-visual .fcard .l { font-size: .6875rem; font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--red-deep); }
+  .m-visual .fcard .n { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.1; }
+  .m-visual .fcard .p { font-size: var(--text-xs); color: var(--ink-soft); }
 
   /* ---------- Mockup: Three ways ---------- */
   .m-title { text-align: left; margin-bottom: var(--space-6); max-width: 60ch; }
@@ -189,12 +205,13 @@
     .m-fund, .m-story { grid-template-columns: 1fr; }
     .ways, .tickets, .reviews { grid-template-columns: 1fr; }
     .flavors { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .m-hero .inner { grid-template-columns: 1fr; }
     .m-foot { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 640px) {
     .stage { padding: var(--space-6) var(--space-4); }
-    .m-hero .inner { padding: var(--space-8) var(--space-4) var(--space-7); }
-    .m-hero::before { background: var(--scrim); }
+    .m-hero .inner { grid-template-columns: 1fr; padding: var(--space-7) var(--space-4) var(--space-8); }
+    .m-visual { max-width: 300px; }
     .m-nav { padding: var(--space-3) var(--space-4); }
     .m-nav ul { display: none; }
     .spec { grid-template-columns: 1fr; }
@@ -289,26 +306,34 @@
     <div class="m-hero">
       <img class="bg" src="../../public/bob-pouring-kernels.jpg" alt="">
       <div class="inner">
-        <span class="badge">Family-run in Arizona since 2017</span>
-        <h1 class="display">Hand-popped kettle corn, <em>fit for royalty.</em></h1>
-        <p class="sub">Stirred by hand at markets across Arizona. Order online and pick it up free at the stand, or have it shipped to your door.</p>
-        <div class="actions">
-          <a class="btn btn-red" href="#s4">Order now</a>
-          <a class="btn btn-light" href="#s5">Find us this weekend</a>
+        <div class="copy">
+          <span class="badge">Family-run in Arizona since 2017</span>
+          <h1 class="display">Hand-popped kettle corn, <em>fit for royalty.</em></h1>
+          <p class="sub">Sweet, salty and still warm from the kettle. Order online and pick it up free at the stand, or have it shipped to your door.</p>
+          <div class="actions">
+            <a class="btn btn-red" href="#s4">Order now</a>
+            <a class="btn btn-light" href="#s5">Find us this weekend</a>
+          </div>
+          <span class="popup-pill dark"><span><span class="when">Next pop-up · Sat, Oct 10</span>Desert West Farmers' Market, Avondale</span><a class="btn btn-kettle btn-sm" href="#s5">Pre-order</a></span>
+          <div class="perks"><span>Free pickup at every market</span><span>Free AZ shipping over $35</span><span>From $6 a bag</span></div>
         </div>
-        <span class="popup-pill dark"><span><span class="when">Next pop-up · Sat, Oct 10</span>Desert West Farmers' Market, Avondale · 9–1</span><a class="btn btn-kettle btn-sm" href="#s5">Pre-order</a></span>
-        <div class="perks"><span>Free pickup at every market</span><span>Free AZ shipping over $35</span><span>From $6 a bag</span></div>
+        <div class="m-visual">
+          <div class="glow"></div>
+          <div class="plate"><img src="../../public/popcorn-scoop-fresh.jpg" alt="A heap of fresh caramel and cheddar kettle corn with a metal scoop"></div>
+          <figure class="snap"><img src="../../public/reina-stirring-kettle.jpg" alt="Reina stirring the kettle"><figcaption>Stirred by hand at the stand</figcaption></figure>
+          <svg class="sticker" viewBox="0 0 120 120" role="img" aria-label="Hand-popped in Arizona"><defs><path id="bp-sticker" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs><circle cx="60" cy="60" r="58"/><text><textPath href="#bp-sticker">HAND-POPPED · IN ARIZONA ·</textPath></text><text x="60" y="68" text-anchor="middle" class="star">★</text></svg>
+          <div class="fcard"><div><span class="l">In the photo</span><span class="n">Caramel &amp; Cheddar</span><span class="p">from $6</span></div><a class="btn btn-kettle btn-sm" href="#s4">+ Add</a></div>
+        </div>
       </div>
-      <span class="credit">Bob at the kettle</span>
     </div>
   </div>
   <div class="spec">
     <div><h4>Goal</h4><p>Pass the 5-second test. Say what it is, how to get it, and when the next market is.</p></div>
     <div><h4>Primary action</h4><p><b>Order now</b> (red) → <code>/shop</code>. Secondary: <b>Find us this weekend</b> → <code>#markets</code>.</p></div>
-    <div><h4>Copy (final)</h4><ul><li>Badge: “Family-run in Arizona since 2017”</li><li>H1: “Hand-popped kettle corn, fit for royalty.” (the logo's own tagline)</li><li>Sub: “Stirred by hand at markets across Arizona. Order online and pick it up free at the stand, or have it shipped to your door.”</li><li>Pill: “Next pop-up · {day, date} · {market}, {town}” + Pre-order</li><li>Perks: Free pickup at every market · Free AZ shipping over $35 · From $6 a bag</li></ul></div>
+    <div><h4>Copy (final)</h4><ul><li>Badge: “Family-run in Arizona since 2017”</li><li>H1: “Hand-popped kettle corn, fit for royalty.” (the logo's own tagline)</li><li>Sub: “Sweet, salty and still warm from the kettle. Order online and pick it up free at the stand, or have it shipped to your door.”</li><li>Flavor card: “In the photo · Caramel &amp; Cheddar · from $6 · + Add” (adds a Small, opens the bag)</li><li>Pill: “Next pop-up · {day, date} · {market}, {town}” + Pre-order</li><li>Perks: Free pickup at every market · Free AZ shipping over $35 · From $6 a bag</li></ul></div>
     <div><h4>Data</h4><ul><li>Next pop-up = first upcoming event with <code>pickupAvailable</code>, from <code>getEvents()</code> / events store. Hide the pill if none.</li><li>$35 from <code>FREE_AZ_SHIPPING_THRESHOLD</code>; “from $6” from the lowest product price.</li></ul></div>
-    <div><h4>Design</h4><ul><li>Full-width real photo under the espresso-brown shade from today's site (<code>--scrim-side</code>), so it feels familiar.</li><li>Cream Instrument Serif headline; the tagline in canopy-yellow italic, like today's “Happy Place”.</li><li>The next pop-up sits in a dark glass pill with a yellow date and a yellow Pre-order button.</li><li>No “scroll to explore”, no flavor pills.</li></ul></div>
-    <div><h4>Mobile (375px)</h4><ul><li>Order: badge, H1 (44px), sub, buttons full-width, pop-up pill, perks. The photo stays as the background, focused on the kettle; the shade switches to top-to-bottom (<code>--scrim</code>).</li><li>The buttons and the pill sit above the fold on a 375×667 screen.</li></ul></div>
+    <div><h4>Design</h4><ul><li>Left: the promise on today’s espresso-brown shade (the stand photo dimmed to an atmosphere).</li><li>Right: <b>the food</b>. A round “plate” close-up of real caramel &amp; cheddar on a warm kettle glow, a tilted snapshot of Reina at the kettle, a red “Hand-popped in Arizona” sticker, and a floating card to add the pictured flavor in one tap.</li><li>Cream serif headline with the tagline in yellow italic. No “scroll to explore”, no flavor pills.</li></ul></div>
+    <div><h4>Mobile (375px)</h4><ul><li>Order: badge, H1, sub, full-width buttons, pop-up pill, perks, then the food visual (max 330px) above the trust strip.</li><li>The buttons sit above the fold on a 375×667 screen.</li></ul></div>
     <div class="wide"><h4>Done when</h4><p>On a 375×667 screen, the H1, sub, both buttons and the pop-up pill are visible without scrolling; the pill shows the real next market (hidden if none); Lighthouse accessibility ≥ 95.</p></div>
   </div>
 </section>

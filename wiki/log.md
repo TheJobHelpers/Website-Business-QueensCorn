@@ -4,6 +4,11 @@ Append-only history, **newest first**. Format and types are defined in [CLAUDE.m
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
 ## 2026-10-10 | restructure | Manula (with Claude)
+- Homepage built in v3.1 on `feature/landing-page-v3` (all 9 blueprint sections)
+- Hero made appetizing: food visual added (real caramel & cheddar close-up on a warm glow, Reina snapshot,
+  "Hand-popped in Arizona" sticker, one-tap "+ Add" card); blueprint section 1 updated to match
+
+## 2026-10-10 | restructure | Manula (with Claude)
 - Design direction changed to **v3.1 "Warm Canopy"** after reviewing the built v3.0 homepage ("too different")
 - Rewrote `design-system/tokens.css`, `components.css`, `design-system.html`; updated `landing-page-blueprint.html` (v1.1)
 - Updated: [[design-palette-decision]], [[brand-and-design-system]], index

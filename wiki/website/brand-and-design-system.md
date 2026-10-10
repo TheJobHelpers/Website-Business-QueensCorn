@@ -22,7 +22,8 @@ and [tokens.css](../design-system/tokens.css). This page is only a summary. Why 
   action and prices · `--yellow` one highlight per view · `--butter` one highlight band · `--espresso` dark bands.
 - **Type:** Instrument Serif (400, never bold) for headlines, prices and numbers, with one red italic phrase;
   Outfit for everything else.
-- **Hero:** real photo under today's dark espresso-brown shade (`--scrim`), cream headline, yellow italic tagline.
+- **Hero:** today's dark espresso-brown shade, cream headline with yellow italic tagline on the left; on the right
+  the food: a round close-up of real kettle corn on a warm glow, a snapshot of Reina, a sticker, a "+ Add" card.
 - **Rhythm:** dark hero → light trust strip floating over its edge → cream → dark markets band → butter fundraising → cream → dark footer.
 - **Shapes:** cards with warm, deep shadows (1px warm border, 20px radius), pill buttons, the event ticket.
 - **Components:** Button (red / kettle / dark / outline), Stamp, Next pop-up pill, Flavor tag, Taste meter,

@@ -40,11 +40,10 @@ export default function Footer() {
             <h3>Navigation</h3>
             <Link href="/">Home</Link>
             <Link href="/shop">Shop Flavors</Link>
-            <Link href="/events">Events Schedule</Link>
+            <Link href="/events">Markets &amp; Events</Link>
             <Link href="/fundraising">Fundraising (50%)</Link>
             <Link href="/story">Our Story</Link>
             <Link href="/contact">Contact Us</Link>
-            <Link href="/admin">Owner Admin Portal</Link>
           </div>
 
           {/* Contact & Booking */}
@@ -92,7 +91,6 @@ export default function Footer() {
         <div className={styles.bottom}>
           <p>&copy; {currentYear} The Queen&apos;s Corn. All Rights Reserved.</p>
           <div className={styles.legal}>
-            <Link href="/admin">Admin Portal</Link>
             <Link href="/terms-of-service#privacy-policy">Privacy Policy</Link>
             <Link href="/terms-of-service">Terms of Service</Link>
           </div>

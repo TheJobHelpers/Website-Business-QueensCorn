@@ -1,0 +1,112 @@
+/* Design System v3.1: Button (wiki/design-system/components.css → .btn). Pill, soft. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: 0 var(--space-5);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition:
+    transform var(--dur-fast) var(--ease),
+    box-shadow var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* the one main action per view */
+.red {
+  background: var(--red);
+  color: #fff;
+  box-shadow: var(--shadow-button);
+}
+.red:hover {
+  background: var(--red-deep);
+  color: #fff;
+}
+
+/* add to bag, pre-order on dark */
+.kettle {
+  background: var(--yellow);
+  color: var(--ink);
+}
+.kettle:hover {
+  background: #ffcf1f;
+}
+
+/* fundraising and events */
+.dark {
+  background: var(--ink);
+  color: var(--paper);
+}
+.dark:hover {
+  background: #3a2c20;
+  color: var(--paper);
+}
+
+/* secondary on light grounds */
+.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: var(--border-strong);
+}
+.ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* secondary on the dark hero / dark band */
+.light {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--paper);
+  border-color: rgba(250, 246, 239, 0.45);
+  backdrop-filter: blur(6px);
+}
+.light:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--paper);
+  color: var(--paper);
+}
+
+.sm {
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  font-size: var(--text-xs);
+}
+
+.full {
+  width: 100%;
+}
+
+.btn:disabled {
+  background: var(--line);
+  color: var(--ink-soft);
+  border-color: transparent;
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}

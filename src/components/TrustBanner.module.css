@@ -1,123 +1,92 @@
+/* Trust strip: design system v3.1 (components.css → .trust.float).
+   A light card row that floats over the bottom edge of the dark hero. */
+
 .banner {
-  background: var(--surface);
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
-  padding: 2.25rem 0;
   position: relative;
   z-index: 10;
+  font-family: var(--font-body);
 }
 
-.content {
+.strip {
+  list-style: none;
+  margin: calc(-1 * var(--space-8)) 0 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+  background: var(--white);
+  color: var(--ink);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card-hover);
 }
 
-.stampItem {
-  background: var(--background);
-  border: 1.5px dashed #DCD3C3;
-  border-radius: 14px;
-  padding: 1.15rem 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  transition: all 0.2s ease;
-}
-
-.stampItem:hover {
-  background: #FFFFFF;
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(24, 18, 12, 0.08);
-}
-
-.stampIcon {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  background: rgba(245, 186, 49, 0.14);
-  border: 1px solid rgba(245, 186, 49, 0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.25s ease;
-}
-
-.stampItem:hover .stampIcon {
-  background: rgba(245, 186, 49, 0.22);
-  border-color: rgba(245, 186, 49, 0.6);
-  transform: scale(1.06);
-}
-
-.stampText {
+.item {
   display: flex;
   flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: var(--space-5) var(--space-5) var(--space-4);
 }
 
-.stampTitle {
-  font-size: 0.9rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  line-height: 1.25;
+.item + .item {
+  border-left: var(--border);
 }
 
-.stampSub {
-  font-size: 0.74rem;
-  color: var(--text-muted);
-  margin-top: 0.2rem;
-  line-height: 1.4;
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.icon {
+  color: var(--red);
+  flex-shrink: 0;
+}
+
+.figure {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.4rem + 1.6vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: var(--tracking-display);
+  color: var(--red);
+}
+
+.detail {
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  color: var(--ink-soft);
 }
 
 @media (max-width: 1024px) {
-  .content {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.15rem;
+  .strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .item:nth-child(3) {
+    border-left: 0;
+  }
+  .item:nth-child(n + 3) {
+    border-top: var(--border);
   }
 }
 
-@media (max-width: 640px) {
-  .banner {
-    padding: 1.75rem 0;
+@media (max-width: 760px) {
+  .strip {
+    margin-top: calc(-1 * var(--space-6));
   }
-  .content {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+  .item {
+    padding: var(--space-4);
   }
-  .stampItem {
-    padding: 0.85rem;
-    gap: 0.75rem;
+  .label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
   }
-  .stampIcon {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-  }
-  .stampTitle {
-    font-size: 0.8rem;
-  }
-  .stampSub {
-    font-size: 0.68rem;
-  }
-}
-
-@media (max-width: 420px) {
-  .content {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-  .stampItem {
-    padding: 1rem 1.15rem;
-    gap: 1rem;
-  }
-  .stampIcon {
-    width: 42px;
-    height: 42px;
-  }
-  .stampTitle {
-    font-size: 0.85rem;
-  }
-  .stampSub {
-    font-size: 0.72rem;
+  .detail {
+    font-size: var(--text-xs);
   }
 }

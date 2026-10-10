@@ -1,73 +1,64 @@
 import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowRight, Heart } from 'lucide-react';
+import Button from './ui/Button';
 import styles from './Story.module.css';
-import ScrollReveal from './ScrollReveal';
+
+// Landing blueprint section 7: the founders' story told once, in their own words (from /story),
+// followed by the real three-step process. Replaces the old Process sections on the homepage.
+const STEPS = [
+  { src: '/bob-pouring-kernels.jpg', alt: 'Bob pouring kernels into the kettle', caption: 'Kernels into the kettle' },
+  { src: '/reina-stirring-kettle.jpg', alt: 'Reina stirring the kettle with a long wooden paddle', caption: 'Stirred by hand, nonstop' },
+  { src: '/popcorn-scoop-fresh.jpg', alt: 'Fresh kettle corn in a metal scoop', caption: "Bagged while it's warm" },
+];
 
 export default function Story() {
   return (
-    <section className={styles.storySection}>
+    <section className="v3-section" id="our-story" aria-labelledby="story-title">
       <div className="main-container">
         <div className={styles.grid}>
-          <ScrollReveal type="slide-right" className={styles.imageContainer}>
-            <div className={`${styles.imageWrapper} img-wrapper-treatment`}>
-              <Image 
-                src="/bob-reina.webp" 
-                alt="Bob and Reina Andersen - Founders of The Queen's Corn" 
-                fill
-                sizes="(max-width: 968px) 100vw, 50vw"
-                className={`${styles.image} img-treatment`}
-                priority
-              />
-              <div className={styles.imageOverlay} />
-            </div>
-            <div className={styles.experienceBadge}>
-              <span className={styles.badgeYear}>MARANA, AZ</span>
-              <span className={styles.badgeText}>Hand-Popped Daily</span>
-            </div>
-          </ScrollReveal>
-          
-          <ScrollReveal type="slide-left" className={styles.content}>
-            <span className={styles.subtitle}>
-              <Heart size={14} style={{ display: 'inline', color: 'var(--primary)', verticalAlign: '-2px' }} /> Real People, Real Passion
-            </span>
-            <h2 className={styles.title}>Meet Bob &amp; Reina</h2>
-            
-            <p className={styles.description}>
-              It started at a local Arizona festival where the popcorn was cold and the smiles were missing. 
-              Bob and Reina, both with healthcare backgrounds, knew there was a better way to nourish the spirit. 
-              They traded their stethoscopes for 8-foot hickory paddles because they believe a hot, fresh bag 
-              of handcrafted kettle corn can turn any day into a &ldquo;Happy Place.&rdquo;
+          <div className={styles.photo}>
+            <Image
+              src="/bob-reina.webp"
+              alt="Bob and Reina Andersen hugging at their kettle corn stand"
+              fill
+              sizes="(max-width: 900px) 100vw, 45vw"
+              className={styles.image}
+            />
+          </div>
+
+          <div className={styles.copy}>
+            <span className="v3-eyebrow">Our story</span>
+            <h2 id="story-title" className="v3-title">
+              Two healthcare workers, one kettle, a lot of burnt corn
+            </h2>
+            <p>
+              We started The Queen&apos;s Corn in 2017 because we were tired of bland kettle corn at
+              local events. We both work in the medical field, so we learned the hard way: at first
+              we burnt more corn than we sold.
             </p>
-
-            <blockquote className={styles.quote}>
-              &ldquo;When you visit our kettle stand, you smell the caramelized sugar 200 feet away. 
-              No factories, no chemical powders—just pure cane sugar, monster mushroom corn, and real love.&rdquo;
-            </blockquote>
-
-            <div className={styles.statsRow}>
-              <div className={styles.statItem}>
-                <strong className={styles.statNumber} style={{ color: 'var(--accent)' }}>100%</strong>
-                <span className={styles.statLabel}>Hand-Stirred Batches</span>
-              </div>
-              <div className={styles.statDivider} />
-              <div className={styles.statItem}>
-                <strong className={styles.statNumber} style={{ color: 'var(--primary)' }}>50%</strong>
-                <span className={styles.statLabel}>School Giveback</span>
-              </div>
-              <div className={styles.statDivider} />
-              <div className={styles.statItem}>
-                <strong className={styles.statNumber} style={{ color: '#4ADE80' }}>0</strong>
-                <span className={styles.statLabel}>Artificial Preservatives</span>
-              </div>
-            </div>
-
-            <Link href="/story" className={styles.storyBtn}>
-              <span>Read Bob &amp; Reina&apos;s Full Story</span>
-              <ArrowRight size={16} />
-            </Link>
-          </ScrollReveal>
+            <p>
+              Today we pop at markets across Arizona with pure corn oil, sugar and salt, and we&apos;ll
+              never switch to a cheaper ingredient.
+            </p>
+            <blockquote className={styles.quote}>&ldquo;The Queen&apos;s Corn is a happy place.&rdquo;</blockquote>
+            <Button href="/story" variant="ghost" size="sm">
+              Read our story
+            </Button>
+          </div>
         </div>
+
+        <ol className={styles.steps} aria-label="How we make it">
+          {STEPS.map((step, i) => (
+            <li key={step.src}>
+              <div className={styles.stepPhoto}>
+                <Image src={step.src} alt={step.alt} fill sizes="(max-width: 640px) 100vw, 33vw" className={styles.image} />
+              </div>
+              <p className={styles.caption}>
+                <b>{i + 1}</b>
+                {step.caption}
+              </p>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

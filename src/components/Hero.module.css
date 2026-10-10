@@ -1,391 +1,331 @@
+/* Landing blueprint section 1: dark espresso hero.
+   Left: the promise. Right: the food (close-up "plate" on a warm glow, snapshot, sticker, flavor card). */
+
 .hero {
   position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--hero-ground);
+  color: var(--paper);
+  font-family: var(--font-body);
+  padding-top: calc(var(--header-height) + var(--space-7));
+  /* extra room at the bottom for the trust strip that floats over this edge */
+  padding-bottom: calc(var(--space-8) + var(--space-7));
+}
+
+/* The stand, dimmed to an atmosphere behind everything */
+.bg {
+  z-index: -2;
+  object-fit: cover;
+  object-position: 30% 30%;
+  filter: saturate(0.85);
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60% 70% at 78% 50%, rgba(22, 18, 14, 0.35), rgba(22, 18, 14, 0.85) 70%),
+    linear-gradient(90deg, rgba(22, 18, 14, 0.92) 0%, rgba(22, 18, 14, 0.7) 50%, rgba(22, 18, 14, 0.75) 100%);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: var(--space-7);
+  align-items: center;
+}
+
+/* ---------------- Copy ---------------- */
+.copy {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: calc(var(--header-height, 80px) + 2rem) 1.5rem 3.5rem;
-  text-align: center;
-  overflow: hidden;
-  background: #16120E;
+  align-items: flex-start;
 }
 
-.bgWrapper {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.imageBg {
-  position: absolute;
-  inset: 0;
-  background-image: url('/hero-market-v3.png');
-  background-size: cover;
-  background-position: center 30%;
-  animation: kenBurns 24s ease-in-out infinite alternate;
-  transform-origin: center center;
-}
-
-@keyframes kenBurns {
-  from { transform: scale(1.02); }
-  to { transform: scale(1.12); }
-}
-
-.overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(22, 18, 14, 0.72) 0%,
-    rgba(22, 18, 14, 0.42) 35%,
-    rgba(22, 18, 14, 0.82) 100%
-  );
-}
-
-.content {
-  position: relative;
-  z-index: 3;
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: heroFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes heroFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 1. BADGE */
 .badge {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1.35rem;
-  background: rgba(30, 23, 17, 0.78);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(245, 186, 49, 0.4);
-  border-radius: 9999px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-  transition: all 0.25s ease;
-}
-
-.badge:hover {
-  border-color: var(--accent, #F5BA31);
-  background: rgba(45, 34, 25, 0.85);
-}
-
-.badge span {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--glass-dark);
+  border: 1px solid rgba(255, 216, 74, 0.4);
+  font-size: var(--text-label);
   font-weight: 700;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--accent, #F5BA31);
+  color: var(--paper);
 }
 
-/* 2. HEADLINE */
 .title {
-  font-family: var(--font-serif);
-  font-size: clamp(2.85rem, 6.2vw, 5.4rem);
-  line-height: 1.05;
-  color: #FAF6EF;
-  margin: 0 0 1.25rem 0;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.85), 0 1px 3px rgba(0, 0, 0, 0.9);
-  letter-spacing: -0.01em;
+  margin: var(--space-5) 0 var(--space-4);
+  font-family: var(--font-display);
   font-weight: 400;
+  font-size: var(--text-hero);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  color: var(--paper);
+  text-shadow: var(--text-shadow-hero);
+  text-wrap: balance;
 }
 
-.accent {
-  color: var(--accent, #F5BA31);
-  font-style: italic;
-  display: inline-block;
-  margin-top: 0.2rem;
-  text-shadow: 0 4px 28px rgba(245, 186, 49, 0.35), 0 2px 10px rgba(0, 0, 0, 0.9);
+.title em {
+  color: var(--yellow);
 }
 
-/* 3. DESCRIPTION */
-.description {
-  font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.8vw, 1.25rem);
-  line-height: 1.65;
-  max-width: 680px;
-  margin: 0 auto 1.85rem;
-  color: #EAE3D2;
-  font-weight: 400;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+.sub {
+  margin: 0 0 var(--space-6);
+  max-width: 44ch;
+  font-size: var(--text-lg);
+  line-height: 1.55;
+  color: rgba(250, 246, 239, 0.9);
 }
 
-/* 4. FLAVOR CHIPS */
-.flavorChips {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.6rem;
-  max-width: 760px;
-  margin-bottom: 2.25rem;
-}
-
-.chip {
-  padding: 0.4rem 1.15rem;
-  background: rgba(30, 23, 17, 0.7);
-  border: 1px solid rgba(245, 186, 49, 0.28);
-  border-radius: 9999px;
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: #FAF6EF;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: all 0.25s ease;
-  cursor: default;
-  white-space: nowrap;
-}
-
-.chip:hover {
-  border-color: var(--accent, #F5BA31);
-  background: rgba(245, 186, 49, 0.16);
-  color: #FFFFFF;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(245, 186, 49, 0.25);
-}
-
-/* 5. DUAL ACTION BUTTONS */
 .actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
-  margin-bottom: 1.75rem;
   flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
-.primaryBtn {
-  background: var(--primary, #D9232A);
-  color: #FFFFFF;
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 0.95rem 2.4rem;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
+/* Next pop-up: dark glass pill with a yellow date (components.css → .popup-pill.dark) */
+.pill {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-  box-shadow: 0 6px 20px rgba(217, 35, 42, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
-  transition: all 0.25s ease;
-}
-
-.primaryBtn:hover {
-  background: var(--primary-hover, #BF181F);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(217, 35, 42, 0.55);
-}
-
-.secondaryBtn {
-  background: rgba(255, 255, 255, 0.08);
-  color: #FAF6EF;
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 0.95rem 2.4rem;
-  border-radius: 12px;
-  border: 1.5px solid rgba(255, 255, 255, 0.25);
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 520px;
+  margin-top: var(--space-6);
+  padding: 6px 6px 6px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--glass-dark);
+  border: 1px solid rgba(255, 216, 74, 0.45);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: all 0.25s ease;
+  font-size: var(--text-sm);
+  line-height: 1.35;
 }
 
-.secondaryBtn:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: #FAF6EF;
-  transform: translateY(-2px);
+.pill p {
+  margin: 0;
+  min-width: 0;
 }
 
-/* 6. SCROLL INDICATOR */
-.scrollIndicator {
+.when {
+  display: block;
+  font-weight: 800;
+  color: var(--yellow);
+}
+
+.pill > :last-child {
+  flex-shrink: 0;
+}
+
+.perks {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  font-size: var(--text-sm);
+  color: rgba(250, 246, 239, 0.85);
+}
+
+.perks li::before {
+  content: '✓ ';
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+/* ---------------- Visual: the food ---------------- */
+.visual {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 1;
+  justify-self: center;
+}
+
+/* warm kettle glow behind the plate */
+.glow {
+  position: absolute;
+  inset: -12%;
+  background: radial-gradient(circle at 55% 50%, rgba(255, 216, 74, 0.38) 0%, rgba(217, 35, 42, 0.16) 38%, transparent 66%);
+  filter: blur(8px);
+}
+
+.plate {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 6px solid rgba(250, 246, 239, 0.92);
+  box-shadow:
+    0 0 0 10px rgba(255, 216, 74, 0.18),
+    0 40px 80px -20px rgba(0, 0, 0, 0.75);
+}
+
+.plateImg {
+  object-fit: cover;
+  object-position: 62% 80%;
+  transform: scale(1.35);
+  transition: transform 1.2s var(--ease);
+}
+
+.visual:hover .plateImg {
+  transform: scale(1.42);
+}
+
+/* tilted snapshot of Reina */
+.snapshot {
+  position: absolute;
+  left: -2%;
+  bottom: 2%;
+  width: 34%;
+  margin: 0;
+  padding: 8px 8px 10px;
+  background: var(--white);
+  border-radius: 6px;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+  transform: rotate(-6deg);
+}
+
+.snapshotPhoto {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.snapshotImg {
+  object-fit: cover;
+}
+
+.snapshot figcaption {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  line-height: 1.1;
+  color: var(--ink);
+  text-align: center;
+}
+
+/* round sticker */
+.sticker {
+  position: absolute;
+  top: 2%;
+  left: 4%;
+  width: 24%;
+  height: auto;
+  transform: rotate(-12deg);
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
+}
+
+.sticker circle {
+  fill: var(--red);
+}
+
+.sticker text {
+  fill: #fff;
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 2.4px;
+}
+
+.sticker .stickerStar {
+  fill: var(--yellow);
+  font-size: 28px;
+  letter-spacing: 0;
+}
+
+/* floating flavor card */
+.flavorCard {
+  position: absolute;
+  right: -2%;
+  bottom: 10%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+  background: var(--white);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.65);
+}
+
+.flavorCard > div {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 1rem;
-  opacity: 0.55;
-  transition: opacity 0.3s ease;
-  z-index: 3;
-  cursor: pointer;
+  min-width: 0;
 }
 
-.scrollIndicator span {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: #FAF6EF;
+.flavorLabel {
+  font-size: 0.6875rem;
   font-weight: 700;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--red-deep);
 }
 
-.line {
-  width: 1px;
-  height: 36px;
-  background: linear-gradient(180deg, var(--accent, #F5BA31), transparent);
+.flavorName {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  line-height: 1.1;
 }
 
-.scrollIndicator:hover {
-  opacity: 0.95;
+.flavorPrice {
+  font-size: var(--text-xs);
+  color: var(--ink-soft);
 }
 
-/* 7. RESPONSIVE BREAKPOINTS */
+@media (prefers-reduced-motion: reduce) {
+  .plateImg,
+  .visual:hover .plateImg {
+    transition: none;
+    transform: scale(1.35);
+  }
+}
 
-/* Short Viewports (Laptops 1366x768, smaller screens) */
-@media (max-height: 760px) {
+/* ---------------- Tablet & phone ---------------- */
+@media (max-width: 960px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  .visual {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 760px) {
   .hero {
-    min-height: auto;
-    padding: calc(var(--header-height, 80px) + 1.5rem) 1.25rem 2.5rem;
-  }
-  .title {
-    margin-bottom: 0.85rem;
-  }
-  .description {
-    margin-bottom: 1.35rem;
-  }
-  .flavorChips {
-    margin-bottom: 1.5rem;
-  }
-  .scrollIndicator {
-    display: none;
+    padding-top: calc(var(--header-height) + var(--space-6));
+    padding-bottom: calc(var(--space-7) + var(--space-6));
   }
 }
 
-/* Tablets (max-width: 1024px) */
-@media (max-width: 1024px) {
-  .content {
-    max-width: 800px;
+@media (max-width: 520px) {
+  .actions > * {
+    flex: 1 1 100%;
   }
-  .title {
-    font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+  .pill {
+    border-radius: var(--radius-lg);
+    padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
   }
-  .description {
-    font-size: 1.1rem;
-    max-width: 600px;
-  }
-  .primaryBtn,
-  .secondaryBtn {
-    padding: 0.9rem 2rem;
-    font-size: 0.9rem;
-  }
-}
-
-/* Mobile & Small Tablets (max-width: 768px) */
-@media (max-width: 768px) {
-  .hero {
-    min-height: 100svh;
-    padding: calc(var(--header-height, 80px) + 1.25rem) 1rem 2.5rem;
-  }
-
-  .badge {
-    padding: 0.4rem 1.1rem;
-    margin-bottom: 1.2rem;
-  }
-
-  .badge span {
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
-  }
-
-  .title {
-    font-size: clamp(2.2rem, 8vw, 3.2rem);
-    line-height: 1.1;
-    margin-bottom: 1rem;
-  }
-
-  .description {
-    font-size: 0.98rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    padding: 0 0.5rem;
-  }
-
-  .flavorChips {
-    gap: 0.45rem;
-    margin-bottom: 1.75rem;
-    padding: 0 0.25rem;
-  }
-
-  .chip {
-    padding: 0.32rem 0.8rem;
-    font-size: 0.74rem;
-  }
-
-  .actions {
+  .perks {
     flex-direction: column;
-    gap: 0.85rem;
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
+    gap: var(--space-1);
   }
-
-  .primaryBtn,
-  .secondaryBtn {
-    width: 100%;
-    padding: 0.88rem 1.5rem;
-    font-size: 0.88rem;
+  .visual {
+    max-width: 330px;
   }
-
-  .scrollIndicator {
-    display: none;
+  .snapshot figcaption {
+    font-size: 0.8rem;
   }
-}
-
-/* Compact Mobile (max-width: 480px) */
-@media (max-width: 480px) {
-  .hero {
-    padding-top: calc(var(--header-height, 80px) + 0.75rem);
-    padding-bottom: 2rem;
-  }
-
-  .title {
-    font-size: 2.15rem;
-  }
-
-  .description {
-    font-size: 0.92rem;
-    line-height: 1.55;
-  }
-
-  .chip {
-    padding: 0.28rem 0.7rem;
-    font-size: 0.7rem;
+  .flavorName {
+    font-size: 1.125rem;
   }
 }

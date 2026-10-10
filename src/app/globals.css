@@ -38,6 +38,121 @@
   --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ==========================================================================
+   Design System v3.1 "Warm Canopy": mirrors wiki/design-system/tokens.css.
+   New sections use these tokens. The Buttercream variables above stay until
+   every page is migrated (plan: wiki/website/branches-and-status.md).
+   --radius-sm/md/lg are shared with the variables above and match v3.1.
+   ========================================================================== */
+:root {
+  --red: #D9232A;
+  --red-deep: #B51A20;
+  --yellow: #FFD84A;
+  --butter: #FFF1C7;
+  --sky: #0B4F9C;
+  --ink: #241B13;
+  --ink-soft: #6A5D4E;
+  --paper: #FAF6EF;
+  --white: #FFFDF9;
+  --line: #E8DFD1;
+  --espresso: #1E1711;
+
+  --flavor-sweet: #A8561A;
+  --flavor-savory: #B54A00;
+  --flavor-spicy: #2F6B2A;
+  --flavor-seasonal: var(--sky);
+
+  --success: #2F6B2A;
+  --warning: #8A5A00;
+  --error: var(--red-deep);
+  --focus: #0B4F9C;
+
+  --font-display: var(--font-instrument), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-outfit), "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --text-hero: clamp(2.75rem, 1.5rem + 5vw, 5.25rem);
+  --text-h1: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
+  --text-h2: clamp(2rem, 1.6rem + 1.6vw, 3rem);
+  --text-h3: 1.625rem;
+  --text-lg: 1.1875rem;
+  --text-body: 1.0625rem;
+  --text-sm: 0.9375rem;
+  --text-xs: 0.8125rem;
+  --text-label: 0.75rem;
+  --leading-tight: 1.05;
+  --leading-snug: 1.25;
+  --leading-body: 1.65;
+  --tracking-display: -0.01em;
+  --tracking-label: 0.14em;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  --radius-pill: 999px;
+  --border: 1px solid var(--line);
+  --border-strong: 1.5px solid var(--ink);
+  --shadow-card: 0 2px 6px rgba(36, 27, 19, 0.08), 0 16px 36px -14px rgba(36, 27, 19, 0.34);
+  --shadow-card-hover: 0 4px 10px rgba(36, 27, 19, 0.10), 0 28px 48px -18px rgba(36, 27, 19, 0.42);
+  --shadow-button: 0 6px 20px rgba(217, 35, 42, 0.40), 0 2px 4px rgba(36, 27, 19, 0.25);
+  --shadow-photo: 0 24px 52px -20px rgba(36, 27, 19, 0.55);
+  --shadow-band: 0 20px 44px -22px rgba(22, 18, 14, 0.55);
+
+  --hero-ground: #16120E;
+  --scrim: linear-gradient(180deg, rgba(22, 18, 14, 0.72) 0%, rgba(22, 18, 14, 0.42) 35%, rgba(22, 18, 14, 0.82) 100%);
+  --scrim-side: linear-gradient(90deg, rgba(22, 18, 14, 0.88) 0%, rgba(22, 18, 14, 0.62) 45%, rgba(22, 18, 14, 0.18) 100%);
+  --glass-dark: rgba(30, 23, 17, 0.78);
+  --text-shadow-hero: 0 2px 18px rgba(0, 0, 0, 0.55);
+
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast: 150ms;
+  --dur: 250ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur: 0ms; }
+}
+
+/* Shared v3 section rhythm for the homepage */
+.v3-section {
+  padding-block: var(--space-9) 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+.v3-eyebrow {
+  display: inline-block;
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--red-deep);
+}
+.v3-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-h2);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  color: var(--ink);
+  text-wrap: balance;
+  margin: var(--space-2) 0 var(--space-3);
+}
+.v3-lede {
+  color: var(--ink-soft);
+  font-size: var(--text-body);
+  max-width: 60ch;
+}
+@media (max-width: 640px) {
+  .v3-section { padding-block: var(--space-8) 0; }
+}
+
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;

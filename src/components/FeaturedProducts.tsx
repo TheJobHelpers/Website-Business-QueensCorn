@@ -1,39 +1,47 @@
 import ProductCard from './ProductCard';
+import Button from './ui/Button';
+import { ALL_PRODUCTS, FEATURED_PRODUCTS } from '@/data/products';
 import styles from './FeaturedProducts.module.css';
-import ScrollReveal from './ScrollReveal';
-import Link from 'next/link';
-import { ArrowRight, Flame } from 'lucide-react';
-import { FEATURED_PRODUCTS } from '@/data/products';
+
+// Landing blueprint section 4: show sizes and prices up front, 2 cards per row on phones.
+const SIZES = [
+  { name: 'Small', price: '$6' },
+  { name: 'Family', price: '$10' },
+  { name: 'Party', price: '$15' },
+];
 
 export default function FeaturedProducts() {
   return (
-    <section className={styles.section} id="featured-flavors">
+    <section className="v3-section" id="featured-flavors" aria-labelledby="flavors-title">
       <div className="main-container">
-        <ScrollReveal>
-          <div className={styles.header}>
-            <span className={styles.label}>
-              <Flame size={14} /> The Queen&apos;s Signature Batch
-            </span>
-            <h2 className={styles.title}>Most Loved Arizona Flavors</h2>
-            <p className={styles.subtitle}>
-              Hand-stirred in small copper kettle batches with monster mushroom kernels and real ingredients.
-            </p>
+        <header className={styles.header}>
+          <div>
+            <span className="v3-eyebrow">Our flavors</span>
+            <h2 id="flavors-title" className="v3-title">
+              The ones people come back for
+            </h2>
+            <p className="v3-lede">Every flavor comes in three sizes.</p>
           </div>
-        </ScrollReveal>
+          <ul className={styles.sizes} aria-label="Bag sizes and prices">
+            {SIZES.map((s) => (
+              <li key={s.name}>
+                {s.name}
+                <b>{s.price}</b>
+              </li>
+            ))}
+          </ul>
+        </header>
 
         <div className={styles.grid}>
-          {FEATURED_PRODUCTS.map((p, i) => (
-            <ScrollReveal key={p.id} delay={i + 1}>
-              <ProductCard {...p} />
-            </ScrollReveal>
+          {FEATURED_PRODUCTS.map((p) => (
+            <ProductCard key={p.id} {...p} />
           ))}
         </div>
 
-        <div className={styles.footer}>
-          <Link href="/shop" className={styles.viewAllBtn}>
-            <span>Explore All Gourmet Flavors</span>
-            <ArrowRight size={17} />
-          </Link>
+        <div className={styles.more}>
+          <Button href="/shop" variant="ghost">
+            See all {ALL_PRODUCTS.length} flavors
+          </Button>
         </div>
       </div>
     </section>

@@ -17,8 +17,8 @@ const instrumentSerif = Instrument_Serif({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://the-queens-corn.vercel.app"),
-  title: "The Queen's Corn | Premium Popcorn & Experiences",
-  description: "Arizona's favorite handcrafted kettle corn. Popped fresh with pure corn oil and stirred with a hickory wooden paddle at The Queen's Corn.",
+  title: "The Queen's Corn | Hand-Popped Kettle Corn in Arizona",
+  description: "Hand-popped kettle corn from Arizona's farmers' markets. Order online for free market pickup or Arizona shipping, or raise 50% for your school.",
   icons: {
     icon: "/favicon.webp",
     apple: "/favicon.webp",

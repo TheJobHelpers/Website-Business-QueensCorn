@@ -1,53 +1,50 @@
-import { ShieldCheck, Calendar, Award, Heart } from 'lucide-react';
+import { ShieldCheck, Sun, Award, Heart } from 'lucide-react';
 import styles from './TrustBanner.module.css';
 
-export default function TrustBanner() {
-  const STAMPS = [
-    {
-      icon: ShieldCheck,
-      color: '#F5BA31',
-      title: '100% Non-GMO Corn',
-      sub: 'Monster mushroom kernels for maximum crunch',
-    },
-    {
-      icon: Calendar,
-      color: '#F5BA31',
-      title: 'Popped Fresh in Arizona',
-      sub: 'Handcrafted daily for local weekend markets',
-    },
-    {
-      icon: Award,
-      color: '#F5BA31',
-      title: 'BBB A+ Accredited',
-      sub: 'Verified local Arizona small business',
-    },
-    {
-      icon: Heart,
-      color: '#D9232A',
-      title: '50% School Giveback',
-      sub: 'Over $34,000 donated to local teams & youth',
-    },
-  ];
+// Only claims the owners have confirmed belong here (see wiki/design-system, "Voice").
+const PROOF_POINTS = [
+  {
+    icon: ShieldCheck,
+    figure: '100%',
+    label: 'Non-GMO corn',
+    detail: 'Big mushroom kernels for a crunchier pop',
+  },
+  {
+    icon: Sun,
+    figure: 'Since 2017',
+    label: 'Popped fresh in Arizona',
+    detail: 'Hand-stirred at local weekend markets',
+  },
+  {
+    icon: Award,
+    figure: 'A+',
+    label: 'BBB accredited',
+    detail: 'A verified Arizona small business',
+  },
+  {
+    icon: Heart,
+    figure: '50%',
+    label: 'Back to local schools',
+    detail: 'Of every fundraiser sale goes to the team',
+  },
+];
 
+export default function TrustBanner() {
   return (
-    <section className={styles.banner}>
+    <section className={styles.banner} aria-label="Why people trust The Queen's Corn">
       <div className="main-container">
-        <div className={styles.content}>
-          {STAMPS.map((stamp) => {
-            const Icon = stamp.icon;
-            return (
-              <div key={stamp.title} className={styles.stampItem}>
-                <span className={styles.stampIcon}>
-                  <Icon size={24} style={{ color: stamp.color }} />
-                </span>
-                <div className={styles.stampText}>
-                  <span className={styles.stampTitle}>{stamp.title}</span>
-                  <span className={styles.stampSub}>{stamp.sub}</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <ul className={styles.strip}>
+          {PROOF_POINTS.map(({ icon: Icon, figure, label, detail }) => (
+            <li key={label} className={styles.item}>
+              <span className={styles.label}>
+                <Icon size={16} strokeWidth={2.5} aria-hidden="true" className={styles.icon} />
+                {label}
+              </span>
+              <span className={styles.figure}>{figure}</span>
+              <span className={styles.detail}>{detail}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
