@@ -4,10 +4,10 @@ type: business
 owner: unassigned
 updated: 2026-10-10
 sources:
-  - src/context/CartContext.tsx @ fbdbf0b
-  - src/lib/shopify.ts @ fbdbf0b
-  - src/components/cart/CartDrawer.tsx @ fbdbf0b
-  - src/app/admin/page.tsx @ fbdbf0b
+  - src/context/CartContext.tsx @ ee5b44c
+  - src/lib/shopify.ts @ ee5b44c
+  - src/components/cart/CartDrawer.tsx @ ee5b44c
+  - src/app/admin/page.tsx @ ee5b44c
 ---
 
 # Fulfillment: Shipping & Market Pickup

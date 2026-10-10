@@ -1,0 +1,92 @@
+/* ==========================================================================
+   The Queen's Corn — Design Tokens  ·  v3.0 "Canopy"  ·  2026-10-10
+   SINGLE SOURCE OF TRUTH for colors, type, spacing, radius, shadow, motion.
+   Spec & live examples: wiki/design-system/design-system.html
+   Rule: the website (src/app/globals.css) mirrors these tokens 1:1.
+   Change a value HERE first, then mirror it, then log it in wiki/log.md.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap");
+
+:root {
+  /* ---- Brand colors (sampled from the real logo, canopy & Arizona sky) ---- */
+  --red: #D7141C;          /* Queen Red: logo script. Primary CTA, price, key accents. 5.15:1 on paper */
+  --red-deep: #B00F17;     /* Pressed/hover red, red text on tinted grounds. 7.05:1 on paper */
+  --yellow: #FFE01B;       /* Canopy Yellow: the tent & flags. Big brand fields, kettle buttons. Ink text only */
+  --butter: #FFF4BF;       /* Canopy tint: highlighted sections, selected states */
+  --sky: #0B4F9C;          /* Arizona Sky / flag-hat blue: links, info, seasonal, secondary button. 7.9:1 on paper */
+  --ink: #1C1719;          /* Silhouette: all body text, borders, sticker shadows. 17.4:1 on paper */
+  --ink-soft: #5A4F48;     /* Secondary text, captions. 7.8:1 on paper, 7.2:1 on butter */
+  --paper: #FFFDF6;        /* Popcorn White: page background (warm white, NOT cream/beige) */
+  --white: #FFFFFF;        /* Card surfaces sitting on paper or butter */
+  --line: #E7DDC4;         /* Hairline dividers only (decorative, not for control borders) */
+
+  /* ---- Flavor coding (tags, taste meters, category filters only) ---- */
+  --flavor-sweet: #A8561A;     /* Caramel  · 5.14:1 on white */
+  --flavor-savory: #B54A00;    /* Cheddar  · text use ≥ 4.5:1 on white */
+  --flavor-spicy: #2F6B2A;     /* Jalapeño · 6.33:1 on white */
+  --flavor-seasonal: var(--sky); /* Patriot / Holiday */
+
+  /* ---- Status (always paired with a word or icon) ---- */
+  --success: #2F6B2A;
+  --warning: #8A5A00;
+  --error: var(--red-deep);
+  --focus: #0B4F9C;        /* focus ring: 3px solid sky, 2px offset */
+
+  /* ---- Typography ---- */
+  --font-display: "Alfa Slab One", "Rockwell", "Roboto Slab", Georgia, serif; /* headlines, prices, numbers */
+  --font-body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;   /* everything else */
+
+  --text-hero: clamp(2.75rem, 1.6rem + 4.6vw, 5rem);   /* 44 → 80px, hero headline only */
+  --text-h1: clamp(2.25rem, 1.7rem + 2.2vw, 3.25rem);  /* 36 → 52px, page titles */
+  --text-h2: clamp(1.75rem, 1.45rem + 1.2vw, 2.5rem);  /* 28 → 40px, section titles */
+  --text-h3: 1.5rem;       /* 24px, card titles (display font) */
+  --text-lg: 1.25rem;      /* 20px, lead paragraphs */
+  --text-body: 1.0625rem;  /* 17px, body copy */
+  --text-sm: 0.9375rem;    /* 15px, UI text, card descriptions */
+  --text-xs: 0.8125rem;    /* 13px, captions, meta */
+  --text-label: 0.75rem;   /* 12px, UPPERCASE labels, tracking 0.12em, weight 800 */
+
+  --leading-tight: 1.05;   /* display */
+  --leading-snug: 1.3;     /* h3, UI */
+  --leading-body: 1.6;     /* paragraphs */
+  --tracking-label: 0.12em;
+
+  /* ---- Spacing (4px base) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --container: 1200px;
+  --gutter: clamp(16px, 4vw, 32px);
+
+  /* ---- Radius ---- */
+  --radius-sm: 6px;        /* inputs, tags */
+  --radius-md: 12px;       /* buttons, cards */
+  --radius-lg: 20px;       /* photos, large panels */
+  --radius-pill: 999px;    /* chips, stamps */
+
+  /* ---- Borders & shadows: "sticker" look, hard offset, no blur glow ---- */
+  --border: 2px solid var(--ink);
+  --shadow-sticker: 0 4px 0 var(--ink);           /* buttons, product cards, tickets */
+  --shadow-sticker-lg: 0 6px 0 var(--ink);        /* hover state */
+  --shadow-photo: 0 16px 32px -16px rgba(28, 23, 25, 0.45); /* photos only */
+
+  /* ---- Signature pattern: canopy polka dots ---- */
+  --dots: radial-gradient(circle at center, rgba(255, 253, 246, 0.55) 0 5px, transparent 5.5px) 0 0 / 28px 28px;
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast: 150ms;
+  --dur: 250ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur: 0ms; }
+}

@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Queen's Corn Landing Blueprint</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  /* Layout concept: each landing section is shown as a framed hi-fi mockup ("the stall"),
+     followed by its spec card ("the price board"): goal, copy, data, mobile, done-when. */
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: var(--text-body); line-height: var(--leading-body); -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  a { color: var(--sky); text-underline-offset: 3px; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .875em; background: var(--butter); padding: 1px 6px; border-radius: 4px; }
+  .wrap { max-width: var(--container); margin: 0 auto; padding-inline: var(--gutter); }
+  .eyebrow { font-size: var(--text-label); font-weight: 800; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .display { font-family: var(--font-display); font-weight: 400; line-height: var(--leading-tight); text-wrap: balance; }
+
+  /* ---------- Document chrome ---------- */
+  .doc-head { border-bottom: var(--border); background: var(--white); }
+  .doc-head .wrap { padding-block: var(--space-8) var(--space-7); display: grid; gap: var(--space-4); }
+  .doc-head h1 { font-size: var(--text-h1); margin: 0; }
+  .doc-head p { margin: 0; max-width: 68ch; font-size: var(--text-lg); color: var(--ink-soft); }
+  .doc-head .links { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+  .brief { padding-block: var(--space-8) 0; }
+  .brief h2 { font-size: var(--text-h2); margin: 0 0 var(--space-5); }
+  .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+  .card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-5); min-width: 0; }
+  .card h3 { margin: 0 0 var(--space-3); font-size: var(--text-sm); font-weight: 800; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .card ol, .card ul { margin: 0; padding-left: 1.2em; }
+  .card li + li { margin-top: 6px; }
+  .rank { display: grid; gap: var(--space-3); }
+  .rank div { display: grid; grid-template-columns: 44px minmax(0,1fr); gap: var(--space-3); align-items: start; }
+  .rank b { font-family: var(--font-display); font-weight: 400; font-size: 2rem; line-height: 1; color: var(--red); }
+  .rank p { margin: 0; font-size: var(--text-sm); }
+  .rank strong { display: block; font-size: var(--text-body); }
+
+  .flow { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 6px; margin-top: var(--space-5); }
+  .flow a { display: flex; flex-direction: column; gap: 4px; padding: var(--space-3) var(--space-2); border: var(--border); border-radius: var(--radius-sm); background: var(--white); color: var(--ink); text-decoration: none; font-size: var(--text-xs); font-weight: 700; line-height: 1.25; min-height: 92px; }
+  .flow a span { font-family: var(--font-display); font-weight: 400; font-size: 1.25rem; color: var(--red); }
+  .flow a.new { background: var(--yellow); }
+  .flow a.loud { background: var(--yellow); }
+  .legend { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-3); font-size: var(--text-xs); color: var(--ink-soft); }
+  .legend i { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--ink); border-radius: 3px; vertical-align: -1px; margin-right: 4px; }
+
+  /* ---------- Section blocks ---------- */
+  .sec { padding-block: var(--space-9) 0; }
+  .sec-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-3) var(--space-4); margin-bottom: var(--space-4); }
+  .sec-head .no { font-family: var(--font-display); font-size: var(--text-h2); color: var(--red); line-height: 1; }
+  .sec-head h2 { font-size: var(--text-h2); margin: 0; }
+  .sec-head .tag { padding: 2px 10px; border: 2px solid var(--ink); border-radius: var(--radius-pill); font-size: var(--text-label); font-weight: 800; letter-spacing: var(--tracking-label); text-transform: uppercase; background: var(--white); }
+  .sec-head .tag.new { background: var(--yellow); }
+  .sec-head .tag.keep { background: var(--white); }
+  .sec-head .tag.merge { background: var(--butter); }
+
+  .frame { border: var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--paper); box-shadow: var(--shadow-sticker); }
+  .frame-bar { display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: var(--ink); color: var(--paper); font-size: var(--text-xs); }
+  .frame-bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,253,246,.35); }
+  .frame-bar span { margin-left: var(--space-2); opacity: .8; }
+  .stage { padding: var(--space-7) var(--space-6); }
+
+  .spec { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin-top: var(--space-4); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+  .spec > div { padding: var(--space-4) var(--space-5); border-top: 1px solid var(--line); min-width: 0; }
+  .spec > div:nth-child(-n+2) { border-top: 0; }
+  .spec > div:nth-child(even) { border-left: 1px solid var(--line); }
+  .spec h4 { margin: 0 0 6px; font-size: var(--text-label); font-weight: 800; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-soft); }
+  .spec p, .spec ul { margin: 0; font-size: var(--text-sm); }
+  .spec ul { padding-left: 1.1em; }
+  .spec li + li { margin-top: 4px; }
+  .spec .wide { grid-column: 1 / -1; border-left: 0 !important; }
+  .todo { display: inline-block; background: var(--butter); border: 1px dashed var(--warning); color: var(--warning); font-size: var(--text-xs); font-weight: 700; padding: 1px 8px; border-radius: var(--radius-sm); }
+
+  /* ---------- Mockup: Nav ---------- */
+  .m-nav { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-3) var(--space-6); background: var(--paper); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .m-nav img { width: 52px; border: 2px solid var(--ink); border-radius: var(--radius-sm); background: var(--white); }
+  .m-nav ul { display: flex; gap: var(--space-5); list-style: none; margin: 0; padding: 0; font-weight: 700; font-size: var(--text-sm); flex-wrap: wrap; }
+  .m-nav .right { display: flex; align-items: center; gap: var(--space-3); }
+  .m-nav .bag { min-width: 44px; height: 44px; padding: 0 8px; font-size: var(--text-xs); border: var(--border); border-radius: var(--radius-md); display: grid; place-items: center; font-weight: 800; background: var(--white); position: relative; }
+  .m-nav .bag::after { content: "2"; position: absolute; top: -8px; right: -8px; width: 20px; height: 20px; border-radius: 50%; background: var(--red); color: var(--white); font-size: 11px; display: grid; place-items: center; border: 2px solid var(--ink); }
+
+  /* ---------- Mockup: Hero ---------- */
+  .m-hero { background: var(--yellow); background-image: radial-gradient(circle, rgba(255,253,246,.55) 0 5px, transparent 5.5px); background-size: 28px 28px; border-bottom: var(--border); }
+  .m-hero .inner { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: var(--space-7); align-items: center; padding: var(--space-8) var(--space-6); }
+  .m-hero h1 { font-size: var(--text-hero); margin: var(--space-3) 0 var(--space-4); }
+  .m-hero h1 em { font-style: normal; color: var(--red); }
+  .m-hero p.sub { font-size: var(--text-lg); margin: 0 0 var(--space-5); max-width: 46ch; }
+  .m-hero .actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+  .m-hero .perks { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-top: var(--space-5); font-size: var(--text-sm); font-weight: 700; }
+  .m-hero .perks span::before { content: "✓ "; color: var(--red-deep); }
+  .m-hero .photo { position: relative; }
+  .m-hero .photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border: var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sticker-lg); }
+  .m-hero .photo .ticket { position: absolute; left: -32px; right: 24px; bottom: -28px; }
+  .m-hero .photo .stamp { position: absolute; top: 14px; left: 14px; }
+
+  /* ---------- Mockup: Three ways ---------- */
+  .m-title { text-align: left; margin-bottom: var(--space-6); max-width: 60ch; }
+  .m-title h3 { font-size: var(--text-h2); margin: var(--space-2) 0 var(--space-2); }
+  .m-title p { margin: 0; color: var(--ink-soft); }
+  .ways { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+  .way { background: var(--white); border: var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-sticker); padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+  .way .ic { width: 56px; height: 56px; border-radius: 50%; border: var(--border); display: grid; place-items: center; font-family: var(--font-display); font-size: 1.5rem; }
+  .way.ship .ic { background: var(--sky); color: var(--white); }
+  .way.pick .ic { background: var(--yellow); }
+  .way.group .ic { background: var(--red); color: var(--white); }
+  .way h4 { font-family: var(--font-display); font-weight: 400; font-size: var(--text-h3); line-height: var(--leading-snug); margin: 0; }
+  .way p { margin: 0; color: var(--ink-soft); font-size: var(--text-sm); }
+  .way .fact { font-weight: 800; font-size: var(--text-sm); color: var(--ink); }
+  .way .links { margin-top: auto; display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+  /* ---------- Mockup: Flavors ---------- */
+  .m-row-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--space-4); margin-bottom: var(--space-6); }
+  .m-row-head .m-title { margin-bottom: 0; }
+  .sizes { display: inline-flex; border: var(--border); border-radius: var(--radius-pill); overflow: hidden; background: var(--white); font-size: var(--text-sm); font-weight: 700; }
+  .sizes span { padding: 6px 14px; }
+  .sizes span + span { border-left: 2px solid var(--ink); }
+  .sizes b { font-family: var(--font-display); font-weight: 400; color: var(--red); margin-left: 4px; }
+  .flavors { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-5); }
+  .ph-empty { display: grid; place-items: center; text-align: center; height: 100%; padding: var(--space-4); font-size: var(--text-xs); color: var(--warning); font-weight: 700; border-bottom: 2px dashed var(--warning); }
+  .more { margin-top: var(--space-5); }
+
+  /* ---------- Mockup: Markets ---------- */
+  .tickets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+  .m-note { margin-top: var(--space-5); display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; justify-content: space-between; }
+
+  /* ---------- Mockup: Fundraising ---------- */
+  .m-fund { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr); gap: var(--space-6); align-items: center; }
+  .calc { background: var(--white); border: var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-sticker); padding: var(--space-5); text-align: center; }
+  .calc .k { font-size: var(--text-label); font-weight: 800; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .calc .eq { font-size: var(--text-sm); color: var(--ink-soft); margin: var(--space-2) 0; }
+  .calc .big { font-family: var(--font-display); font-size: 3.25rem; line-height: 1; color: var(--red); }
+
+  /* ---------- Mockup: Story ---------- */
+  .m-story { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: var(--space-7); align-items: center; }
+  .m-story img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-photo); }
+  .m-story h3 { font-size: var(--text-h2); margin: var(--space-2) 0 var(--space-4); }
+  .m-story p { margin: 0 0 var(--space-3); max-width: 58ch; }
+  .m-story blockquote { margin: var(--space-4) 0; padding: 0; font-family: var(--font-display); font-size: 1.5rem; line-height: 1.25; color: var(--red); }
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); margin-top: var(--space-7); list-style: none; padding: 0; }
+  .steps li { min-width: 0; }
+  .steps img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-md); }
+  .steps .cap { display: flex; gap: var(--space-2); align-items: baseline; margin-top: var(--space-2); font-weight: 700; font-size: var(--text-sm); }
+  .steps .cap b { font-family: var(--font-display); font-weight: 400; color: var(--red); font-size: 1.25rem; }
+
+  /* ---------- Mockup: Reviews ---------- */
+  .reviews { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+  .review { border: 2px dashed var(--warning); border-radius: var(--radius-md); padding: var(--space-5); background: var(--white); display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+  .review .stars { color: var(--ink); letter-spacing: 2px; }
+  .review p { margin: 0; font-size: var(--text-sm); color: var(--ink-soft); }
+  .review .src { font-size: var(--text-xs); font-weight: 800; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+
+  /* ---------- Mockup: Closing + Footer ---------- */
+  .m-close { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-5); padding: var(--space-6); background: var(--white); border: var(--border); border-radius: var(--radius-lg); }
+  .m-close h3 { font-size: var(--text-h2); margin: 0 0 var(--space-2); }
+  .m-close p { margin: 0; color: var(--ink-soft); }
+  .m-close .actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+  .phone { font-family: var(--font-display); font-size: 1.5rem; }
+  .m-foot { background: var(--ink); color: var(--paper); padding: var(--space-7) var(--space-6); display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--space-5); font-size: var(--text-sm); }
+  .m-foot h5 { margin: 0 0 var(--space-3); color: var(--yellow); font-size: var(--text-label); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .m-foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .m-foot img { width: 64px; background: var(--white); border-radius: var(--radius-sm); margin-bottom: var(--space-3); }
+  .m-foot p { margin: 0; opacity: .85; max-width: 32ch; }
+
+  /* ---------- Removed list & build ---------- */
+  .gone { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+  .gone div { background: var(--white); border: 1px solid var(--line); border-left-width: 1px; border-radius: var(--radius-md); padding: var(--space-4); font-size: var(--text-sm); }
+  .gone b { display: block; text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 2px; }
+  table.t { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+  table.t th, table.t td { text-align: left; padding: var(--space-3); border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.t th { font-size: var(--text-label); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-soft); }
+  .scroll { overflow-x: auto; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); }
+
+  footer.end { margin-top: var(--space-9); padding-block: var(--space-7); background: var(--ink); color: var(--paper); }
+  footer.end a { color: var(--yellow); }
+
+  @media (max-width: 960px) {
+    .cols { grid-template-columns: 1fr; }
+    .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .m-hero .inner, .m-fund, .m-story { grid-template-columns: 1fr; }
+    .m-hero .photo { max-width: 420px; margin-bottom: var(--space-6); }
+    .m-hero .photo .ticket { left: 12px; right: 12px; }
+    .ways, .tickets, .reviews { grid-template-columns: 1fr; }
+    .flavors { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .m-foot { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .stage { padding: var(--space-6) var(--space-4); }
+    .m-hero .inner { padding: var(--space-6) var(--space-4); }
+    .m-nav { padding: var(--space-3) var(--space-4); }
+    .m-nav ul { display: none; }
+    .spec { grid-template-columns: 1fr; }
+    .spec > div:nth-child(even) { border-left: 0; }
+    .spec > div:nth-child(2) { border-top: 1px solid var(--line); }
+    .flavors { gap: var(--space-3); }
+    .flavors .pcard p, .flavors .pcard .meter-wrap { display: none; }
+    .flavors .pcard h5 { font-size: 1.125rem; }
+    .steps { grid-template-columns: 1fr; }
+    .gone { grid-template-columns: 1fr; }
+    .m-foot { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="doc-head">
+  <div class="wrap">
+    <div class="eyebrow">Landing page blueprint · v1 · 2026-10-10 · uses Design System v3 “Canopy”</div>
+    <h1 class="display">A homepage that sells popcorn in five seconds</h1>
+    <p>The order, design and final copy of every section on <code>/</code>, with where each piece of data comes from and when each section counts as done. The mockups below use the real design tokens and components, so this is what the page should look like.</p>
+    <div class="links">
+      <a class="btn btn-ghost btn-sm" href="design-system.html">Design system</a>
+      <a class="btn btn-ghost btn-sm" href="#build">Build plan</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ================================ BRIEF ================================ -->
+<section class="brief" id="brief">
+  <h2 class="display">The brief</h2>
+  <div class="cols">
+    <div class="card">
+      <h3>The 5-second test</h3>
+      <p style="margin:0 0 var(--space-3); font-size:var(--text-sm)">A first-time visitor on a phone must be able to answer, without scrolling:</p>
+      <ol>
+        <li><strong>What is it?</strong> Hand-popped kettle corn from Arizona.</li>
+        <li><strong>How do I get it?</strong> Shipped, picked up at a market, or for my group.</li>
+        <li><strong>When can I get it?</strong> The next market, with date and place.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Actions, in priority order</h3>
+      <div class="rank">
+        <div><b>1</b><p><strong>Order online</strong>Shipping or free market pickup. Needs Shopify checkout working.</p></div>
+        <div><b>2</b><p><strong>Come to a market</strong>The next pop-up, shown in the hero.</p></div>
+        <div><b>3</b><p><strong>Order for a group</strong>Fundraisers (50%) and event bookings. Fewer customers, bigger orders.</p></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Page rules</h3>
+      <ul>
+        <li>Every section ends in one clear action.</li>
+        <li>One red button per screen; one yellow band per page (the hero).</li>
+        <li>Real photos and confirmed claims only.</li>
+        <li>Everything visible without waiting for scroll animations.</li>
+        <li>Phone first: 375px is the main design width.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="flow" aria-label="Page order">
+    <a href="#s1" class="new"><span>1</span>Hero + next market</a>
+    <a href="#s2"><span>2</span>Trust strip</a>
+    <a href="#s3" class="new"><span>3</span>Three ways to get it</a>
+    <a href="#s4"><span>4</span>Flavors</a>
+    <a href="#s5"><span>5</span>Where to find us</a>
+    <a href="#s6"><span>6</span>Fundraising</a>
+    <a href="#s7"><span>7</span>Bob &amp; Reina</a>
+    <a href="#s8"><span>8</span>Reviews</a>
+    <a href="#s9"><span>9</span>Questions + footer</a>
+  </div>
+  <div class="legend"><span><i style="background:var(--yellow)"></i>New or rebuilt around the core goal</span><span><i style="background:var(--white)"></i>Existing section, redesigned</span></div>
+</section>
+
+<!-- ================================ S1 HERO ================================ -->
+<section class="sec" id="s1">
+  <div class="sec-head"><span class="no">1</span><h2 class="display">Hero with the next market</h2><span class="tag new">Rebuild</span></div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span>thequeenscorn.com</span></div>
+    <nav class="m-nav" aria-label="Mockup navigation">
+      <img src="../../public/logo-transparent.png" alt="The Queen's Corn logo">
+      <ul><li>Shop</li><li>Markets</li><li>Fundraising</li><li>Our story</li><li>Contact</li></ul>
+      <div class="right"><span class="bag" aria-label="Bag">Bag</span><a class="btn btn-red btn-sm" href="#s1">Order now</a></div>
+    </nav>
+    <div class="m-hero">
+      <div class="inner">
+        <div>
+          <span class="stamp stamp-solid">Family-run in Arizona since 2017</span>
+          <h1 class="display">Hand-popped kettle corn, <em>fit for royalty.</em></h1>
+          <p class="sub">Stirred by hand at markets across Arizona. Order online and pick it up free at the stand, or have it shipped to your door.</p>
+          <div class="actions">
+            <a class="btn btn-red" href="#s4">Order now</a>
+            <a class="btn btn-ghost" href="#s5">Find us this weekend</a>
+          </div>
+          <div class="perks"><span>Free pickup at every market</span><span>Free AZ shipping over $35</span><span>From $6 a bag</span></div>
+        </div>
+        <div class="photo">
+          <img src="../../public/reina-stirring-kettle.jpg" alt="Reina stirring kettle corn with a long wooden paddle under the yellow canopy">
+          <div class="ticket">
+            <div class="date"><span class="m">Sat</span><span class="d">10</span><span class="m">Oct</span></div>
+            <div class="body">
+              <span class="eyebrow" style="color:var(--red-deep)">Next pop-up</span>
+              <h5>Desert West Farmers' Market</h5>
+              <div class="where">Avondale · 9:00 am – 1:00 pm</div>
+              <div class="row"><a class="btn btn-sky btn-sm" href="#s5">Pre-order for pickup</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="spec">
+    <div><h4>Goal</h4><p>Pass the 5-second test. Say what it is, how to get it, and when the next market is.</p></div>
+    <div><h4>Primary action</h4><p><b>Order now</b> (red) → <code>/shop</code>. Secondary: <b>Find us this weekend</b> → <code>#markets</code>.</p></div>
+    <div><h4>Copy (final)</h4><ul><li>Stamp: “Family-run in Arizona since 2017”</li><li>H1: “Hand-popped kettle corn, fit for royalty.” (the logo's own tagline)</li><li>Sub: “Stirred by hand at markets across Arizona. Order online and pick it up free at the stand, or have it shipped to your door.”</li><li>Perks: Free pickup at every market · Free AZ shipping over $35 · From $6 a bag</li></ul></div>
+    <div><h4>Data</h4><ul><li>Next pop-up = first upcoming event with <code>pickupAvailable</code>, from <code>getEvents()</code> / events store. Hide the ticket if none.</li><li>$35 from <code>FREE_AZ_SHIPPING_THRESHOLD</code>; “from $6” from the lowest product price.</li></ul></div>
+    <div><h4>Design</h4><ul><li>Canopy yellow + dots: the only yellow band on the page.</li><li>Real photo with sticker frame; event ticket overlaps the photo's corner.</li><li>No “scroll to explore”, no flavor pills (they're not clickable and repeat section 4).</li></ul></div>
+    <div><h4>Mobile (375px)</h4><ul><li>Order: stamp, H1 (44px), sub, buttons full-width, perks, then the photo with the ticket below it.</li><li>The hero ends before the photo on most phones, so the buttons sit above the fold.</li></ul></div>
+    <div class="wide"><h4>Done when</h4><p>On a 375×667 screen, the H1, sub and both buttons are visible without scrolling; the ticket shows the real next market; Lighthouse accessibility ≥ 95.</p></div>
+  </div>
+</section>
+
+<!-- ================================ S2 TRUST ================================ -->
+<section class="sec" id="s2">
+  <div class="sec-head"><span class="no">2</span><h2 class="display">Trust strip</h2><span class="tag keep">Done on site</span></div>
+  <div class="frame">
+    <div class="stage">
+      <ul class="trust">
+        <li><span class="lbl">Non-GMO corn</span><b>100%</b><span>Big mushroom kernels for a crunchier pop</span></li>
+        <li><span class="lbl">Popped fresh in Arizona</span><b>Since 2017</b><span>Hand-stirred at local weekend markets</span></li>
+        <li><span class="lbl">BBB accredited</span><b>A+</b><span>A verified Arizona small business</span></li>
+        <li><span class="lbl">Back to local schools</span><b>50%</b><span>Of every fundraiser sale goes to the team</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="spec">
+    <div><h4>Goal</h4><p>Answer “can I trust them?” in one glance, right after the hero.</p></div>
+    <div><h4>Status</h4><p>Built in <code>src/components/TrustBanner.tsx</code>. Switches to v3 colors with the token migration. <span class="todo">Confirm “100% Non-GMO”</span></p></div>
+  </div>
+</section>
+
+<!-- ================================ S3 THREE WAYS ================================ -->
+<section class="sec" id="s3">
+  <div class="sec-head"><span class="no">3</span><h2 class="display">Three ways to get your corn</h2><span class="tag new">New</span></div>
+  <div class="frame">
+    <div class="stage">
+      <div class="m-title"><span class="eyebrow" style="color:var(--red-deep)">How it works</span><h3 class="display">Three ways to get your corn</h3><p>Every bag is popped fresh for your order.</p></div>
+      <div class="ways">
+        <article class="way ship">
+          <span class="ic" aria-hidden="true">1</span>
+          <h4>Shipped to your door</h4>
+          <p>We pop it, bag it and send it anywhere in Arizona by USPS.</p>
+          <span class="fact">Free shipping on orders over $35</span>
+          <div class="links"><a class="btn btn-red btn-sm" href="#s4">Shop flavors</a></div>
+        </article>
+        <article class="way pick">
+          <span class="ic" aria-hidden="true">2</span>
+          <h4>Picked up at a market</h4>
+          <p>Pre-order online, skip the line, and collect it warm from the stand.</p>
+          <span class="fact">Pickup is always free</span>
+          <div class="links"><a class="btn btn-ghost btn-sm" href="#s5">See market schedule</a></div>
+        </article>
+        <article class="way group">
+          <span class="ic" aria-hidden="true">3</span>
+          <h4>For your school or event</h4>
+          <p>Raise money with a fundraiser, or book us to pop live at your party or company event.</p>
+          <span class="fact">Fundraisers keep 50% of every sale</span>
+          <div class="links"><a class="btn btn-sky btn-sm" href="#s6">Start a fundraiser</a><a class="btn btn-ghost btn-sm" href="#s9">Book an event</a></div>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="spec">
+    <div><h4>Goal</h4><p>The core of the page: turn the three hidden selling points (shipping, pickup, groups) into three clear paths.</p></div>
+    <div><h4>Why it's new</h4><p>Today these live only in the cart drawer, the events page and the fundraising page. Visitors never learn them from the homepage.</p></div>
+    <div><h4>Design</h4><ul><li>Three equal sticker cards; the colored disc codes each path (sky = ship, yellow = pickup, red = group).</li><li>The numbers are real: they're the three options, in order of how people usually buy.</li><li>One bold fact line per card.</li></ul></div>
+    <div><h4>Mobile</h4><p>Stacked cards, full-width buttons. Card 3 keeps both buttons side by side if they fit, else stacked.</p></div>
+    <div class="wide"><h4>Done when</h4><p>Each card links to a page that completes the action (shop, markets, fundraising, contact with subject “Event booking”). <span class="todo">“Book an event” needs a contact subject preset</span></p></div>
+  </div>
+</section>
+
+<!-- ================================ S4 FLAVORS ================================ -->
+<section class="sec" id="s4">
+  <div class="sec-head"><span class="no">4</span><h2 class="display">Flavors</h2><span class="tag keep">Redesign</span></div>
+  <div class="frame">
+    <div class="stage">
+      <div class="m-row-head">
+        <div class="m-title"><span class="eyebrow" style="color:var(--red-deep)">Our flavors</span><h3 class="display">The ones people come back for</h3><p>Every flavor comes in three sizes.</p></div>
+        <div class="sizes" aria-label="Bag sizes"><span>Small<b>$6</b></span><span>Family<b>$10</b></span><span>Party<b>$15</b></span></div>
+      </div>
+      <div class="flavors">
+        <article class="pcard">
+          <div class="ph"><img src="../../public/popcorn-scoop-fresh.jpg" alt="Caramel and cheddar kettle corn in a scoop"></div>
+          <div class="bd">
+            <div class="top"><h5>Caramel &amp; Cheddar</h5><div class="from">from<b>$6</b></div></div>
+            <span class="ftag savory" style="align-self:flex-start">Savory</span>
+            <p>Sweet amber caramel meets sharp cheddar in one bag.</p>
+            <div class="meter-wrap"><div class="meter sweet"><span>Sweet</span><span class="kernels" role="img" aria-label="Sweet 4 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div></div>
+            <button class="btn btn-kettle btn-sm" type="button">+ Add to bag</button>
+          </div>
+        </article>
+        <article class="pcard">
+          <div class="ph"><div class="ph-empty">Photo to shoot: Regular bag on the yellow tablecloth</div></div>
+          <div class="bd">
+            <div class="top"><h5>Sweet &amp; Salty</h5><div class="from">from<b>$6</b></div></div>
+            <span class="ftag sweet" style="align-self:flex-start">Sweet</span>
+            <p>The original. Corn oil, cane sugar and salt, hand-stirred.</p>
+            <div class="meter-wrap"><div class="meter sweet"><span>Sweet</span><span class="kernels" role="img" aria-label="Sweet 3 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div></div>
+            <button class="btn btn-kettle btn-sm" type="button">+ Add to bag</button>
+          </div>
+        </article>
+        <article class="pcard">
+          <div class="ph"><div class="ph-empty">Photo to shoot: Jalapeño bag with fresh peppers</div></div>
+          <div class="bd">
+            <div class="top"><h5>Jalapeño</h5><div class="from">from<b>$6</b></div></div>
+            <span class="ftag spicy" style="align-self:flex-start">Spicy</span>
+            <p>Kettle corn with a savory jalapeño kick and a sweet crunch.</p>
+            <div class="meter-wrap"><div class="meter spicy"><span>Heat</span><span class="kernels" role="img" aria-label="Heat 3 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div></div>
+            <button class="btn btn-kettle btn-sm" type="button">+ Add to bag</button>
+          </div>
+        </article>
+        <article class="pcard">
+          <div class="ph"><div class="ph-empty">Photo to shoot: Caramel bag in daylight</div></div>
+          <div class="bd">
+            <div class="top"><h5>Caramel</h5><div class="from">from<b>$6</b></div></div>
+            <span class="ftag sweet" style="align-self:flex-start">Sweet</span>
+            <p>A glossy amber glaze on every single kernel.</p>
+            <div class="meter-wrap"><div class="meter sweet"><span>Sweet</span><span class="kernels" role="img" aria-label="Sweet 5 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div></div>
+            <button class="btn btn-kettle btn-sm" type="button">+ Add to bag</button>
+          </div>
+        </article>
+      </div>
+      <div class="more"><a class="btn btn-ghost" href="#s4">See all 8 flavors</a></div>
+    </div>
+  </div>
+  <div class="spec">
+    <div><h4>Goal</h4><p>Make people want a bag and show the price honestly: sizes and prices visible before they click.</p></div>
+    <div><h4>Primary action</h4><p><b>+ Add to bag</b> adds a Small by default and opens the cart, where size can be changed. “See all 8 flavors” → <code>/shop</code>.</p></div>
+    <div><h4>Data</h4><ul><li><code>FEATURED_PRODUCTS</code> (4) from <code>src/data/products.ts</code>, or Shopify.</li><li>Size prices from the size price table in <code>CartContext</code>.</li><li>Taste meter values: add <code>taste</code> field per product (1 meter on the homepage).</li></ul></div>
+    <div><h4>Content changes</h4><ul><li>Remove “#1 Best Seller”, “Desert Heat”, “Artisan Glaze” labels until confirmed.</li><li>Rename “Regular Sweet &amp; Salty” → “Sweet &amp; Salty” on cards.</li><li><span class="todo">Real bag photos needed for 3 of 4</span></li></ul></div>
+    <div><h4>Mobile</h4><p>2 cards per row from 360px; description and meter hidden; title 18px; button full width. All four flavors fit in about 1.5 screens (today: 4 screens).</p></div>
+    <div><h4>Done when</h4><p>Add to bag works and opens the cart; no card shows a single price without “from”.</p></div>
+  </div>
+</section>
+
+<!-- ================================ S5 MARKETS ================================ -->
+<section class="sec" id="s5">
+  <div class="sec-head"><span class="no">5</span><h2 class="display">Where to find us</h2><span class="tag keep">Redesign</span></div>
+  <div class="frame">
+    <div class="stage">
+      <div class="m-title"><span class="eyebrow" style="color:var(--red-deep)">Markets &amp; events</span><h3 class="display">Come see the kettle</h3><p>Pre-order any market below and skip the line. Pickup is free.</p></div>
+      <div class="tickets">
+        <div class="ticket"><div class="date"><span class="m">Oct</span><span class="d">10</span><span class="m">Sat</span></div><div class="body"><h5>Desert West Farmers' Market</h5><div class="where">Avondale, AZ · 9 am – 1 pm</div><div class="row"><a class="btn btn-sky btn-sm" href="#s5">Pre-order</a></div></div></div>
+        <div class="ticket"><div class="date"><span class="m">Oct</span><span class="d">17–18</span><span class="m">Sat–Sun</span></div><div class="body"><h5>Oro Valley Fine Art &amp; Wine Festival</h5><div class="where">Oro Valley, AZ · 10 am – 5 pm</div><div class="row"><a class="btn btn-sky btn-sm" href="#s5">Pre-order</a></div></div></div>
+        <div class="ticket"><div class="date"><span class="m">Oct</span><span class="d">24–25</span><span class="m">Sat–Sun</span></div><div class="body"><h5>High Street Arts Festival</h5><div class="where">Phoenix, AZ · 10 am – 5 pm</div><div class="row"><a class="btn btn-sky btn-sm" href="#s5">Pre-order</a></div></div></div>
+      </div>
+      <div class="m-note"><span style="font-size:var(--text-sm); color:var(--ink-soft)">Want us at your event? We pop live for parties, schools and companies.</span><a class="btn btn-ghost btn-sm" href="#s5">Full schedule</a></div>
+    </div>
+  </div>
+  <div class="spec">
+    <div><h4>Goal</h4><p>Bring people to the stand and turn market visits into pre-orders.</p></div>
+    <div><h4>Primary action</h4><p><b>Pre-order</b> sets pickup + that event in the cart (<code>selectPickupForEvent</code>) and opens the shop.</p></div>
+    <div><h4>Data</h4><p>Next 3 upcoming events, sorted by date, past events hidden automatically. <span class="todo">Confirm the fall schedule is real</span></p></div>
+    <div><h4>Design</h4><p>Ticket component from the design system (red date stub, notches). Replaces the dark “chalkboard” cards; moved up from position 4 to 5 but now also teased in the hero.</p></div>
+    <div><h4>Mobile</h4><p>Stacked tickets; date stub stays on the left (96px).</p></div>
+    <div><h4>Done when</h4><p>Events in the past never show; the hero ticket and this list never disagree.</p></div>
+  </div>
+</section>
+
+<!-- ================================ S6 FUNDRAISING ================================ -->
+<section class="sec" id="s6">
+  <div class="sec-head"><span class="no">6</span><h2 class="display">Fundraising</h2><span class="tag new">New on home</span></div>
+  <div class="frame">
+    <div class="stage">
+      <div class="canopy" style="background:var(--butter); background-image:none">
+        <div class="m-fund">
+          <div>
+            <span class="eyebrow" style="color:var(--red-deep)">For schools &amp; teams</span>
+            <h4>Your team keeps <em>50%</em> of every sale.</h4>
+            <p>Share your group's code, we pop every order fresh, and you get half of every sale when the campaign ends. No upfront cost, no boxes to sort.</p>
+            <div class="actions"><a class="btn btn-sky" href="#s6">Start a fundraiser</a><a class="btn btn-ghost" href="#s6">How it works</a></div>
+          </div>
+          <div class="calc">
+            <div class="k">Example</div>
+            <div class="eq">100 Family bags × $10 × 50%</div>
+            <div class="big">$500</div>
+            <div class="eq" style="margin-bottom:0">for your team</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="spec">
+    <div><h4>Goal</h4><p>Generate fundraiser leads: the highest-value customers (one school = hundreds of bags).</p></div>
+    <div><h4>Design</h4><p>Butter tint, not yellow: the hero keeps the only full-yellow band. The worked example makes 50% concrete.</p></div>
+    <div><h4>Copy check</h4><p><span class="todo">Confirm: “no upfront cost” and payout “when the campaign ends”</span> (from the fundraising page; owners to confirm).</p></div>
+    <div><h4>Mobile</h4><p>Example card moves under the text; buttons full width.</p></div>
+  </div>
+</section>
+
+<!-- ================================ S7 STORY ================================ -->
+<section class="sec" id="s7">
+  <div class="sec-head"><span class="no">7</span><h2 class="display">Meet Bob &amp; Reina</h2><span class="tag merge">Merge 4 → 1</span></div>
+  <div class="frame">
+    <div class="stage">
+      <div class="m-story">
+        <img src="../../public/bob-reina.webp" alt="Bob and Reina hugging at their kettle corn stand">
+        <div>
+          <span class="eyebrow" style="color:var(--red-deep)">Our story</span>
+          <h3 class="display">Two healthcare workers, one kettle, a lot of burnt corn</h3>
+          <p>We started The Queen's Corn in 2017 because we were tired of bland kettle corn at local events. We both work in the medical field, so we learned the hard way: at first we burnt more corn than we sold.</p>
+          <p>Today we pop at markets across Arizona with pure corn oil, sugar and salt, and we'll never switch to a cheaper ingredient.</p>
+          <blockquote>“The Queen's Corn is a happy place.”</blockquote>
+          <a class="btn btn-ghost btn-sm" href="#s7">Read our story</a>
+        </div>
+      </div>
+      <ol class="steps">
+        <li><img src="../../public/bob-pouring-kernels.jpg" alt="Bob pouring kernels into the kettle"><div class="cap"><b>1</b>Kernels into the kettle</div></li>
+        <li><img src="../../public/reina-stirring-kettle.jpg" alt="Reina stirring with the paddle"><div class="cap"><b>2</b>Stirred by hand, nonstop</div></li>
+        <li><img src="../../public/popcorn-scoop-fresh.jpg" alt="Fresh kettle corn in a scoop"><div class="cap"><b>3</b>Bagged while it's warm</div></li>
+      </ol>
+    </div>
+  </div>
+  <div class="spec">
+    <div><h4>Goal</h4><p>Why buy from them: real people, real process. Told once, briefly.</p></div>
+    <div><h4>Replaces</h4><p>Process sections “Artisanal Standard”, “Born from a Mission of Joy”, “Purest Ingredients”, and the separate “Meet Bob &amp; Reina”.</p></div>
+    <div><h4>Copy</h4><p>Taken from their own words on <code>/story</code>. Headline paraphrases “we both work in the medical field”.</p></div>
+    <div><h4>Design</h4><p>Photo + text, then a 3-step photo strip. Numbers are a real sequence (pour, stir, bag).</p></div>
+  </div>
+</section>
+
+<!-- ================================ S8 REVIEWS ================================ -->
+<section class="sec" id="s8">
+  <div class="sec-head"><span class="no">8</span><h2 class="display">Reviews</h2><span class="tag keep">Replace content</span></div>
+  <div class="frame">
+    <div class="stage">
+      <div class="m-title"><span class="eyebrow" style="color:var(--red-deep)">From our customers</span><h3 class="display">What people say at the stand</h3></div>
+      <div class="reviews">
+        <div class="review"><span class="stars" aria-hidden="true">★★★★★</span><p>Real review #1 goes here, copied word for word with permission.</p><span class="src">Name · Google review</span></div>
+        <div class="review"><span class="stars" aria-hidden="true">★★★★★</span><p>Real review #2, ideally mentioning a market or a flavor.</p><span class="src">Name · Facebook</span></div>
+        <div class="review"><span class="stars" aria-hidden="true">★★★★★</span><p>Real review #3, ideally from a school or event organizer.</p><span class="src">Name · Fundraiser organizer</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="spec">
+    <div><h4>Rule</h4><p>Only real, attributable reviews with a link to the source. The current three (Sarah Jenkins, Mark Thompson, Elena Rodriguez) reuse the admin demo names and must go.</p></div>
+    <div><h4>If no reviews yet</h4><p>Hide the whole section. Don't ship placeholders. <span class="todo">Collect 3 reviews from Google/Facebook</span></p></div>
+  </div>
+</section>
+
+<!-- ================================ S9 CLOSE + FOOTER ================================ -->
+<section class="sec" id="s9">
+  <div class="sec-head"><span class="no">9</span><h2 class="display">Questions + footer</h2><span class="tag keep">Redesign</span></div>
+  <div class="frame">
+    <div class="stage">
+      <div class="m-close">
+        <div><h3 class="display">Big order or a question?</h3><p>Weddings, company gifts, school events: talk to Bob &amp; Reina directly.</p></div>
+        <div class="actions"><span class="phone">(623) 692-1811</span><a class="btn btn-red" href="#s9">Send us a message</a></div>
+      </div>
+    </div>
+    <footer class="m-foot">
+      <div><img src="../../public/logo-transparent.png" alt="The Queen's Corn logo"><p>Hand-popped kettle corn, fit for royalty. Family-run in Arizona since 2017.</p></div>
+      <div><h5>Shop</h5><ul><li>All flavors</li><li>Markets &amp; pickup</li><li>Fundraising</li></ul></div>
+      <div><h5>About</h5><ul><li>Our story</li><li>Contact</li><li>Terms &amp; privacy</li></ul></div>
+      <div><h5>Say hi</h5><ul><li>(623) 692-1811</li><li>thequeenscornaz@gmail.com</li><li>Facebook · Instagram</li><li>BBB A+ accredited</li></ul></div>
+    </footer>
+  </div>
+  <div class="spec">
+    <div><h4>Goal</h4><p>Catch high-value visitors (events, gifts, big orders) who need a person, not a cart.</p></div>
+    <div><h4>Footer changes</h4><p>Remove both “Admin Portal” links (owners use <code>/admin/login</code> directly). Keep phone and email as plain text with tap-to-call.</p></div>
+  </div>
+</section>
+
+<!-- ================================ REMOVED ================================ -->
+<section class="sec" id="removed">
+  <div class="sec-head"><h2 class="display">Taken off the homepage</h2></div>
+  <div class="gone">
+    <div><b>Hero flavor pills</b>Not clickable; repeat section 4.</div>
+    <div><b>“Scroll to explore”</b>Wastes the most valuable space on a phone.</div>
+    <div><b>Text marquee</b>Decorative, repeats the trust strip, and causes sideways scrolling on phones.</div>
+    <div><b>3 process sections + duplicate story</b>Merged into one section (7).</div>
+    <div><b>Invented testimonials</b>Replaced by real reviews or hidden.</div>
+    <div><b>“#1 Best Seller”, “$34,000 donated”</b>Back only when the owners confirm them.</div>
+    <div><b>Fade-in-on-scroll hiding content</b>Sections are visible at rest; motion only on hover and press.</div>
+    <div><b>AI-generated hero photo</b>Replaced by Reina at the kettle.</div>
+  </div>
+</section>
+
+<!-- ================================ BUILD ================================ -->
+<section class="sec" id="build">
+  <div class="sec-head"><h2 class="display">Build plan</h2></div>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th>Step</th><th>What</th><th>Files</th><th>Depends on</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>Connect Shopify checkout (sizes as variants). Until then, “Order now” and pre-orders go to the contact form with the order filled in</td><td><code>src/lib/shopify.ts</code>, <code>CartDrawer.tsx</code></td><td>Shopify store + env vars</td></tr>
+        <tr><td>1</td><td>v3 tokens + fonts (with old variable aliases)</td><td><code>globals.css</code>, <code>layout.tsx</code></td><td>Owner sign-off on v3</td></tr>
+        <tr><td>2</td><td>Shared Button, Stamp, Ticket, ProductCard components to match <code>components.css</code></td><td><code>src/components/ui/*</code></td><td>1</td></tr>
+        <tr><td>3</td><td>Nav + Hero with next market (S1)</td><td><code>Navbar.tsx</code>, <code>Hero.tsx</code></td><td>2</td></tr>
+        <tr><td>4</td><td>Three ways (S3, new) + Trust strip to v3 (S2)</td><td><code>WaysToBuy.tsx</code>, <code>TrustBanner.tsx</code></td><td>2</td></tr>
+        <tr><td>5</td><td>Flavors (S4) + Markets (S5)</td><td><code>FeaturedProducts.tsx</code>, <code>ProductCard.tsx</code>, <code>UpcomingEvents.tsx</code></td><td>2</td></tr>
+        <tr><td>6</td><td>Fundraising band (S6) + Story merge (S7)</td><td><code>FundraisingBand.tsx</code>, <code>Story.tsx</code>; delete <code>Process.tsx</code> from home</td><td>2</td></tr>
+        <tr><td>7</td><td>Reviews (S8, hidden until real) + Close + Footer (S9); remove marquee</td><td><code>Testimonials.tsx</code>, <code>Footer.tsx</code>, <code>page.tsx</code></td><td>2</td></tr>
+        <tr><td>8</td><td>QA: 375 / 768 / 1440px, Lighthouse, no horizontal scroll, <code>npm run build</code>; PR with before/after screenshots</td><td>none</td><td>3–7</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:var(--text-sm); color:var(--ink-soft); max-width:70ch">Measure after launch (Vercel Analytics custom events): clicks on Order now, Pre-order, Start a fundraiser and Book an event; cart opens; checkouts. Review after 4 weekends of markets.</p>
+</section>
+
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <p style="margin:0"><strong>Landing page blueprint v1</strong> · Lives in <code style="background:transparent;color:var(--yellow)">wiki/design-system/</code> · Built on <a href="design-system.html">Design System v3</a> · Decision: <a href="../decisions/landing-page-structure.md">landing-page-structure.md</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

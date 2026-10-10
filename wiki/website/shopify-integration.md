@@ -4,8 +4,8 @@ type: website
 owner: unassigned
 updated: 2026-10-10
 sources:
-  - src/lib/shopify.ts @ fbdbf0b
-  - src/components/cart/CartDrawer.tsx @ fbdbf0b
+  - src/lib/shopify.ts @ ee5b44c
+  - src/components/cart/CartDrawer.tsx @ ee5b44c
 ---
 
 # Shopify Integration
@@ -47,8 +47,8 @@ Uses the `cartCreate` mutation and redirects to `checkoutUrl`. Adds cart attribu
 > local id ("1", "2"…) or a Shopify *product* id. Neither is a variant id, and bag size isn't mapped
 > to a variant, so real checkout will likely fail until variants are wired up. See [[open-questions]].
 
-## Feature branch additions
+## Admin server actions
 
-`src/app/actions/shopify.ts` adds server actions: `testShopifyConnectionAction`,
-`syncShopifyCatalogAction`, `testShopifyCheckoutAction` (used by the admin Settings screen).
-See [[branches-and-status]].
+`src/app/actions/shopify.ts` (merged in PR #1) has the server actions `testShopifyConnectionAction`,
+`syncShopifyCatalogAction` and `testShopifyCheckoutAction`, used by the admin Settings screen.
+See [[admin-portal]].
