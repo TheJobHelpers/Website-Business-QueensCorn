@@ -3,6 +3,16 @@
 Append-only history, **newest first**. Format and types are defined in [CLAUDE.md](CLAUDE.md).
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
+## 2026-10-10 | restructure | Manula (with Claude)
+- Design direction changed to **v3.1 "Warm Canopy"** after reviewing the built v3.0 homepage ("too different")
+- Rewrote `design-system/tokens.css`, `components.css`, `design-system.html`; updated `landing-page-blueprint.html` (v1.1)
+- Updated: [[design-palette-decision]], [[brand-and-design-system]], index
+- Follow-up: deeper espresso-tinted shadows; hero brought back to a real photo under today's dark espresso-brown
+  shade (`--scrim`), cream headline with yellow italic, dark glass pop-up pill
+- Balanced the page rhythm: light trust strip floating over the hero, markets on a dark espresso band
+  (dark at top, middle, bottom; never two dark blocks touching)
+- Code on `feature/landing-page-v3` still uses v3.0 styles; to be moved to v3.1 after sign-off
+
 ## 2026-10-10 | ingest | Manula (with Claude)
 - Created `design-system/landing-page-blueprint.html` (homepage plan v1) and [[landing-page-structure]]
 - Split component CSS into `design-system/components.css`; trust strip spec now matches `TrustBanner.tsx`

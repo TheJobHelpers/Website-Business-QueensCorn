@@ -22,27 +22,30 @@ sources:
    2026-10-10, currently live**): keeps crimson and gold as brand colors but uses warm cream
    backgrounds and espresso text, described as the "authentic" palette.
 
-4. **v3 "Canopy"** (2026-10-10, proposed by Manula with Claude): replaces Buttercream. See below.
+4. **v3.0 "Canopy"** (2026-10-10): bold full-yellow, slab type, sticker borders. Built on the homepage, then
+   judged **too different** from the site customers and owners know.
+5. **v3.1 "Warm Canopy"** (2026-10-10, chosen by Manula): keeps Buttercream's look, adds the brand as accents. See below.
 
-## Decision (v3 "Canopy")
+## Decision (v3.1 "Warm Canopy")
 
-**What:** Canopy Yellow `#FFE01B`, Queen Red `#D7141C`, Arizona Sky `#0B4F9C`, Silhouette Ink `#1C1719`
-on Popcorn White `#FFFDF6`. Alfa Slab One for headlines and prices, Figtree for everything else. Hard
-"sticker" shadows, canopy polka dots, ticket-stub event cards. Real photos only.
+**What:** keep the current cream (`#FAF6EF`), card white, espresso text, Instrument Serif headlines and
+Outfit body, soft shadows and rounded cards. Add the brand as accents: Queen Red `#D9232A` for the one main
+action and prices, Canopy Yellow `#FFD84A` for one highlight per view (the next pop-up pill), a butter tint
+for one highlight band, real photos only, and the event ticket. Muted text darkened to `#6A5D4E` (AA).
+The hero keeps today's look: a real photo under the dark espresso-brown shade, cream headline with a
+yellow italic tagline. Shadows are warm and deeper than v3.0's soft draft.
 
 **Why:**
-- The colors are sampled from the brand's own physical assets: the logo (red script, black
-  silhouette), the tent, flags and trailer (lemon yellow with polka dots), and the sky over the stand.
-  Buttercream/Instrument Serif looked premium but generic, with no link to what customers see at markets.
-- The logo tagline and canopy use heavy slab lettering, hence a slab display face.
-- Contrast was checked: every text pair used meets WCAG AA (table in the design system).
-- The earlier `--text-muted` #7A6E5F failed AA on cream (4.4:1).
+- v3.0 was faithful to the stand but felt like a different company next to the site people already know.
+- The real problem was clarity and selling, not the palette. v3.1 fixes the page structure and keeps the look.
+- Yellow from the canopy still connects the site to the stand, just in small doses.
 
-**Source of truth:** `wiki/design-system/tokens.css` + `wiki/design-system/design-system.html`.
+**Source of truth:** `wiki/design-system/tokens.css` + `components.css` + `design-system.html`.
 
 ## Current status
 
-Decided as the direction, **not yet applied to the code**. `main` (live) uses Buttercream.
+v3.1 chosen; HTML spec updated first. The code on `feature/landing-page-v3` was built in v3.0 and
+must be moved to v3.1 next. `main` (live) uses Buttercream.
 The step-by-step rollout plan is in [[branches-and-status]]; the old-to-new variable map is in
 section 10 of the design system. Details: [[brand-and-design-system]].
 

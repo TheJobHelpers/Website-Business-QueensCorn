@@ -1,56 +1,62 @@
 /* ==========================================================================
-   The Queen's Corn — Design Tokens  ·  v3.0 "Canopy"  ·  2026-10-10
+   The Queen's Corn — Design Tokens  ·  v3.1 "Warm Canopy"  ·  2026-10-10
    SINGLE SOURCE OF TRUTH for colors, type, spacing, radius, shadow, motion.
    Spec & live examples: wiki/design-system/design-system.html
    Rule: the website (src/app/globals.css) mirrors these tokens 1:1.
    Change a value HERE first, then mirror it, then log it in wiki/log.md.
+
+   v3.1 keeps the warm cream, Instrument Serif and soft cards customers already
+   know from the current site, and brings the brand in as accents: logo red for
+   actions, canopy yellow for one highlight, real photos.
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700;800&display=swap");
 
 :root {
-  /* ---- Brand colors (sampled from the real logo, canopy & Arizona sky) ---- */
-  --red: #D7141C;          /* Queen Red: logo script. Primary CTA, price, key accents. 5.15:1 on paper */
-  --red-deep: #B00F17;     /* Pressed/hover red, red text on tinted grounds. 7.05:1 on paper */
-  --yellow: #FFE01B;       /* Canopy Yellow: the tent & flags. Big brand fields, kettle buttons. Ink text only */
-  --butter: #FFF4BF;       /* Canopy tint: highlighted sections, selected states */
-  --sky: #0B4F9C;          /* Arizona Sky / flag-hat blue: links, info, seasonal, secondary button. 7.9:1 on paper */
-  --ink: #1C1719;          /* Silhouette: all body text, borders, sticker shadows. 17.4:1 on paper */
-  --ink-soft: #5A4F48;     /* Secondary text, captions. 7.8:1 on paper, 7.2:1 on butter */
-  --paper: #FFFDF6;        /* Popcorn White: page background (warm white, NOT cream/beige) */
-  --white: #FFFFFF;        /* Card surfaces sitting on paper or butter */
-  --line: #E7DDC4;         /* Hairline dividers only (decorative, not for control borders) */
+  /* ---- Brand colors ---- */
+  --red: #D9232A;          /* Queen Red: primary buttons, prices, emphasis. White on it 4.97:1; on paper 4.61:1 */
+  --red-deep: #B51A20;     /* Hover/pressed red; red text below 18px. 6.22:1 on paper */
+  --yellow: #FFD84A;       /* Canopy Yellow: ONE highlight per view (next pop-up pill, add-to-bag, badges). Ink text only */
+  --butter: #FFF1C7;       /* Canopy tint: highlight bands (fundraising), selected states */
+  --sky: #0B4F9C;          /* Arizona Sky: text links and Seasonal flavors only. 7.9:1 on paper */
+  --ink: #241B13;          /* Roasted Espresso: text, outline-button borders. 15.7:1 on paper */
+  --ink-soft: #6A5D4E;     /* Secondary text. 5.93:1 on paper, 5.67:1 on butter (old #7A6E5F was 4.6) */
+  --paper: #FAF6EF;        /* Warm Buttercream: page background (unchanged from the current site) */
+  --white: #FFFDF9;        /* Card surfaces on paper */
+  --line: #E8DFD1;         /* Card borders and dividers */
+  --espresso: #1E1711;     /* Dark bands: trust strip, footer. Paper text 16.4:1, yellow 12.8:1 */
 
   /* ---- Flavor coding (tags, taste meters, category filters only) ---- */
-  --flavor-sweet: #A8561A;     /* Caramel  · 5.14:1 on white */
-  --flavor-savory: #B54A00;    /* Cheddar  · text use ≥ 4.5:1 on white */
-  --flavor-spicy: #2F6B2A;     /* Jalapeño · 6.33:1 on white */
-  --flavor-seasonal: var(--sky); /* Patriot / Holiday */
+  --flavor-sweet: #A8561A;
+  --flavor-savory: #B54A00;
+  --flavor-spicy: #2F6B2A;
+  --flavor-seasonal: var(--sky);
 
   /* ---- Status (always paired with a word or icon) ---- */
   --success: #2F6B2A;
   --warning: #8A5A00;
   --error: var(--red-deep);
-  --focus: #0B4F9C;        /* focus ring: 3px solid sky, 2px offset */
+  --focus: #0B4F9C;        /* focus ring: 3px solid, 2px offset */
 
   /* ---- Typography ---- */
-  --font-display: "Alfa Slab One", "Rockwell", "Roboto Slab", Georgia, serif; /* headlines, prices, numbers */
-  --font-body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;   /* everything else */
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;  /* headlines, prices, big numbers (400 only) */
+  --font-body: "Outfit", "Segoe UI", system-ui, -apple-system, sans-serif; /* everything else */
 
-  --text-hero: clamp(2.75rem, 1.6rem + 4.6vw, 5rem);   /* 44 → 80px, hero headline only */
-  --text-h1: clamp(2.25rem, 1.7rem + 2.2vw, 3.25rem);  /* 36 → 52px, page titles */
-  --text-h2: clamp(1.75rem, 1.45rem + 1.2vw, 2.5rem);  /* 28 → 40px, section titles */
-  --text-h3: 1.5rem;       /* 24px, card titles (display font) */
-  --text-lg: 1.25rem;      /* 20px, lead paragraphs */
-  --text-body: 1.0625rem;  /* 17px, body copy */
-  --text-sm: 0.9375rem;    /* 15px, UI text, card descriptions */
-  --text-xs: 0.8125rem;    /* 13px, captions, meta */
-  --text-label: 0.75rem;   /* 12px, UPPERCASE labels, tracking 0.12em, weight 800 */
+  --text-hero: clamp(2.75rem, 1.5rem + 5vw, 5.25rem);  /* 44 → 84px */
+  --text-h1: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
+  --text-h2: clamp(2rem, 1.6rem + 1.6vw, 3rem);        /* serif needs more size than a slab */
+  --text-h3: 1.625rem;
+  --text-lg: 1.1875rem;
+  --text-body: 1.0625rem;
+  --text-sm: 0.9375rem;
+  --text-xs: 0.8125rem;
+  --text-label: 0.75rem;
 
-  --leading-tight: 1.05;   /* display */
-  --leading-snug: 1.3;     /* h3, UI */
-  --leading-body: 1.6;     /* paragraphs */
-  --tracking-label: 0.12em;
+  --leading-tight: 1.05;
+  --leading-snug: 1.25;
+  --leading-body: 1.65;
+  --tracking-display: -0.01em;
+  --tracking-label: 0.14em;
 
   /* ---- Spacing (4px base) ---- */
   --space-1: 4px;
@@ -67,19 +73,29 @@
   --gutter: clamp(16px, 4vw, 32px);
 
   /* ---- Radius ---- */
-  --radius-sm: 6px;        /* inputs, tags */
-  --radius-md: 12px;       /* buttons, cards */
-  --radius-lg: 20px;       /* photos, large panels */
-  --radius-pill: 999px;    /* chips, stamps */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;    /* buttons, pills, stamps */
 
-  /* ---- Borders & shadows: "sticker" look, hard offset, no blur glow ---- */
-  --border: 2px solid var(--ink);
-  --shadow-sticker: 0 4px 0 var(--ink);           /* buttons, product cards, tickets */
-  --shadow-sticker-lg: 0 6px 0 var(--ink);        /* hover state */
-  --shadow-photo: 0 16px 32px -16px rgba(28, 23, 25, 0.45); /* photos only */
+  /* ---- Borders & shadows: warm espresso-tinted, with real depth ---- */
+  --border: 1px solid var(--line);
+  --border-strong: 1.5px solid var(--ink);   /* outline buttons, inputs */
+  --shadow-card: 0 2px 6px rgba(36, 27, 19, 0.08), 0 16px 36px -14px rgba(36, 27, 19, 0.34);
+  --shadow-card-hover: 0 4px 10px rgba(36, 27, 19, 0.10), 0 28px 48px -18px rgba(36, 27, 19, 0.42);
+  --shadow-button: 0 6px 20px rgba(217, 35, 42, 0.40), 0 2px 4px rgba(36, 27, 19, 0.25);
+  --shadow-photo: 0 24px 52px -20px rgba(36, 27, 19, 0.55);
+  --shadow-band: 0 20px 44px -22px rgba(22, 18, 14, 0.55);   /* dark bands: trust strip, hero edge */
 
-  /* ---- Signature pattern: canopy polka dots ---- */
-  --dots: radial-gradient(circle at center, rgba(255, 253, 246, 0.55) 0 5px, transparent 5.5px) 0 0 / 28px 28px;
+  /* ---- Hero shade: the espresso-brown photo overlay from the current site ---- */
+  --hero-ground: #16120E;  /* behind the photo while it loads */
+  --scrim: linear-gradient(180deg, rgba(22, 18, 14, 0.72) 0%, rgba(22, 18, 14, 0.42) 35%, rgba(22, 18, 14, 0.82) 100%);
+  --scrim-side: linear-gradient(90deg, rgba(22, 18, 14, 0.88) 0%, rgba(22, 18, 14, 0.62) 45%, rgba(22, 18, 14, 0.18) 100%);
+  --glass-dark: rgba(30, 23, 17, 0.78);      /* pills and badges sitting on the photo */
+  --text-shadow-hero: 0 2px 18px rgba(0, 0, 0, 0.55);
+
+  /* ---- Canopy dots: subtle texture, yellow fields only ---- */
+  --dots: radial-gradient(circle, rgba(255, 253, 249, 0.45) 0 4px, transparent 4.5px) 0 0 / 24px 24px;
 
   /* ---- Motion ---- */
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);

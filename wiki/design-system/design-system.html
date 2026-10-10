@@ -4,123 +4,112 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Queen's Corn Design System</title>
-<!-- Tokens live in tokens.css (single source of truth). This page only adds layout for the spec itself. -->
+<!-- Tokens: tokens.css (single source of truth). Components: components.css. This page only adds layout for the spec. -->
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="components.css">
 <style>
-  /* Layout concept: a spec sheet on popcorn-white paper; each section opens with a canopy-yellow tab like a fair booth sign. */
+  /* Layout concept: a warm spec book on buttercream paper; each section opens with a small yellow tab. */
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body {
-    margin: 0; background: var(--paper); color: var(--ink);
-    font-family: var(--font-body); font-size: var(--text-body); line-height: var(--leading-body);
-    -webkit-font-smoothing: antialiased;
-  }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: var(--text-body); line-height: var(--leading-body); -webkit-font-smoothing: antialiased; }
   img { max-width: 100%; display: block; }
   a { color: var(--sky); text-underline-offset: 3px; }
   :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
-  code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 0.875em; background: var(--butter); padding: 1px 6px; border-radius: 4px; }
-
+  code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .85em; background: var(--butter); padding: 1px 6px; border-radius: 4px; }
   .wrap { max-width: var(--container); margin: 0 auto; padding-inline: var(--gutter); }
+  .eyebrow { font-size: var(--text-label); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--red-deep); }
+  .display { font-family: var(--font-display); font-weight: 400; letter-spacing: var(--tracking-display); line-height: var(--leading-tight); text-wrap: balance; }
 
-  /* ---------- Masthead ---------- */
-  .mast { background: var(--yellow); background-image: radial-gradient(circle, rgba(255,253,246,.55) 0 5px, transparent 5.5px); background-size: 28px 28px; border-bottom: var(--border); }
-  .mast .wrap { display: grid; grid-template-columns: 220px 1fr; gap: var(--space-7); align-items: center; padding-block: var(--space-8); }
-  .mast img { width: 220px; background: var(--white); border: var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sticker); padding: var(--space-3); }
-  .eyebrow { font-size: var(--text-label); font-weight: 800; letter-spacing: var(--tracking-label); text-transform: uppercase; }
-  .mast h1 { font-family: var(--font-display); font-weight: 400; font-size: var(--text-hero); line-height: var(--leading-tight); margin: var(--space-2) 0 var(--space-4); text-wrap: balance; }
-  .mast p { font-size: var(--text-lg); max-width: 60ch; margin: 0; }
+  /* Masthead */
+  .mast .wrap { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--space-7); align-items: center; padding-block: var(--space-8) var(--space-7); }
+  .mast img { width: 200px; background: var(--white); border: var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: var(--space-3); }
+  .mast h1 { font-size: var(--text-hero); margin: var(--space-3) 0 var(--space-4); }
+  .mast h1 em { color: var(--red); }
+  .mast p { font-size: var(--text-lg); max-width: 60ch; margin: 0; color: var(--ink-soft); }
   .mast .meta { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-5); }
 
-  nav.toc { position: sticky; top: 0; z-index: 5; background: var(--ink); }
+  nav.toc { position: sticky; top: 0; z-index: 5; background: rgba(250, 246, 239, 0.94); backdrop-filter: blur(10px); border-block: var(--border); }
   nav.toc .wrap { display: flex; gap: var(--space-5); overflow-x: auto; padding-block: var(--space-3); }
-  nav.toc a { color: var(--paper); text-decoration: none; font-size: var(--text-label); font-weight: 800; letter-spacing: var(--tracking-label); text-transform: uppercase; white-space: nowrap; }
-  nav.toc a:hover { color: var(--yellow); }
+  nav.toc a { color: var(--ink); text-decoration: none; font-size: var(--text-label); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; white-space: nowrap; }
+  nav.toc a:hover { color: var(--red); }
 
-  /* ---------- Sections ---------- */
   section.block { padding-block: var(--space-9) 0; }
-  .tab { display: inline-block; background: var(--yellow); border: var(--border); border-radius: var(--radius-sm); padding: 2px 10px; font-size: var(--text-label); font-weight: 800; letter-spacing: var(--tracking-label); text-transform: uppercase; }
-  h2.title { font-family: var(--font-display); font-weight: 400; font-size: var(--text-h1); line-height: var(--leading-tight); margin: var(--space-4) 0 var(--space-3); text-wrap: balance; }
+  .tab { display: inline-block; background: var(--yellow); border-radius: var(--radius-pill); padding: 3px 12px; font-size: var(--text-label); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  h2.title { font-size: var(--text-h1); margin: var(--space-4) 0 var(--space-3); }
   .lede { font-size: var(--text-lg); color: var(--ink-soft); max-width: 65ch; margin: 0 0 var(--space-7); }
-  h3.sub { font-family: var(--font-display); font-weight: 400; font-size: var(--text-h3); line-height: var(--leading-snug); margin: var(--space-7) 0 var(--space-4); }
+  h3.sub { font-family: var(--font-display); font-weight: 400; font-size: var(--text-h3); letter-spacing: var(--tracking-display); line-height: var(--leading-snug); margin: var(--space-7) 0 var(--space-4); }
   p.note { max-width: 65ch; }
-
   .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5); }
   .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
-  .panel { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-5); min-width: 0; }
-  .panel h4 { margin: 0 0 var(--space-2); font-size: var(--text-sm); font-weight: 800; letter-spacing: var(--tracking-label); text-transform: uppercase; }
-  .panel ul { margin: 0; padding-left: 1.1em; }
+  .panel { background: var(--white); border: var(--border); border-radius: var(--radius-lg); padding: var(--space-5); min-width: 0; }
+  .panel h4 { margin: 0 0 var(--space-2); font-size: var(--text-sm); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .panel ul, .panel ol { margin: 0; padding-left: 1.1em; }
   .panel li + li { margin-top: var(--space-1); }
   .keep h4 { color: var(--success); }
   .retire h4 { color: var(--red-deep); }
+  .demo { background: var(--white); border: 1px dashed var(--line); border-radius: var(--radius-lg); padding: var(--space-5); display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+  .demo.col { flex-direction: column; align-items: stretch; }
+  .demo.paper { background: var(--paper); }
+  .cap { font-size: var(--text-xs); color: var(--ink-soft); margin: var(--space-2) 0 0; max-width: 75ch; }
 
-  /* Critique: photo evidence */
-  .evidence { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: var(--space-4); }
+  .evidence { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
   .evidence figure { margin: 0; }
-  .evidence img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-photo); }
+  .evidence img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-photo); }
   .evidence figcaption { font-size: var(--text-xs); color: var(--ink-soft); margin-top: var(--space-2); }
 
-  /* Colors */
-  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-4); }
-  .sw { border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; background: var(--white); }
-  .sw .chip { height: 110px; display: flex; align-items: flex-end; padding: var(--space-3); font-family: var(--font-display); font-size: 1.75rem; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: var(--space-4); }
+  .sw { border: var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--white); }
+  .sw .chip { height: 104px; display: flex; align-items: flex-end; padding: var(--space-3) var(--space-4); font-family: var(--font-display); font-size: 2rem; }
   .sw .info { padding: var(--space-3) var(--space-4) var(--space-4); }
-  .sw .name { font-weight: 800; }
+  .sw .name { font-weight: 700; }
   .sw .tok { font-size: var(--text-xs); color: var(--ink-soft); }
   .sw .use { font-size: var(--text-xs); margin-top: var(--space-2); }
-  .ratio { display: flex; height: 56px; border: var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-3); }
-  .ratio span { display: flex; align-items: center; justify-content: center; font-size: var(--text-label); font-weight: 800; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .ratio { display: flex; height: 52px; border: var(--border); border-radius: var(--radius-pill); overflow: hidden; margin-bottom: var(--space-3); }
+  .ratio span { display: flex; align-items: center; justify-content: center; font-size: var(--text-label); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
 
   table.spec { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
-  table.spec th, table.spec td { text-align: left; padding: var(--space-3); border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.spec th, table.spec td { text-align: left; padding: var(--space-3); border-bottom: var(--border); vertical-align: top; }
   table.spec th { font-size: var(--text-label); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-soft); }
-  .scroll { overflow-x: auto; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); }
+  .scroll { overflow-x: auto; background: var(--white); border: var(--border); border-radius: var(--radius-lg); }
   .pass { color: var(--success); font-weight: 700; }
   .large { color: var(--warning); font-weight: 700; }
+  .fail { color: var(--red-deep); font-weight: 700; }
 
-  /* Type specimen */
-  .specimen { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-6); min-width: 0; }
-  .specimen .big { font-family: var(--font-display); font-size: 4rem; line-height: 1; }
+  .specimen { background: var(--white); border: var(--border); border-radius: var(--radius-lg); padding: var(--space-6); min-width: 0; }
+  .specimen .big { font-family: var(--font-display); font-size: 4.5rem; line-height: 1; letter-spacing: var(--tracking-display); }
+  .specimen .big em { color: var(--red); }
   .specimen .chars { font-family: var(--font-display); font-size: 1.5rem; color: var(--ink-soft); margin-top: var(--space-3); overflow-wrap: anywhere; }
-  .scale-row { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: var(--space-5); align-items: baseline; padding-block: var(--space-4); border-bottom: 1px solid var(--line); }
+  .scale-row { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: var(--space-5); align-items: baseline; padding-block: var(--space-4); border-bottom: var(--border); }
   .scale-row .k { font-size: var(--text-xs); color: var(--ink-soft); }
   .scale-row .k b { display: block; color: var(--ink); font-size: var(--text-sm); }
+  .serif { font-family: var(--font-display); letter-spacing: var(--tracking-display); line-height: var(--leading-tight); }
 
-  /* Spacing & radius */
   .space-row { display: flex; align-items: center; gap: var(--space-4); padding-block: 6px; font-size: var(--text-sm); }
-  .space-row .bar { height: 16px; background: var(--red); border-radius: 3px; }
+  .space-row .bar { height: 14px; background: var(--red); border-radius: 3px; }
   .space-row code { min-width: 92px; }
   .radii { display: flex; flex-wrap: wrap; gap: var(--space-5); }
   .radii div { width: 110px; height: 80px; background: var(--butter); border: var(--border); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); font-weight: 700; }
 
-  .demo { background: var(--white); border: 1px dashed var(--line); border-radius: var(--radius-md); padding: var(--space-5); display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
-  .demo.col { flex-direction: column; align-items: stretch; }
-  .cap { font-size: var(--text-xs); color: var(--ink-soft); margin: var(--space-2) 0 0; }
-
-  /* Photos */
-  .photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-4); }
+  .photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: var(--space-4); }
   .photos figure { margin: 0; }
-  .photos img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-md); }
+  .photos img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-lg); }
   .photos figcaption { font-size: var(--text-xs); margin-top: 6px; }
-  .photos figcaption code { font-size: 0.75rem; }
-
-  /* Voice */
   .say { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
   .say .panel p { margin: 0 0 var(--space-2); }
-  .q { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.3; }
+  .q { font-family: var(--font-display); font-size: 1.5rem; line-height: 1.25; }
 
-  footer.end { margin-top: var(--space-9); background: var(--ink); color: var(--paper); padding-block: var(--space-7); }
+  footer.end { margin-top: var(--space-9); background: var(--espresso); color: var(--paper); padding-block: var(--space-7); }
   footer.end a { color: var(--yellow); }
 
   @media (max-width: 860px) {
-    .mast .wrap { grid-template-columns: 1fr; gap: var(--space-5); padding-block: var(--space-7); }
-    .mast img { width: 160px; }
+    .mast .wrap { grid-template-columns: 1fr; gap: var(--space-5); padding-block: var(--space-7) var(--space-6); }
+    .mast img { width: 150px; }
     .grid-3, .evidence { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 600px) {
     .grid-2, .grid-3, .evidence, .say { grid-template-columns: 1fr; }
     .scale-row { grid-template-columns: 1fr; gap: var(--space-1); }
-    .specimen .big { font-size: 3rem; }
+    .specimen .big { font-size: 3.25rem; }
     .canopy { padding: var(--space-6) var(--space-4); }
   }
 </style>
@@ -131,12 +120,13 @@
   <div class="wrap">
     <img src="../../public/logo-transparent.png" alt="The Queen's Corn logo: red script wordmark beside a black silhouette in a flag cowboy hat">
     <div>
-      <div class="eyebrow">Design System · v3.0 “Canopy” · 2026-10-10</div>
-      <h1>Hand popped. Fit for royalty. Built from the real stand.</h1>
-      <p>The single reference for how The Queen's Corn looks, reads and behaves on the website. Tokens live in <code>tokens.css</code>; this page shows how to use them.</p>
+      <div class="eyebrow">Design System · v3.1 “Warm Canopy” · 2026-10-10</div>
+      <h1 class="display">Warm like the stand. <em>Clear like a menu board.</em></h1>
+      <p>The single reference for how The Queen's Corn looks, reads and behaves on the website. Tokens live in <code>tokens.css</code>, component styles in <code>components.css</code>; this page shows how to use them.</p>
       <div class="meta">
-        <span class="stamp stamp-solid">Source of truth</span>
-        <span class="stamp stamp-ink">Replaces “Fresh Artisanal” v2.0</span>
+        <span class="stamp stamp-dark">Source of truth</span>
+        <span class="stamp">Evolves today's site, not a rebrand</span>
+        <span class="stamp stamp-yellow">Replaces bold v3.0</span>
       </div>
     </div>
   </div>
@@ -144,43 +134,44 @@
 
 <nav class="toc" aria-label="Sections">
   <div class="wrap">
-    <a href="#critique">Critique</a><a href="#color">Color</a><a href="#type">Type</a><a href="#shape">Shape &amp; pattern</a><a href="#space">Spacing</a><a href="#components">Components</a><a href="#imagery">Imagery</a><a href="#voice">Voice</a><a href="#rules">Rules for changes</a><a href="#migrate">Migration</a>
+    <a href="#direction">Direction</a><a href="#color">Color</a><a href="#type">Type</a><a href="#shape">Shape</a><a href="#space">Spacing</a><a href="#components">Components</a><a href="#imagery">Imagery</a><a href="#voice">Voice</a><a href="#rules">Rules for changes</a><a href="#migrate">Migration</a>
   </div>
 </nav>
 
 <main class="wrap">
 
-<!-- =============================== CRITIQUE =============================== -->
-<section class="block" id="critique">
-  <span class="tab">01 · The critique</span>
-  <h2 class="title">The website was dressed as a bakery. The brand is a fair stand.</h2>
-  <p class="lede">The current site uses buttercream backgrounds, a thin editorial serif and soft gold. It looks expensive, but it could be any artisanal Shopify store, and it doesn't look like the stand customers actually walk up to. The real brand has been on the canopy all along: lemon-yellow fabric with polka dots, red script, a black silhouette in a flag hat, heavy slab lettering, under a deep Arizona sky. v3 brings the website back to that.</p>
+<!-- ============================== DIRECTION ============================== -->
+<section class="block" id="direction">
+  <span class="tab">01 · Direction</span>
+  <h2 class="title display">Keep the warmth. Add the brand. Fix the clarity.</h2>
+  <p class="lede">The current site already feels warm and premium, and customers and the owners like it. What it lacked was the brand's own color and a page that sells clearly. v3.1 keeps the cream, the serif and the soft cards, and borrows the stand's red and canopy yellow as accents: one red action per view, one yellow highlight per view, real photos everywhere.</p>
 
   <div class="evidence">
-    <figure><img src="../../public/booth-palm-trees.jpg" alt="Yellow Kettle Corn flag and canopy under a deep blue Arizona sky with palm trees"><figcaption>Canopy yellow, slab lettering, Arizona sky. This photo is the palette.</figcaption></figure>
-    <figure><img src="../../public/reina-stirring-kettle.jpg" alt="Reina stirring the kettle with a long wooden paddle under the polka-dot canopy"><figcaption>Polka-dot canopy, red script, the paddle. Our pattern and our story.</figcaption></figure>
-    <figure><img src="../../public/trailer-rainbow.jpg" alt="Yellow polka-dot trailer with the red Queen's Corn script and silhouette"><figcaption>The trailer: yellow, red and black is the brand's whole wardrobe.</figcaption></figure>
+    <figure><img src="../../public/booth-palm-trees.jpg" alt="Yellow Kettle Corn flag and canopy under a deep blue Arizona sky"><figcaption>Canopy yellow becomes our highlight color, used sparingly.</figcaption></figure>
+    <figure><img src="../../public/reina-stirring-kettle.jpg" alt="Reina stirring the kettle with a long wooden paddle"><figcaption>Real people at the real kettle: the photos do the selling.</figcaption></figure>
+    <figure><img src="../../public/trailer-rainbow.jpg" alt="Yellow trailer with the red Queen's Corn script"><figcaption>The logo red is the action color: buttons and prices.</figcaption></figure>
   </div>
 
   <div class="grid-2" style="margin-top: var(--space-6)">
     <div class="panel keep">
-      <h4>Keep</h4>
+      <h4>Keep from today's site</h4>
       <ul>
-        <li>Queen Red from the logo as the main action color</li>
-        <li>Real photography of Bob, Reina, the kettle and the stand</li>
-        <li>Taste profiles on product cards (now drawn as kernels)</li>
-        <li>Event cards with free-pickup pre-order</li>
-        <li>The warm founder voice: “a happy place”</li>
+        <li>Warm buttercream background and white cards</li>
+        <li>Instrument Serif headlines with Outfit body text</li>
+        <li>Crimson red for actions, espresso for dark bands</li>
+        <li>The dark espresso-brown shade over the hero photo</li>
+        <li>Warm, deep shadows and rounded corners</li>
+        <li>Real photography of Bob, Reina and the stand</li>
       </ul>
     </div>
     <div class="panel retire">
-      <h4>Retire</h4>
+      <h4>Change</h4>
       <ul>
-        <li>Buttercream/espresso “artisanal” palette and Instrument Serif. Elegant, but not this brand</li>
-        <li>Soft blurred shadows and glass effects. Our shadows are hard, like a sticker</li>
-        <li>AI-generated photos of people and bags with a fake logo on the label</li>
-        <li>Unverified claims (“#1 Best Seller”, “$34,000 donated”) until Bob &amp; Reina confirm</li>
-        <li>Fade-in-on-scroll sections that look empty on phones</li>
+        <li>Kettle Gold → Canopy Yellow from the tent, used as one highlight per view</li>
+        <li>Muted text darkened to pass contrast (was 4.6:1, now 5.9:1)</li>
+        <li>Sage and copper retired, except as flavor coding</li>
+        <li>Fake reviews, unverified claims and AI-generated photos removed</li>
+        <li>Content hidden behind fade-in animations made visible at rest</li>
       </ul>
     </div>
   </div>
@@ -189,48 +180,47 @@
 <!-- ================================ COLOR ================================ -->
 <section class="block" id="color">
   <span class="tab">02 · Color</span>
-  <h2 class="title">Five colors off the canopy</h2>
-  <p class="lede">Every color was sampled from the logo, the tent or the sky over the stand. Use the token names in code, never the hex values.</p>
+  <h2 class="title display">Cream first, brand as accent</h2>
+  <p class="lede">Use the token names in code, never the hex values.</p>
 
-  <div class="ratio" role="img" aria-label="Color proportion: 60 percent paper and white, 20 percent ink, 12 percent yellow, 6 percent red, 2 percent sky">
-    <span style="flex:60; background:var(--paper)">Paper 60%</span>
-    <span style="flex:20; background:var(--ink); color:var(--paper)">Ink 20%</span>
-    <span style="flex:12; background:var(--yellow)">Yellow</span>
-    <span style="flex:6; background:var(--red); color:var(--white)">Red</span>
-    <span style="flex:2; background:var(--sky)"></span>
+  <div class="ratio" role="img" aria-label="Color proportion: 70 percent cream and white, 18 percent espresso, 6 percent red, 4 percent yellow, 2 percent butter">
+    <span style="flex:70; background:var(--paper)">Cream &amp; white 70%</span>
+    <span style="flex:18; background:var(--espresso); color:var(--paper)">Espresso</span>
+    <span style="flex:6; background:var(--red); color:#fff">Red</span>
+    <span style="flex:4; background:var(--yellow)"></span>
+    <span style="flex:2; background:var(--butter)"></span>
   </div>
-  <p class="cap" style="margin-bottom: var(--space-6)">Proportion per page. Yellow is a <em>field</em> (one canopy band per page, plus kettle buttons); red is a <em>point</em> (the one action and prices). Too much of either turns it into a circus.</p>
+  <p class="cap" style="margin-bottom: var(--space-6)">Rhythm: dark hero → light trust strip and cream sections → dark markets band → butter fundraising → cream → dark footer. Never two dark blocks touching. Proportion per page. Red marks the one main action and prices. Yellow marks one thing to notice (the next pop-up, add to bag). Butter tints one highlight band.</p>
 
   <div class="swatches">
-    <div class="sw"><div class="chip" style="background:var(--red); color:var(--white)">Aa</div><div class="info"><div class="name">Queen Red</div><div class="tok"><code>--red</code> #D7141C</div><div class="use">Primary buttons, prices, the logo script. One red button per view.</div></div></div>
-    <div class="sw"><div class="chip" style="background:var(--yellow)">Aa</div><div class="info"><div class="name">Canopy Yellow</div><div class="tok"><code>--yellow</code> #FFE01B</div><div class="use">Brand bands, kettle buttons, selected sizes. Ink text only, never white.</div></div></div>
-    <div class="sw"><div class="chip" style="background:var(--sky); color:var(--white)">Aa</div><div class="info"><div class="name">Arizona Sky</div><div class="tok"><code>--sky</code> #0B4F9C</div><div class="use">Links, info, seasonal flavors, focus ring. The flag-hat blue.</div></div></div>
-    <div class="sw"><div class="chip" style="background:var(--ink); color:var(--yellow)">Aa</div><div class="info"><div class="name">Silhouette Ink</div><div class="tok"><code>--ink</code> #1C1719</div><div class="use">All text, borders, sticker shadows, footer and trust strip.</div></div></div>
-    <div class="sw"><div class="chip" style="background:var(--paper); border-bottom:1px solid var(--line)">Aa</div><div class="info"><div class="name">Popcorn White</div><div class="tok"><code>--paper</code> #FFFDF6</div><div class="use">Page background. Cards sit on it in <code>--white</code>.</div></div></div>
-    <div class="sw"><div class="chip" style="background:var(--butter)">Aa</div><div class="info"><div class="name">Canopy Tint</div><div class="tok"><code>--butter</code> #FFF4BF</div><div class="use">Quiet highlighted sections, photo placeholders, code.</div></div></div>
-    <div class="sw"><div class="chip" style="background:var(--red-deep); color:var(--white)">Aa</div><div class="info"><div class="name">Red Deep</div><div class="tok"><code>--red-deep</code> #B00F17</div><div class="use">Hover/pressed red, error text, red text on tinted grounds.</div></div></div>
-    <div class="sw"><div class="chip" style="background:var(--ink-soft); color:var(--white)">Aa</div><div class="info"><div class="name">Ink Soft</div><div class="tok"><code>--ink-soft</code> #5A4F48</div><div class="use">Secondary text, captions, meta. Never for buttons.</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--paper)">Aa</div><div class="info"><div class="name">Warm Buttercream</div><div class="tok"><code>--paper</code> #FAF6EF</div><div class="use">Page background everywhere.</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--white)">Aa</div><div class="info"><div class="name">Card White</div><div class="tok"><code>--white</code> #FFFDF9</div><div class="use">Cards and panels on the page.</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--red); color:#fff">Aa</div><div class="info"><div class="name">Queen Red</div><div class="tok"><code>--red</code> #D9232A</div><div class="use">Primary buttons, prices, the italic accent in headlines. One red button per view.</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--yellow)">Aa</div><div class="info"><div class="name">Canopy Yellow</div><div class="tok"><code>--yellow</code> #FFD84A</div><div class="use">One highlight per view: next pop-up pill, add-to-bag, trust figures on espresso. Ink text only.</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--butter)">Aa</div><div class="info"><div class="name">Canopy Tint</div><div class="tok"><code>--butter</code> #FFF1C7</div><div class="use">One highlight band per page (fundraising), selected states.</div></div></div>
+    <div class="sw"><div class="chip" style="background: var(--scrim-side), url(../../public/bob-pouring-kernels.jpg) center / cover; color:var(--paper)">Aa <em style="color:var(--yellow); margin-left:8px">fit</em></div><div class="info"><div class="name">Hero Shade</div><div class="tok"><code>--scrim</code> / <code>--scrim-side</code></div><div class="use">The espresso-brown overlay from today's hero, over a real photo. Cream text, yellow italic.</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--espresso); color:var(--yellow)">Aa</div><div class="info"><div class="name">Espresso</div><div class="tok"><code>--espresso</code> #1E1711</div><div class="use">Trust strip and footer.</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--ink); color:var(--paper)">Aa</div><div class="info"><div class="name">Roasted Ink</div><div class="tok"><code>--ink</code> #241B13</div><div class="use">All text, outline-button borders, dark buttons.</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--ink-soft); color:#fff">Aa</div><div class="info"><div class="name">Ink Soft</div><div class="tok"><code>--ink-soft</code> #6A5D4E</div><div class="use">Secondary text and captions.</div></div></div>
   </div>
 
   <h3 class="sub">Flavor coding</h3>
-  <p class="note">Each category has one color, used only on flavor tags, taste meters and shop filters. It helps people scan the shop; it is not decoration.</p>
-  <div class="demo">
-    <span class="ftag sweet">Sweet · Caramel</span><span class="ftag savory">Savory · Cheddar</span><span class="ftag spicy">Spicy · Jalapeño</span><span class="ftag seasonal">Seasonal · Patriot</span>
-  </div>
+  <p class="note">One color per category, only on flavor tags, taste meters and shop filters.</p>
+  <div class="demo"><span class="ftag sweet">Sweet</span><span class="ftag savory">Savory</span><span class="ftag spicy">Spicy</span><span class="ftag seasonal">Seasonal</span></div>
 
   <h3 class="sub">Approved text pairs (WCAG)</h3>
   <div class="scroll">
     <table class="spec">
       <thead><tr><th>Text</th><th>On</th><th>Ratio</th><th>Allowed for</th></tr></thead>
       <tbody>
-        <tr><td><code>--ink</code></td><td><code>--paper</code> / <code>--white</code> / <code>--butter</code> / <code>--yellow</code></td><td>17.4 / 16.0 / 13.4</td><td class="pass">All text</td></tr>
-        <tr><td><code>--ink-soft</code></td><td><code>--paper</code> / <code>--butter</code></td><td>7.8 / 7.2</td><td class="pass">All text</td></tr>
-        <tr><td><code>--white</code></td><td><code>--red</code></td><td>5.15</td><td class="pass">All text (red buttons)</td></tr>
-        <tr><td><code>--red</code></td><td><code>--paper</code> / <code>--white</code></td><td>5.15</td><td class="pass">All text (prices, links in emphasis)</td></tr>
-        <tr><td><code>--sky</code> ↔ <code>--white</code></td><td>either way</td><td>7.9</td><td class="pass">All text</td></tr>
-        <tr><td><code>--yellow</code></td><td><code>--ink</code></td><td>13.4</td><td class="pass">All text (trust strip, footer)</td></tr>
-        <tr><td><code>--red</code></td><td><code>--yellow</code></td><td>3.98</td><td class="large">Display text ≥ 24px only</td></tr>
-        <tr><td><code>--white</code></td><td><code>--yellow</code></td><td>1.2</td><td style="color:var(--red-deep);font-weight:700">Never</td></tr>
+        <tr><td><code>--ink</code></td><td><code>--paper</code> / <code>--butter</code> / <code>--yellow</code></td><td>15.7 / 15.0 / 12.2</td><td class="pass">All text</td></tr>
+        <tr><td><code>--ink-soft</code></td><td><code>--paper</code> / <code>--white</code> / <code>--butter</code></td><td>5.9 / 6.3 / 5.7</td><td class="pass">All text</td></tr>
+        <tr><td>white</td><td><code>--red</code></td><td>4.97</td><td class="pass">All text (red buttons)</td></tr>
+        <tr><td><code>--red</code></td><td><code>--paper</code> / <code>--white</code></td><td>4.61 / 4.89</td><td class="pass">All text; prefer ≥ 18px</td></tr>
+        <tr><td><code>--red-deep</code></td><td><code>--paper</code></td><td>6.22</td><td class="pass">Small red text, eyebrows</td></tr>
+        <tr><td><code>--paper</code> / <code>--yellow</code></td><td><code>--espresso</code></td><td>16.4 / 12.8</td><td class="pass">All text</td></tr>
+        <tr><td><code>--red</code></td><td><code>--yellow</code></td><td>3.59</td><td class="large">Display text ≥ 24px only</td></tr>
+        <tr><td>white</td><td><code>--yellow</code></td><td>1.3</td><td class="fail">Never</td></tr>
       </tbody>
     </table>
   </div>
@@ -239,50 +229,48 @@
 <!-- ================================ TYPE ================================ -->
 <section class="block" id="type">
   <span class="tab">03 · Typography</span>
-  <h2 class="title">A slab for the sign, a sans for the menu</h2>
-  <p class="lede">The canopy and the logo tagline are set in heavy slab serif, so headlines use <strong>Alfa Slab One</strong>, a poster slab with fairground signage in its bones. Everything people read or tap uses <strong>Figtree</strong>, a warm, round sans that stays clear at 15px on a phone in the sun. Two families only. The script lives in the logo image and is never typeset.</p>
+  <h2 class="title display">The serif you know, used with more confidence</h2>
+  <p class="lede"><strong>Instrument Serif</strong> stays for headlines, prices and big numbers. It's set larger than before, with a red italic for the one phrase that matters. <strong>Outfit</strong> stays for everything people read and tap. Two families. The script lives only in the logo.</p>
 
   <div class="grid-2">
     <div class="specimen">
       <div class="eyebrow" style="color:var(--ink-soft)">Display · <code>--font-display</code></div>
-      <div class="big">Kettle Corn</div>
-      <div class="chars">Aa Bb Cc Qq Rr &amp; $6 $10 $15 0123456789</div>
-      <p class="cap">Alfa Slab One 400 (it is already heavy). Headlines, card titles, prices, dates, big numbers. Sentence case. Max ~8 words.</p>
+      <div class="big">Kettle corn, <em>fit for royalty.</em></div>
+      <div class="chars">Aa Bb Qq Rr &amp; $6 $10 $15 0123456789</div>
+      <p class="cap">Instrument Serif 400 only (never bold). Headlines, card titles, prices, dates. Sentence case. The italic in red marks one phrase per headline.</p>
     </div>
     <div class="specimen">
       <div class="eyebrow" style="color:var(--ink-soft)">Body &amp; UI · <code>--font-body</code></div>
-      <div style="font-size:2.25rem; font-weight:800; line-height:1.1">Popped fresh this weekend</div>
-      <p style="margin:var(--space-3) 0 0">We use pure corn oil, real cane sugar and salt. Details matter, and we will never switch to a cheaper ingredient.</p>
-      <p class="cap">Figtree 400 / 500 / 700 / 800. Body, buttons, nav, forms, labels (800 + uppercase + 0.12em tracking).</p>
+      <div style="font-size:2rem; font-weight:700; line-height:1.15">Popped fresh this weekend</div>
+      <p style="margin:var(--space-3) 0 0">We use pure corn oil, sugar and salt. Details matter, and we will never switch to a cheaper ingredient.</p>
+      <p class="cap">Outfit 400 / 500 / 600 / 700. Body, buttons, nav, forms; labels in 700 caps with 0.14em tracking.</p>
     </div>
   </div>
 
   <h3 class="sub">Type scale</h3>
   <div class="panel" style="padding-block: 0">
-    <div class="scale-row"><div class="k"><b>Hero</b><code>--text-hero</code> 44→80px · 1.05</div><div style="font-family:var(--font-display); font-size:var(--text-hero); line-height:var(--leading-tight)">A happy place</div></div>
-    <div class="scale-row"><div class="k"><b>H1 · page title</b><code>--text-h1</code> 36→52px</div><div style="font-family:var(--font-display); font-size:var(--text-h1); line-height:var(--leading-tight)">Our flavors</div></div>
-    <div class="scale-row"><div class="k"><b>H2 · section</b><code>--text-h2</code> 28→40px</div><div style="font-family:var(--font-display); font-size:var(--text-h2); line-height:var(--leading-tight)">Where to find us</div></div>
-    <div class="scale-row"><div class="k"><b>H3 · card title</b><code>--text-h3</code> 24px · 1.3</div><div style="font-family:var(--font-display); font-size:var(--text-h3)">Caramel &amp; Cheddar</div></div>
-    <div class="scale-row"><div class="k"><b>Lead</b><code>--text-lg</code> 20px · Figtree 400</div><div style="font-size:var(--text-lg)">Hand-stirred with a hickory paddle, one small batch at a time.</div></div>
-    <div class="scale-row"><div class="k"><b>Body</b><code>--text-body</code> 17px · 1.6</div><div>Pick up your order free at any market below, or get it shipped anywhere in Arizona.</div></div>
+    <div class="scale-row"><div class="k"><b>Hero</b><code>--text-hero</code> 44→84px</div><div class="serif" style="font-size:var(--text-hero)">A happy <em style="color:var(--red)">place</em></div></div>
+    <div class="scale-row"><div class="k"><b>H1 · page title</b><code>--text-h1</code> 36→56px</div><div class="serif" style="font-size:var(--text-h1)">Our flavors</div></div>
+    <div class="scale-row"><div class="k"><b>H2 · section</b><code>--text-h2</code> 32→48px</div><div class="serif" style="font-size:var(--text-h2)">Where to find us</div></div>
+    <div class="scale-row"><div class="k"><b>H3 · card title</b><code>--text-h3</code> 26px</div><div class="serif" style="font-size:var(--text-h3)">Caramel &amp; Cheddar</div></div>
+    <div class="scale-row"><div class="k"><b>Lead</b><code>--text-lg</code> 19px</div><div style="font-size:var(--text-lg)">Hand-stirred with a hickory paddle, one small batch at a time.</div></div>
+    <div class="scale-row"><div class="k"><b>Body</b><code>--text-body</code> 17px · 1.65</div><div>Pick up your order free at any market below, or get it shipped anywhere in Arizona.</div></div>
     <div class="scale-row"><div class="k"><b>Small / UI</b><code>--text-sm</code> 15px</div><div style="font-size:var(--text-sm)">Free Arizona shipping over $35</div></div>
     <div class="scale-row"><div class="k"><b>Caption</b><code>--text-xs</code> 13px</div><div style="font-size:var(--text-xs); color:var(--ink-soft)">Desert West Farmers' Market · Avondale, AZ</div></div>
-    <div class="scale-row" style="border-bottom:0"><div class="k"><b>Label</b><code>--text-label</code> 12px · 800 · caps</div><div class="eyebrow">Arizona pop-up schedule</div></div>
+    <div class="scale-row" style="border-bottom:0"><div class="k"><b>Label</b><code>--text-label</code> 12px · 700 · caps</div><div class="eyebrow">Arizona pop-up schedule</div></div>
   </div>
 </section>
 
-<!-- ============================ SHAPE & PATTERN ============================ -->
+<!-- ================================ SHAPE ================================ -->
 <section class="block" id="shape">
-  <span class="tab">04 · Shape &amp; pattern</span>
-  <h2 class="title">Stickers, tickets and canopy dots</h2>
-  <p class="lede">Three devices taken from the stand give the site its character. Use each where it has a reason to be there, and nowhere else.</p>
-
+  <span class="tab">04 · Shape</span>
+  <h2 class="title display">Soft cards, pill buttons, one ticket</h2>
+  <p class="lede">Rounded and calm like the current site, with warm espresso-tinted shadows that give cards real depth. The hero keeps today's dark brown photo shade. The event ticket carries the brand.</p>
   <div class="grid-3">
-    <div class="panel"><h4>Canopy dots</h4><p class="cap" style="margin:0 0 var(--space-3)">The tent and trailer pattern. Only on yellow fields: hero band, one CTA band, masthead. <code>--dots</code></p><div style="height:120px; border-radius:var(--radius-md); background:var(--yellow); background-image:radial-gradient(circle, rgba(255,253,246,.55) 0 5px, transparent 5.5px); background-size:28px 28px; border:var(--border)"></div></div>
-    <div class="panel"><h4>Sticker edge</h4><p class="cap" style="margin:0 0 var(--space-3)">2px ink border + hard 4px drop. For things you press or pick: buttons, product cards, tickets. <code>--border</code> <code>--shadow-sticker</code></p><div style="height:120px; border-radius:var(--radius-md); background:var(--white); border:var(--border); box-shadow:var(--shadow-sticker)"></div></div>
-    <div class="panel"><h4>Ticket notch</h4><p class="cap" style="margin:0 0 var(--space-3)">A fair ticket stub with a perforated date block. Only for events.</p><div class="ticket" style="box-shadow:none"><div class="date"><span class="m">Oct</span><span class="d">17</span></div><div class="body"><h5 style="font-size:1rem">Oro Valley Fine Art</h5></div></div></div>
+    <div class="panel"><h4>Card with depth</h4><p class="cap" style="margin:0 0 var(--space-3)">1px warm border, espresso-tinted shadow, 20px radius. Deeper shadow and a 3px lift on hover. <code>--shadow-card</code> <code>--shadow-card-hover</code></p><div style="height:110px; border-radius:var(--radius-lg); background:var(--white); border:var(--border); box-shadow:var(--shadow-card)"></div></div>
+    <div class="panel"><h4>Pill button</h4><p class="cap" style="margin:0 0 var(--space-3)">Fully rounded, 48px tall. Red buttons carry a soft red glow. <code>--radius-pill</code> <code>--shadow-button</code></p><div class="demo paper" style="border:0; padding:var(--space-4)"><a class="btn btn-red" href="#shape">Order now</a></div></div>
+    <div class="panel"><h4>Event ticket</h4><p class="cap" style="margin:0 0 var(--space-3)">Red date stub with a dashed perforation. Only for markets and events.</p><div class="ticket" style="box-shadow:none"><div class="date"><span class="m">Oct</span><span class="d">17</span></div><div class="body"><h5 style="font-size:1.125rem">Oro Valley Fine Art</h5></div></div></div>
   </div>
-
   <h3 class="sub">Radius</h3>
   <div class="radii">
     <div style="border-radius:var(--radius-sm)">sm · 6px</div>
@@ -290,61 +278,72 @@
     <div style="border-radius:var(--radius-lg)">lg · 20px</div>
     <div style="border-radius:var(--radius-pill)">pill</div>
   </div>
-  <p class="cap">sm: inputs, tags · md: buttons, cards, tickets · lg: photos, canopy bands · pill: stamps only.</p>
+  <p class="cap">sm: inputs · md: size options · lg: cards, photos, bands · pill: buttons, stamps, tags.</p>
 </section>
 
 <!-- ================================ SPACING ================================ -->
 <section class="block" id="space">
   <span class="tab">05 · Spacing</span>
-  <h2 class="title">A 4px rhythm</h2>
-  <p class="lede">Use only these steps. Sections are separated by <code>--space-9</code> (96px) on desktop and <code>--space-8</code> (64px) on phones. Inside cards use <code>--space-4</code>. Page gutter is <code>--gutter</code> (16→32px), max width <code>--container</code> (1200px).</p>
+  <h2 class="title display">A 4px rhythm</h2>
+  <p class="lede">Use only these steps. Sections are <code>--space-9</code> (96px) apart on desktop and <code>--space-8</code> (64px) on phones; cards use <code>--space-4</code>–<code>--space-5</code> inside.</p>
   <div class="panel">
     <div class="space-row"><code>--space-1</code><span class="bar" style="width:4px"></span>4px · icon gaps</div>
-    <div class="space-row"><code>--space-2</code><span class="bar" style="width:8px"></span>8px · tag gaps, label→title</div>
-    <div class="space-row"><code>--space-3</code><span class="bar" style="width:12px"></span>12px · between stacked UI items</div>
-    <div class="space-row"><code>--space-4</code><span class="bar" style="width:16px"></span>16px · card padding, min page gutter</div>
+    <div class="space-row"><code>--space-2</code><span class="bar" style="width:8px"></span>8px · tag gaps, label → title</div>
+    <div class="space-row"><code>--space-3</code><span class="bar" style="width:12px"></span>12px · stacked UI items</div>
+    <div class="space-row"><code>--space-4</code><span class="bar" style="width:16px"></span>16px · card padding, page gutter on phones</div>
     <div class="space-row"><code>--space-5</code><span class="bar" style="width:24px"></span>24px · grid gaps</div>
     <div class="space-row"><code>--space-6</code><span class="bar" style="width:32px"></span>32px · title → content</div>
     <div class="space-row"><code>--space-7</code><span class="bar" style="width:48px"></span>48px · large panels</div>
-    <div class="space-row"><code>--space-8</code><span class="bar" style="width:64px"></span>64px · sections on mobile</div>
+    <div class="space-row"><code>--space-8</code><span class="bar" style="width:64px"></span>64px · sections on phones</div>
     <div class="space-row"><code>--space-9</code><span class="bar" style="width:96px"></span>96px · sections on desktop</div>
-    <div class="space-row"><code>--space-10</code><span class="bar" style="width:128px"></span>128px · hero breathing room</div>
   </div>
 </section>
 
 <!-- ============================== COMPONENTS ============================== -->
 <section class="block" id="components">
   <span class="tab">06 · Components</span>
-  <h2 class="title">The parts of the stand</h2>
-  <p class="lede">These are the reference builds. The website's components in <code>src/components/</code> must look and behave like these. When a component changes, update it here first.</p>
+  <h2 class="title display">The parts of the page</h2>
+  <p class="lede">Reference builds from <code>components.css</code>. The website's components in <code>src/components/</code> must match these. Change them here first.</p>
 
   <h3 class="sub">Button</h3>
-  <div class="demo">
+  <div class="demo paper">
     <a class="btn btn-red" href="#components">Order now</a>
     <a class="btn btn-kettle" href="#components">+ Add to bag</a>
-    <a class="btn btn-sky" href="#components">Book us for an event</a>
+    <a class="btn btn-dark" href="#components">Start a fundraiser</a>
     <a class="btn btn-ghost" href="#components">See all flavors</a>
     <button class="btn btn-red btn-sm" type="button">Small</button>
     <button class="btn btn-red" type="button" disabled>Sold out</button>
   </div>
-  <p class="cap"><b>Red</b>: the one main action per view (Order now, Checkout). <b>Kettle</b>: add-to-bag on product cards. <b>Sky</b>: events and fundraising. <b>Ghost</b>: secondary links. Min height 48px. Verb first, sentence case. Pressing pushes the sticker down.</p>
+  <p class="cap"><b>Red</b>: the one main action per view. <b>Kettle</b>: add to bag. <b>Dark</b>: fundraising and events. <b>Outline</b>: secondary links. <b>Light</b> (<code>.btn-light</code>): secondary on the dark hero. Verb first, sentence case.</p>
 
-  <h3 class="sub">Stamp</h3>
-  <div class="demo">
-    <span class="stamp stamp-ink">Hand stirred</span>
-    <span class="stamp stamp-red">Fan favorite</span>
-    <span class="stamp stamp-sky">Free market pickup</span>
-    <span class="stamp stamp-solid">Popping this Saturday</span>
+  <h3 class="sub">Hero shade</h3>
+  <div style="position:relative; isolation:isolate; overflow:hidden; border-radius:var(--radius-lg); background:var(--hero-ground); box-shadow:var(--shadow-band)">
+    <img src="../../public/bob-pouring-kernels.jpg" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:70% 40%; z-index:-2">
+    <div style="position:absolute; inset:0; z-index:-1; background:var(--scrim-side)"></div>
+    <div style="padding:var(--space-7) var(--space-6); max-width:640px; color:var(--paper)">
+      <div class="display" style="font-size:var(--text-h1); color:var(--paper); text-shadow:var(--text-shadow-hero)">Hand-popped kettle corn, <em style="color:var(--yellow)">fit for royalty.</em></div>
+      <div style="display:flex; flex-wrap:wrap; gap:var(--space-3); margin-top:var(--space-5)"><a class="btn btn-red" href="#components">Order now</a><a class="btn btn-light" href="#components">Find us this weekend</a></div>
+      <span class="popup-pill dark" style="margin-top:var(--space-5)"><span><span class="when">Next pop-up · Sat, Oct 10</span>Desert West Farmers' Market, Avondale</span><a class="btn btn-kettle btn-sm" href="#components">Pre-order</a></span>
+    </div>
   </div>
-  <p class="cap">Short facts and status on photos or cards. Max 4 words. Only claims Bob &amp; Reina have confirmed.</p>
+  <p class="cap">Hero only. Real photo, <code>--scrim-side</code> on desktop and <code>--scrim</code> on phones, cream text, yellow italic, <code>.btn-light</code> for the secondary button, <code>.popup-pill.dark</code> for the next market.</p>
 
-  <h3 class="sub">Taste meter · Size board</h3>
+  <h3 class="sub">Stamp &amp; next pop-up pill</h3>
+  <div class="demo paper">
+    <span class="stamp">Hand stirred</span>
+    <span class="stamp stamp-red">Fan favorite</span>
+    <span class="stamp stamp-dark">Family-run since 2017</span>
+    <span class="popup-pill"><span><span class="when">Next pop-up · Sat, Oct 10</span>Desert West Farmers' Market, Avondale</span><a class="btn btn-dark btn-sm" href="#components">Pre-order</a></span>
+  </div>
+  <p class="cap">Stamps: max 4 words, confirmed claims only. The yellow pill is the hero's one highlight: the next market people can visit or pre-order for.</p>
+
+  <h3 class="sub">Taste meter · Size options</h3>
   <div class="grid-2">
     <div class="demo col">
       <div class="meter sweet"><span>Sweetness</span><span class="kernels" role="img" aria-label="Sweetness 4 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div>
       <div class="meter savory"><span>Cheddar</span><span class="kernels" role="img" aria-label="Cheddar 5 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
-      <div class="meter spicy"><span>Jalapeño kick</span><span class="kernels" role="img" aria-label="Jalapeño kick 2 of 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></div>
-      <p class="cap">Five kernels, filled in the flavor color. Max 2 meters per card. Always give an aria-label like “Sweetness 4 of 5”.</p>
+      <div class="meter spicy"><span>Heat</span><span class="kernels" role="img" aria-label="Heat 2 of 5"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></div>
+      <p class="cap">Five kernels in the flavor color. One meter per card on the homepage.</p>
     </div>
     <div class="demo col">
       <fieldset class="board" style="margin:0; padding:0">
@@ -353,63 +352,49 @@
         <label><input type="radio" name="sz" id="sz-m" checked><span class="sz">Family</span><span class="pr">$10</span><span class="who">to share</span></label>
         <label><input type="radio" name="sz" id="sz-l"><span class="sz">Party</span><span class="pr">$15</span><span class="who">for a crowd</span></label>
       </fieldset>
-      <p class="cap">Like the price board at the stand. Always show all three sizes with prices; never show only “$6.00” on a card.</p>
+      <p class="cap">Always show all three sizes with prices.</p>
     </div>
   </div>
 
   <h3 class="sub">Product card</h3>
   <div class="grid-3">
     <article class="pcard">
-      <div class="ph"><img src="../../public/popcorn-scoop-fresh.jpg" alt="Fresh caramel and cheddar popcorn in a metal scoop"><span class="stamp stamp-red">Fan favorite</span></div>
+      <div class="ph"><img src="../../public/popcorn-scoop-fresh.jpg" alt="Fresh caramel and cheddar popcorn in a metal scoop"></div>
       <div class="bd">
         <div class="top"><h5>Caramel &amp; Cheddar</h5><div class="from">from<b>$6</b></div></div>
         <span class="ftag savory" style="align-self:flex-start">Savory</span>
         <p>Sweet amber caramel meets sharp cheddar in one bag.</p>
-        <div><div class="meter sweet"><span>Sweetness</span><span class="kernels" role="img" aria-label="Sweetness 4 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div><div class="meter savory"><span>Cheddar</span><span class="kernels" role="img" aria-label="Cheddar 4 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div></div>
+        <div class="meter sweet"><span>Sweet</span><span class="kernels" role="img" aria-label="Sweet 4 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div>
         <button class="btn btn-kettle" type="button">+ Add to bag</button>
       </div>
     </article>
     <article class="pcard">
       <div class="ph"><img src="../../public/bob-pouring-kernels.jpg" alt="Bob pouring kernels into the kettle"></div>
       <div class="bd">
-        <div class="top"><h5>Regular Sweet &amp; Salty</h5><div class="from">from<b>$6</b></div></div>
+        <div class="top"><h5>Sweet &amp; Salty</h5><div class="from">from<b>$6</b></div></div>
         <span class="ftag sweet" style="align-self:flex-start">Sweet</span>
-        <p>The one that started it all. Corn oil, cane sugar and salt, hand-stirred.</p>
-        <div><div class="meter sweet"><span>Sweetness</span><span class="kernels" role="img" aria-label="Sweetness 3 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div></div>
+        <p>The original. Corn oil, cane sugar and salt, hand-stirred.</p>
+        <div class="meter sweet"><span>Sweet</span><span class="kernels" role="img" aria-label="Sweet 3 of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
         <button class="btn btn-kettle" type="button">+ Add to bag</button>
       </div>
     </article>
     <div class="panel">
       <h4>Card rules</h4>
       <ul>
-        <li>Real product photo or a <code>--butter</code> placeholder. Never an AI bag with a fake label.</li>
-        <li>Price shows “from $6”; sizes are picked on the product page.</li>
-        <li>One flavor tag, max 2 taste meters, description ≤ 2 lines.</li>
-        <li>Mobile: 2 cards per row from 360px, with the description hidden.</li>
-        <li>One stamp at most, and only a confirmed claim.</li>
+        <li>Real product photo or a butter placeholder. Never an AI bag with a fake label.</li>
+        <li>Price shows “from $6”; sizes are picked on the product page or in the cart.</li>
+        <li>One flavor tag, one taste meter, description ≤ 2 lines.</li>
+        <li>Phones: 2 per row, description and meter hidden.</li>
       </ul>
     </div>
   </div>
 
   <h3 class="sub">Event ticket</h3>
   <div class="grid-2">
-    <div class="ticket">
-      <div class="date"><span class="m">Oct</span><span class="d">10</span><span class="m">Sat</span></div>
-      <div class="body">
-        <h5>Desert West Farmers' Market</h5>
-        <div class="where">Estrella Mountain CC · Avondale, AZ<br>9:00 am – 1:00 pm</div>
-        <div class="row"><span class="stamp stamp-sky">Free pickup</span><a class="btn btn-sky btn-sm" href="#components">Pre-order</a></div>
-      </div>
-    </div>
-    <div class="ticket">
-      <div class="date"><span class="m">Oct</span><span class="d">17–18</span><span class="m">Sat–Sun</span></div>
-      <div class="body">
-        <h5>Oro Valley Fine Art &amp; Wine Festival</h5>
-        <div class="where">James D. Kriegh Park · Oro Valley, AZ<br>10:00 am – 5:00 pm</div>
-        <div class="row"><span class="stamp stamp-sky">Free pickup</span><a class="btn btn-sky btn-sm" href="#components">Pre-order</a></div>
-      </div>
-    </div>
+    <div class="ticket"><div class="date"><span class="m">Oct</span><span class="d">10</span><span class="m">Sat</span></div><div class="body"><h5>Desert West Farmers' Market</h5><div class="where">Avondale, AZ · 9:00 am – 1:00 pm</div><div class="row"><a class="btn btn-dark btn-sm" href="#components">Pre-order for pickup</a></div></div></div>
+    <div class="ticket"><div class="date"><span class="m">Oct</span><span class="d range">17–18</span><span class="m">Sat–Sun</span></div><div class="body"><h5>Oro Valley Fine Art &amp; Wine Festival</h5><div class="where">Oro Valley, AZ · 10:00 am – 5:00 pm</div><div class="row"><a class="btn btn-dark btn-sm" href="#components">Pre-order for pickup</a></div></div></div>
   </div>
+  <p class="cap">Multi-day dates use the smaller <code>.range</code> size so they never wrap.</p>
 
   <h3 class="sub">Trust strip</h3>
   <ul class="trust">
@@ -418,22 +403,26 @@
     <li><span class="lbl">BBB accredited</span><b>A+</b><span>A verified Arizona small business</span></li>
     <li><span class="lbl">Back to local schools</span><b>50%</b><span>Of every fundraiser sale goes to the team</span></li>
   </ul>
-  <p class="cap">Directly under the hero. Label, big figure, one line of proof. Four facts, each one confirmed by the owners. Live in <code>src/components/TrustBanner.tsx</code>.</p>
+  <p class="cap">Light card row with red serif figures; on the homepage it floats over the hero's bottom edge (<code>.trust.float</code>). Facts confirmed by the owners only. Live in <code>src/components/TrustBanner.tsx</code>.</p>
 
-  <h3 class="sub">Canopy band (the one loud moment)</h3>
+  <h3 class="sub">Dark band</h3>
+  <div class="dark-band"><span class="eyebrow">Markets &amp; events</span><h4 class="display" style="font-size:var(--text-h2); margin:var(--space-2) 0 var(--space-5)">Come see the kettle</h4><div class="ticket"><div class="date"><span class="m">Oct</span><span class="d">10</span><span class="m">Sat</span></div><div class="body"><h5>Desert West Farmers' Market</h5><div class="where">Avondale, AZ · 9:00 am – 1:00 pm</div><div class="row"><a class="btn btn-dark btn-sm" href="#components">Pre-order for pickup</a></div></div></div></div>
+  <p class="cap">One per page, mid-page (markets). Espresso ground, cream text, yellow eyebrow, white tickets. Balances the dark hero and footer.</p>
+
+  <h3 class="sub">Highlight band</h3>
   <div class="canopy">
-    <h4>Pop-up this Saturday. <em>Pre-order</em>, skip the line.</h4>
-    <p>Order online, pick it up warm at the stand. Free pickup at every market.</p>
-    <div class="actions"><a class="btn btn-red" href="#components">Pre-order for pickup</a><a class="btn btn-ghost" href="#components">See the schedule</a></div>
+    <h4>Your team keeps <em>50%</em> of every sale.</h4>
+    <p>Share your group's code, we pop every order fresh, and your team gets half of every sale.</p>
+    <div class="actions"><a class="btn btn-dark" href="#components">Start a fundraiser</a><a class="btn btn-ghost" href="#components">How it works</a></div>
   </div>
-  <p class="cap">One yellow band per page (the hero OR a mid-page CTA). It's the canopy: you notice it from across the market.</p>
+  <p class="cap">Butter tint, one per page. The loud moment comes from the headline, not the background.</p>
 </section>
 
 <!-- ================================ IMAGERY ================================ -->
 <section class="block" id="imagery">
   <span class="tab">07 · Imagery</span>
-  <h2 class="title">Real people, real kettle, real sky</h2>
-  <p class="lede">Use real photos only. Bright, sunny, close, with hands, paddles, steam and smiles. People buy from Bob and Reina, so show them. Rounded <code>--radius-lg</code>, <code>--shadow-photo</code>.</p>
+  <h2 class="title display">Real people, real kettle, real sky</h2>
+  <p class="lede">Real photos only: bright, close, with hands, paddles, steam and smiles. <code>--radius-lg</code> and <code>--shadow-photo</code>.</p>
   <div class="photos">
     <figure><img src="../../public/bob-reina.webp" alt="Bob and Reina hugging at their stand"><figcaption>✓ <code>bob-reina.webp</code></figcaption></figure>
     <figure><img src="../../public/reina-stirring-kettle.jpg" alt="Reina stirring the kettle"><figcaption>✓ <code>reina-stirring-kettle.jpg</code></figcaption></figure>
@@ -444,26 +433,26 @@
   </div>
   <div class="panel retire" style="margin-top: var(--space-5)">
     <h4>Do not use</h4>
-    <p style="margin:0">Generated images: <code>hero*.png</code>, <code>flavor-*.png</code> (bags show a fake red-hat logo), <code>story-*.png</code>, <code>process-paddle*.png</code>, <code>variety-mix*.png</code>, <code>product-placeholder.png</code>, <code>royal-seal.png</code>. Replace them with real bag photos (one per flavor, on the yellow tablecloth) when Bob &amp; Reina can shoot them.</p>
+    <p style="margin:0">Generated images: <code>hero*.png</code>, <code>flavor-*.png</code> (bags show a fake red-hat logo), <code>story-*.png</code>, <code>process-paddle*.png</code>, <code>variety-mix*.png</code>, <code>product-placeholder.png</code>, <code>royal-seal.png</code>. Replace with real bag photos as soon as they're shot.</p>
   </div>
 </section>
 
 <!-- ================================= VOICE ================================= -->
 <section class="block" id="voice">
   <span class="tab">08 · Voice</span>
-  <h2 class="title">Talk like Bob &amp; Reina at the stand</h2>
+  <h2 class="title display">Talk like Bob &amp; Reina at the stand</h2>
   <p class="lede">Friendly, proud, a bit playful, never corporate. “We” is Bob &amp; Reina; “you” is the customer. Short sentences. Facts beat adjectives.</p>
   <div class="say">
     <div class="panel keep"><h4>Say</h4>
-      <p class="q">“Hand popped kettle corn, fit for royalty.”</p>
+      <p class="q">“Hand-popped kettle corn, fit for royalty.”</p>
       <p class="q">“The Queen's Corn is a happy place.”</p>
-      <p>“Corn oil, cane sugar, salt. That's it.”</p>
+      <p>“Corn oil, sugar and salt. That's it.”</p>
       <p>“Pre-order and pick it up warm on Saturday.”</p>
     </div>
     <div class="panel retire"><h4>Don't say</h4>
       <p>“Elevate your snacking journey” · “Premium experiences” · “Artisanal excellence”</p>
       <p>Unverified numbers or rankings (“#1”, “$34,000 donated”) until confirmed</p>
-      <p>Emoji in headings or buttons · ALL-CAPS sentences · exclamation marks in a row!!</p>
+      <p>Emoji in headings or buttons · ALL-CAPS sentences · stacked exclamation marks</p>
     </div>
   </div>
 </section>
@@ -471,25 +460,26 @@
 <!-- ================================ RULES ================================ -->
 <section class="block" id="rules">
   <span class="tab">09 · Rules for changes</span>
-  <h2 class="title">How to change the look without breaking it</h2>
+  <h2 class="title display">How to change the look without breaking it</h2>
   <div class="grid-2">
     <div class="panel">
       <h4>Every UI change (people &amp; AI agents)</h4>
-      <ol style="margin:0; padding-left:1.2em">
-        <li>Use tokens from <code>tokens.css</code>: no raw hex, px font sizes or ad-hoc shadows in components.</li>
+      <ol>
+        <li>Use tokens from <code>tokens.css</code>: no raw hex, ad-hoc font sizes or one-off shadows.</li>
         <li>Reuse a component from section 06 before inventing one.</li>
-        <li>Check contrast against the approved pairs table.</li>
-        <li>Real photos only; confirmed claims only.</li>
+        <li>One red button and one yellow highlight per view.</li>
+        <li>Check contrast against the approved pairs.</li>
+        <li>Real photos and confirmed claims only.</li>
         <li>Check at 375px and 1440px.</li>
       </ol>
     </div>
     <div class="panel">
       <h4>Changing the system itself</h4>
-      <ol style="margin:0; padding-left:1.2em">
-        <li>Edit <code>wiki/design-system/tokens.css</code> and this page <em>first</em>.</li>
-        <li>Mirror the change into <code>src/app/globals.css</code> in the same commit.</li>
-        <li>Record the reason in <code>wiki/decisions/</code> and a line in <code>wiki/log.md</code>.</li>
-        <li>Bump the version in the masthead and in <code>tokens.css</code>.</li>
+      <ol>
+        <li>Edit <code>tokens.css</code>, <code>components.css</code> and this page first.</li>
+        <li>Mirror into <code>src/app/globals.css</code> in the same commit.</li>
+        <li>Record why in <code>wiki/decisions/</code> and a line in <code>wiki/log.md</code>.</li>
+        <li>Bump the version here and in <code>tokens.css</code>.</li>
       </ol>
     </div>
   </div>
@@ -498,25 +488,24 @@
 <!-- =============================== MIGRATION =============================== -->
 <section class="block" id="migrate">
   <span class="tab">10 · Migration</span>
-  <h2 class="title">From v2 to v3 in the code</h2>
-  <p class="lede">Find-and-replace map for <code>src/app/globals.css</code> and the CSS modules on <code>main</code> (Buttercream, live since PR #1). Rollout order: <code>wiki/website/branches-and-status.md</code>.</p>
+  <h2 class="title display">From today's code to v3.1</h2>
+  <p class="lede">Small, because v3.1 grows out of the current Buttercream site. Map for <code>src/app/globals.css</code> and the CSS modules on <code>main</code>.</p>
   <div class="scroll">
     <table class="spec">
-      <thead><tr><th>v2 (current code)</th><th>v3 token</th><th>Note</th></tr></thead>
+      <thead><tr><th>Today (main)</th><th>v3.1 token</th><th>Note</th></tr></thead>
       <tbody>
-        <tr><td><code>--primary</code> #D9232A</td><td><code>--red</code></td><td>Nearly identical; now matches the logo exactly</td></tr>
-        <tr><td><code>--primary-hover</code> #BF181F</td><td><code>--red-deep</code></td><td></td></tr>
-        <tr><td><code>--accent</code> #F5BA31 Kettle Gold</td><td><code>--yellow</code></td><td>Gold → canopy lemon yellow</td></tr>
-        <tr><td><code>--background</code> / <code>--cream</code> #FAF6EF</td><td><code>--paper</code></td><td>Beige → warm white</td></tr>
-        <tr><td><code>--surface</code> / <code>--cream-card</code> #FFFDF9</td><td><code>--white</code></td><td></td></tr>
-        <tr><td><code>--surface-warm</code> #F3EBDD</td><td><code>--butter</code></td><td></td></tr>
-        <tr><td><code>--text-primary</code> / <code>--dark-espresso</code></td><td><code>--ink</code></td><td></td></tr>
-        <tr><td><code>--text-muted</code> #7A6E5F</td><td><code>--ink-soft</code></td><td>Old value failed AA on cream (4.4:1)</td></tr>
-        <tr><td><code>--sage</code>, <code>--copper</code></td><td><code>--flavor-spicy</code>, <code>--flavor-sweet</code></td><td>Only as flavor coding</td></tr>
-        <tr><td><code>--font-serif</code> Instrument Serif</td><td><code>--font-display</code> Alfa Slab One</td><td>Update <code>next/font/google</code> in <code>layout.tsx</code></td></tr>
-        <tr><td><code>--font-sans</code> Outfit</td><td><code>--font-body</code> Figtree</td><td></td></tr>
-        <tr><td>soft blurred <code>box-shadow</code>s</td><td><code>--shadow-sticker</code> / <code>--shadow-photo</code></td><td></td></tr>
-        <tr><td><code>public/design-system.html</code> (v2)</td><td>this page</td><td>Delete v2. It is publicly served at /design-system.html</td></tr>
+        <tr><td><code>--background</code> / <code>--cream</code> #FAF6EF</td><td><code>--paper</code></td><td>Same value</td></tr>
+        <tr><td><code>--surface</code> / <code>--surface-card</code> #FFFDF9</td><td><code>--white</code></td><td>Same value</td></tr>
+        <tr><td><code>--text-primary</code> #241B13</td><td><code>--ink</code></td><td>Same value</td></tr>
+        <tr><td><code>--text-muted</code> #7A6E5F</td><td><code>--ink-soft</code> #6A5D4E</td><td>Darker: passes AA</td></tr>
+        <tr><td><code>--primary</code> / <code>--primary-hover</code></td><td><code>--red</code> / <code>--red-deep</code></td><td>Same red; deeper hover</td></tr>
+        <tr><td><code>--accent</code> #F5BA31 Kettle Gold</td><td><code>--yellow</code> #FFD84A</td><td>Gold → canopy yellow, used less</td></tr>
+        <tr><td><code>--surface-warm</code> #F3EBDD</td><td><code>--butter</code></td><td>Warmer tint</td></tr>
+        <tr><td><code>--dark-espresso</code> #1E1711</td><td><code>--espresso</code></td><td>Same value</td></tr>
+        <tr><td><code>--border-subtle</code> / <code>--border-card</code></td><td><code>--line</code></td><td></td></tr>
+        <tr><td><code>--sage</code>, <code>--copper</code></td><td><code>--flavor-spicy</code>, <code>--flavor-sweet</code></td><td>Flavor coding only</td></tr>
+        <tr><td><code>--font-serif</code> / <code>--font-sans</code></td><td><code>--font-display</code> / <code>--font-body</code></td><td>Same fonts; headings 400, never synthetic bold</td></tr>
+        <tr><td><code>public/design-system.html</code> (v2)</td><td>this page</td><td>Delete; it's publicly served</td></tr>
       </tbody>
     </table>
   </div>
@@ -526,8 +515,8 @@
 
 <footer class="end">
   <div class="wrap">
-    <p style="margin:0 0 var(--space-2)"><strong>The Queen's Corn Design System v3.0</strong> · Maintained in <code style="background:transparent;color:var(--yellow)">wiki/design-system/</code> · Decision record: <a href="../decisions/design-palette-decision.md">design-palette-decision.md</a></p>
-    <p style="margin:0; font-size:var(--text-xs)">Tokens: tokens.css · Photos load from the repo's <code>public/</code> folder, so open this file from the repo.</p>
+    <p style="margin:0 0 var(--space-2)"><strong>The Queen's Corn Design System v3.1 “Warm Canopy”</strong> · <code style="background:transparent;color:var(--yellow)">wiki/design-system/</code> · Homepage plan: <a href="landing-page-blueprint.html">landing-page-blueprint.html</a> · Decision: <a href="../decisions/design-palette-decision.md">design-palette-decision.md</a></p>
+    <p style="margin:0; font-size:var(--text-xs)">Photos load from the repo's <code style="background:transparent;color:var(--yellow)">public/</code> folder, so open this file from the repo.</p>
   </div>
 </footer>
 
