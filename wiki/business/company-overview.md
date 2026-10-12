@@ -4,9 +4,9 @@ type: overview
 owner: unassigned
 updated: 2026-10-10
 sources:
-  - src/app/story/page.tsx @ fbdbf0b
-  - src/app/layout.tsx @ fbdbf0b
-  - src/components/layout/Footer.tsx @ fbdbf0b
+  - src/app/story/page.tsx @ ee5b44c
+  - src/app/layout.tsx @ ee5b44c
+  - src/components/layout/Footer.tsx @ ee5b44c
 ---
 
 # The Queen's Corn
@@ -18,11 +18,11 @@ plus online orders for Arizona shipping or market pickup.
 
 | | |
 |---|---|
-| Founded | 2017 (src/app/story/page.tsx @ fbdbf0b) |
+| Founded | 2017 (src/app/story/page.tsx @ ee5b44c) |
 | Founders | **Bob and Reina Andersen**, husband-and-wife; both work in the medical field |
 | Contact email | thequeenscornaz@gmail.com (Footer, Contact page) |
 | Current site URL | https://the-queens-corn.vercel.app (`metadataBase` in src/app/layout.tsx) |
-| Existing official site | thequeenscorn.com (referenced by the Terms of Service on the feature branch — see [[branches-and-status]]) |
+| Existing official site | thequeenscorn.com (the `/terms-of-service` page mirrors its terms) |
 | Tagline (site metadata) | "Arizona's favorite handcrafted kettle corn. Popped fresh with pure corn oil and stirred with a hickory wooden paddle." |
 
 ## Origin story (as told on the website)

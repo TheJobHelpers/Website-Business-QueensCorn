@@ -4,42 +4,43 @@ type: website
 owner: unassigned
 updated: 2026-10-10
 sources:
-  - src/app/admin/page.tsx @ fbdbf0b
-  - src/context/CartContext.tsx @ fbdbf0b
-  - origin/feature/landing-page-polish-and-real-photos @ a6ec144 (src/lib/auth.ts, src/proxy.ts, src/lib/db.ts)
+  - src/app/admin/page.tsx @ ee5b44c
+  - src/app/admin/login/page.tsx @ ee5b44c
+  - src/lib/auth.ts @ ee5b44c
+  - src/proxy.ts @ ee5b44c
+  - src/lib/db.ts @ ee5b44c
+  - src/context/CartContext.tsx @ ee5b44c
 ---
 
 # Admin Portal (`/admin`)
 
 An owner dashboard for Bob & Reina with these sections: **Overview, Orders & AZ Shipping, Events,
-Fundraisers, Products, Settings** (Shopify & shipping-carrier setup).
+Fundraisers, Products, Settings** (Shopify & shipping-carrier setup). Live on `main` since PR #1.
 
-## What it can do (main @ fbdbf0b)
+## Login
 
-- **Events:** add, delete, toggle pickup. See [[events-and-markets]]
-- **Fundraisers:** add, update the raised amount, delete. See [[fundraising-program]]
-- **Products:** edit the base price, which scales all sizes. See [[product-catalog]]
-- **Orders:** shows **hardcoded sample orders**, with mock "print label" / status changes. See [[fulfillment-and-shipping]]
-- **Reset store data**
+- Real login at `/admin/login`. Credentials come from the `ADMIN_EMAIL` / `ADMIN_PASSWORD` env vars,
+  and the session is an HMAC-signed cookie `qc_admin_session` (secret: `ADMIN_SESSION_SECRET`).
+- `src/proxy.ts` (Next 16's replacement for `middleware.ts`) redirects every `/admin` route to the
+  login page when there's no valid session. Logout uses `logoutAction`.
 
-## ⚠️ Important limitations on `main`
+## What it can do
 
-1. **No real login.** The login form accepts *any* non-empty email and password; it is client-side
-   only. Anyone can open `/admin`.
-2. **Edits are saved only in the browser's localStorage** (`queens_corn_*_v1` keys). They are not
-   visible to customers or other devices. They are **demo-only**.
-3. Default credentials are prefilled in the source code (not repeated here; see the rules in `wiki/CLAUDE.md`).
+| Area | Saved where | Visible to others? |
+|---|---|---|
+| **Events**: add, delete, toggle pickup | Server: `src/data/db.json` via `src/app/actions/events.ts` (+ localStorage cache) | Yes, but see the warning below |
+| **Fundraisers**: add, update raised amount, delete | Browser localStorage only | No |
+| **Products**: edit base price (scales all sizes), sync catalog from Shopify | Browser localStorage only | No |
+| **Orders** | Hardcoded sample orders; "print label" is a mock | n/a |
+| **Settings**: test Shopify connection / checkout | `src/app/actions/shopify.ts` | n/a |
 
-## Feature branch improvements (`feature/landing-page-polish-and-real-photos`)
+See [[events-and-markets]], [[fundraising-program]], [[product-catalog]], [[fulfillment-and-shipping]].
 
-- Real login at `/admin/login`: credentials from `ADMIN_EMAIL` / `ADMIN_PASSWORD` env vars,
-  an HMAC-signed session cookie `qc_admin_session` (secret: `ADMIN_SESSION_SECRET`), and route
-  protection in `src/proxy.ts`.
-- Events persisted server-side in `src/data/db.json` via server actions.
-
-> [!warning] Feature-branch risks:
-> - `src/lib/auth.ts` has **fallback default credentials and a fallback session secret hardcoded**
->   if the env vars aren't set. These must be set in Vercel before going live.
-> - Writing to `src/data/db.json` won't persist on Vercel (read-only, ephemeral filesystem). It needs a
->   real store (Shopify Metaobjects, a database, or Vercel KV/Blob).
+> [!warning] Risks now that this is live on `main`:
+> - `src/lib/auth.ts` falls back to **hardcoded default credentials and a hardcoded session secret**
+>   when the env vars aren't set. Set `ADMIN_EMAIL`, `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET` in
+>   Vercel now (values not repeated here; see the rules in `wiki/CLAUDE.md`).
+> - Writing to `src/data/db.json` won't persist on Vercel (read-only, ephemeral filesystem), so event
+>   edits will be lost. This needs a real store (Shopify Metaobjects, a database, or Vercel KV/Blob).
+> - The public footer links to the admin portal twice.
 > See [[open-questions]].

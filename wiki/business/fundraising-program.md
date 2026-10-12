@@ -4,10 +4,10 @@ type: business
 owner: unassigned
 updated: 2026-10-10
 sources:
-  - src/app/fundraising/page.tsx @ fbdbf0b
-  - src/data/fundraisers.ts @ fbdbf0b
-  - src/lib/shopify.ts @ fbdbf0b
-  - src/components/cart/CartDrawer.tsx @ fbdbf0b
+  - src/app/fundraising/page.tsx @ ee5b44c
+  - src/data/fundraisers.ts @ ee5b44c
+  - src/lib/shopify.ts @ ee5b44c
+  - src/components/cart/CartDrawer.tsx @ ee5b44c
 ---
 
 # Fundraising Program
@@ -40,7 +40,7 @@ Arizona schools, youth sports teams and community clubs raise money by selling Q
 | Oro Valley Youth Soccer Club | OVSOCCER | $2,000 | $1,120 | Nov 30, 2026 |
 | Estrella Foothills STEM Club | STEMCORN | $1,500 | $960 | Dec 05, 2026 |
 
-Source: `src/data/fundraisers.ts @ fbdbf0b`.
+Source: `src/data/fundraisers.ts @ ee5b44c`.
 
 ## Related
 
