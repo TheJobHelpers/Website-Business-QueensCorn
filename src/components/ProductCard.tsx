@@ -3,18 +3,17 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ShoppingBag, ArrowUpRight, Check } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import type { Product } from '@/data/products';
+import Button from './ui/Button';
 import styles from './ProductCard.module.css';
 
-interface ProductCardProps {
-  id: string;
-  name: string;
-  price: string;
-  image: string;
-  description?: string;
-  category?: 'Sweet' | 'Savory' | 'Spicy' | 'Seasonal';
-}
+// Design System v3: Product card (wiki/design-system/components.css → .pcard)
+// No marketing badges here: only confirmed claims (see the design system's Voice rules).
+type ProductCardProps = Pick<Product, 'id' | 'name' | 'price' | 'image'> &
+  Partial<Pick<Product, 'description' | 'category' | 'taste'>>;
+
+const DEFAULT_SIZE = 'Small (Individual)';
 
 export default function ProductCard({
   id,
@@ -23,112 +22,63 @@ export default function ProductCard({
   image,
   description,
   category = 'Sweet',
+  taste,
 }: ProductCardProps) {
   const { addItem, openDrawer } = useCart();
   const [added, setAdded] = useState(false);
+  const amount = parseFloat(price.replace(/[^0-9.]/g, ''));
+  const fromPrice = Number.isFinite(amount) ? `$${amount % 1 === 0 ? amount.toFixed(0) : amount.toFixed(2)}` : price;
+  const level = Math.max(0, Math.min(5, Math.round(taste?.level ?? 0)));
 
-  const handleQuickAdd = () => {
-    addItem(
-      {
-        id,
-        name,
-        price,
-        image,
-        category,
-        description: description || '',
-      },
-      'Medium (Family)',
-      1
-    );
+  const handleAdd = () => {
+    addItem({ id, name, price, image, category, description: description || '', taste }, DEFAULT_SIZE, 1);
     setAdded(true);
     openDrawer();
     setTimeout(() => setAdded(false), 1400);
   };
 
-  // Determine dynamic badge & meters based on flavor name
-  const isBestSeller = name.includes('Cheddar') && name.includes('Caramel');
-  const isSpicy = name.toLowerCase().includes('jalapeño') || category === 'Spicy';
-  const isClassic = name.toLowerCase().includes('regular') || name.toLowerCase().includes('sweet & salty');
-
-  const badgeText = isBestSeller
-    ? '#1 Best Seller'
-    : isSpicy
-    ? 'Desert Heat'
-    : isClassic
-    ? 'Original Kettle'
-    : category === 'Savory'
-    ? 'Aged Cheddar'
-    : 'Artisan Glaze';
-
   return (
-    <div className={styles.card}>
-      <Link href={`/shop/${id}`} className={styles.imageFrame}>
-        <span className={styles.tasteBadge}>{badgeText}</span>
+    <article className={styles.card}>
+      <Link href={`/shop/${id}`} className={styles.photo} tabIndex={-1} aria-hidden="true">
         <Image
           src={image}
-          alt={name}
+          alt=""
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 640px) 50vw, (max-width: 1200px) 33vw, 25vw"
           className={styles.image}
         />
       </Link>
 
-      <div className={styles.info}>
-        <div className={styles.header}>
-          <Link href={`/shop/${id}`}>
-            <h3 className={styles.name}>{name}</h3>
-          </Link>
-          <span className={styles.price}>{price}</span>
+      <div className={styles.body}>
+        <div className={styles.top}>
+          <h3 className={styles.name}>
+            <Link href={`/shop/${id}`}>{name}</Link>
+          </h3>
+          <span className={styles.price}>
+            <span className={styles.from}>from</span>
+            {fromPrice}
+          </span>
         </div>
+
+        <span className={`${styles.tag} ${styles[category.toLowerCase()]}`}>{category}</span>
 
         {description && <p className={styles.description}>{description}</p>}
 
-        {/* Dynamic Taste Profile Meters */}
-        <div className={styles.tasteBox}>
-          <div className={styles.tasteRow}>
-            <span>{isSpicy ? 'Savory Sharpness' : 'Sweetness'}</span>
-            <div className={styles.tasteMeter}>
-              <div
-                className={styles.tasteBarGold}
-                style={{ width: isSpicy ? '90%' : isBestSeller ? '85%' : '75%' }}
-              />
-            </div>
+        {taste && level > 0 && (
+          <div className={styles.meter}>
+            <span>{taste.label}</span>
+            <span className={styles.kernels} role="img" aria-label={`${taste.label} ${level} of 5`}>
+              {Array.from({ length: 5 }, (_, i) => (
+                <i key={i} className={i < level ? styles.on : ''} />
+              ))}
+            </span>
           </div>
-          <div className={styles.tasteRow}>
-            <span>{isSpicy ? 'Jalapeño Kick' : isBestSeller ? 'Sharp Cheddar' : 'Sea Salt Crunch'}</span>
-            <div className={styles.tasteMeter}>
-              <div
-                className={isSpicy ? styles.tasteBarSage : styles.tasteBarRed}
-                style={{ width: isSpicy ? '70%' : isBestSeller ? '90%' : '80%' }}
-              />
-            </div>
-          </div>
-        </div>
+        )}
 
-        {/* Card Footer Actions */}
-        <div className={styles.cardFooter}>
-          <button
-            type="button"
-            onClick={handleQuickAdd}
-            className={`${styles.quickAddBtn} ${added ? styles.quickAddBtnSuccess : ''}`}
-          >
-            {added ? (
-              <>
-                <Check size={14} />
-                <span>Added to Bag!</span>
-              </>
-            ) : (
-              <>
-                <ShoppingBag size={14} />
-                <span>+ Quick Add</span>
-              </>
-            )}
-          </button>
-          <Link href={`/shop/${id}`} className={styles.detailsBtn} title="View bag sizes & details">
-            <ArrowUpRight size={15} />
-          </Link>
-        </div>
+        <Button variant="kettle" size="sm" fullWidth onClick={handleAdd} className={styles.add}>
+          {added ? 'Added ✓' : '+ Add to bag'}
+        </Button>
       </div>
-    </div>
+    </article>
   );
 }

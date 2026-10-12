@@ -3,7 +3,7 @@ title: "Decision: Landing page structure"
 type: decision
 owner: unassigned
 updated: 2026-10-10
-status: proposed
+status: built (feature/landing-page-v3), awaiting owner sign-off
 sources:
   - wiki/design-system/landing-page-blueprint.html (v1)
   - src/app/page.tsx @ ee5b44c
@@ -44,3 +44,11 @@ Full mockups, final copy, data sources, mobile rules and "done when" checks:
 - **Blocker:** online checkout needs Shopify connected; until then orders fall back to the contact form.
 - Build order in the blueprint's "Build plan"; depends on owner sign-off of v3 ([[design-palette-decision]]).
 - Open items tracked in [[open-questions]].
+
+## Status (2026-10-10)
+Built on `feature/landing-page-v3` in design system v3.1. Changes made while building:
+- Hero made appetizing: a round close-up of real caramel & cheddar kettle corn on a warm glow, a snapshot
+  of Reina at the kettle, a "Hand-popped in Arizona" sticker and a one-tap "+ Add" card, on today's
+  espresso-brown shade.
+- Trust strip floats over the hero's edge; markets sit on a dark band (balanced rhythm).
+- Responsive: hero fills the screen at any size; headline and food plate scale with width and height.

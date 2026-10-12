@@ -50,6 +50,7 @@ export default function Navbar() {
     href === '/' ? pathname === '/' : pathname.startsWith(href);
   const isHome = pathname === '/';
 
+  // Transparent over the dark homepage hero, solid once scrolled and on every other page.
   return (
     <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''} ${!isHome ? styles.subpageNav : ''} ${isOpen ? styles.menuOpen : ''}`}>
       <div className={styles.container}>

@@ -1,69 +1,54 @@
-import { Star } from 'lucide-react';
-import ScrollReveal from './ScrollReveal';
 import styles from './Testimonials.module.css';
 
-const REVIEWS = [
-  {
-    initials: "SJ",
-    text: "The absolute best kettle corn in Arizona. You can really taste the difference that hand-stirring makes. Every kernel is perfectly coated!",
-    author: "Sarah Jenkins",
-    role: "Verified Market Regular",
-    context: "Desert West Market"
-  },
-  {
-    initials: "MT",
-    text: "We hire The Queen's Corn for our corporate events and they are always the highlight. Professional, friendly, and the aroma is incredible.",
-    author: "Mark Thompson",
-    role: "Event Coordinator",
-    context: "Corporate Festival"
-  },
-  {
-    initials: "ER",
-    text: "My kids won't eat any other popcorn now. The Cheddar and Jalapeño mix is our family favorite. Truly a happy place for snacks!",
-    author: "Elena Rodriguez",
-    role: "Family Customer",
-    context: "Weekly Regular"
-  }
-];
+// Landing blueprint section 8. REAL reviews only: copied word for word, with permission,
+// and linked to where they were posted. The section stays hidden while this list is empty.
+// (The previous three reviews were placeholders and have been removed.)
+interface Review {
+  quote: string;
+  name: string;
+  source: 'Google' | 'Facebook' | 'Yelp' | 'In person';
+  url?: string;
+  context?: string; // e.g. "Desert West Farmers' Market" or "Fundraiser organizer"
+}
+
+const REVIEWS: Review[] = [];
 
 export default function Testimonials() {
+  if (REVIEWS.length === 0) {
+    return null;
+  }
+
   return (
-    <section className={styles.section}>
+    <section className="v3-section" aria-labelledby="reviews-title">
       <div className="main-container">
         <header className={styles.header}>
-          <ScrollReveal>
-            <span className={styles.label}>The Queen&apos;s Community</span>
-            <h2 className={styles.title}>What Our Community Says</h2>
-            <p className={styles.tagline}>Loved at markets, events, and family gatherings across Arizona.</p>
-          </ScrollReveal>
+          <span className="v3-eyebrow">From our customers</span>
+          <h2 id="reviews-title" className="v3-title">
+            What people say at the stand
+          </h2>
         </header>
 
-        <div className={styles.grid}>
-          {REVIEWS.map((review, i) => (
-            <ScrollReveal key={i} delay={i} type="fade-up">
-              <div className={styles.card}>
-                <div className={styles.stars}>
-                  {[...Array(5)].map((_, idx) => (
-                    <Star key={idx} size={16} fill="#F5BA31" stroke="#F5BA31" />
-                  ))}
-                </div>
-                <p className={styles.text}>{review.text}</p>
-                <div className={styles.author}>
-                  <div className={styles.avatar}>
-                    <span>{review.initials}</span>
-                  </div>
-                  <div className={styles.authorInfo}>
-                    <h4>{review.author}</h4>
-                    <div className={styles.authorMeta}>
-                      <span className={styles.role}>{review.role}</span>
-                      <span className={styles.context}>&bull; {review.context}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
+        <ul className={styles.grid}>
+          {REVIEWS.slice(0, 3).map((r) => (
+            <li key={r.name + r.quote.slice(0, 12)} className={styles.card}>
+              <span className={styles.stars} aria-label="5 out of 5 stars">
+                ★★★★★
+              </span>
+              <blockquote className={styles.quote}>{r.quote}</blockquote>
+              <p className={styles.who}>
+                <strong>{r.name}</strong>
+                {r.context && <span> · {r.context}</span>}
+              </p>
+              {r.url ? (
+                <a href={r.url} className={styles.source} target="_blank" rel="noopener noreferrer">
+                  {r.source} review
+                </a>
+              ) : (
+                <span className={styles.source}>{r.source}</span>
+              )}
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

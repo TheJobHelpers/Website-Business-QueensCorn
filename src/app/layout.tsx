@@ -17,8 +17,8 @@ const instrumentSerif = Instrument_Serif({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://the-queens-corn.vercel.app"),
-  title: "The Queen's Corn | Premium Popcorn & Experiences",
-  description: "Arizona's favorite handcrafted kettle corn. Popped fresh with pure corn oil and stirred with a hickory wooden paddle at The Queen's Corn.",
+  title: "The Queen's Corn | Hand-Popped Kettle Corn in Arizona",
+  description: "Hand-popped kettle corn from Arizona's farmers' markets. Order online for free market pickup, or raise 50% for your school. Arizona shipping coming soon.",
   icons: {
     icon: "/favicon.webp",
     apple: "/favicon.webp",
@@ -54,8 +54,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${instrumentSerif.variable}`} suppressHydrationWarning>
       <body style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        {/* Without JavaScript nothing would reveal the scroll-in blocks: show them. */}
+        <noscript>
+          <style>{`.reveal { opacity: 1 !important; transform: none !important; }`}</style>
+        </noscript>
         <CartProvider>
           <div className="grain-overlay"></div>
+          <div className="scroll-progress" aria-hidden="true"></div>
           <Navbar />
           <CartDrawer />
           <div style={{ flex: 1 }}>

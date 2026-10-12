@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Queen's Corn Shop Blueprint</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  /* Layout concept: the shop as a market stand menu board: pick how you get it, pick a flavor, pick a size, done. */
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: var(--text-body); line-height: var(--leading-body); -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  button, input, select { font: inherit; }
+  a { color: var(--sky); text-underline-offset: 3px; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: .85em; background: var(--butter); padding: 1px 6px; border-radius: 4px; }
+  .wrap { max-width: var(--container); margin: 0 auto; padding-inline: var(--gutter); }
+  .eyebrow { font-size: var(--text-label); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--red-deep); }
+  .display { font-family: var(--font-display); font-weight: 400; letter-spacing: var(--tracking-display); line-height: var(--leading-tight); text-wrap: balance; }
+
+  /* Document chrome */
+  .doc-head { background: var(--white); border-bottom: var(--border); }
+  .doc-head .wrap { padding-block: var(--space-8) var(--space-7); display: grid; gap: var(--space-4); }
+  .doc-head h1 { font-size: var(--text-h1); margin: 0; }
+  .doc-head p { margin: 0; max-width: 70ch; font-size: var(--text-lg); color: var(--ink-soft); }
+  .doc-head .links { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .brief { padding-block: var(--space-8) 0; }
+  .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+  .card { background: var(--white); border: var(--border); border-radius: var(--radius-lg); padding: var(--space-5); min-width: 0; box-shadow: var(--shadow-card); }
+  .card h3 { margin: 0 0 var(--space-3); font-size: var(--text-sm); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .card ol, .card ul { margin: 0; padding-left: 1.2em; font-size: var(--text-sm); }
+  .card li + li { margin-top: 6px; }
+
+  .sec { padding-block: var(--space-9) 0; }
+  .sec-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-3) var(--space-4); margin-bottom: var(--space-4); }
+  .sec-head .no { font-family: var(--font-display); font-size: var(--text-h2); color: var(--red); line-height: 1; }
+  .sec-head h2 { font-size: var(--text-h2); margin: 0; }
+  .sec-head .tag { padding: 3px 12px; border: var(--border); border-radius: var(--radius-pill); font-size: var(--text-label); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; background: var(--white); }
+  .sec-head .tag.new { background: var(--yellow); border-color: var(--yellow); }
+
+  .frame { border: var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--paper); box-shadow: var(--shadow-card-hover); }
+  .frame-bar { display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: var(--espresso); color: var(--paper); font-size: var(--text-xs); }
+  .frame-bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,253,246,.35); }
+  .frame-bar span { margin-left: var(--space-2); opacity: .8; }
+  .stage { padding: var(--space-7) var(--space-6); }
+
+  .spec { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: var(--space-4); background: var(--white); border: var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .spec > div { padding: var(--space-4) var(--space-5); border-top: var(--border); min-width: 0; }
+  .spec > div:nth-child(-n+2) { border-top: 0; }
+  .spec > div:nth-child(even) { border-left: var(--border); }
+  .spec h4 { margin: 0 0 6px; font-size: var(--text-label); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-soft); }
+  .spec p, .spec ul { margin: 0; font-size: var(--text-sm); }
+  .spec ul { padding-left: 1.1em; }
+  .spec li + li { margin-top: 4px; }
+  .spec .wide { grid-column: 1 / -1; border-left: 0 !important; }
+  .todo { display: inline-block; background: var(--butter); border: 1px dashed var(--warning); color: var(--warning); font-size: var(--text-xs); font-weight: 700; padding: 1px 8px; border-radius: var(--radius-sm); }
+
+  /* ---------- Mockup: compact shop header: title left, delivery choice right ---------- */
+  .s-head { position: relative; isolation: isolate; overflow: hidden; background: var(--hero-ground); color: var(--paper); padding: var(--space-6); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: var(--space-6); align-items: center; }
+  .s-head .bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 60% 70%; }
+  .s-head::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(22,18,14,.9) 0%, rgba(22,18,14,.78) 55%, rgba(22,18,14,.62) 100%); }
+  .s-head h1 { font-size: var(--text-h1); margin: var(--space-2) 0 var(--space-2); color: var(--paper); }
+  .s-head h1 em { color: var(--yellow); }
+  .s-head p { margin: 0; color: rgba(250,246,239,.88); font-size: var(--text-sm); }
+  .s-head .facts { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
+  .s-head .facts span { padding: 5px 12px; border-radius: var(--radius-pill); background: var(--glass-dark); border: 1px solid rgba(255,216,74,.35); font-size: var(--text-xs); font-weight: 600; }
+  .how { background: var(--glass-dark); border: 1px solid rgba(255,216,74,.35); border-radius: var(--radius-lg); padding: var(--space-4); backdrop-filter: blur(8px); box-shadow: 0 18px 40px -18px rgba(0,0,0,.6); }
+  .how .q { font-family: var(--font-display); font-size: 1.375rem; line-height: 1.1; margin-bottom: var(--space-3); color: var(--paper); }
+  .how .q small { font-family: var(--font-body); font-size: var(--text-xs); color: rgba(250,246,239,.7); margin-left: var(--space-2); }
+  .seg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+  .seg label { position: relative; display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3) var(--space-4); border: var(--border); border-radius: var(--radius-md); background: var(--white); color: var(--ink); cursor: pointer; min-width: 0; }
+  .seg input { position: absolute; opacity: 0; }
+  .seg .dot { width: 18px; height: 18px; margin-top: 2px; border-radius: 50%; border: 2px solid var(--ink-soft); flex-shrink: 0; }
+  .seg label:has(input:checked) { background: var(--butter); border-color: var(--yellow); box-shadow: 0 0 0 2px var(--yellow); }
+  .seg label:has(input:checked) .dot { border: 6px solid var(--red); }
+  .seg b { display: block; font-size: var(--text-sm); }
+  .seg span.d { font-size: var(--text-xs); color: var(--ink-soft); }
+  .seg select { margin-top: 6px; width: 100%; font-size: var(--text-xs); padding: 4px 6px; border-radius: var(--radius-sm); border: var(--border); background: var(--white); }
+
+  /* ---------- Mockup: filter chips ---------- */
+  .chips-wrap { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; justify-content: space-between; padding: var(--space-6) var(--space-6) var(--space-4); position: sticky; top: 0; }
+  .chips { display: flex; gap: var(--space-2); overflow-x: auto; padding-bottom: 2px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: var(--radius-pill); background: var(--white); border: var(--border); font-size: var(--text-sm); font-weight: 600; white-space: nowrap; cursor: pointer; }
+  .chip .n { font-size: var(--text-xs); color: var(--ink-soft); font-weight: 500; }
+  .chip i { width: 8px; height: 8px; border-radius: 50%; }
+  .chip.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .chip.on .n { color: rgba(250,246,239,.7); }
+  .count { font-size: var(--text-sm); color: var(--ink-soft); }
+
+  /* ---------- Mockup: product card with sizes ---------- */
+  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-5); padding: 0 var(--space-6) var(--space-7); }
+  .pc { background: var(--white); border: var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+  .pc .ph { aspect-ratio: 4 / 3; background: var(--butter); position: relative; }
+  .pc .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .pc .ph .ftag { position: absolute; top: 10px; left: 10px; background: var(--white); }
+  .pc .ph-empty { display: grid; place-items: center; height: 100%; padding: var(--space-3); text-align: center; font-size: var(--text-xs); font-weight: 700; color: var(--warning); }
+  .pc .bd { padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
+  .pc h5 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; line-height: 1.15; letter-spacing: var(--tracking-display); }
+  .pc p { margin: 0; font-size: var(--text-xs); color: var(--ink-soft); }
+  .sizes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: auto; }
+  .sizes label { position: relative; display: flex; flex-direction: column; align-items: center; padding: 6px 2px; border: var(--border); border-radius: var(--radius-md); cursor: pointer; background: var(--paper); }
+  .sizes input { position: absolute; opacity: 0; }
+  .sizes .s { font-size: .6875rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+  .sizes .p { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.1; color: var(--ink); }
+  .sizes label:has(input:checked) { background: var(--butter); border-color: var(--ink); }
+  .sizes label:has(input:checked) .p { color: var(--red); }
+  .addrow { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-2); }
+  .qty { display: inline-flex; align-items: center; border: var(--border); border-radius: var(--radius-pill); background: var(--white); }
+  .qty button { width: 34px; height: 40px; border: 0; background: none; font-size: 1.1rem; cursor: pointer; color: var(--ink); }
+  .qty span { min-width: 20px; text-align: center; font-weight: 700; font-size: var(--text-sm); }
+  .pc .btn { width: 100%; }
+
+  /* ---------- Mockup: bag bar ---------- */
+  .bagbar { margin: 0 var(--space-6) var(--space-6); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-3) var(--space-3) var(--space-3) var(--space-5); background: var(--espresso); color: var(--paper); border-radius: var(--radius-pill); box-shadow: var(--shadow-band); }
+  .bagbar .sum b { font-family: var(--font-display); font-size: 1.375rem; font-weight: 400; color: var(--yellow); margin-left: 6px; }
+  .bagbar .ship { flex: 1 1 220px; min-width: 0; font-size: var(--text-xs); }
+  .bagbar .bar { display: block; height: 6px; border-radius: 3px; background: rgba(250,246,239,.18); margin-top: 6px; overflow: hidden; }
+  .bagbar .bar i { display: block; height: 100%; width: 46%; background: var(--yellow); border-radius: 3px; }
+
+  /* ---------- Mockup: helper strip ---------- */
+  .helpers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); padding: 0 var(--space-6) var(--space-7); }
+  .helper { min-width: 0; background: var(--white); border: var(--border); border-radius: var(--radius-lg); padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+  .helper h6 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 1.375rem; line-height: 1.15; }
+  .helper p { margin: 0; font-size: var(--text-sm); color: var(--ink-soft); }
+  .helper .row { display: flex; gap: var(--space-2); margin-top: auto; padding-top: var(--space-2); }
+  .helper input { flex: 1; min-width: 0; font: inherit; font-size: var(--text-sm); padding: 8px 12px; border: var(--border-strong); border-radius: var(--radius-pill); background: var(--paper); }
+
+  .gone { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+  .gone div { background: var(--white); border: var(--border); border-radius: var(--radius-md); padding: var(--space-4); font-size: var(--text-sm); }
+  .gone b { display: block; text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 2px; }
+  table.t { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+  table.t th, table.t td { text-align: left; padding: var(--space-3); border-bottom: var(--border); vertical-align: top; }
+  table.t th { font-size: var(--text-label); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-soft); }
+  .scroll { overflow-x: auto; background: var(--white); border: var(--border); border-radius: var(--radius-lg); }
+  footer.end { margin-top: var(--space-9); padding-block: var(--space-7); background: var(--espresso); color: var(--paper); }
+  footer.end a { color: var(--yellow); }
+
+  @media (max-width: 1000px) {
+    .s-head { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cols, .helpers { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .stage, .s-head { padding-inline: var(--space-4); }
+    .s-head { grid-template-columns: 1fr; padding: var(--space-5) var(--space-4); }
+    .seg { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+    .seg label { padding: var(--space-3); gap: var(--space-2); }
+    .seg span.d, .how .q small, .s-head p, .s-head .facts { display: none; }
+    .how { padding: var(--space-3); }
+    .how .q { font-size: 1.125rem; margin-bottom: var(--space-2); }
+    .s-head h1 { font-size: 2rem; margin-bottom: 0; }
+    .chips-wrap, .grid, .helpers { padding-inline: var(--space-4); }
+    .grid { gap: var(--space-3); }
+    .pc p { display: none; }
+    .pc h5 { font-size: 1.2rem; }
+    .bagbar { margin-inline: var(--space-4); border-radius: var(--radius-lg); }
+    .spec { grid-template-columns: 1fr; }
+    .spec > div:nth-child(even) { border-left: 0; }
+    .spec > div:nth-child(2) { border-top: var(--border); }
+    .gone { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="doc-head">
+  <div class="wrap">
+    <div class="eyebrow">Shop page blueprint · v1 · 2026-10-10 · Design System v3.1 “Warm Canopy”</div>
+    <h1 class="display">A shop where you get your bag in three taps</h1>
+    <p>Every shopper answers the same three questions: how do I get it, which flavor, which size. The page asks them in that order, on one screen, and keeps the bag total in view. The mockup below uses the real tokens and components.</p>
+    <div class="links">
+      <a class="btn btn-ghost btn-sm" href="design-system.html">Design system</a>
+      <a class="btn btn-ghost btn-sm" href="landing-page-blueprint.html">Homepage blueprint</a>
+      <a class="btn btn-ghost btn-sm" href="#build">Build plan</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section class="brief">
+  <div class="cols">
+    <div class="card">
+      <h3>What's wrong today</h3>
+      <ul>
+        <li>A tall “Flavor Vault” banner pushes the flavors below the fold.</li>
+        <li>No way to pick a size on the card; “Quick add” silently adds a Family bag.</li>
+        <li>Pickup vs shipping only shows up after you chose it somewhere else.</li>
+        <li>On phones the filter hides in a dropdown.</li>
+        <li>Fade-in animations and an AI-image promo card at the bottom.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>The three taps</h3>
+      <ol>
+        <li><strong>How do you want it?</strong> Ship to me, or pick up at a market (choose which).</li>
+        <li><strong>Which flavor?</strong> Filter chips by taste, with counts.</li>
+        <li><strong>Which size?</strong> $6 / $10 / $15 right on the card, then “Add”.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Rules</h3>
+      <ul>
+        <li>Flavors visible on the first screen, on phones too.</li>
+        <li>Every card shows all three sizes and prices.</li>
+        <li>Bag total + free-shipping progress always in view once something is added.</li>
+        <li>Real photos only; a clear placeholder where a bag photo is missing.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================================ S1 ================================ -->
+<section class="sec" id="s1">
+  <div class="sec-head"><span class="no">1</span><h2 class="display">Compact header with “How do you want it?”</h2><span class="tag new">New</span></div>
+  <div class="frame">
+    <div class="frame-bar"><i></i><i></i><i></i><span>thequeenscorn.com/shop</span></div>
+    <div class="s-head">
+      <img class="bg" src="../../public/popcorn-scoop-fresh.jpg" alt="">
+      <div>
+        <span class="eyebrow" style="color:var(--yellow)">Shop</span>
+        <h1 class="display">Pick your <em>kettle corn.</em></h1>
+        <p>Popped fresh for every order. Every flavor in three sizes.</p>
+        <div class="facts"><span>8 flavors</span><span>From $6</span><span>Free AZ shipping over $35</span></div>
+      </div>
+      <div class="how">
+        <div class="q">How do you want it?<small>You can change this in your bag.</small></div>
+        <div class="seg" role="radiogroup" aria-label="How do you want it">
+          <label><input type="radio" name="how" id="how-ship" checked><span class="dot"></span><span><b>Ship it to me</b><span class="d">Anywhere in Arizona · free over $35</span></span></label>
+          <label><input type="radio" name="how" id="how-pick"><span class="dot"></span><span style="min-width:0; flex:1"><b>Pick up at a market</b><span class="d">Always free</span>
+            <select aria-label="Market"><option>Sat, Oct 10 · Desert West, Avondale</option><option>Oct 17–18 · Oro Valley</option><option>Oct 24–25 · High Street, Phoenix</option></select></span></label>
+        </div>
+      </div>
+    </div>
+    <div class="chips-wrap" style="position:static">
+      <div class="chips" role="group" aria-label="Filter by taste">
+        <button class="chip on" type="button">All <span class="n">8</span></button>
+        <button class="chip" type="button"><i style="background:var(--flavor-sweet)"></i>Sweet <span class="n">3</span></button>
+        <button class="chip" type="button"><i style="background:var(--flavor-savory)"></i>Savory <span class="n">2</span></button>
+        <button class="chip" type="button"><i style="background:var(--flavor-spicy)"></i>Spicy <span class="n">1</span></button>
+        <button class="chip" type="button"><i style="background:var(--flavor-seasonal)"></i>Seasonal <span class="n">2</span></button>
+      </div>
+      <span class="count">The flavor grid starts right here ↓</span>
+    </div>
+  </div>
+  <div class="spec">
+    <div><h4>Goal</h4><p>Show flavors fast, and settle the delivery question up front so the price and total make sense.</p></div>
+    <div><h4>Data</h4><p>Writes <code>fulfillmentMethod</code> and <code>selectedPickupEvent</code> in the cart. Markets = upcoming events with pickup (<code>getUpcomingEvents</code>). Arriving from a homepage “Pre-order” preselects that market.</p></div>
+    <div><h4>Design</h4><p>One compact dark band on the real popcorn close-up (espresso shade): title and facts on the left, the delivery choice on the right in a dark glass panel. No empty image area, no separate card. The taste chips and flavors follow immediately.</p></div>
+    <div><h4>Mobile</h4><p>The band stacks: title, then the two choices side by side as compact pills (market picker opens below when chosen). The chips are visible on the first screen and the first flavor row starts right under them.</p></div>
+  </div>
+</section>
+
+<!-- ================================ S2 ================================ -->
+<section class="sec" id="s2">
+  <div class="sec-head"><span class="no">2</span><h2 class="display">Taste chips, cards with sizes, bag bar</h2><span class="tag new">Rebuild</span></div>
+  <div class="frame">
+    <div class="chips-wrap">
+      <div class="chips" role="group" aria-label="Filter by taste">
+        <button class="chip on" type="button">All <span class="n">8</span></button>
+        <button class="chip" type="button"><i style="background:var(--flavor-sweet)"></i>Sweet <span class="n">3</span></button>
+        <button class="chip" type="button"><i style="background:var(--flavor-savory)"></i>Savory <span class="n">2</span></button>
+        <button class="chip" type="button"><i style="background:var(--flavor-spicy)"></i>Spicy <span class="n">1</span></button>
+        <button class="chip" type="button"><i style="background:var(--flavor-seasonal)"></i>Seasonal <span class="n">2</span></button>
+      </div>
+      <span class="count">Showing 8 flavors</span>
+    </div>
+
+    <div class="grid">
+      <article class="pc">
+        <div class="ph"><img src="../../public/popcorn-scoop-fresh.jpg" alt="Caramel and cheddar kettle corn"><span class="ftag savory">Savory</span></div>
+        <div class="bd">
+          <h5>Caramel &amp; Cheddar</h5>
+          <p>Sweet amber caramel meets sharp cheddar in one bag.</p>
+          <div class="meter sweet"><span>Sweet</span><span class="kernels"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div>
+          <div class="sizes" role="radiogroup" aria-label="Size"><label><input type="radio" name="s1" checked><span class="s">Small</span><span class="p">$6</span></label><label><input type="radio" name="s1"><span class="s">Family</span><span class="p">$10</span></label><label><input type="radio" name="s1"><span class="s">Party</span><span class="p">$15</span></label></div>
+          <div class="addrow"><span class="qty"><button type="button" aria-label="Fewer">−</button><span>1</span><button type="button" aria-label="More">+</button></span><button class="btn btn-kettle btn-sm" type="button">Add · $6</button></div>
+        </div>
+      </article>
+      <article class="pc">
+        <div class="ph"><div class="ph-empty">Real bag photo to shoot</div><span class="ftag sweet">Sweet</span></div>
+        <div class="bd">
+          <h5>Sweet &amp; Salty</h5>
+          <p>The original. Corn oil, cane sugar and salt, hand-stirred.</p>
+          <div class="meter sweet"><span>Sweet</span><span class="kernels"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
+          <div class="sizes"><label><input type="radio" name="s2"><span class="s">Small</span><span class="p">$6</span></label><label><input type="radio" name="s2" checked><span class="s">Family</span><span class="p">$10</span></label><label><input type="radio" name="s2"><span class="s">Party</span><span class="p">$15</span></label></div>
+          <div class="addrow"><span class="qty"><button type="button" aria-label="Fewer">−</button><span>2</span><button type="button" aria-label="More">+</button></span><button class="btn btn-kettle btn-sm" type="button">Add · $20</button></div>
+        </div>
+      </article>
+      <article class="pc">
+        <div class="ph"><div class="ph-empty">Real bag photo to shoot</div><span class="ftag spicy">Spicy</span></div>
+        <div class="bd">
+          <h5>Jalapeño</h5>
+          <p>Kettle corn with a savory jalapeño kick and a sweet crunch.</p>
+          <div class="meter spicy"><span>Heat</span><span class="kernels"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
+          <div class="sizes"><label><input type="radio" name="s3" checked><span class="s">Small</span><span class="p">$6</span></label><label><input type="radio" name="s3"><span class="s">Family</span><span class="p">$10</span></label><label><input type="radio" name="s3"><span class="s">Party</span><span class="p">$15</span></label></div>
+          <div class="addrow"><span class="qty"><button type="button" aria-label="Fewer">−</button><span>1</span><button type="button" aria-label="More">+</button></span><button class="btn btn-kettle btn-sm" type="button">Add · $6</button></div>
+        </div>
+      </article>
+      <article class="pc">
+        <div class="ph"><div class="ph-empty">Real bag photo to shoot</div><span class="ftag sweet">Sweet</span></div>
+        <div class="bd">
+          <h5>Caramel</h5>
+          <p>A glossy amber glaze on every single kernel.</p>
+          <div class="meter sweet"><span>Sweet</span><span class="kernels"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+          <div class="sizes"><label><input type="radio" name="s4" checked><span class="s">Small</span><span class="p">$6</span></label><label><input type="radio" name="s4"><span class="s">Family</span><span class="p">$10</span></label><label><input type="radio" name="s4"><span class="s">Party</span><span class="p">$15</span></label></div>
+          <div class="addrow"><span class="qty"><button type="button" aria-label="Fewer">−</button><span>1</span><button type="button" aria-label="More">+</button></span><button class="btn btn-kettle btn-sm" type="button">Add · $6</button></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="bagbar" role="status">
+      <span class="sum">3 bags in your bag ·<b>$26</b></span>
+      <span class="ship">$9 away from free Arizona shipping<span class="bar"><i></i></span></span>
+      <a class="btn btn-red btn-sm" href="#s2">View bag &amp; check out</a>
+    </div>
+  </div>
+  <div class="spec">
+    <div><h4>Chips</h4><p>One row of taste chips with counts and the flavor color dot; scrolls sideways on phones (no dropdown). Sticky under the nav while scrolling the grid.</p></div>
+    <div><h4>Card</h4><ul><li>Photo with the taste tag on it; name; one line; one taste meter.</li><li><b>Size picker on the card</b> ($6 / $10 / $15, Small preselected), quantity stepper, and <b>“Add · $price”</b> showing the line total.</li><li>Tap the photo or name for the full product page.</li></ul></div>
+    <div><h4>Bag bar</h4><p>Appears once the bag has items: count, total, free-shipping progress (or “Free pickup at {market}”), and the one red button. Sticky at the bottom on phones.</p></div>
+    <div><h4>Mobile</h4><p>2 cards per row; description hidden; sizes stay (the point of the page). Bag bar pinned to the bottom with safe-area padding.</p></div>
+    <div class="wide"><h4>Done when</h4><p>From a cold load on a phone, a shopper can choose pickup, filter “Spicy”, pick “Family”, add 2 and reach checkout without leaving the page or scrolling back up. <span class="todo">Real bag photos needed for 7 of 8 flavors</span></p></div>
+  </div>
+</section>
+
+<!-- ================================ S3 ================================ -->
+<section class="sec" id="s3">
+  <div class="sec-head"><span class="no">3</span><h2 class="display">Helpers under the grid</h2><span class="tag">Replace promo card</span></div>
+  <div class="frame">
+    <div class="stage" style="padding-inline:0">
+      <div class="helpers">
+        <div class="helper"><span class="eyebrow">Can't decide?</span><h6>Start with Caramel &amp; Cheddar</h6><p>Sweet and savory in one bag: the easiest way to try both.</p><div class="row"><a class="btn btn-kettle btn-sm" href="#s2">Add a Small · $6</a></div></div>
+        <div class="helper"><span class="eyebrow">Ordering for a fundraiser?</span><h6>Enter your group's code</h6><p>Half of your order goes to the team.</p><div class="row"><input type="text" aria-label="Fundraiser code" placeholder="e.g. TIGERS50"><a class="btn btn-dark btn-sm" href="#s3">Apply</a></div></div>
+        <div class="helper"><span class="eyebrow">Big order?</span><h6>Parties, weddings, company gifts</h6><p>Talk to Bob &amp; Reina about bulk bags or popping live at your event.</p><div class="row"><a class="btn btn-ghost btn-sm" href="#s3">Ask about a big order</a></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="spec">
+    <div><h4>Goal</h4><p>Catch the three kinds of shoppers who stall: undecided, fundraiser supporters, big-order buyers.</p></div>
+    <div><h4>Data</h4><p>Code field uses <code>setSelectedFundraiserCode</code> and validates against active fundraisers (shows the team name when valid). Big order → <code>/contact?subject=Wholesale%20Request</code>.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="removed">
+  <div class="sec-head"><h2 class="display">Taken off the shop page</h2></div>
+  <div class="gone">
+    <div><b>“The Flavor Vault” tall banner</b>Replaced by a short header and the delivery choice.</div>
+    <div><b>Mobile category dropdown</b>Replaced by sideways-scrolling chips with counts.</div>
+    <div><b>Silent “Quick add” of a Family bag</b>Replaced by visible sizes and “Add · $price”.</div>
+    <div><b>“Authentic Kettle Corn” interstitial + AI-image promo card</b>Replaced by the three helpers.</div>
+    <div><b>Fade-in on every card</b>Cards are visible at rest.</div>
+    <div><b>Context banners (pickup/fundraiser)</b>Folded into “How do you want it?” and the code helper.</div>
+  </div>
+</section>
+
+<section class="sec" id="build">
+  <div class="sec-head"><h2 class="display">Build plan</h2></div>
+  <div class="scroll">
+    <table class="t">
+      <thead><tr><th>Step</th><th>What</th><th>Files</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Shop header + “How do you want it?” (reads/writes cart fulfillment, upcoming pickup markets)</td><td><code>src/app/shop/page.tsx</code>, new <code>ShopHeader</code>, <code>FulfillmentPicker</code></td></tr>
+        <tr><td>2</td><td>Taste chips with counts, sticky; sideways scroll on phones</td><td><code>FlavorFilter</code></td></tr>
+        <tr><td>3</td><td>Shop card with size picker, quantity, “Add · $price” (homepage keeps the compact card)</td><td><code>ShopProductCard</code>; size prices from <code>CartContext</code></td></tr>
+        <tr><td>4</td><td>Bag bar (count, total, free-shipping progress / pickup note), sticky on phones</td><td><code>BagBar</code></td></tr>
+        <tr><td>5</td><td>Helpers: Caramel &amp; Cheddar starter, fundraiser code, big order</td><td><code>ShopHelpers</code></td></tr>
+        <tr><td>6</td><td>QA 360 → 2560px; <code>npm run build</code>; PR with screenshots</td><td>none</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<footer class="end">
+  <div class="wrap"><p style="margin:0"><strong>Shop page blueprint v1</strong> · <code style="background:transparent;color:var(--yellow)">wiki/design-system/</code> · Built on <a href="design-system.html">Design System v3.1</a></p></div>
+</footer>
+</body>
+</html>

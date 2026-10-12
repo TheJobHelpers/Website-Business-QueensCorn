@@ -1,28 +1,43 @@
 import Hero from '@/components/Hero';
-import Story from '@/components/Story';
 import TrustBanner from '@/components/TrustBanner';
+import WaysToBuy from '@/components/WaysToBuy';
 import FeaturedProducts from '@/components/FeaturedProducts';
-import Process from '@/components/Process';
-import Testimonials from '@/components/Testimonials';
-import Marquee from '@/components/Marquee';
 import UpcomingEvents from '@/components/UpcomingEvents';
+import FundraisingBand from '@/components/FundraisingBand';
+import Story from '@/components/Story';
+import Testimonials from '@/components/Testimonials';
+import QuestionsBand from '@/components/QuestionsBand';
+import ScrollReveal from '@/components/ScrollReveal';
 
+// Section order and content: wiki/design-system/landing-page-blueprint.html
+// Goal: in five seconds a visitor knows what it is, how to get it, and when the next market is.
+// Sections below the first screen fade up once as they scroll into view.
 export default function Home() {
   return (
-    <main>
+    <main style={{ background: 'var(--paper)' }}>
       <Hero />
       <TrustBanner />
-      <FeaturedProducts />
-      
-      {/* Marquee as a high-end section divider */}
-      <Marquee />
-      
-      {/* Dynamic Pop-Up Schedule synced from Admin DB */}
-      <UpcomingEvents />
-      
-      <Process />
-      <Testimonials />
-      <Story />
+      <ScrollReveal>
+        <WaysToBuy />
+      </ScrollReveal>
+      <ScrollReveal>
+        <FeaturedProducts />
+      </ScrollReveal>
+      <ScrollReveal>
+        <UpcomingEvents />
+      </ScrollReveal>
+      <ScrollReveal>
+        <FundraisingBand />
+      </ScrollReveal>
+      <ScrollReveal>
+        <Story />
+      </ScrollReveal>
+      <ScrollReveal>
+        <Testimonials />
+      </ScrollReveal>
+      <ScrollReveal>
+        <QuestionsBand />
+      </ScrollReveal>
     </main>
   );
 }

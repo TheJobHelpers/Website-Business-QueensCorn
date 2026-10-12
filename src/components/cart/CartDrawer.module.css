@@ -31,6 +31,33 @@
   to { transform: translateX(0); }
 }
 
+/* Closing: slide out and fade, then the component unmounts (CLOSE_MS in CartDrawer.tsx) */
+.closing {
+  animation: fadeOut 0.22s ease-in forwards;
+  pointer-events: none;
+}
+
+.closing .drawer {
+  animation: slideOut 0.22s ease-in forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; }
+}
+
+@keyframes slideOut {
+  to { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .drawer,
+  .closing,
+  .closing .drawer {
+    animation: none;
+  }
+}
+
 .header {
   padding: 1.5rem 2rem;
   border-bottom: 1px solid var(--border-subtle, #E8DFD1);
@@ -316,6 +343,14 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+/* shipping while it is "coming soon" */
+.toggleBtn:disabled {
+  border-style: dashed;
+  background: transparent;
+  cursor: not-allowed;
+  opacity: 0.75;
 }
 
 .toggleBtnActive {

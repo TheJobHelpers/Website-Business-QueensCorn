@@ -56,6 +56,13 @@ Repo: https://github.com/TheJobHelpers/Website-Business-QueensCorn
 - `src/lib/shopify.ts`: Shopify client and fallbacks.
 - `src/data/*.ts`: local fallback data for products, events and fundraisers; `src/data/db.json` is the events store.
 - `src/app/actions/`: server actions for auth, events and Shopify.
+- **Homepage v3.1** (`feature/landing-page-v3`): `Hero`, `TrustBanner`, `WaysToBuy`, `FeaturedProducts`,
+  `UpcomingEvents`, `FundraisingBand`, `Story`, `Testimonials` (hidden until real reviews), `QuestionsBand`.
+  Shared parts in `src/components/ui/` (`Button`: red / kettle / dark / ghost / light; `EventTicket`).
+- `src/lib/events.ts` (upcoming events, pickup labels, weekdays), `src/lib/shop.ts` (shared shop constants),
+  `src/lib/useHydrated.ts` (date logic only after hydration, because pages are prerendered).
+- Styling: v3.1 tokens in `src/app/globals.css` mirror `wiki/design-system/tokens.css`; the old Buttercream
+  variables stay until every page is migrated.
 - `public/`: images. Real photos are the `.jpg`/`.webp` files (e.g. `bob-reina.webp`, `reina-stirring-kettle.jpg`);
   many `.png` images are AI-generated (list in the design system, section 07). `assests/` (sic) holds original brand files.
 

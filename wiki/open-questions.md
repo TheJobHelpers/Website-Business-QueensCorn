@@ -20,11 +20,16 @@ with the answer and source, and update the related page.
 6. **Shipping:** Arizona only? Is the free threshold $35? See [[fulfillment-and-shipping]]
 11. **Design v3 sign-off:** do Bob & Reina approve the "Canopy" direction? Do they have the printer's exact
     red/yellow codes for the banners? See [[design-palette-decision]]
-12. **Real product photos:** can we shoot each flavor bag (real label) for the shop? Current flavor images
-    are AI-generated with a fake logo. See [[brand-and-design-system]]
+12. **Real product photos:** can we shoot each flavor bag (real label) for the shop? 7 of 8 flavors use
+    AI-generated images with a fake logo; the shop design shows a placeholder until real photos exist.
+    See [[brand-and-design-system]], [[shop-page-structure]]
 13. **Trust strip claims:** is "100% Non-GMO" (mushroom kernels) true for every flavor? Is there a real total
     donated through fundraisers (the old banner said "Over $34,000", removed until confirmed)?
     See `src/components/TrustBanner.tsx`
+14. **Taste levels:** do Bob & Reina agree with the 1–5 taste meters per flavor (e.g. Caramel sweet 5,
+    Jalapeño heat 3)? Set by us in `src/data/products.ts`. See [[product-catalog]]
+15. **Real reviews:** 3 reviews from Google/Facebook (with permission) to switch the reviews section on.
+    See [[landing-page-structure]]
 
 ## Website: technical
 7. **Shopify:** does a store exist, and are the env vars set in Vercel? See [[shopify-integration]]

@@ -4,14 +4,19 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useCart, FREE_AZ_SHIPPING_THRESHOLD } from '@/context/CartContext';
+import { useCart, FREE_AZ_SHIPPING_THRESHOLD, SHIPPING_AVAILABLE } from '@/context/CartContext';
 import { createShopifyCheckout, isShopifyConfigured } from '@/lib/shopify';
+import { getUpcomingEvents } from '@/lib/events';
 import { X, Check, Truck, Calendar, Heart } from 'lucide-react';
 import styles from './CartDrawer.module.css';
+
+const CLOSE_MS = 220;
 
 export default function CartDrawer() {
   const router = useRouter();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  // true while the drawer plays its closing animation, just before it unmounts
+  const [isClosing, setIsClosing] = useState(false);
   const {
     items,
     totalItems,
@@ -31,6 +36,16 @@ export default function CartDrawer() {
   } = useCart();
 
   if (!isDrawerOpen) return null;
+
+  // Slide out first, then unmount (CLOSE_MS matches the closing animation in the CSS).
+  const requestClose = () => {
+    if (isClosing) return;
+    setIsClosing(true);
+    setTimeout(() => {
+      closeDrawer();
+      setIsClosing(false);
+    }, CLOSE_MS);
+  };
 
   const remainingForFreeShipping = Math.max(0, FREE_AZ_SHIPPING_THRESHOLD - subtotal);
   const shippingProgress = Math.min(100, (subtotal / FREE_AZ_SHIPPING_THRESHOLD) * 100);
@@ -73,7 +88,7 @@ export default function CartDrawer() {
   };
 
   return (
-    <div className={styles.backdrop} onClick={closeDrawer}>
+    <div className={`${styles.backdrop} ${isClosing ? styles.closing : ''}`} onClick={requestClose}>
       <aside
         className={styles.drawer}
         onClick={(e) => e.stopPropagation()}
@@ -86,7 +101,7 @@ export default function CartDrawer() {
           </div>
           <button
             className={styles.closeBtn}
-            onClick={closeDrawer}
+            onClick={requestClose}
             aria-label="Close cart"
           >
             <X size={20} />
@@ -94,7 +109,7 @@ export default function CartDrawer() {
         </div>
 
         {/* Free AZ Shipping Progress Banner */}
-        {items.length > 0 && fulfillmentMethod === 'shipping' && (
+        {SHIPPING_AVAILABLE && items.length > 0 && fulfillmentMethod === 'shipping' && (
           <div className={styles.shippingBanner}>
             <div className={styles.shippingText}>
               {remainingForFreeShipping === 0 ? (
@@ -202,9 +217,10 @@ export default function CartDrawer() {
                       fulfillmentMethod === 'shipping' ? styles.toggleBtnActive : ''
                     }`}
                     onClick={() => setFulfillmentMethod('shipping')}
+                    disabled={!SHIPPING_AVAILABLE}
                   >
                     <Truck size={15} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '6px' }} />
-                    Ship in AZ (1–2 Days)
+                    {SHIPPING_AVAILABLE ? 'Ship in AZ (1–2 Days)' : 'Shipping · Coming soon'}
                   </button>
                   <button
                     type="button"
@@ -225,7 +241,7 @@ export default function CartDrawer() {
                     onChange={(e) => setSelectedPickupEvent(e.target.value)}
                     aria-label="Select Farmers Market Pickup Location"
                   >
-                    {events
+                    {getUpcomingEvents(events)
                       .filter((evt) => evt.pickupAvailable !== false)
                       .map((evt) => {
                         const label = `${evt.title} (${evt.month} ${evt.day})`;
@@ -271,6 +287,8 @@ export default function CartDrawer() {
                 <span>
                   {fulfillmentMethod === 'pickup'
                     ? 'Subtotal (Free Market Pickup)'
+                    : !SHIPPING_AVAILABLE
+                    ? 'Subtotal'
                     : remainingForFreeShipping === 0
                     ? 'Subtotal (Free AZ Shipping)'
                     : 'Subtotal (Est. +$4.95 USPS AZ)'}

@@ -1,422 +1,448 @@
+/* Fundraising page: design system v3.1. Same header family as the shop and events pages. */
+
 .page {
-  background: var(--background);
-  color: var(--text-primary);
-  padding-top: var(--header-height);
-  padding-bottom: 6rem;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  padding-top: calc(var(--header-height) + var(--space-4));
+  padding-bottom: var(--space-9);
 }
 
-.hero {
-  padding: 8rem 0 5rem;
-  text-align: center;
+/* ---------------- 1. Header band ---------------- */
+.head {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: center;
+  padding: var(--space-7) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--hero-ground);
+  color: var(--paper);
+  box-shadow: var(--shadow-band);
 }
 
-.heroGlow {
+.headBg {
+  z-index: -2;
+  object-fit: cover;
+  /* the team, not the banner lettering above them */
+  object-position: 50% 100%;
+}
+
+.head::before {
+  content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 120%;
-  height: 120%;
-  background: radial-gradient(circle, rgba(217, 35, 42, 0.05) 0%, transparent 60%);
-  z-index: 0;
-  pointer-events: none;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(22, 18, 14, 0.94) 0%, rgba(22, 18, 14, 0.84) 55%, rgba(22, 18, 14, 0.7) 100%);
 }
 
-.heroContent {
-  position: relative;
-  z-index: 10;
-  max-width: 820px;
-  margin: 0 auto;
+.intro {
+  min-width: 0;
 }
 
-.label {
-  display: block;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.35em;
-  color: var(--primary);
-  margin-bottom: 1.25rem;
+.eyebrow {
+  font-size: var(--text-label);
   font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--yellow);
 }
 
 .title {
-  font-size: clamp(3rem, 7vw, 5.5rem);
-  font-family: var(--font-serif);
-  color: var(--text-primary);
-  line-height: 1.05;
-  margin-bottom: 1.5rem;
-}
-
-.description {
-  font-size: 1.25rem;
-  color: var(--text-muted);
-  line-height: 1.75;
-  margin-bottom: 2.5rem;
+  margin: var(--space-1) 0 var(--space-3);
+  max-width: 14ch;
+  font-family: var(--font-display);
   font-weight: 400;
+  font-size: var(--text-h1);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  color: var(--paper);
 }
 
-.heroActions {
+.title em {
+  color: var(--yellow);
+}
+
+.lede {
+  margin: 0 0 var(--space-5);
+  max-width: 52ch;
+  color: rgba(250, 246, 239, 0.9);
+}
+
+.headActions {
   display: flex;
-  justify-content: center;
-  gap: 1.5rem;
   flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
-.primaryBtn {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 1.1rem 2.5rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: var(--transition-smooth);
-  display: inline-block;
-  box-shadow: 0 4px 14px rgba(217, 35, 42, 0.35);
-}
-
-.primaryBtn:hover {
-  background: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(217, 35, 42, 0.45);
-}
-
-.secondaryBtn {
-  background: #FFFDF9;
-  color: var(--text-primary);
-  border: 1.5px solid var(--border-subtle);
-  padding: 1.1rem 2.5rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  border-radius: var(--radius-sm);
-  transition: var(--transition-smooth);
-  display: inline-block;
-  box-shadow: 0 4px 14px rgba(24, 18, 12, 0.06);
-}
-
-.secondaryBtn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  background: #F4EDE2;
-}
-
-/* 3 Steps Section */
-.stepsSection {
-  margin-bottom: 6rem;
-}
-
-.stepsGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-}
-
-.stepCard {
-  background: var(--surface-card);
-  border: 1px solid var(--border-card);
+/* the three promises, on dark glass */
+.facts {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  margin: 0;
+  padding: var(--space-4) var(--space-5);
   border-radius: var(--radius-lg);
-  padding: 2.5rem;
-  height: 100%;
-  box-shadow: 0 4px 14px rgba(24, 18, 12, 0.06);
-  transition: var(--transition-smooth);
+  background: var(--glass-dark);
+  border: 1px solid rgba(255, 216, 74, 0.35);
+  backdrop-filter: blur(8px);
+  font-size: var(--text-sm);
+  font-weight: 600;
 }
 
-.stepCard:hover {
-  border-color: var(--accent);
-  transform: translateY(-5px);
-  box-shadow: 0 16px 36px rgba(24, 18, 12, 0.12);
+.facts li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 
-.stepNum {
-  display: inline-block;
-  font-family: var(--font-serif);
-  font-size: 2.5rem;
-  color: var(--primary);
+.facts li::before {
+  content: '✓';
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--yellow);
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+/* ---------------- Sections ---------------- */
+.section {
+  margin-top: var(--space-8);
+  /* "Support a team" in the header lands below the fixed navbar */
+  scroll-margin-top: calc(var(--header-height) + var(--space-4));
+}
+
+/* ---------------- 2. Steps ---------------- */
+.steps {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-5);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.stepNo {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: var(--space-2);
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
   line-height: 1;
-  margin-bottom: 1rem;
 }
 
 .stepTitle {
-  font-size: 1.75rem;
-  margin-bottom: 0.75rem;
-  color: var(--text-primary);
-}
-
-.stepDesc {
-  font-size: 0.98rem;
-  color: var(--text-muted);
-  line-height: 1.65;
+  margin: 0;
+  font-family: var(--font-display);
   font-weight: 400;
+  font-size: var(--text-h3);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-display);
 }
 
-/* Interactive Profit Calculator */
-.calculatorSection {
-  margin-bottom: 7rem;
+.step p {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
 }
 
-.calculatorCard {
-  background: var(--surface-card, #FFFDF9);
-  border: 1px solid var(--border-card, #EAE1D3);
-  border-radius: var(--radius-lg);
-  padding: 4rem;
+/* ---------------- 3. Calculator: canopy band ---------------- */
+.calc {
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 4rem;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+  gap: clamp(24px, 4vw, 72px);
   align-items: center;
-  box-shadow: 0 16px 36px rgba(36, 27, 19, 0.05);
+  margin-top: var(--space-8);
+  padding: clamp(32px, 4vw, 72px) clamp(20px, 4vw, 72px);
+  border-radius: var(--radius-lg);
+  background: var(--butter);
+}
+
+.calcCopy {
+  min-width: 0;
 }
 
 .calcTitle {
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  margin-bottom: 1rem;
-  color: var(--text-primary);
-}
-
-.calcSubtitle {
-  font-size: 1.05rem;
-  color: var(--text-muted);
-  line-height: 1.65;
-  margin-bottom: 2.5rem;
+  margin: var(--space-2) 0 var(--space-2);
+  font-family: var(--font-display);
   font-weight: 400;
+  font-size: var(--text-h2);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
 }
 
-.sliderGroup {
-  margin-bottom: 1.75rem;
+.calcText {
+  margin: 0 0 var(--space-5);
+  max-width: 50ch;
 }
 
-.sliderHeader {
+.slider {
+  max-width: 520px;
+}
+
+.slider + .slider {
+  margin-top: var(--space-4);
+}
+
+.slider label {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 0.6rem;
-  font-size: 0.9rem;
-  color: var(--text-primary);
-  font-weight: 500;
-}
-
-.sliderValue {
+  gap: var(--space-3);
+  margin-bottom: var(--space-1);
+  font-size: var(--text-sm);
   font-weight: 700;
-  color: var(--primary);
-  font-size: 1.05rem;
 }
 
-.rangeInput {
+.slider output {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--red);
+  font-variant-numeric: tabular-nums;
+}
+
+.slider input {
   width: 100%;
-  accent-color: var(--primary);
+  accent-color: var(--red);
   cursor: pointer;
 }
 
-.calcResult {
-  background: #1E1711;
-  border: 1px solid rgba(245, 186, 49, 0.4);
-  border-radius: var(--radius-lg);
-  padding: 3rem 2.5rem;
-  text-align: center;
+.slider input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+
+.result {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
-  box-shadow: 0 20px 40px rgba(30, 23, 17, 0.35);
+  gap: var(--space-2);
+  padding: var(--space-5);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  text-align: center;
 }
 
 .resultLabel {
-  font-size: 0.8rem;
+  font-size: var(--text-label);
+  font-weight: 800;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #B5A898;
-  font-weight: 700;
 }
 
 .resultAmount {
-  font-family: var(--font-serif);
-  font-size: clamp(3.5rem, 6vw, 4.75rem);
-  color: var(--accent);
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 2rem + 3vw, 4.5rem);
   line-height: 1;
+  color: var(--red);
+  font-variant-numeric: tabular-nums;
 }
 
-.resultMeta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.6rem;
-  font-size: 0.85rem;
-  color: #B5A898;
-  margin-bottom: 0.5rem;
+.resultEq {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
 }
 
-/* Active Campaigns Section */
-.campaignsSection {
-  scroll-margin-top: 100px;
-}
-
-.sectionHeader {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 4rem;
-}
-
-.sectionTitle {
-  font-size: clamp(2.5rem, 5vw, 3.8rem);
-  margin-bottom: 1rem;
-  color: var(--text-primary);
-}
-
-.sectionSubtitle {
-  font-size: 1.05rem;
-  color: var(--text-muted);
-  line-height: 1.65;
-  font-weight: 400;
-}
-
-.campaignsGrid {
+/* ---------------- 4. Campaigns ---------------- */
+.campaigns {
+  list-style: none;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-5) 0 0;
+  padding: 0;
 }
 
-.campaignCard {
-  background: var(--surface-card, #FFFDF9);
-  border: 1px solid var(--border-card, #EAE1D3);
-  border-radius: var(--radius-lg);
-  padding: 2.5rem;
+.campaign {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  transition: var(--transition-smooth);
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-5);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
 }
 
-.campaignCard:hover,
-.campaignCardActive {
-  border-color: var(--primary);
-  transform: translateY(-6px);
-  box-shadow: 0 16px 36px rgba(36, 27, 19, 0.08);
+.campaignOn {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 2px var(--yellow), var(--shadow-card);
 }
 
 .campaignTop {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  margin-bottom: 1rem;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
 }
 
-.campaignCategory {
-  color: var(--primary);
+.category {
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--butter);
   font-weight: 700;
 }
 
-.campaignLocation {
-  color: var(--text-muted);
+.location {
+  color: var(--ink-soft);
+  font-weight: 600;
 }
 
 .campaignTitle {
-  font-size: 1.85rem;
-  margin-bottom: 0.75rem;
-  color: var(--text-primary);
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-h3);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-display);
 }
 
-.campaignDesc {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  flex: 1;
+.campaignText {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
 }
 
-.progressBox {
-  margin-bottom: 1.5rem;
+.progress {
+  margin-top: auto;
 }
 
 .progressNumbers {
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-bottom: 0.5rem;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
 }
 
 .progressNumbers strong {
-  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 400;
+  color: var(--ink);
 }
 
 .progressBar {
-  width: 100%;
   height: 8px;
-  background: var(--surface-warm, #F3EBDD);
-  border-radius: 100px;
+  border-radius: 4px;
+  background: var(--line);
   overflow: hidden;
 }
 
-.progressBarFill {
+.progressBar i {
+  display: block;
   height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  border-radius: 100px;
+  border-radius: 4px;
+  background: var(--red);
 }
 
 .campaignMeta {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  padding-top: 1rem;
-  margin-bottom: 1.5rem;
-  border-top: 1px solid var(--border-subtle, #E8DFD1);
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--ink-soft);
 }
 
-.codeBadge {
-  color: var(--primary);
-  font-weight: 600;
-  letter-spacing: 0.08em;
-}
-
-.supportBtn {
-  width: 100%;
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 1rem;
+.code {
+  padding: 2px 8px;
   border-radius: var(--radius-sm);
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  cursor: pointer;
-  transition: var(--transition-smooth);
+  background: var(--paper);
+  border: var(--border);
+  color: var(--ink);
+  letter-spacing: 0.06em;
 }
 
-.supportBtn:hover {
-  background: var(--primary-hover);
+.empty {
+  margin: var(--space-5) 0 0;
+  padding: var(--space-5);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--ink-soft);
 }
 
-@media (max-width: 1024px) {
-  .stepsGrid,
-  .campaignsGrid {
+/* ---------------- Tablet & phone ---------------- */
+@media (max-width: 1000px) {
+  .head,
+  .calc {
     grid-template-columns: 1fr;
   }
-
-  .calculatorCard {
+  .head {
+    gap: var(--space-5);
+    padding: var(--space-6) var(--space-5);
+  }
+  .title {
+    max-width: none;
+  }
+  .steps,
+  .campaigns {
     grid-template-columns: 1fr;
-    padding: 2.5rem 1.75rem;
-    gap: 2.5rem;
   }
 }
 
-@media (max-width: 768px) {
-  .hero {
-    padding: 5rem 0 3rem;
+@media (max-width: 640px) {
+  .page {
+    padding-top: calc(var(--header-height) + var(--space-2));
   }
-
-  .heroActions {
-    flex-direction: column;
+  .head {
+    padding: var(--space-5) var(--space-4);
+  }
+  .title {
+    font-size: 2.25rem;
+  }
+  .lede {
+    font-size: var(--text-sm);
+  }
+  .headActions > * {
+    flex: 1 1 100%;
+  }
+  .facts {
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+  }
+  .section,
+  .calc {
+    margin-top: var(--space-7);
+  }
+  .calc {
+    padding: var(--space-6) var(--space-4);
   }
 }
