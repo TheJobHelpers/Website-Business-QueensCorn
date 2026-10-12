@@ -121,10 +121,12 @@
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --dur-fast: 150ms;
   --dur: 250ms;
+  --dur-slow: 600ms;   /* entrances: content arriving on the page */
+  --stagger: 60ms;     /* delay between neighbours arriving together */
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root { --dur-fast: 0ms; --dur: 0ms; }
+  :root { --dur-fast: 0ms; --dur: 0ms; --dur-slow: 0ms; --stagger: 0ms; }
 }
 
 /* Shared v3 section rhythm for the homepage */
@@ -159,7 +161,6 @@
 
 
 html {
-  scroll-behavior: smooth;
   overflow-x: hidden;
   /* v3.1: base text scales gently with the screen (16px phones/laptops → 19px large monitors) */
   font-size: var(--root-size);
@@ -253,31 +254,144 @@ button {
   background: var(--primary);
 }
 
-/* Animation Utilities */
+/* ==========================================================================
+   Motion: one system for the whole site.
+   - Only opacity and transform move (cheap for the browser, so it stays smooth).
+   - Entrances are short and travel a small distance; neighbours arrive --stagger apart.
+   - Everything here switches off under "prefers-reduced-motion".
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* .reveal (ScrollReveal): fades up once, when it scrolls into view */
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), 
-              transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: translateY(18px);
+  transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
+}
+
+.reveal:not(.active) {
   will-change: opacity, transform;
 }
 
+/* `transform: none` at rest, so a revealed block never traps sticky or fixed children */
 .reveal.active {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-1 { transition-delay: calc(var(--stagger) * 1); }
+.reveal-delay-2 { transition-delay: calc(var(--stagger) * 2); }
+.reveal-delay-3 { transition-delay: calc(var(--stagger) * 3); }
+.reveal-delay-4 { transition-delay: calc(var(--stagger) * 4); }
 
-.slide-right { transform: translateX(-50px); }
-.slide-left { transform: translateX(50px); }
+/* .enter: fades up as soon as the page loads (headers, first rows). Needs no JavaScript.
+   Set --i on each neighbour (0, 1, 2…) to stagger them. */
+.enter {
+  animation: enter var(--dur-slow) var(--ease) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger));
+}
 
-.reveal.active.slide-right,
-.reveal.active.slide-left {
-  transform: translateX(0);
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .enter {
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Scroll effects: tied to the scroll position itself (CSS scroll-driven animations),
+   so they follow the finger or wheel exactly and cost no JavaScript.
+   Browsers without support, and visitors who prefer reduced motion, simply see
+   the page at rest: nothing here ever hides content.
+     .scroll-progress  thin bar under the top edge: how far down the page you are
+     .fx-stagger       children rise in one after another as the row enters
+     .fx-zoom          a band grows to full size as it enters
+     .fx-parallax      a photo drifts inside its frame while it crosses the screen
+   They animate `translate` / `scale` (not `transform`), so hover lifts keep working.
+   -------------------------------------------------------------------------- */
+.scroll-progress {
+  display: none;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1001;
+      height: 3px;
+      background: var(--red);
+      transform-origin: 0 50%;
+      pointer-events: none;
+      animation: fx-progress linear both;
+      animation-timeline: scroll(root);
+    }
+
+    .fx-stagger > * {
+      animation: fx-rise linear both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 7%) entry calc(60% + var(--i, 0) * 7%);
+    }
+    .fx-stagger > :nth-child(2) { --i: 1; }
+    .fx-stagger > :nth-child(3) { --i: 2; }
+    .fx-stagger > :nth-child(4) { --i: 3; }
+    .fx-stagger > :nth-child(n + 5) { --i: 4; }
+
+    .fx-zoom {
+      animation: fx-zoom linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 75%;
+    }
+
+    .fx-parallax {
+      scale: 1.16;
+      animation: fx-parallax linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+@keyframes fx-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes fx-rise {
+  from {
+    opacity: 0;
+    translate: 0 32px;
+  }
+}
+
+@keyframes fx-zoom {
+  from {
+    opacity: 0.5;
+    scale: 0.93;
+  }
+}
+
+@keyframes fx-parallax {
+  from { translate: 0 -6%; }
+  to { translate: 0 6%; }
 }
 
 /* Image Treatment Utilities */
@@ -323,9 +437,15 @@ button {
     rgba(255, 255, 255, 0.05) 55%,
     transparent 100%
   );
-  transform: rotate(45deg);
-  animation: shimmer 4s infinite linear;
+  transform: translateX(-100%) rotate(45deg);
   pointer-events: none;
+}
+
+/* one sweep on hover, instead of running forever on every button */
+@media (prefers-reduced-motion: no-preference) {
+  .shimmer-btn:hover::after {
+    animation: shimmer 0.9s var(--ease);
+  }
 }
 
 @keyframes shimmer {

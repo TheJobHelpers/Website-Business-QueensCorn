@@ -1,14 +1,42 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import ScrollReveal from '@/components/ScrollReveal';
+import { useState, useEffect, type FormEvent } from 'react';
+import { CalendarDays, HeartHandshake, Mail, MapPin, Package, Phone } from 'lucide-react';
+import Button from '@/components/ui/Button';
+import { SHIPPING_AVAILABLE } from '@/lib/shop';
 import styles from './Contact.module.css';
 
-export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [subject, setSubject] = useState('General Inquiry');
-  const [message, setMessage] = useState('');
+// Contact page, design system v3.1. The two direct ways to reach the owners sit in the header;
+// below, the form and the side column are the same height and use the same type sizes.
+const EMAIL = 'thequeenscornaz@gmail.com';
+const PHONE = '(623) 692-1811';
+const PHONE_HREF = 'tel:+16236921811';
 
+// `value` is what links elsewhere on the site pass as ?subject= (keep these stable).
+const SUBJECTS = [
+  { value: 'General Inquiry', label: 'General question' },
+  { value: '50% School / Team Fundraising', label: 'Fundraising for a school or team' },
+  { value: 'Event Booking', label: 'Book us for an event' },
+  { value: 'Market Pickup Order', label: 'Market pickup order' },
+  ...(SHIPPING_AVAILABLE ? [{ value: 'Arizona Shipping Order', label: 'Arizona shipping order' }] : []),
+  { value: 'Wholesale Request', label: 'Big order or wholesale' },
+];
+
+// One-tap starts for the three most common reasons to write.
+const SHORTCUTS = [
+  { subject: 'Event Booking', icon: CalendarDays, title: 'Book us for an event', text: 'Parties, school fairs, company days.' },
+  { subject: '50% School / Team Fundraising', icon: HeartHandshake, title: 'Start a fundraiser', text: 'Your group keeps 50% of every sale.' },
+  { subject: 'Wholesale Request', icon: Package, title: 'Place a big order', text: 'Weddings, gifts and bulk bags.' },
+];
+
+export default function ContactPage() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState(SUBJECTS[0].value);
+  const [message, setMessage] = useState('');
+  const [sent, setSent] = useState(false);
+
+  // Links from the cart, fundraising and shop pages arrive with ?subject= (and sometimes more).
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const paramSubject = params.get('subject');
@@ -24,9 +52,7 @@ export default function ContactPage() {
           ).toLocaleString()}.`
         );
       }
-    } else if (paramSubject === 'Event Booking') {
-      setSubject('Event Booking');
-    } else if (paramSubject === 'Market Pickup Order' || paramSubject === 'Arizona Shipping Order') {
+    } else if (paramSubject && SUBJECTS.some((s) => s.value === paramSubject)) {
       setSubject(paramSubject);
       if (paramFundraiser) {
         setMessage(`Supporting Fundraiser Code: ${paramFundraiser}\n\n`);
@@ -34,117 +60,176 @@ export default function ContactPage() {
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // The site has no mail server yet, so the message is handed to the visitor's own email app,
+  // addressed and filled in. They press send there.
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    const body = `${message.trim()}\n\nFrom: ${name.trim()}\nReply to: ${email.trim()}`;
+    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(
+      `${subject} (from ${name.trim()})`
+    )}&body=${encodeURIComponent(body)}`;
+    setSent(true);
+  };
+
+  const pickShortcut = (value: string) => {
+    setSubject(value);
+    setSent(false);
+    document.getElementById('message')?.focus();
   };
 
   return (
-    <main className={styles.contactPage}>
+    <main className={styles.page}>
       <div className="main-container">
-        
-        {/* Hero Section */}
-        <div className={styles.hero}>
-          <ScrollReveal type="fade-up">
-            <span className={styles.label}>Get in Touch</span>
-            <h1 className={styles.title}>Connect with <br /> <span className="text-accent">The Queen&apos;s Corn</span></h1>
-          </ScrollReveal>
-        </div>
+        {/* Header: what to write about, and the two direct lines */}
+        <header className={`${styles.head} enter`}>
+          <div className={styles.intro}>
+            <span className={styles.eyebrow}>Contact</span>
+            <h1 className={styles.title}>
+              Talk to <em>Bob &amp; Reina.</em>
+            </h1>
+            <p className={styles.lede}>Questions, big orders, event bookings and fundraisers: send a message or call.</p>
+          </div>
+          <div className={styles.direct}>
+            <a href={PHONE_HREF} className={styles.directLink}>
+              <Phone size={20} aria-hidden="true" />
+              <span>
+                <small>Call</small>
+                {PHONE}
+              </span>
+            </a>
+            <a href={`mailto:${EMAIL}`} className={styles.directLink}>
+              <Mail size={20} aria-hidden="true" />
+              <span>
+                <small>Email</small>
+                {EMAIL}
+              </span>
+            </a>
+          </div>
+        </header>
 
         <div className={styles.grid}>
-          {/* Left: Contact Form */}
-          <ScrollReveal type="slide-right">
-            <div className={styles.formContainer}>
-              {submitted ? (
-                <div className={styles.successMessage}>
-                  <h3>Message Sent!</h3>
-                  <p>The Queen&apos;s Corn team will get back to you shortly. Thank you for reaching out!</p>
-                  <button onClick={() => setSubmitted(false)} className={styles.submitBtn}>Send Another Message</button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit}>
-                  <div className={styles.formGroup}>
-                    <label htmlFor="name">Your Name</label>
-                    <input type="text" id="name" className={styles.input} placeholder="Your Full Name" required />
-                  </div>
-                  
-                  <div className={styles.formGroup}>
-                    <label htmlFor="email">Email Address</label>
-                    <input type="email" id="email" className={styles.input} placeholder="you@example.com" required />
-                  </div>
+          {/* The form */}
+          <section className={styles.card} aria-labelledby="form-title">
+            <h2 id="form-title" className={styles.cardTitle}>
+              Send a message
+            </h2>
 
-                  <div className={styles.formGroup}>
-                    <label htmlFor="subject">Subject</label>
-                    <select
-                      id="subject"
-                      className={styles.input}
-                      value={subject}
-                      onChange={(e) => setSubject(e.target.value)}
-                    >
-                      <option value="General Inquiry">General Inquiry</option>
-                      <option value="50% School / Team Fundraising">50% School / Team Fundraising</option>
-                      <option value="Event Booking">Event Booking</option>
-                      <option value="Market Pickup Order">Market Pickup Order</option>
-                      <option value="Arizona Shipping Order">Arizona Shipping Order</option>
-                      <option value="Wholesale Request">Wholesale Request</option>
-                    </select>
-                  </div>
-
-                  <div className={styles.formGroup}>
-                    <label htmlFor="message">How can we make you smile?</label>
-                    <textarea
-                      id="message"
-                      className={styles.textarea}
-                      placeholder="Tell us about your event, fundraiser, or craving..."
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
+            {sent ? (
+              <div className={styles.sent} role="status">
+                <h3>Almost done: press send in your email app</h3>
+                <p>
+                  Your email app should have opened with the message filled in and addressed to us. Press send
+                  there and it is on its way.
+                </p>
+                <p>
+                  Nothing opened? Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a> or call{' '}
+                  <a href={PHONE_HREF}>{PHONE}</a>.
+                </p>
+                <Button variant="ghost" size="sm" onClick={() => setSent(false)}>
+                  Back to the form
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className={styles.form}>
+                <div className={styles.row}>
+                  <div className={styles.field}>
+                    <label htmlFor="name">Your name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      autoComplete="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       required
-                    ></textarea>
+                    />
                   </div>
-
-                  <button type="submit" className={`${styles.submitBtn} shimmer-btn`}>
-                    Send Message
-                  </button>
-                </form>
-              )}
-            </div>
-          </ScrollReveal>
-
-          {/* Right: Contact Info */}
-          <ScrollReveal type="slide-left">
-            <div className={styles.infoColumn}>
-              
-              <div className={styles.infoBlock}>
-                <h3>Direct Line</h3>
-                <a href="tel:6236921811">(623) 692-1811</a>
-              </div>
-
-              <div className={styles.infoBlock}>
-                <h3>Digital Mail</h3>
-                <a href="mailto:thequeenscornaz@gmail.com">thequeenscornaz@gmail.com</a>
-              </div>
-
-              <div className={styles.infoBlock}>
-                <h3>Home Base</h3>
-                <p>Marana, Arizona <br /> Serving the Southwest</p>
-              </div>
-
-              <div className={styles.infoBlock}>
-                <h3>Social Presence</h3>
-                <div className={styles.socials}>
-                  <a href="#" className={styles.socialLink} aria-label="Facebook">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-                  </a>
-                  <a href="#" className={styles.socialLink} aria-label="Instagram">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                  </a>
+                  <div className={styles.field}>
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      autoComplete="email"
+                      placeholder="you@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
 
-            </div>
-          </ScrollReveal>
+                <div className={styles.field}>
+                  <label htmlFor="subject">What is it about?</label>
+                  <select id="subject" value={subject} onChange={(e) => setSubject(e.target.value)}>
+                    {SUBJECTS.map((s) => (
+                      <option key={s.value} value={s.value}>
+                        {s.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className={`${styles.field} ${styles.grow}`}>
+                  <label htmlFor="message">Your message</label>
+                  <textarea
+                    id="message"
+                    placeholder="Tell us about your event, fundraiser or order: the date, the place and how many people."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <Button type="submit" variant="red" fullWidth>
+                  Send message
+                </Button>
+                <p className={styles.note}>This opens your email app with the message ready to send.</p>
+              </form>
+            )}
+          </section>
+
+          {/* Side column: shortcuts, then where we are */}
+          <div className={styles.side}>
+            <section className={styles.card} aria-labelledby="shortcuts-title">
+              <h2 id="shortcuts-title" className={styles.cardTitle}>
+                Most people write about
+              </h2>
+              <ul className={styles.shortcuts}>
+                {SHORTCUTS.map(({ subject: value, icon: Icon, title, text }) => (
+                  <li key={value}>
+                    <button
+                      type="button"
+                      className={`${styles.shortcut} ${subject === value ? styles.shortcutOn : ''}`}
+                      aria-pressed={subject === value}
+                      onClick={() => pickShortcut(value)}
+                    >
+                      <span className={styles.shortcutIcon} aria-hidden="true">
+                        <Icon size={20} />
+                      </span>
+                      <span>
+                        <b>{title}</b>
+                        {text}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section className={`${styles.card} ${styles.where}`} aria-labelledby="where-title">
+              <h2 id="where-title" className={styles.cardTitle}>
+                Where we are
+              </h2>
+              <p className={styles.place}>
+                <MapPin size={18} aria-hidden="true" />
+                Based in Marana, Arizona
+              </p>
+              <p>You will find the stand at markets and festivals across the state.</p>
+              <Button href="/events" variant="ghost" size="sm">
+                See upcoming events
+              </Button>
+            </section>
+          </div>
         </div>
-
       </div>
     </main>
   );

@@ -15,7 +15,7 @@ export default function FundraisingBand() {
   return (
     <section className="v3-section" aria-labelledby="fundraising-title">
       <div className="main-container">
-        <div className={styles.band}>
+        <div className={`${styles.band} fx-zoom`}>
           <div className={styles.copy}>
             <span className="v3-eyebrow">For schools &amp; teams</span>
             <h2 id="fundraising-title" className={styles.title}>

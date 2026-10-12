@@ -21,7 +21,7 @@ export default function Story() {
               alt="Bob and Reina Andersen hugging at their kettle corn stand"
               fill
               sizes="(max-width: 900px) 100vw, 45vw"
-              className={styles.image}
+              className={`${styles.image} fx-parallax`}
             />
           </div>
 
@@ -46,7 +46,7 @@ export default function Story() {
           </div>
         </div>
 
-        <ol className={styles.steps} aria-label="How we make it">
+        <ol className={`${styles.steps} fx-stagger`} aria-label="How we make it">
           {STEPS.map((step, i) => (
             <li key={step.src}>
               <div className={styles.stepPhoto}>

@@ -107,8 +107,10 @@
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --dur-fast: 150ms;
   --dur: 250ms;
+  --dur-slow: 600ms;   /* entrances: content arriving on the page */
+  --stagger: 60ms;     /* delay between neighbours arriving together */
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root { --dur-fast: 0ms; --dur: 0ms; }
+  :root { --dur-fast: 0ms; --dur: 0ms; --dur-slow: 0ms; --stagger: 0ms; }
 }

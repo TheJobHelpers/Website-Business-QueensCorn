@@ -1,196 +1,284 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, type FormEvent } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import ProductCard from '@/components/ProductCard';
-import ScrollReveal from '@/components/ScrollReveal';
+import ShopProductCard from '@/components/shop/ShopProductCard';
+import Button from '@/components/ui/Button';
 import { CATEGORIES } from '@/data/products';
-import { useCart } from '@/context/CartContext';
-import { Heart, Calendar } from 'lucide-react';
+import { useCart, FREE_AZ_SHIPPING_THRESHOLD, SHIPPING_AVAILABLE } from '@/context/CartContext';
+import { getUpcomingEvents, pickupLabel, weekdayLabel } from '@/lib/events';
+import { BAG_SIZES, bagPrice, formatPrice } from '@/lib/shop';
+import { useHydrated } from '@/lib/useHydrated';
 import styles from './Shop.module.css';
 
+// Shop blueprint (wiki/design-system/shop-page-blueprint.html): the page is for buying.
+// A compact header settles how you get it, taste chips filter, every card shows the three
+// sizes and prices, a bag bar keeps the total in view, and three helpers catch stalled shoppers.
+const STARTER_FLAVOR_ID = '6'; // Caramel Cheddar: sweet and savory in one bag
+const TASTES = CATEGORIES.filter((c) => c !== 'All Flavors');
+type Taste = (typeof TASTES)[number];
+
 export default function ShopPage() {
-  const [activeCategory, setActiveCategory] = useState<string>('All Flavors');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [taste, setTaste] = useState<Taste | 'All'>('All');
+  const [code, setCode] = useState('');
+  const [codeError, setCodeError] = useState(false);
+  const [starterAdded, setStarterAdded] = useState(false);
+  const hydrated = useHydrated();
   const {
     products,
+    events,
     fundraisers,
+    totalItems,
+    subtotal,
     fulfillmentMethod,
     selectedPickupEvent,
     selectedFundraiserCode,
     setFulfillmentMethod,
+    selectPickupForEvent,
     setSelectedFundraiserCode,
+    addItem,
+    openDrawer,
   } = useCart();
 
-  const activeFundraiser = fundraisers.find(
-    (f) => f.code === selectedFundraiserCode
+  const shown = taste === 'All' ? products : products.filter((p) => p.category === taste);
+  // Date filtering only after hydration: the page is prerendered at build time.
+  const markets = hydrated ? getUpcomingEvents(events).filter((e) => e.pickupAvailable !== false) : [];
+  const activeFundraiser = fundraisers.find((f) => f.code === selectedFundraiserCode);
+  const starter = products.find((p) => p.id === STARTER_FLAVOR_ID);
+  const lowest = Math.min(...products.map((p) => bagPrice(p.price, 1)));
+  const isPickup = fulfillmentMethod === 'pickup';
+  const toFreeShipping = Math.max(0, FREE_AZ_SHIPPING_THRESHOLD - subtotal);
+
+  const marketSelect = (
+    <select
+      className={styles.marketSelect}
+      aria-label="Market to pick up at"
+      value={hydrated ? selectedPickupEvent : ''}
+      onChange={(e) => selectPickupForEvent(e.target.value)}
+    >
+      {markets.length === 0 && <option value="">{hydrated ? 'No markets scheduled yet' : 'Loading markets…'}</option>}
+      {markets.map((event) => (
+        <option key={event.id} value={pickupLabel(event)}>
+          {weekdayLabel(event)}, {event.month} {event.day.replace('-', '–')} · {event.title}
+        </option>
+      ))}
+    </select>
   );
 
-  const filteredProducts = useMemo(() => {
-    if (activeCategory === 'All Flavors') return products;
-    return products.filter(p => p.category === activeCategory);
-  }, [activeCategory, products]);
+  const applyCode = (e: FormEvent) => {
+    e.preventDefault();
+    const match = fundraisers.find((f) => f.code.toLowerCase() === code.trim().toLowerCase());
+    setCodeError(!match);
+    if (match) {
+      setSelectedFundraiserCode(match.code);
+      setCode('');
+    }
+  };
+
+  const addStarter = () => {
+    if (!starter) return;
+    addItem(starter, BAG_SIZES[0].key, 1);
+    setStarterAdded(true);
+    setTimeout(() => setStarterAdded(false), 1400);
+  };
 
   return (
-    <main className={styles.shopPage}>
-      
-      {/* Branded Editorial Shop Header */}
-      <section className={styles.hero}>
-        <div className={styles.heroGlow}></div>
-        <div className="main-container">
-          <ScrollReveal>
-            <div className={styles.heroContent}>
-              <span className={styles.label}>Handcrafted Excellence</span>
-              <h1 className={styles.title}>The Flavor Vault</h1>
-              <p className={styles.description}>
-                Every kernel reigns supreme. Discover our collection of 
-                small-batch kettle corn, hand-stirred with a hickory paddle 
-                and polished with pure ingredients.
-              </p>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
+    <main className={styles.page}>
+      <div className="main-container">
+        {/* 1. Compact header: title and facts on the left, how you get it on the right */}
+        <header className={`${styles.head} enter`}>
+          <Image src="/popcorn-scoop-fresh.jpg" alt="" fill priority sizes="100vw" className={`${styles.headBg} fx-parallax`} />
+          <div className={styles.intro}>
+            <span className={styles.eyebrow}>Shop</span>
+            <h1 className={styles.title}>
+              Pick your <em>kettle corn.</em>
+            </h1>
+            <p className={styles.lede}>Popped fresh for every order. Every flavor in three sizes.</p>
+            <ul className={styles.facts}>
+              <li>{products.length} flavors</li>
+              <li>From {formatPrice(lowest)}</li>
+              <li>{SHIPPING_AVAILABLE ? `Free AZ shipping over $${FREE_AZ_SHIPPING_THRESHOLD}` : 'Free market pickup'}</li>
+            </ul>
+          </div>
 
-      <div id="flavor-grid" className="main-container">
-        {/* Active Context Banner (Fundraiser or Market Pickup) */}
-        {(activeFundraiser || fulfillmentMethod === 'pickup') && (
-          <div className={styles.contextBanner}>
-            {activeFundraiser && (
-              <div className={styles.contextItem}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                  <Heart size={16} style={{ color: '#D9232A' }} />
-                  <span>Supporting <strong>{activeFundraiser.organization}</strong> (50% Giveback • Code: {activeFundraiser.code})</span>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setSelectedFundraiserCode('')}
-                  className={styles.clearContextBtn}
-                >
-                  Clear
-                </button>
-              </div>
+          <div className={styles.how}>
+            {SHIPPING_AVAILABLE ? (
+              <>
+                <p className={styles.howTitle}>
+                  How do you want it? <small>You can change this in your bag.</small>
+                </p>
+                <div className={styles.seg} role="radiogroup" aria-label="How do you want it">
+                  <label className={!isPickup ? styles.segOn : ''}>
+                    <input
+                      type="radio"
+                      name="how"
+                      checked={!isPickup}
+                      onChange={() => setFulfillmentMethod('shipping')}
+                    />
+                    <span className={styles.dot} />
+                    <span className={styles.segText}>
+                      <b>Ship it to me</b>
+                      <span>Anywhere in Arizona · free over ${FREE_AZ_SHIPPING_THRESHOLD}</span>
+                    </span>
+                  </label>
+                  <label className={isPickup ? styles.segOn : ''}>
+                    <input
+                      type="radio"
+                      name="how"
+                      checked={isPickup}
+                      onChange={() => setFulfillmentMethod('pickup')}
+                    />
+                    <span className={styles.dot} />
+                    <span className={styles.segText}>
+                      <b>Pick up at a market</b>
+                      <span>Always free</span>
+                      {marketSelect}
+                    </span>
+                  </label>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className={styles.howTitle}>
+                  Where will you pick it up? <small>Pickup is always free.</small>
+                </p>
+                {marketSelect}
+                <p className={styles.howNote}>Pre-order here, skip the line at the stand. Shipping is coming soon.</p>
+              </>
             )}
-            {fulfillmentMethod === 'pickup' && (
-              <div className={styles.contextItem}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                  <Calendar size={16} style={{ color: '#F5BA31' }} />
-                  <span>Free Market Pickup Selected: <strong>{selectedPickupEvent}</strong></span>
-                </span>
+          </div>
+        </header>
+
+        {/* 2. Taste chips (sticky while the grid scrolls) */}
+        <div className={styles.browse}>
+          <div id="flavor-grid" className={styles.chipsBar}>
+            <div className={styles.chips} role="group" aria-label="Filter by taste">
+              <button
+                type="button"
+                className={`${styles.chip} ${taste === 'All' ? styles.chipOn : ''}`}
+                aria-pressed={taste === 'All'}
+                onClick={() => setTaste('All')}
+              >
+                All <span className={styles.chipCount}>{products.length}</span>
+              </button>
+              {TASTES.map((t) => (
                 <button
+                  key={t}
                   type="button"
-                  onClick={() => setFulfillmentMethod('shipping')}
-                  className={styles.clearContextBtn}
+                  className={`${styles.chip} ${taste === t ? styles.chipOn : ''}`}
+                  aria-pressed={taste === t}
+                  onClick={() => setTaste(t)}
                 >
-                  Switch to AZ Shipping
+                  <i className={styles[t.toLowerCase()]} />
+                  {t} <span className={styles.chipCount}>{products.filter((p) => p.category === t).length}</span>
                 </button>
+              ))}
+            </div>
+            <span className={styles.count} aria-live="polite">
+              Showing {shown.length} {shown.length === 1 ? 'flavor' : 'flavors'}
+            </span>
+          </div>
+
+          {/* 3. Flavors, with sizes on every card */}
+          <div className={styles.grid}>
+            {shown.map((product, i) => (
+              <ShopProductCard key={product.id} product={product} index={i} />
+            ))}
+          </div>
+        </div>
+
+        {/* 4. Helpers for shoppers who stall */}
+        <section className={`${styles.helpers} fx-stagger`} aria-label="Need a hand?">
+          {starter && (
+            <div className={styles.helper}>
+              <span className={styles.helperEyebrow}>Can&apos;t decide?</span>
+              <h2 className={styles.helperTitle}>Start with {starter.name}</h2>
+              <p>Sweet and savory in one bag: the easiest way to try both.</p>
+              <div className={styles.helperRow}>
+                <Button variant="kettle" size="sm" onClick={addStarter}>
+                  {starterAdded ? 'Added ✓' : `Add a Small · ${formatPrice(bagPrice(starter.price, 1))}`}
+                </Button>
               </div>
+            </div>
+          )}
+
+          <div className={styles.helper}>
+            <span className={styles.helperEyebrow}>Ordering for a fundraiser?</span>
+            {activeFundraiser ? (
+              <>
+                <h2 className={styles.helperTitle}>Supporting {activeFundraiser.organization}</h2>
+                <p>Half of your order goes to the team (code {activeFundraiser.code}).</p>
+                <div className={styles.helperRow}>
+                  <Button variant="ghost" size="sm" onClick={() => setSelectedFundraiserCode('')}>
+                    Remove code
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className={styles.helperTitle}>Enter your group&apos;s code</h2>
+                <p className={codeError ? styles.helperError : ''} role={codeError ? 'alert' : undefined}>
+                  {codeError
+                    ? 'We could not find that code. Check the spelling with your group.'
+                    : 'Half of your order goes to the team.'}
+                </p>
+                <form className={styles.helperRow} onSubmit={applyCode}>
+                  <input
+                    type="text"
+                    value={code}
+                    onChange={(e) => {
+                      setCode(e.target.value);
+                      setCodeError(false);
+                    }}
+                    aria-label="Fundraiser code"
+                    placeholder="e.g. TIGERS50"
+                    autoComplete="off"
+                  />
+                  <Button variant="dark" size="sm" type="submit" disabled={code.trim() === ''}>
+                    Apply
+                  </Button>
+                </form>
+              </>
             )}
+          </div>
+
+          <div className={styles.helper}>
+            <span className={styles.helperEyebrow}>Big order?</span>
+            <h2 className={styles.helperTitle}>Parties, weddings, company gifts</h2>
+            <p>Talk to Bob &amp; Reina about bulk bags or popping live at your event.</p>
+            <div className={styles.helperRow}>
+              <Button variant="ghost" size="sm" href="/contact?subject=Wholesale%20Request">
+                Ask about a big order
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. Bag bar: appears once the bag has something in it and stays in view */}
+        {totalItems > 0 && (
+          <div className={styles.bagBar} role="status">
+            <span className={styles.bagSum}>
+              {totalItems} {totalItems === 1 ? 'bag' : 'bags'} in your bag ·<b>{formatPrice(subtotal)}</b>
+            </span>
+            <span className={styles.bagNote}>
+              {isPickup || !SHIPPING_AVAILABLE ? (
+                selectedPickupEvent ? `Free pickup · ${selectedPickupEvent}` : 'Free market pickup'
+              ) : (
+                <>
+                  {toFreeShipping === 0
+                    ? 'You have free Arizona shipping'
+                    : `${formatPrice(toFreeShipping)} away from free Arizona shipping`}
+                  <span className={styles.bagProgress}>
+                    <i style={{ width: `${Math.min(100, (subtotal / FREE_AZ_SHIPPING_THRESHOLD) * 100)}%` }} />
+                  </span>
+                </>
+              )}
+            </span>
+            <Button variant="red" size="sm" onClick={openDrawer}>
+              View bag &amp; check out
+            </Button>
           </div>
         )}
-
-        {/* Mobile Filter Selector - Custom Premium Dropdown */}
-        <div className={styles.mobileFilter}>
-          <div 
-            className={`${styles.customSelect} ${isDropdownOpen ? styles.customSelectOpen : ''}`}
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          >
-            <span>{activeCategory}</span>
-            <div className={`${styles.selectIcon} ${isDropdownOpen ? styles.rotate : ''}`}>
-              <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-                <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </div>
-          </div>
-          
-          {isDropdownOpen && (
-            <>
-              <div className={styles.dropdownOverlay} onClick={() => setIsDropdownOpen(false)} />
-              <ul className={styles.dropdownList}>
-                {CATEGORIES.map(cat => (
-                  <li 
-                    key={cat} 
-                    className={`${styles.dropdownItem} ${activeCategory === cat ? styles.activeItem : ''}`}
-                    onClick={() => {
-                      setActiveCategory(cat);
-                      setIsDropdownOpen(false);
-                    }}
-                  >
-                    {cat}
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
-
-        {/* Desktop Filter Bar */}
-        <div className={styles.filterBar}>
-          {CATEGORIES.map(cat => (
-            <button 
-              key={cat}
-              className={`${styles.filterBtn} ${activeCategory === cat ? styles.filterBtnActive : ''}`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        <div className={styles.grid}>
-          {filteredProducts.map((product, i) => (
-            <ScrollReveal key={`${activeCategory}-${product.id}`} delay={(i % 3) + 1} type="fade-up">
-              <ProductCard {...product} />
-            </ScrollReveal>
-          ))}
-
-          {/* Interstitial 1 - Only show when viewing all or sweet */}
-          {(activeCategory === 'All Flavors' || activeCategory === 'Sweet') && (
-            <div className={styles.interstitial}>
-              <ScrollReveal>
-                <div className={styles.interstitialContent}>
-                  <h3>Authentic Kettle Corn</h3>
-                  <p>Pure ingredients. No machines. Just a wooden paddle and a whole lot of love.</p>
-                </div>
-              </ScrollReveal>
-            </div>
-          )}
-        </div>
-
-        {/* Arizona Shipping, Market Pickup & Fundraising Card */}
-        <ScrollReveal type="fade-up">
-          <div className={styles.orderingCard}>
-            <div className={styles.orderingGrid}>
-              <div className={`${styles.orderingImage} img-wrapper-treatment`}>
-                <Image 
-                  src="/flavor-mix-real.png" 
-                  alt="Assorted Kettle Corn" 
-                  width={400} 
-                  height={400} 
-                  className={`${styles.productImg} img-treatment`}
-                />
-              </div>
-              <div className={styles.orderingContent}>
-                <h2 className={styles.orderingTitle}>Arizona Shipping, Market Pickup &amp; 50% Fundraising</h2>
-                <p className={styles.orderingText}>
-                  Enjoy 1–2 day USPS Ground Advantage shipping across Arizona (free on orders $35+), 
-                  reserve bags for free pickup at our weekend Farmers&apos; Markets, or partner with 
-                  us to raise 50% profit for your school or team.
-                </p>
-                <div className={styles.orderingActions}>
-                  <Link href="/fundraising" className={`${styles.primaryBtn} shimmer-btn`}>
-                    Explore 50% Fundraising
-                  </Link>
-                  <Link href="/events" className={styles.secondaryBtn}>
-                    View Market Pickup Dates
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
-
       </div>
     </main>
   );

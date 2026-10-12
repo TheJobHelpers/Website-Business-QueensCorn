@@ -248,13 +248,15 @@
   align-items: center;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  /* closing: fade first, then hide. Opening: show at once, then fade in. */
+  transition: opacity var(--dur) var(--ease), visibility 0s linear var(--dur);
   background-image: radial-gradient(circle at center, rgba(220, 38, 38, 0.05) 0%, transparent 70%);
 }
 
 .mobileMenuVisible {
   opacity: 1;
   visibility: visible;
+  transition: opacity var(--dur) var(--ease), visibility 0s;
 }
 
 .mobileLinks {
@@ -269,8 +271,8 @@
   font-size: 2.5rem;
   color: var(--text-primary);
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(14px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), color var(--dur-fast) var(--ease);
 }
 
 .mobileMenuVisible .mobileLink {
@@ -282,18 +284,31 @@
   color: var(--primary);
 }
 
-.mobileMenuVisible .mobileLink:nth-child(1) { transition-delay: 0.1s; }
-.mobileMenuVisible .mobileLink:nth-child(2) { transition-delay: 0.2s; }
-.mobileMenuVisible .mobileLink:nth-child(3) { transition-delay: 0.3s; }
-.mobileMenuVisible .mobileLink:nth-child(4) { transition-delay: 0.4s; }
-.mobileMenuVisible .mobileLink:nth-child(5) { transition-delay: 0.5s; }
+/* the six links arrive top to bottom, quickly (the whole menu is in within half a second) */
+.mobileMenuVisible .mobileLink:nth-child(1) { transition-delay: 40ms; }
+.mobileMenuVisible .mobileLink:nth-child(2) { transition-delay: 80ms; }
+.mobileMenuVisible .mobileLink:nth-child(3) { transition-delay: 120ms; }
+.mobileMenuVisible .mobileLink:nth-child(4) { transition-delay: 160ms; }
+.mobileMenuVisible .mobileLink:nth-child(5) { transition-delay: 200ms; }
+.mobileMenuVisible .mobileLink:nth-child(6) { transition-delay: 240ms; }
 
 .mobileActions {
   margin-top: 2rem;
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  transition-delay: 0.6s;
+  transform: translateY(14px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+
+.mobileMenuVisible .mobileActions {
+  transition-delay: 280ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobileMenu,
+  .mobileLink,
+  .mobileActions {
+    transition: none;
+  }
 }
 
 .mobileMenuVisible .mobileActions {

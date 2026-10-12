@@ -31,6 +31,35 @@
   transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+/* a way that is not open yet: quieter card with a stamp */
+.soon {
+  background: transparent;
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.soon .title {
+  color: var(--ink-soft);
+}
+
+.stamp {
+  padding: 6px var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--butter);
+  font-size: var(--text-label);
+  font-weight: 800;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
 .icon {
   display: grid;
   place-items: center;

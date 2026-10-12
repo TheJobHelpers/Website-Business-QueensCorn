@@ -16,9 +16,9 @@ interface EventTicketProps {
 
 export default function EventTicket({ event, eyebrow, className }: EventTicketProps) {
   const router = useRouter();
-  const { selectPickupForEvent, selectedPickupEvent, fulfillmentMethod } = useCart();
+  const { selectPickupForEvent, selectedPickupEvent, pickupChosen, fulfillmentMethod } = useCart();
   const label = pickupLabel(event);
-  const isSelected = fulfillmentMethod === 'pickup' && selectedPickupEvent === label;
+  const isSelected = pickupChosen && fulfillmentMethod === 'pickup' && selectedPickupEvent === label;
   const town = event.location.split(',').slice(-2).join(',').trim();
   const isRange = /[-–]/.test(event.day);
 

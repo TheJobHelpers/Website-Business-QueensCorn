@@ -1,251 +1,288 @@
-.storyPage {
-  background: var(--background);
-  color: var(--text-primary);
-  padding-top: calc(var(--header-height) + 3rem);
-  padding-bottom: 6rem;
+/* Our Story page: design system v3.1. */
+
+.page {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  padding-top: calc(var(--header-height) + var(--space-4));
+  padding-bottom: var(--space-9);
 }
 
-@media (max-width: 768px) {
-  .storyPage {
-    padding-top: calc(var(--header-height) + 1.5rem);
-  }
+/* ---------------- 1. Header: copy on espresso, photo in full colour ---------------- */
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--espresso);
+  color: var(--paper);
+  box-shadow: var(--shadow-band);
 }
 
-.container {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 1.25rem;
+.intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(32px, 5vw, 88px) clamp(20px, 4vw, 72px);
 }
 
-/* Editorial Header - No full bleed image */
-.header {
-  text-align: center;
-  margin-bottom: 4rem;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-@media (max-width: 768px) {
-  .header {
-    margin-bottom: 2.5rem;
-  }
-}
-
-.label {
-  display: block;
-  font-size: 0.85rem;
+.eyebrow {
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  letter-spacing: 0.5em;
-  color: var(--primary);
-  margin-bottom: 1.5rem;
+  color: var(--yellow);
+}
+
+.title {
+  margin: var(--space-2) 0 var(--space-4);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-h1);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  color: var(--paper);
+  text-wrap: balance;
+}
+
+.title em {
+  color: var(--yellow);
+}
+
+.lede {
+  margin: 0;
+  max-width: 46ch;
+  font-size: var(--text-lg);
+  color: rgba(250, 246, 239, 0.9);
+}
+
+.headPhoto {
+  position: relative;
+  min-height: 340px;
+}
+
+.headPhoto img {
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+
+/* ---------------- Sections ---------------- */
+.section,
+.chapter,
+.promise {
+  margin-top: var(--section-space);
+}
+
+/* a chapter: words on one side, a photo on the other */
+.chapter {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(24px, 5vw, 96px);
+  align-items: center;
+}
+
+.flip {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+
+.text {
+  min-width: 0;
+}
+
+.text p {
+  margin: 0 0 var(--space-4);
+  max-width: 60ch;
+  font-size: var(--text-lg);
+  line-height: 1.7;
+}
+
+.text strong {
   font-weight: 700;
 }
 
-@media (max-width: 480px) {
-  .label {
-    font-size: 0.75rem;
-    letter-spacing: 0.3em;
-    margin-bottom: 1rem;
-  }
-}
-
-.mainTitle {
-  font-size: clamp(2.5rem, 8vw, 5.5rem);
-  line-height: 1.05;
-  font-family: var(--font-serif);
-  color: var(--text-primary);
-}
-
-/* Story Section - Magazine Style */
-.narrativeSection {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr; 
-  gap: 6rem;
-  align-items: center;
-  margin-bottom: 8rem;
-}
-
-@media (max-width: 1024px) {
-  .narrativeSection {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-    margin-bottom: 6rem;
-  }
-}
-
-.textBlock {
+.actions {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
 }
 
-@media (max-width: 768px) {
-  .textBlock {
-    gap: 1.5rem;
-  }
-}
-
-.textBlock p {
-  font-size: 1.35rem;
-  line-height: 1.95;
-  color: var(--text-muted);
-  font-weight: 400;
-}
-
-@media (max-width: 768px) {
-  .textBlock p {
-    font-size: 1.1rem;
-    line-height: 1.7;
-  }
-}
-
-.textBlock p strong {
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.accentLine {
-  width: 60px;
-  height: 2px;
-  background: var(--primary);
-  margin-bottom: 1rem;
-}
-
-/* Framed Image */
-.framedImage {
+.photo {
   position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: var(--radius-sm);
+  aspect-ratio: 4 / 5;
   overflow: hidden;
-  box-shadow: 16px 16px 0px var(--surface-warm);
-  border: 1px solid var(--border-subtle);
-}
-
-@media (max-width: 768px) {
-  .framedImage {
-    box-shadow: 10px 10px 0px var(--surface-warm);
-  }
-}
-
-.img {
-  object-fit: cover;
-  object-position: center;
-}
-
-/* Photo Journal Collage */
-.journalSection {
-  margin-top: 6rem;
-}
-
-@media (max-width: 768px) {
-  .journalSection {
-    margin-top: 4rem;
-  }
-}
-
-.journalGrid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 2rem;
-}
-
-@media (max-width: 768px) {
-  .journalGrid {
-    gap: 1rem;
-  }
-}
-
-.itemLarge, .itemSmall, .itemMedium {
-  position: relative;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  box-shadow: 0 12px 30px rgba(36, 27, 19, 0.08);
-  border: 1px solid var(--border-subtle);
-}
-
-.itemLarge {
-  grid-column: span 8;
-  aspect-ratio: 16 / 9;
-}
-
-.itemSmall {
-  grid-column: span 4;
-  aspect-ratio: 1 / 1;
-}
-
-.itemMedium {
-  grid-column: span 6;
-  aspect-ratio: 4 / 3;
-}
-
-/* Quote */
-.quoteBlock {
-  grid-column: span 12;
-  padding: 6rem 4rem;
-  margin: 4rem 0;
-  text-align: center;
-  background: var(--surface-card);
-  border: 1px solid var(--border-card);
-  border-left: 6px solid var(--accent);
   border-radius: var(--radius-lg);
-  position: relative;
+  background: var(--butter);
+  box-shadow: var(--shadow-photo);
+}
+
+.tall {
+  aspect-ratio: 3 / 4;
+  max-height: 640px;
+  justify-self: end;
+  width: 100%;
+}
+
+.photo img {
+  object-fit: cover;
+}
+
+/* two photos side by side, the second one set a little lower */
+.pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.pair .photo:last-child {
+  margin-top: var(--space-7);
+}
+
+/* ---------------- 3. The promise: canopy band ---------------- */
+.promise {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: var(--space-4);
+  padding: clamp(40px, 6vw, 104px) clamp(20px, 6vw, 120px);
+  border-radius: var(--radius-lg);
+  background: var(--butter);
+  text-align: center;
+}
+
+.ingredients {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  box-shadow: 0 16px 36px rgba(36, 27, 19, 0.05);
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
 }
 
-@media (max-width: 768px) {
-  .quoteBlock {
-    padding: 3.5rem 1.5rem;
-    margin: 2rem 0;
-  }
-}
-
-.quoteBlock::before {
-  content: '“';
-  position: absolute;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-serif);
-  font-size: 8rem;
-  color: var(--accent);
-  opacity: 0.18;
-  line-height: 1;
-}
-
-@media (max-width: 768px) {
-  .quoteBlock::before {
-    font-size: 5rem;
-    top: 0.5rem;
-  }
+.ingredients li {
+  padding: 6px var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  border: var(--border-strong);
+  font-size: var(--text-label);
+  font-weight: 800;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
 }
 
 .quote {
-  font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  line-height: 1.4;
-  font-style: italic;
-  max-width: 900px;
-  margin-bottom: 2.5rem;
-  color: var(--text-primary);
-  position: relative;
-  z-index: 1;
+  margin: 0;
+  max-width: 30ch;
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
 }
 
-@media (max-width: 768px) {
-  .quote {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+.cite {
+  margin: 0;
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--red-deep);
+}
+
+/* ---------------- 4. How we make it ---------------- */
+.steps {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+}
+
+.steps li {
+  min-width: 0;
+}
+
+.stepPhoto {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--butter);
+  box-shadow: var(--shadow-card);
+}
+
+.stepPhoto img {
+  object-fit: cover;
+}
+
+.caption {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  font-weight: 700;
+}
+
+.caption b {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--red);
+}
+
+/* ---------------- Tablet & phone ---------------- */
+@media (max-width: 900px) {
+  .head,
+  .chapter,
+  .flip {
+    grid-template-columns: 1fr;
+  }
+  .headPhoto {
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+  .chapter {
+    gap: var(--space-6);
+  }
+  .tall {
+    aspect-ratio: 4 / 3;
+    max-height: none;
+  }
+  /* words first, then the photos */
+  .flip .pair {
+    order: 1;
+  }
+  .text p {
+    font-size: var(--text-body);
   }
 }
 
-@media (max-width: 1024px) {
-  .itemLarge, .itemSmall, .itemMedium {
-    grid-column: span 12;
+@media (max-width: 640px) {
+  .page {
+    padding-top: calc(var(--header-height) + var(--space-2));
+  }
+  .title {
+    font-size: 2.25rem;
+  }
+  .lede {
+    font-size: var(--text-body);
+  }
+  .quote {
+    font-size: 1.625rem;
+  }
+  .steps {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+  .pair .photo:last-child {
+    margin-top: var(--space-5);
+  }
+  .actions > * {
+    flex: 1 1 100%;
   }
 }

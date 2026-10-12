@@ -32,7 +32,7 @@ export default function FeaturedProducts() {
           </ul>
         </header>
 
-        <div className={styles.grid}>
+        <div className={`${styles.grid} fx-stagger`}>
           {FEATURED_PRODUCTS.map((p) => (
             <ProductCard key={p.id} {...p} />
           ))}

@@ -6,7 +6,7 @@ export default function QuestionsBand() {
   return (
     <section className="v3-section" aria-labelledby="questions-title">
       <div className="main-container">
-        <div className={styles.band}>
+        <div className={`${styles.band} fx-zoom`}>
           <div>
             <h2 id="questions-title" className={styles.title}>
               Big order or a question?

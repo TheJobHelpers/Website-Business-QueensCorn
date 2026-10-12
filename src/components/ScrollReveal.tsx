@@ -5,15 +5,20 @@ import { useEffect, useRef, ReactNode } from 'react';
 interface ScrollRevealProps {
   children: ReactNode;
   className?: string;
+  /** 1–4 = steps of the site stagger (see --stagger in globals.css) */
   delay?: number;
+  /** kept for older call sites: every type now fades up (sideways slides jumped on phones) */
   type?: 'fade-up' | 'slide-right' | 'slide-left';
 }
 
-export default function ScrollReveal({ children, className = '', delay = 0, type = 'fade-up' }: ScrollRevealProps) {
+// Fades its children up once, when they scroll into view (.reveal in globals.css).
+export default function ScrollReveal({ children, className = '', delay = 0 }: ScrollRevealProps) {
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const currentElement = elementRef.current;
+    const element = elementRef.current;
+    if (!element) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -23,35 +28,18 @@ export default function ScrollReveal({ children, className = '', delay = 0, type
           }
         });
       },
-      { threshold: 0.1 }
+      // start a little before the block is fully in, so it is already moving as it arrives
+      { threshold: 0.05, rootMargin: '0px 0px -6% 0px' }
     );
 
-    if (currentElement) {
-      observer.observe(currentElement);
-    }
-
-    return () => {
-      if (currentElement) {
-        observer.unobserve(currentElement);
-      }
-    };
+    observer.observe(element);
+    return () => observer.disconnect();
   }, []);
 
-
-  const typeClass = type === 'fade-up' ? '' : type;
-  const isIntegerStep = Number.isInteger(delay) && delay >= 1 && delay <= 4;
-  const delayClass = isIntegerStep ? `reveal-delay-${delay}` : '';
-  const customStyle =
-    delay > 0 && !isIntegerStep
-      ? { transitionDelay: `${Number((delay * 0.1).toFixed(2))}s` }
-      : undefined;
+  const step = Math.max(0, Math.min(4, Math.round(delay)));
 
   return (
-    <div 
-      ref={elementRef} 
-      className={`reveal ${typeClass} ${delayClass} ${className}`.trim()}
-      style={customStyle}
-    >
+    <div ref={elementRef} className={`reveal ${step ? `reveal-delay-${step}` : ''} ${className}`.trim()}>
       {children}
     </div>
   );

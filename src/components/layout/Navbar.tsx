@@ -10,7 +10,7 @@ import styles from './Navbar.module.css';
 const NAV_ITEMS = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop' },
-  { href: '/events', label: 'Markets' },
+  { href: '/events', label: 'Events' },
   { href: '/fundraising', label: 'Fundraising' },
   { href: '/story', label: 'Our Story' },
   { href: '/contact', label: 'Contact' },

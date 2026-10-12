@@ -4,6 +4,8 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { ALL_PRODUCTS, Product } from '@/data/products';
 import { UPCOMING_EVENTS, EventItem } from '@/data/events';
 import { ACTIVE_FUNDRAISERS, FundraiserCampaign } from '@/data/fundraisers';
+import { SHIPPING_AVAILABLE } from '@/lib/shop';
+import { getUpcomingEvents, pickupLabel } from '@/lib/events';
 import {
   fetchServerEvents,
   addServerEvent,
@@ -28,6 +30,8 @@ interface CartContextType {
   isDrawerOpen: boolean;
   fulfillmentMethod: FulfillmentMethod;
   selectedPickupEvent: string;
+  /** true once the shopper has picked a market themselves */
+  pickupChosen: boolean;
   selectedFundraiserCode: string;
   products: Product[];
   events: EventItem[];
@@ -61,10 +65,11 @@ const SIZE_PRICES: Record<string, number> = {
   'Large (Party)': 15,
 };
 
-export { FREE_AZ_SHIPPING_THRESHOLD } from '@/lib/shop';
+export { FREE_AZ_SHIPPING_THRESHOLD, SHIPPING_AVAILABLE } from '@/lib/shop';
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'queens_corn_products_v1',
+  // v2: new flavor list (2026-10-12); a catalog saved under v1 would bring the old flavors back
+  PRODUCTS: 'queens_corn_products_v2',
   EVENTS: 'queens_corn_events_v1',
   FUNDRAISERS: 'queens_corn_fundraisers_v1',
 };
@@ -74,13 +79,14 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [fulfillmentMethod, setFulfillmentMethod] = useState<FulfillmentMethod>('shipping');
+  const [fulfillmentMethod, setFulfillmentMethod] = useState<FulfillmentMethod>(
+    SHIPPING_AVAILABLE ? 'shipping' : 'pickup'
+  );
   const [products, setProducts] = useState<Product[]>(ALL_PRODUCTS);
   const [events, setEvents] = useState<EventItem[]>(UPCOMING_EVENTS);
   const [fundraisers, setFundraisers] = useState<FundraiserCampaign[]>(ACTIVE_FUNDRAISERS);
-  const [selectedPickupEvent, setSelectedPickupEvent] = useState<string>(
-    `${UPCOMING_EVENTS[0].title} (${UPCOMING_EVENTS[0].month} ${UPCOMING_EVENTS[0].day})`
-  );
+  // The market the shopper picked themselves ('' until they pick one).
+  const [chosenPickupEvent, setSelectedPickupEvent] = useState<string>('');
   const [selectedFundraiserCode, setSelectedFundraiserCode] = useState<string>('');
 
   // Hydrate owner-edited store data from localStorage and sync latest events from server DB
@@ -263,6 +269,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     resetServerEvents().catch(() => {});
   };
 
+  // Until the shopper picks a market, pickup defaults to the next upcoming one (never a past date).
+  const pickupChosen = chosenPickupEvent !== '';
+  const nextPickup = getUpcomingEvents(events).find((e) => e.pickupAvailable !== false);
+  const selectedPickupEvent = pickupChosen ? chosenPickupEvent : nextPickup ? pickupLabel(nextPickup) : '';
+
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
 
@@ -275,6 +286,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         isDrawerOpen,
         fulfillmentMethod,
         selectedPickupEvent,
+        pickupChosen,
         selectedFundraiserCode,
         products,
         events,

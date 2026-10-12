@@ -23,7 +23,7 @@ export default function UpcomingEvents() {
   return (
     <section className="v3-section" id="markets" aria-labelledby="markets-title">
       <div className="main-container">
-        <div className={styles.band}>
+        <div className={`${styles.band} fx-zoom`}>
           <header className={styles.header}>
             <span className={styles.eyebrow}>Markets &amp; events</span>
             <h2 id="markets-title" className={styles.title}>
@@ -32,7 +32,7 @@ export default function UpcomingEvents() {
             <p className={styles.lede}>Pre-order for any market below and skip the line. Pickup is free.</p>
           </header>
 
-          <div className={styles.grid}>
+          <div className={`${styles.grid} fx-stagger`}>
             {next.map((event) => (
               <EventTicket key={event.id} event={event} className={styles.ticket} />
             ))}
