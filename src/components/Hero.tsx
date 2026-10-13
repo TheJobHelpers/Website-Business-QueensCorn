@@ -2,12 +2,18 @@
 
 import { useEffect, useState, type CSSProperties } from 'react';
 import { getImageProps } from 'next/image';
+import Link from 'next/link';
+import { ArrowRight, CalendarDays } from 'lucide-react';
 import Button from './ui/Button';
+import { useCart } from '@/context/CartContext';
+import { getUpcomingEvents, weekdayLabel } from '@/lib/events';
+import { useHydrated } from '@/lib/useHydrated';
 import styles from './Hero.module.css';
 
 // The original centered hero (photo behind, dark shade, centered copy, flavor chips, two
 // actions), restyled with design system v3.1 tokens. Behind it, a few real photos fade
-// from one to the next.
+// from one to the next (the popcorn first), with dots to move between them. Under the buttons,
+// the next market from the owners' calendar.
 const FLAVORS = ['Sweet & Salty', 'Caramel', 'Caramel Apple', 'Cheddar', 'Nacho Cheddar', 'BBQ Cheddar'];
 
 const SLIDE_MS = 6000;
@@ -21,21 +27,24 @@ interface Photo {
 }
 
 // Art direction: `wide` shows on desktop, `tall` on phones.
-const SLIDES: { alt: string; wide: Photo; tall: Photo }[] = [
+const SLIDES: { alt: string; label: string; wide: Photo; tall: Photo }[] = [
+  {
+    alt: 'A heap of fresh caramel and cheddar kettle corn with a metal scoop',
+    label: 'Fresh kettle corn',
+    wide: { src: '/popcorn-scoop-fresh.jpg', width: 1024, height: 682, focus: '50% 85%' },
+    tall: { src: '/popcorn-scoop-fresh.jpg', width: 1024, height: 682, focus: '68% 50%' },
+  },
   {
     alt: "Kettle corn being made by hand under The Queen's Corn yellow canopy",
+    label: 'At the kettle',
     wide: { src: '/bob-pouring-kernels.jpg', width: 1024, height: 682, focus: '50% 20%' },
     tall: { src: '/reina-stirring-kettle.jpg', width: 768, height: 1024, focus: '50% 20%' },
   },
   {
-    alt: "Bob and Reina hugging at The Queen's Corn stand",
-    wide: { src: '/bob-reina.webp', width: 1240, height: 932, focus: '50% 28%' },
+    alt: "The Queen's Corn team waving from the stand under two yellow canopies",
+    label: 'The team at the stand',
+    wide: { src: '/our-story-team.webp', width: 1240, height: 618, focus: '50% 40%' },
     tall: { src: '/bob-reina.webp', width: 1240, height: 932, focus: '50% 50%' },
-  },
-  {
-    alt: 'A heap of fresh caramel and cheddar kettle corn with a metal scoop',
-    wide: { src: '/popcorn-scoop-fresh.jpg', width: 1024, height: 682, focus: '50% 85%' },
-    tall: { src: '/popcorn-scoop-fresh.jpg', width: 1024, height: 682, focus: '68% 50%' },
   },
 ];
 
@@ -66,6 +75,12 @@ function Slide({ slide, active, first }: { slide: (typeof SLIDES)[number]; activ
 export default function Hero() {
   // `reached` = how far the slideshow has got: later photos load one step ahead, not all at once.
   const [{ active, reached }, setShow] = useState({ active: 0, reached: 1 });
+  // bumped when a dot is pressed, so the timer starts again from that photo
+  const [restart, setRestart] = useState(0);
+  const { events } = useCart();
+  const hydrated = useHydrated();
+  // the page is prerendered, so "next" is only worked out in the visitor's browser
+  const nextMarket = hydrated ? getUpcomingEvents(events)[0] : undefined;
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -76,7 +91,12 @@ export default function Hero() {
       });
     }, SLIDE_MS);
     return () => clearInterval(timer);
-  }, []);
+  }, [restart]);
+
+  const show = (index: number) => {
+    setShow((s) => ({ active: index, reached: Math.max(s.reached, index + 1) }));
+    setRestart((n) => n + 1);
+  };
 
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
@@ -109,6 +129,32 @@ export default function Hero() {
           <Button href="/contact" variant="light">
             Book us for events
           </Button>
+        </div>
+
+        {/* keeps its height before it is filled in, so nothing jumps */}
+        <p className={styles.next}>
+          {nextMarket && (
+            <Link href="/events" className={styles.nextLink}>
+              <CalendarDays size={16} aria-hidden="true" />
+              <span>
+                <b>Next market</b> · {weekdayLabel(nextMarket)}, {nextMarket.month} {nextMarket.day.replace('-', '–')} · {nextMarket.title}
+              </span>
+              <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+          )}
+        </p>
+
+        <div className={styles.dots} role="group" aria-label="Background photo">
+          {SLIDES.map((slide, i) => (
+            <button
+              key={slide.alt}
+              type="button"
+              className={`${styles.dot} ${i === active ? styles.dotOn : ''}`}
+              aria-label={slide.label}
+              aria-pressed={i === active}
+              onClick={() => show(i)}
+            />
+          ))}
         </div>
       </div>
     </section>

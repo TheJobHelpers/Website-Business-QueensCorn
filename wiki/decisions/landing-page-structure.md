@@ -75,5 +75,10 @@ Changed the same day:
   so popcorn is the first thing below the hero (`src/app/page.tsx`). This swaps sections 3 and 4 of the
   decision above.
 
+- Hero polish: the popcorn close-up is now the first photo, followed by the kettle and the team under
+  the canopies (the blurry photo of Bob and Reina hugging left the hero; their faces sat behind the
+  headline). Dots under the buttons show and switch the photo. A "Next market" line under the buttons
+  links to `/events` and comes from the owners' calendar.
+
 Still suggested: larger hero photos (2,000px or more), three real reviews, real social links.
 See [[open-questions]].

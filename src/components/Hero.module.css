@@ -30,6 +30,8 @@
   opacity: 0;
   transition: opacity 1.6s ease-in-out;
   animation: kenBurns 25s infinite alternate linear;
+  /* a touch richer, so the food and the canopy colors come through the shade */
+  filter: saturate(1.12) contrast(1.04);
 }
 
 .photoActive {
@@ -78,7 +80,7 @@
   z-index: -1;
   background:
     linear-gradient(180deg, rgba(22, 18, 14, 0.55) 0%, rgba(22, 18, 14, 0) 24%),
-    radial-gradient(ellipse 62% 58% at 50% 52%, rgba(22, 18, 14, 0.62) 0%, rgba(22, 18, 14, 0.54) 55%, rgba(22, 18, 14, 0.36) 100%);
+    radial-gradient(ellipse 62% 58% at 50% 52%, rgba(22, 18, 14, 0.66) 0%, rgba(22, 18, 14, 0.56) 55%, rgba(22, 18, 14, 0.36) 100%);
 }
 
 .content {
@@ -159,6 +161,90 @@
   animation: fadeInUp 0.7s var(--ease) 320ms both;
 }
 
+/* Next market: one quiet line under the buttons */
+.next {
+  min-height: 1.75rem;
+  margin: var(--space-5) 0 0;
+  animation: fadeInUp 0.7s var(--ease) 400ms both;
+}
+
+.nextLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 4px var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  color: rgba(250, 246, 239, 0.92);
+  text-decoration: none;
+  text-shadow: var(--text-shadow-hero);
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+
+.nextLink b {
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+.nextLink svg {
+  flex-shrink: 0;
+  color: var(--yellow);
+}
+
+.nextLink:hover {
+  color: var(--paper);
+  background: var(--glass-dark);
+}
+
+.nextLink:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+/* Dots: which photo is showing, and a way to pick one */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.dot {
+  /* a small mark inside a comfortable tap area */
+  width: 28px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.dot::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: 0 auto;
+  border-radius: var(--radius-pill);
+  background: rgba(250, 246, 239, 0.45);
+  transition: width var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+
+.dot:hover::before {
+  background: rgba(250, 246, 239, 0.8);
+}
+
+.dotOn::before {
+  width: 24px;
+  background: var(--yellow);
+}
+
+.dot:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+  border-radius: var(--radius-pill);
+}
+
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
@@ -171,7 +257,8 @@
   .title,
   .description,
   .flavorChips,
-  .actions {
+  .actions,
+  .next {
     animation: none;
   }
 }
@@ -187,6 +274,12 @@
   }
   .flavorChips {
     margin-bottom: var(--space-5);
+  }
+  .next {
+    margin-top: var(--space-4);
+  }
+  .dots {
+    margin-top: var(--space-2);
   }
 }
 

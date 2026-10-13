@@ -5,6 +5,7 @@ The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
 ## 2026-10-13 | ingest | Manula
 - Homepage: hero shade lightened so the photo shows more; flavors moved above "How to get your corn"
+- Hero polish: popcorn photo first, team photo replaces the hug, photo dots, "Next market" line
 - Corrected [[landing-page-structure]]: the "hero looks near-black" note was a screenshot artifact, not the real page
 - Updated [[open-questions]] (24 reworded)
 
