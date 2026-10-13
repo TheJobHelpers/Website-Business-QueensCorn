@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 import type { Product } from '@/data/products';
+import { productImageFor } from '@/data/product-images';
 import Button from './ui/Button';
 import styles from './ProductCard.module.css';
 
@@ -41,7 +42,7 @@ export default function ProductCard({
     <article className={styles.card}>
       <Link href={`/shop/${id}`} className={styles.photo} tabIndex={-1} aria-hidden="true">
         <Image
-          src={image}
+          src={productImageFor(name, image)}
           alt=""
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1200px) 33vw, 25vw"
