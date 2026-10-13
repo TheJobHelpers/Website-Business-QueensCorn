@@ -24,7 +24,6 @@ payment and keeps customers, orders, receipts and refunds. The website stores no
 |---|---|
 | `NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN` | `your-store.myshopify.com` (must end in `.myshopify.com`) |
 | `NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN` | **Public** Storefront API token from the Headless sales channel |
-
 | `SHOPIFY_ADMIN_ACCESS_TOKEN` | **Private** Admin API token of a custom app (optional, see below) |
 | `SHOPIFY_ADMIN_CLIENT_ID` + `SHOPIFY_ADMIN_CLIENT_SECRET` | Or: a Dev Dashboard app's id and secret (store must be in the same organization) |
 
