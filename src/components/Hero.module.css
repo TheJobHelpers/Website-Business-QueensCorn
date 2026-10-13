@@ -38,6 +38,11 @@
   opacity: 1;
 }
 
+/* picked with a dot: change straight away, so the press is seen to do something */
+.photoQuick {
+  transition-duration: 0.35s;
+}
+
 @keyframes kenBurns {
   from { transform: scale(1.05); }
   to { transform: scale(1.2); }
@@ -190,8 +195,8 @@
 
 .dot {
   /* a small mark inside a comfortable tap area */
-  width: 28px;
-  height: 24px;
+  width: 36px;
+  height: 32px;
   padding: 0;
   border: 0;
   background: none;
@@ -201,20 +206,21 @@
 .dot::before {
   content: '';
   display: block;
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
   margin: 0 auto;
   border-radius: var(--radius-pill);
-  background: rgba(250, 246, 239, 0.45);
+  background: rgba(250, 246, 239, 0.6);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   transition: width var(--dur) var(--ease), background var(--dur) var(--ease);
 }
 
 .dot:hover::before {
-  background: rgba(250, 246, 239, 0.8);
+  background: var(--paper);
 }
 
 .dotOn::before {
-  width: 24px;
+  width: 30px;
   background: var(--yellow);
 }
 

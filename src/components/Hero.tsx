@@ -40,7 +40,7 @@ const SLIDES: { alt: string; label: string; wide: Photo; tall: Photo }[] = [
   },
 ];
 
-function Slide({ slide, active, first }: { slide: (typeof SLIDES)[number]; active: boolean; first: boolean }) {
+function Slide({ slide, active, first, quick }: { slide: (typeof SLIDES)[number]; active: boolean; first: boolean; quick: boolean }) {
   const common = { alt: slide.alt, sizes: '100vw' };
   const {
     props: { srcSet: wide },
@@ -57,7 +57,7 @@ function Slide({ slide, active, first }: { slide: (typeof SLIDES)[number]; activ
         {...img}
         alt={slide.alt}
         aria-hidden={!active}
-        className={`${styles.photo} ${active ? styles.photoActive : ''}`}
+        className={`${styles.photo} ${active ? styles.photoActive : ''} ${quick ? styles.photoQuick : ''}`}
         style={{ '--focus-wide': slide.wide.focus, '--focus-tall': slide.tall.focus } as CSSProperties}
       />
     </picture>
@@ -66,7 +66,8 @@ function Slide({ slide, active, first }: { slide: (typeof SLIDES)[number]; activ
 
 export default function Hero() {
   // `reached` = how far the slideshow has got: later photos load one step ahead, not all at once.
-  const [{ active, reached }, setShow] = useState({ active: 0, reached: 1 });
+  // `quick` = the photo was picked with a dot, so it changes at once instead of drifting in.
+  const [{ active, reached, quick }, setShow] = useState({ active: 0, reached: 1, quick: false });
   // bumped when a dot is pressed, so the timer starts again from that photo
   const [restart, setRestart] = useState(0);
   const { events } = useCart();
@@ -79,14 +80,14 @@ export default function Hero() {
     const timer = setInterval(() => {
       setShow((s) => {
         const next = (s.active + 1) % SLIDES.length;
-        return { active: next, reached: Math.max(s.reached, next + 1) };
+        return { active: next, reached: Math.max(s.reached, next + 1), quick: false };
       });
     }, SLIDE_MS);
     return () => clearInterval(timer);
   }, [restart]);
 
   const show = (index: number) => {
-    setShow((s) => ({ active: index, reached: Math.max(s.reached, index + 1) }));
+    setShow((s) => ({ active: index, reached: Math.max(s.reached, index + 1), quick: true }));
     setRestart((n) => n + 1);
   };
 
@@ -94,7 +95,7 @@ export default function Hero() {
     <section className={styles.hero} aria-labelledby="hero-title">
       {SLIDES.map(
         (slide, i) =>
-          i <= reached && <Slide key={slide.alt} slide={slide} active={i === active} first={i === 0} />
+          i <= reached && <Slide key={slide.alt} slide={slide} active={i === active} first={i === 0} quick={quick} />
       )}
       <div className={styles.shade} aria-hidden="true" />
 
