@@ -4,6 +4,12 @@ Append-only history, **newest first**. Format and types are defined in [CLAUDE.m
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
 ## 2026-10-13 | ingest | Manula
+- Dashboard stays lean: events and fundraisers only; products, orders and sales reports are handled in Shopify.
+  Flavors are made to order, so no stock tracking
+- Vercel Web Analytics added for visitor numbers (`src/components/SiteAnalytics.tsx`, `/admin` excluded)
+- Updated [[branches-and-status]] (decision and post-launch order of work)
+
+## 2026-10-13 | ingest | Manula
 - Shopify checkout rebuilt on `feature/admin-dashboard` (PR #6): runs on the server, matches flavor name +
   `Size` to the Shopify variant, refuses missing / sold-out / differently priced bags with a message in the cart
 - Dashboard "Test the connection" now lists what cannot be ordered; new `/order/thank-you` page; `src/lib/shopify.ts` removed

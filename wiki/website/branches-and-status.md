@@ -69,5 +69,13 @@ ordering, 10-flavor catalog), PR #5 (branded product photos).
 - Product detail page and Terms are still in the old style
 - Contact form opens the visitor's email app: decide whether a real mail service is needed
 
-**Later**
-- Shipping (`SHIPPING_AVAILABLE` in `src/lib/shop.ts`), photo upload from the dashboard, real reviews.
+**Decided 2026-10-13: keep the dashboard lean**
+- Dashboard = events and fundraisers. Shopify = products, orders, payments, sales reports.
+- Flavors are made to order: no stock tracking ("Track quantity" off in Shopify).
+- Visitor numbers: Vercel Web Analytics (public pages only; `/admin` is not counted), viewed in Vercel.
+
+**After launch, in this order**
+1. Products read from Shopify (name, price, photo, type, tags); the dashboard's Flavors screen becomes read-only.
+2. Only if the owners ask: an "orders to pop" list per market with fundraiser totals (needs a private
+   Shopify key with read-only order access).
+3. Shipping (`SHIPPING_AVAILABLE` in `src/lib/shop.ts`), photo upload, real reviews, an order cut-off before a market.
