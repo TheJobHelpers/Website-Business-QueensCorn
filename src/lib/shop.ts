@@ -1,8 +1,9 @@
 // Shop constants shared by server and client components.
 export const FREE_AZ_SHIPPING_THRESHOLD = 35;
 
-// Bag sizes. `key` is the size name stored in the cart; a Small costs the flavor's base price
-// and the others scale from it ($6 / $10 / $15), the same way CartContext prices a line.
+// Bag sizes. `key` is the size name stored in the cart. A Small costs the flavor's base price.
+// Family and Party have their own prices when the owners set them (dashboard > Flavors);
+// otherwise they scale from the Small price ($6 / $10 / $15).
 export const BAG_SIZES = [
   { key: 'Small (Individual)', label: 'Small', multiplier: 1 },
   { key: 'Medium (Family)', label: 'Family', multiplier: 10 / 6 },
@@ -13,6 +14,23 @@ export const BAG_SIZES = [
 export function bagPrice(basePrice: string, multiplier: number): number {
   const base = parseFloat(basePrice.replace(/[^0-9.]/g, '')) || 6;
   return Math.round(base * multiplier * 100) / 100;
+}
+
+type Priced = { price: string; familyPrice?: string; partyPrice?: string };
+const amount = (text: string | undefined) => {
+  const value = parseFloat((text ?? '').replace(/[^0-9.]/g, ''));
+  return Number.isFinite(value) && value > 0 ? value : null;
+};
+
+/** What one bag of this flavor costs in this size. The one place every page and the checkout ask. */
+export function sizePrice(flavor: Priced, size: { label: string; multiplier: number }): number {
+  const own = size.label === 'Family' ? amount(flavor.familyPrice) : size.label === 'Party' ? amount(flavor.partyPrice) : null;
+  return own ?? bagPrice(flavor.price, size.multiplier);
+}
+
+/** The bag size for a cart line's size name (Small if the name is unknown). */
+export function bagSize(key: string) {
+  return BAG_SIZES.find((size) => size.key === key) ?? BAG_SIZES[0];
 }
 
 /** "$6" or "$7.50" */

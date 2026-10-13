@@ -17,11 +17,12 @@ export default function Home() {
     <main style={{ background: 'var(--paper)' }}>
       <Hero />
       <TrustBanner />
-      <ScrollReveal>
-        <WaysToBuy />
-      </ScrollReveal>
+      {/* the popcorn comes first: flavors straight after the hero, then how to get them */}
       <ScrollReveal>
         <FeaturedProducts />
+      </ScrollReveal>
+      <ScrollReveal>
+        <WaysToBuy />
       </ScrollReveal>
       <ScrollReveal>
         <UpcomingEvents />

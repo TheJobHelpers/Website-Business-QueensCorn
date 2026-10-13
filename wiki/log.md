@@ -4,6 +4,48 @@ Append-only history, **newest first**. Format and types are defined in [CLAUDE.m
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
 ## 2026-10-13 | ingest | Manula
+- Homepage: hero shade lightened so the photo shows more; flavors moved above "How to get your corn"
+- Hero polish: popcorn photo first then the kettle (two photos), photo dots, "Next market" line, flavor pills
+  removed, stronger shade behind the copy for readability
+- Corrected [[landing-page-structure]]: the "hero looks near-black" note was a screenshot artifact, not the real page
+- Updated [[open-questions]] (24 reworded)
+
+## 2026-10-13 | sync @ 7b5715f | Manula
+- Brought the pages that were behind the code up to date with `feature/admin-dashboard` (PR #6)
+- Rewrote: [[fulfillment-and-shipping]] (pickup only today, delivery options compared, USPS plan),
+  [[product-catalog]] (10 flavors, a price per size, photos, Shopify), [[website-architecture]] (routes, layout, settings)
+- Updated: [[fundraising-program]], [[events-and-markets]], [[company-overview]], [[landing-page-structure]]
+  (hero as built; page review), [[branches-and-status]], [[admin-portal]], [[open-questions]] (1, 2, 6 reworded;
+  22–26 added), index
+- Still behind: [[brand-and-design-system]], [[shop-page-structure]] and the two blueprint HTML files
+
+## 2026-10-13 | ingest | Manula
+- Dashboard: new Orders screen (what to make, per pickup market) and Sales screen, read live from Shopify
+  (`src/server/shopify-orders.ts`); flavor photos are uploaded to Shopify
+- New `/privacy-policy` page; Terms sections 02–05 rewritten for pickup-only ordering (shipping claims removed)
+- Tested on the development store with three paid test orders: the pickup market shows on each order
+- Updated [[admin-portal]], [[shopify-integration]], [[open-questions]] (21 added)
+
+## 2026-10-13 | ingest | Manula
+- Each flavor now has its own Small, Family and Party price in the dashboard (`familyPrice`, `partyPrice` on a
+  flavor; `sizePrice()` in `src/lib/shop.ts` is the one place prices are worked out). Flavors without them still
+  scale from the Small price
+- Shop cards, product page, homepage price row, cart, checkout and the Shopify product all use it
+- Updated [[shopify-integration]]. Still to sync: [[product-catalog]] (prices per size)
+
+## 2026-10-13 | ingest | Manula
+- Flavors screen now writes to Shopify (`src/server/shopify-admin.ts`): add, rename, reprice, hide, delete,
+  and "Send all flavors to Shopify" in Settings. Replaces this morning's decision to keep products out of the dashboard
+- Tested on the development store: all ten flavors created or linked, 0 mismatches
+- Updated [[shopify-integration]], [[admin-portal]], [[branches-and-status]], [[open-questions]] (20 added)
+
+## 2026-10-13 | ingest | Manula
+- Dashboard stays lean: events and fundraisers only; products, orders and sales reports are handled in Shopify.
+  Flavors are made to order, so no stock tracking
+- Vercel Web Analytics added for visitor numbers (`src/components/SiteAnalytics.tsx`, `/admin` excluded)
+- Updated [[branches-and-status]] (decision and post-launch order of work)
+
+## 2026-10-13 | ingest | Manula
 - Shopify checkout rebuilt on `feature/admin-dashboard` (PR #6): runs on the server, matches flavor name +
   `Size` to the Shopify variant, refuses missing / sold-out / differently priced bags with a message in the cart
 - Dashboard "Test the connection" now lists what cannot be ordered; new `/order/thank-you` page; `src/lib/shopify.ts` removed

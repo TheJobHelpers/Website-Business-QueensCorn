@@ -148,12 +148,16 @@ export function isAllowedProductImage(value: string): boolean {
   return LOCAL_IMAGE.test(value) || SHOPIFY_IMAGE.test(value);
 }
 
+const dollars = (value: number) => `$${(Math.round(value * 100) / 100).toFixed(2)}`;
+
 export function parseProductInput(input: unknown): Omit<Product, 'id'> {
   const c = new Checker(input);
   const name = c.text('name', 'Flavor name', { min: 2, max: 60 });
   const description = c.text('description', 'Description', { min: 5, max: 300 });
   const category = c.oneOf('category', 'Taste', CATEGORIES);
   const price = c.number('price', 'Small bag price', { min: 0.5, max: 500 });
+  const familyPrice = c.number('familyPrice', 'Family bag price', { min: 0.5, max: 500 });
+  const partyPrice = c.number('partyPrice', 'Party bag price', { min: 0.5, max: 500 });
   const image = c.text('image', 'Photo', { max: 400 });
   if (image && !isAllowedProductImage(image)) c.error('image', 'Choose one of the listed photos.');
   const tasteLabel = c.optionalText('tasteLabel', 'Taste meter label', 20);
@@ -166,7 +170,9 @@ export function parseProductInput(input: unknown): Omit<Product, 'id'> {
     name,
     description,
     category,
-    price: `$${(Math.round(price * 100) / 100).toFixed(2)}`,
+    price: dollars(price),
+    familyPrice: dollars(familyPrice),
+    partyPrice: dollars(partyPrice),
     image,
     ...(tasteLabel && tasteLevel > 0 ? { taste: { label: tasteLabel, level: tasteLevel } } : {}),
     featured,

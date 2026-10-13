@@ -1,6 +1,6 @@
 import 'server-only';
 import type { Product } from '@/data/products';
-import { BAG_SIZES, bagPrice } from '@/lib/shop';
+import { BAG_SIZES, sizePrice } from '@/lib/shop';
 import { ValidationError } from './validation';
 
 // Talking to the Shopify store (Storefront API). Only the server calls Shopify: the browser
@@ -18,16 +18,23 @@ export function isShopifyConnected(): boolean {
  * The shop address comes from the server's own settings only, and must be a *.myshopify.com
  * host: nothing typed into a page can make this server call another address.
  */
-function shopifyEndpoint(): { url: string; token: string } {
+export function shopifyDomain(): string {
   const domain = setting('NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN').replace(/^https?:\/\//, '').replace(/\/+$/, '');
-  const token = setting('NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN');
-  if (!domain || !token) {
-    throw new ValidationError({ form: 'Shopify is not connected yet. Add the store address and Storefront token to the server settings.' });
+  if (!domain) {
+    throw new ValidationError({ form: 'Shopify is not connected yet. Add the store address to the server settings.' });
   }
   if (!/^[a-z0-9][a-z0-9-]{0,60}\.myshopify\.com$/i.test(domain)) {
     throw new ValidationError({ form: 'The Shopify store address must look like your-store.myshopify.com.' });
   }
-  return { url: `https://${domain}/api/${API_VERSION}/graphql.json`, token };
+  return domain;
+}
+
+function shopifyEndpoint(): { url: string; token: string } {
+  const token = setting('NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN');
+  if (!token) {
+    throw new ValidationError({ form: 'Shopify is not connected yet. Add the store address and Storefront token to the server settings.' });
+  }
+  return { url: `https://${shopifyDomain()}/api/${API_VERSION}/graphql.json`, token };
 }
 
 export async function shopifyQuery<T>(query: string, variables: Record<string, unknown> = {}): Promise<T> {
@@ -126,7 +133,7 @@ export function catalogIssues(flavors: Product[], catalog: ShopifyProduct[]): st
     }
     for (const size of BAG_SIZES) {
       const variant = findVariant(catalog, flavor.name, size.label);
-      const sitePrice = bagPrice(flavor.price, size.multiplier);
+      const sitePrice = sizePrice(flavor, size);
       if (!variant) {
         issues.push(`${flavor.name}: no "${size.label}" size in Shopify.`);
       } else if (!samePrice(variant.price, sitePrice)) {

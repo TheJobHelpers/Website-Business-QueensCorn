@@ -2,8 +2,8 @@
 title: "Decision: Landing page structure"
 type: decision
 owner: unassigned
-updated: 2026-10-10
-status: built (feature/landing-page-v3), awaiting owner sign-off
+updated: 2026-10-13
+status: built and merged (PR #4), awaiting owner sign-off
 sources:
   - wiki/design-system/landing-page-blueprint.html (v1)
   - src/app/page.tsx @ ee5b44c
@@ -52,3 +52,38 @@ Built on `feature/landing-page-v3` in design system v3.1. Changes made while bui
   espresso-brown shade.
 - Trust strip floats over the hero's edge; markets sit on a dark band (balanced rhythm).
 - Responsive: hero fills the screen at any size; headline and food plate scale with width and height.
+
+## Status (2026-10-13)
+Merged in PR #4, with two changes to the plan above:
+- **Hero:** back to the centered "The Queen's Corn is a Happy Place" hero (flavor chips, two buttons) in
+  v3.1, with three real photos that crossfade. The two-column food hero described above was dropped.
+- **Three ways to buy** now reflects pickup only: shipping shows as "coming soon"
+  ([[fulfillment-and-shipping]]).
+
+Review of the live page (developer, 2026-10-13): about 7/10.
+- An earlier note here said the hero read as a near-black panel. **That was wrong:** it came from
+  screenshots of a browser tab that was in the background. A proper render shows the photo clearly.
+- The hero shade was still heavy at the edges (88% dark), and the hero photos are small (830px wide,
+  so they look soft on large screens). No bag of popcorn is visible on the first screen.
+- Reviews are still hidden (no real ones yet); footer social links go nowhere; the hero's chip row
+  shows six of the ten flavors.
+
+Changed the same day:
+- Hero shade lightened: darkest behind the copy and under the navigation, lighter towards the edges
+  (`.shade` in `src/components/Hero.module.css`).
+- Section order: **flavors now come straight after the trust strip**, before "How to get your corn",
+  so popcorn is the first thing below the hero (`src/app/page.tsx`). This swaps sections 3 and 4 of the
+  decision above.
+
+- Hero polish: two photos now, the popcorn close-up first and then the kettle. The photo of Bob and
+  Reina hugging (blurry, faces behind the headline) and the team under the canopies (bright yellow with
+  printed lettering behind the headline: hard to read) are not used in the hero. Dots under the buttons
+  show and switch the photo. A "Next market" line under the buttons links to `/events` and comes from
+  the owners' calendar.
+- The flavor pills were removed from the hero: they were not clickable, listed six of ten flavors, and
+  the flavor cards now follow directly.
+- The shade behind the copy was made stronger again (78% in the middle) after the text proved hard to
+  read on bright photos; a tight shadow was added under the letters.
+
+Still suggested: larger hero photos (2,000px or more), three real reviews, real social links.
+See [[open-questions]].

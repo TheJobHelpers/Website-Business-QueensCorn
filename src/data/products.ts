@@ -1,8 +1,11 @@
 export interface Product {
   id: string;
   name: string;
-  /** Price of a Small bag, as "$6.00". Family and Party scale from it (see BAG_SIZES). */
+  /** Price of a Small bag, as "$6.00". */
   price: string;
+  /** Family and Party bag prices. When missing they scale from the Small price (see sizePrice). */
+  familyPrice?: string;
+  partyPrice?: string;
   image: string;
   category: 'Sweet' | 'Savory' | 'Spicy' | 'Seasonal';
   description: string;
@@ -12,6 +15,10 @@ export interface Product {
   hidden?: boolean;
   /** One taste meter on the card (1–5 kernels). Owners can tune these. */
   taste?: { label: string; level: number };
+  /** The matching product in Shopify, set once the dashboard has sent this flavor there. */
+  shopifyId?: string;
+  /** The photo last sent to that Shopify product, so it is only uploaded again when it changes. */
+  shopifyImage?: string;
 }
 
 export const PRODUCT_IMAGES: Record<string, string> = {

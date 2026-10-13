@@ -8,19 +8,19 @@ How to use the wiki: [README](README.md) · Rules for agents: [CLAUDE.md](CLAUDE
 - [[open-questions]]: unresolved issues and things to confirm with the owners
 
 ## Business
-- [[fundraising-program]]: 50% giveback for schools and teams; codes, attribution, sample campaigns
-- [[events-and-markets]]: farmers' markets and festivals schedule; how events are managed
-- [[fulfillment-and-shipping]]: AZ USPS shipping (free over $35) vs free market pickup; manual-order fallback
+- [[fundraising-program]]: 50% giveback for schools and teams; codes, how orders are attributed, sample campaigns
+- [[events-and-markets]]: farmers' markets and festivals schedule; managed in the dashboard
+- [[fulfillment-and-shipping]]: pickup-only orders today; delivery options compared; plan for USPS shipping within Arizona
 
 ## Products
-- [[product-catalog]]: 8 flavors, categories, $6/$10/$15 bag sizes, data sources
+- [[product-catalog]]: 10 flavors, tastes, a price per bag size, photos, how they reach Shopify
 
 ## Website
-- [[website-architecture]]: Next.js 16 stack, routes, key files, commands
-- [[shopify-integration]]: headless Shopify: env vars, metaobjects, checkout attributes, known gaps
-- [[admin-portal]]: `/admin` owner dashboard, its limitations, the feature-branch auth
+- [[website-architecture]]: Next.js 16 stack, routes, how the code is laid out, settings the site needs
+- [[shopify-integration]]: checkout, products written from the dashboard, orders read for the dashboard, setup checklist
+- [[admin-portal]]: `/admin` owner dashboard: screens, where data is saved, sign-in and security
 - [[brand-and-design-system]]: short summary of the v3.1 "Warm Canopy" design system and what the code still uses
-- [[branches-and-status]]: what's live on `main`, open branches & PRs, and the **plan** (done / next)
+- [[branches-and-status]]: what's merged, the open PR, and the **plan to go live**
 
 ## Design system (source of truth for the look)
 - [design-system.html](design-system/design-system.html): v3.1 "Warm Canopy": colors, type, components, imagery, voice, change rules (open in a browser)
@@ -33,7 +33,7 @@ How to use the wiki: [README](README.md) · Rules for agents: [CLAUDE.md](CLAUDE
 - [[design-palette-decision]]: amber → Red & Gold → Buttercream → Canopy v3.0 → **Warm Canopy v3.1** (2026-10-10)
 
 - [[shop-page-structure]]: shop built around 3 taps: how you get it → flavor → size; compact header, bag bar (proposed)
-- [[landing-page-structure]]: homepage rebuilt around selling: food hero, three ways to buy, flavors, markets, fundraising, one story (built, awaiting sign-off)
+- [[landing-page-structure]]: homepage rebuilt around selling: hero, three ways to buy, flavors, markets, fundraising, one story (merged; review notes 2026-10-13)
 
 ## Templates
 - `templates/`: [business](templates/business-page.md) · [product](templates/product-page.md) · [decision](templates/decision-page.md) · [meeting note](templates/meeting-note.md)

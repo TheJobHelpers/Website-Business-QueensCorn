@@ -11,13 +11,13 @@ Things to confirm, contradictions, and known risks. When one is resolved, move i
 with the answer and source, and update the related page.
 
 ## Business: ask Bob & Reina
-1. **Real prices:** are $6 / $10 / $15 (Small / Medium / Large) correct? Are all flavors the same price? See [[product-catalog]]
-2. **Flavor list:** is the list of 8 flavors complete and current? Are Holiday and Patriot only seasonal? See [[product-catalog]]
+1. **Real prices:** are $6 / $10 / $15 (Small / Family / Party) correct? Each flavor and size can now have its own price. See [[product-catalog]]
+2. **Flavor list:** the site has the owners' 10 flavors (2026-10-12). Is Patriot seasonal only? Are our descriptions and taste levels for the newer flavors right? See [[product-catalog]]
 3. **Service area:** the story page says Phoenix, Payson, East Valley; the events are Avondale, Oro Valley,
    Phoenix, Litchfield, Marana ("hometown"). Which is right? See [[company-overview]]
 4. **Event schedule:** are the fall 2026 events real or placeholder? See [[events-and-markets]]
 5. **Fundraising:** are the 3 sample campaigns real? How and when is the 50% paid out? See [[fundraising-program]]
-6. **Shipping:** Arizona only? Is the free threshold $35? See [[fulfillment-and-shipping]]
+6. **Shipping (planned, USPS within Arizona):** does the owners' food licence allow shipping, and to where? What fee, free-shipping threshold, box sizes, lead time and ship days? `$35` and `$4.95` in the code are placeholders. See [[fulfillment-and-shipping]]
 11. **Design v3 sign-off:** do Bob & Reina approve the "Canopy" direction? Do they have the printer's exact
     red/yellow codes for the banners? See [[design-palette-decision]]
 12. **Real product photos:** can we shoot each flavor bag (real label) for the shop? 7 of 8 flavors use
@@ -46,6 +46,22 @@ with the answer and source, and update the related page.
     `/order/thank-you` are not confirmed yet. See [[shopify-integration]]
 19. **Pickup-only checkout:** Shopify still asks for a shipping address until Local pickup is switched on
     and shipping rates are removed. See [[fulfillment-and-shipping]]
+20. **Dashboard key for the owners' store:** the development store uses a Dev Dashboard app, which only
+    works inside the developer's Shopify organization. How the key is created in the owners' store is
+    not tried yet. See [[shopify-integration]]
+21. **Privacy Policy and Terms wording:** `/privacy-policy` is new and Terms sections 02–05 were rewritten
+    for pickup-only ordering (2026-10-13). Written by the developer from what the site does; the owners (and
+    ideally a lawyer) should read and approve both, including the 30-day answer promise.
+22. **Fixed pickup address:** do the owners have, or plan, a kitchen or shop with regular hours? Only then
+    are DoorDash / Uber Eats an option. See [[fulfillment-and-shipping]]
+23. **Order cut-off:** how late before a market can someone pre-order, and is there a limit per market?
+    Today orders are accepted until the event ends.
+24. **Hero photos:** the three hero photos are small (830px wide) and look soft on large screens. Can the
+    owners supply larger ones (2,000px or more), ideally one close-up of popcorn? See [[landing-page-structure]]
+25. **Shopify secret:** the development app's client secret was pasted into a chat on 2026-10-13. Rotate it
+    in the Shopify developer dashboard before the approach is used on a real store.
+26. **Developer–owner data agreement:** Shopify's data protection form asks whether the app's developer has
+    a privacy and data protection agreement with the merchant. None exists yet.
 
 ## Resolved
 - **8. Checkout variant ids** (2026-10-13): checkout now runs on the server and matches flavor name + `Size`

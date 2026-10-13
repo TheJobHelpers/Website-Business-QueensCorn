@@ -45,6 +45,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/cart/CartDrawer";
+import SiteAnalytics from "@/components/SiteAnalytics";
 import { getSiteData } from "@/server/repositories";
 
 export default async function RootLayout({
@@ -72,6 +73,7 @@ export default async function RootLayout({
           </div>
           <Footer />
         </CartProvider>
+        <SiteAnalytics />
       </body>
     </html>
   );

@@ -2,62 +2,66 @@
 title: Product Catalog
 type: product
 owner: unassigned
-updated: 2026-10-10
+updated: 2026-10-13
 sources:
-  - src/data/products.ts @ ee5b44c
-  - src/context/CartContext.tsx @ ee5b44c
+  - src/data/products.ts @ 7b5715f
+  - src/lib/shop.ts @ 7b5715f
+  - src/server/shopify-admin.ts @ 7b5715f
 ---
 
 # Product Catalog
 
 All products are hand-stirred kettle corn made with pure corn oil, sugar and salt
-(see [[company-overview]]). This is the catalog **as coded on the website**. Actual prices charged
-at markets must be confirmed with the owners.
+([[company-overview]]), popped to order: no stock is kept.
 
 ## Flavors
 
-| ID | Flavor | Category | Base price | Featured on homepage |
-|---|---|---|---|---|
-| 1 | Regular Sweet & Salty (signature) | Sweet | $6.00 | ✓ 2nd, "Original Kettle" |
-| 2 | Caramel | Sweet | $6.00 | ✓ 4th, "Artisan Glaze" |
-| 3 | Cheddar | Savory | $6.00 | |
-| 4 | Jalapeño | Spicy | $6.00 | ✓ 3rd, "Desert Heat" |
-| 5 | Caramel Apple | Sweet | $6.00 | |
-| 6 | Caramel & Cheddar | Savory | $6.00 | ✓ 1st, labelled "#1 Best Seller" (unverified) |
-| 7 | Holiday Mix (cinnamon, apple, sweet & salty) | Seasonal | $6.00 | |
-| 8 | Patriot Mix (red, white & blue) | Seasonal | $6.00 | |
+The built-in list in `src/data/products.ts` (the owners' list of 2026-10-12). The owners change it in
+the dashboard's Flavors screen ([[admin-portal]]); the saved list then replaces this one.
 
-Source: `src/data/products.ts @ ee5b44c`. Shop filter categories: All Flavors, Sweet, Savory, Spicy, Seasonal.
+| ID | Flavor | Taste | On the homepage |
+|---|---|---|---|
+| 1 | Sweet & Salty | Sweet | ✓ |
+| 2 | Caramel | Sweet | ✓ |
+| 5 | Caramel Apple | Sweet | |
+| 6 | Caramel Cheddar | Savory | ✓ |
+| 3 | Cheddar | Savory | |
+| 4 | Cheddar with Smoked Jalapeño | Spicy | ✓ |
+| 9 | Cinnamon Apple | Sweet | |
+| 8 | Patriot (Red-White-Blue) | Seasonal | |
+| 10 | Nacho Cheddar | Savory | |
+| 11 | BBQ Cheddar | Savory | |
 
-## Bag sizes & pricing
+Shop filters: All Flavors, Sweet, Savory, Spicy, Seasonal. A flavor can be **hidden** (kept but not
+shown or sold) and up to four are shown on the homepage.
 
-| Size | Price (when base = $6) |
+## Bag sizes and prices
+
+| Size | Built-in price |
 |---|---|
-| Small (Individual) | $6 |
-| Medium (Family) | $10 |
-| Large (Party) | $15 |
+| Small | $6.00 |
+| Family | $10.00 |
+| Party | $15.00 |
 
-The cart scales a product's base price by the same ratio (×10/6 for Medium, ×15/6 for Large), so a
-price change in the admin portal scales all three sizes (`addItem` in src/context/CartContext.tsx @ ee5b44c).
+- Each flavor has **its own price for each size**, set in the dashboard (`price`, `familyPrice`,
+  `partyPrice`). A flavor without its own Family / Party price scales them from the Small price
+  (×10/6 and ×15/6).
+- `sizePrice()` in `src/lib/shop.ts` is the one place a bag price is worked out; the shop cards, product
+  page, homepage price row, cart, checkout and the Shopify product all use it.
+- Fundraising math on the site assumes the $10 Family bag. See [[fundraising-program]].
 
-- **Free Arizona shipping** at a $35 subtotal (`FREE_AZ_SHIPPING_THRESHOLD`). See [[fulfillment-and-shipping]].
-- Fundraising math on the site assumes the **$10 Medium Family bag**. See [[fundraising-program]].
+## Photos
 
-## How the new homepage shows products (feature/landing-page-v3)
+- Each flavor has a branded bag photo, `public/product-*.webp` (1254×1254, added in PR #5).
+- The older `public/flavor-*.png` images are AI-generated and are still selectable in the dashboard.
+- The dashboard's photo picker lists files in `/public`; uploading a new photo from the dashboard is
+  not built.
 
-- Cards show **"from $6"** and the three sizes up front; "+ Add to bag" adds a **Small** and opens the bag.
-- Each product has a `taste` value (one meter of 1–5 kernels, e.g. Sweet 4, Heat 3) in `src/data/products.ts`.
-  These were set by us, not the owners: they should review them ([[open-questions]] #14).
-- The hero card adds **Caramel & Cheddar** (it matches the close-up photo).
-- Planned shop: size picker and quantity on every card ([[shop-page-structure]]).
+## In Shopify
 
-## Where product data comes from
+Every flavor is a Shopify product with a `Size` option (Small / Family / Party), kept in step by the
+dashboard: name, description, taste (product type), the three prices and the photo. See
+[[shopify-integration]].
 
-- If Shopify is configured, products load from the Shopify Storefront API; otherwise the local list
-  above is used. See [[shopify-integration]].
-- Product photos are `public/flavor-*.png`. **Despite the `-real` in some filenames, these are AI-generated**
-  (bags show a fake red-hat logo). Real bag photos are needed ([[open-questions]] #12); the only real
-  product close-up is `public/popcorn-scoop-fresh.jpg` (caramel & cheddar mix).
-
-> [!warning] Unverified: whether $6/$10/$15 matches real market pricing, and whether the flavor
-> list is complete or current. Tracked in [[open-questions]].
+> [!warning] Unverified with the owners: the real prices, the descriptions and taste levels of the
+> newer flavors (written by us), and whether Patriot is seasonal only. See [[open-questions]].

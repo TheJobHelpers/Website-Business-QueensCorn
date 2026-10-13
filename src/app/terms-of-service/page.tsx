@@ -4,14 +4,14 @@ import styles from './TermsOfService.module.css';
 
 export const metadata: Metadata = {
   title: "Terms of Service | The Queen's Corn",
-  description: "Official Terms of Service, service agreements, shipping guidelines, warranties, and purchase policies for The Queen's Corn.",
+  description: "Terms of Service for The Queen's Corn: ordering, market pickup, payments, warranties and purchase policies.",
 };
 
 const TOC_ITEMS = [
   { id: 'terms-of-use', title: 'Terms of Use', num: '01' },
-  { id: 'privacy-policy', title: 'Privacy Policy', num: '02' },
-  { id: 'shipping-delivery', title: 'Shipping & Delivery', num: '03' },
-  { id: 'international', title: 'International Shipping & Customs', num: '04' },
+  { id: 'privacy-policy', title: 'Privacy & Your Information', num: '02' },
+  { id: 'shipping-delivery', title: 'Orders & Market Pickup', num: '03' },
+  { id: 'online-payments', title: 'Online Payments & Order Records', num: '04' },
   { id: 'sales-tax', title: 'Sales Tax', num: '05' },
   { id: 'warranties', title: 'Warranties & Disclaimers', num: '06' },
   { id: 'return-policy', title: 'Return & Payment Policy', num: '07' },
@@ -87,85 +87,82 @@ export default function TermsOfServicePage() {
             </div>
           </section>
 
-          {/* 2. Privacy Policy */}
+          {/* 2. Privacy */}
           <section id="privacy-policy" className={styles.sectionCard}>
             <div className={styles.sectionHeader}>
               <span className={styles.sectionBadge}>02</span>
-              <h2 className={styles.sectionTitle}>Privacy Policy</h2>
+              <h2 className={styles.sectionTitle}>Privacy &amp; Your Information</h2>
             </div>
             <div className={styles.contentBody}>
               <p>
-                This site may contain proprietary notices and copyright information, the terms of which must be observed and followed. 
-                Information on this site may contain technical inaccuracies or typographical errors. 
-                Information, including product pricing and availability, may be changed or updated without notice.
+                How we collect, use and protect your information is set out in our <Link href="/privacy-policy">Privacy Policy</Link>, which
+                forms part of these terms. By placing an order you agree to your information being handled as that policy describes.
               </p>
               <p>
-                The Queen&apos;s Corn respects user privacy. Customer details collected during order checkout (such as name, delivery address, phone number, and email address) are utilized solely to process your orders, calculate accurate shipping, and provide customer support.
-              </p>
-              <p>
-                The Queen&apos;s Corn and its subsidiaries reserve the right to refuse service, terminate accounts, and/or cancel orders in its discretion, including, without limitation, if The Queen&apos;s Corn believes that customer conduct violates applicable law or is harmful to the interests of The Queen&apos;s Corn and its subsidiaries.
+                In short: we use the details you give at checkout only to prepare your order, send your receipt and help you with it. We do
+                not sell your information or use it for advertising.
               </p>
             </div>
           </section>
 
-          {/* 3. Shipping and Delivery */}
+          {/* 3. Orders and pickup */}
           <section id="shipping-delivery" className={styles.sectionCard}>
             <div className={styles.sectionHeader}>
               <span className={styles.sectionBadge}>03</span>
-              <h2 className={styles.sectionTitle}>Shipping and Delivery</h2>
+              <h2 className={styles.sectionTitle}>Orders &amp; Market Pickup</h2>
             </div>
             <div className={styles.contentBody}>
               <p>
-                At this time, The Queen&apos;s Corn ships merchandise to locations within the United States and U.S. territories, including:
+                Orders placed on this Website are prepared fresh and collected in person at the market or event you choose when you order.
+                Pickup is free.
               </p>
               <div className={styles.clauseList}>
                 <div className={styles.clauseItem}>
                   <div className={styles.clauseTitle}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    <span>United States &amp; U.S. Territories</span>
+                    <span>Collecting your order</span>
                   </div>
                   <p className={styles.clauseDesc}>
-                    Continental United States, Alaska, Hawaii, Puerto Rico, Guam, and the U.S. Virgin Islands.
+                    Bring your order confirmation, or give the name the order was placed under, to The Queen&apos;s Corn stand during the
+                    event&apos;s opening hours. If you cannot make it, contact us before the event and we will arrange another pickup or a
+                    refund.
                   </p>
                 </div>
                 <div className={styles.clauseItem}>
                   <div className={styles.clauseTitle}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                    <span>North America Regional Shipping</span>
+                    <span>Shipping</span>
                   </div>
                   <p className={styles.clauseDesc}>
-                    Additionally, The Queen&apos;s Corn ships merchandise to Canada and Mexico, but not to other international locations.
+                    We do not ship orders at this time. When shipping becomes available, these terms will be updated with where we ship and
+                    what it costs.
                   </p>
                 </div>
               </div>
               <p>
-                <strong>Transfer of Risk &amp; Title:</strong> The risk of loss and title for all merchandise ordered on this Website pass to you when the merchandise is delivered to the shipping carrier.
+                <strong>Events can change:</strong> if a market is cancelled or we cannot attend, we will contact you to arrange another
+                pickup or a full refund.
               </p>
             </div>
           </section>
 
-          {/* 4. International */}
-          <section id="international" className={styles.sectionCard}>
+          {/* 4. Online payments and order records */}
+          <section id="online-payments" className={styles.sectionCard}>
             <div className={styles.sectionHeader}>
               <span className={styles.sectionBadge}>04</span>
-              <h2 className={styles.sectionTitle}>International Shipping &amp; Customs</h2>
+              <h2 className={styles.sectionTitle}>Online Payments &amp; Order Records</h2>
             </div>
             <div className={styles.contentBody}>
               <p>
-                Customs and import duties may be applied to International orders when the shipment reaches its destination. Such charges are the responsibility of the recipient of your order and vary from country to country. Contact your local customs office for details.
+                Payment is taken on a secure checkout page operated by Shopify. Your card details are entered there and are handled by
+                Shopify&apos;s payment system; they never pass through this Website and The Queen&apos;s Corn cannot see them.
               </p>
               <p>
-                Shipping laws are different in each country. It is your responsibility to check with your Customs office to verify whether the country to which you are shipping permits the shipment of your products.
+                Your order and the contact details you give at checkout are kept in our Shopify account and used as described in our{' '}
+                <Link href="/privacy-policy">Privacy Policy</Link>. Prices shown on this Website and at checkout are in U.S. dollars.
               </p>
-              <div className={styles.disclaimerBox}>
-                <div className={styles.disclaimerHeader}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                  <span>International Shipping Notice</span>
-                </div>
-                <p>
-                  The Queen&apos;s Corn is not responsible for any direct, indirect, punitive, or consequential damages that arise from improper international shipping practices or customs rejections.
-                </p>
-              </div>
+              <p>
+                <strong>Fundraisers:</strong> when you choose a fundraising group, half of your order&apos;s merchandise total goes to that
+                group. The group is told how much was raised, not who ordered.
+              </p>
             </div>
           </section>
 
@@ -177,7 +174,8 @@ export default function TermsOfServicePage() {
             </div>
             <div className={styles.contentBody}>
               <p>
-                The Queen&apos;s Corn charges sales tax for merchandise ordered on this Website based on the applicable state sales tax rate and the specific location to which the order is being shipped.
+                Where sales tax applies, it is calculated at checkout at the rate for the place where the order is collected and is shown
+                before you pay.
               </p>
             </div>
           </section>
@@ -245,7 +243,7 @@ export default function TermsOfServicePage() {
                 The Queen&apos;s Corn reserves the right to change its payment procedures, fees, or accepted payment providers at any time without prior notice to you.
               </p>
               <p>
-                Because our kettle corn is a fresh, handcrafted artisanal food product popped in small batches, please contact us immediately upon receipt at <a href="mailto:thequeenscornaz@gmail.com" style={{ color: 'var(--primary)', fontWeight: 600 }}>thequeenscornaz@gmail.com</a> if your order arrived damaged or in unsatisfactory condition. We take pride in our product and will promptly address your concerns.
+                Because our kettle corn is a fresh, handcrafted artisanal food product popped in small batches, please contact us as soon as you collect it at <a href="mailto:thequeenscornaz@gmail.com" style={{ color: 'var(--primary)', fontWeight: 600 }}>thequeenscornaz@gmail.com</a> if your order is damaged or not as it should be. We take pride in our product and will promptly address your concerns.
               </p>
             </div>
           </section>
@@ -288,7 +286,7 @@ export default function TermsOfServicePage() {
         <div className={styles.supportCard}>
           <h2 className={styles.supportTitle}>Questions Regarding Our Terms?</h2>
           <p className={styles.supportDesc}>
-            If you have any questions or require clarification concerning our terms, shipping coverage, or wholesale orders, our team is always ready to assist you.
+            If you have any questions or require clarification concerning our terms, market pickup, or wholesale orders, our team is always ready to assist you.
           </p>
           <div className={styles.contactGrid}>
             <div className={styles.contactItem}>

@@ -2,12 +2,13 @@
 title: Website Architecture
 type: website
 owner: unassigned
-updated: 2026-10-10
+updated: 2026-10-13
 sources:
-  - package.json @ ee5b44c
-  - AGENTS.md @ ee5b44c
-  - src/app/layout.tsx @ ee5b44c
-  - src/context/CartContext.tsx @ ee5b44c
+  - package.json @ 7b5715f
+  - AGENTS.md @ 7b5715f
+  - src/app/layout.tsx @ 7b5715f
+  - src/server/ @ 7b5715f
+  - next.config.ts @ 7b5715f
 ---
 
 # Website Architecture
@@ -16,55 +17,68 @@ Repo: https://github.com/TheJobHelpers/Website-Business-QueensCorn
 
 ## Stack
 
-- **Next.js 16.2.4** (App Router, `src/` directory), **React 19.2.4**, TypeScript, ESLint 9
+- **Next.js 16.2.4** (App Router, `src/` directory), **React 19**, TypeScript, ESLint 9
 - Styling: plain **CSS Modules** + global CSS variables (no Tailwind). See [[brand-and-design-system]]
-- Icons: `lucide-react`. Fonts: Outfit (sans) + Instrument Serif (headings) via `next/font/google`
-- Hosting: Vercel (`https://the-queens-corn.vercel.app`)
-- Commerce: Shopify Storefront API, optional with local fallback. See [[shopify-integration]]
+- Icons: `lucide-react`. Fonts: Outfit + Instrument Serif via `next/font/google`
+- Hosting: Vercel. Visitor numbers: Vercel Web Analytics (`src/components/SiteAnalytics.tsx`, `/admin` not counted)
+- Saved data: Upstash Redis on Vercel, JSON files in `.data/` locally. See [[admin-portal]]
+- Commerce: Shopify (checkout, orders, products). See [[shopify-integration]]
 
-> [!warning] `AGENTS.md` warns that this Next.js version has breaking changes compared with older
-> versions. Agents must read `node_modules/next/dist/docs/` before writing code. For example, admin
-> route protection lives in `src/proxy.ts` (Next 16's replacement for `middleware.ts`).
+> [!warning] `AGENTS.md`: this Next.js version has breaking changes. Read `node_modules/next/dist/docs/`
+> before writing code. Route protection lives in `src/proxy.ts` (Next 16's replacement for `middleware.ts`).
 
 > [!note] Any UI change must follow the design system in `wiki/design-system/`. See [[brand-and-design-system]].
 
 ## Commands
 
-`npm run dev` (localhost:3000) · `npm run build` · `npm run start` · `npm run lint`
+`npm run dev` · `npm run build` · `npm run start` · `npm run lint` · `node scripts/hash-password.mjs`
 
 ## Routes
 
-| Route | File | Purpose |
-|---|---|---|
-| `/` | src/app/page.tsx | Homepage: Hero, Process, Story, FeaturedProducts, TrustBanner, Testimonials… |
-| `/shop` | src/app/shop/page.tsx | Catalog with category filter. See [[product-catalog]] |
-| `/shop/[id]` | src/app/shop/[id]/page.tsx | Product detail + size/qty (`ProductActions.tsx`) |
-| `/story` | src/app/story/page.tsx | "Meet Bob & Reina". See [[company-overview]] |
-| `/events` | src/app/events/page.tsx | Market calendar. See [[events-and-markets]] |
-| `/fundraising` | src/app/fundraising/page.tsx | 50% giveback program + calculator. See [[fundraising-program]] |
-| `/contact` | src/app/contact/page.tsx | Contact form; also the manual-order fallback |
-| `/terms-of-service` | src/app/terms-of-service/page.tsx | Terms, privacy, shipping and returns, mirroring thequeenscorn.com. `/terms`, `/terms-and-conditions` and `/privacy-policy` redirect here (`next.config.ts`) |
-| `/admin/login` | src/app/admin/login/page.tsx | Owner login. See [[admin-portal]] |
-| `/admin` | src/app/admin/page.tsx | Owner portal, protected by `src/proxy.ts`. See [[admin-portal]] |
-| `/design-system.html` | public/design-system.html | Old v2 spec, **publicly served**. To be deleted (replaced by `wiki/design-system/`) |
+| Route | Purpose |
+|---|---|
+| `/` | Homepage: Hero, TrustBanner, WaysToBuy, FeaturedProducts, UpcomingEvents, FundraisingBand, Story, QuestionsBand. See [[landing-page-structure]] |
+| `/shop` | Catalog with taste filters; size and quantity on every card. See [[product-catalog]], [[shop-page-structure]] |
+| `/shop/[id]` | Product page (old style); 404 for unknown or hidden flavors |
+| `/events` | Upcoming events with pre-order. See [[events-and-markets]] |
+| `/fundraising` | 50% giveback program. See [[fundraising-program]] |
+| `/story` | Meet Bob & Reina. See [[company-overview]] |
+| `/contact` | Contact form (opens the visitor's email app); the order fallback when Shopify is not connected |
+| `/order/thank-you` | Where shoppers land when they come back from Shopify's order confirmation |
+| `/privacy-policy` | What is collected, who handles it (`/privacy` redirects here) |
+| `/terms-of-service` | Terms (`/terms`, `/terms-and-conditions` redirect here) |
+| `/admin/login`, `/admin/*` | Owner dashboard: Overview, Orders, Sales, Events, Flavors, Fundraisers, Settings. See [[admin-portal]] |
 
-## Key code
+## How the code is laid out
 
-- `src/context/CartContext.tsx`: a single global React context for the cart, drawer, fulfillment
-  choice, fundraiser choice, **and** the admin store data (products/events/fundraisers).
-- `src/components/cart/CartDrawer.tsx`: slide-out cart with the free-shipping progress bar and checkout.
-- `src/lib/shopify.ts`: Shopify client and fallbacks.
-- `src/data/*.ts`: local fallback data for products, events and fundraisers; `src/data/db.json` is the events store.
-- `src/app/actions/`: server actions for auth, events and Shopify.
-- **Homepage v3.1** (`feature/landing-page-v3`): `Hero`, `TrustBanner`, `WaysToBuy`, `FeaturedProducts`,
-  `UpcomingEvents`, `FundraisingBand`, `Story`, `Testimonials` (hidden until real reviews), `QuestionsBand`.
-  Shared parts in `src/components/ui/` (`Button`: red / kettle / dark / ghost / light; `EventTicket`).
-- `src/lib/events.ts` (upcoming events, pickup labels, weekdays), `src/lib/shop.ts` (shared shop constants),
-  `src/lib/useHydrated.ts` (date logic only after hydration, because pages are prerendered).
-- Styling: v3.1 tokens in `src/app/globals.css` mirror `wiki/design-system/tokens.css`; the old Buttercream
-  variables stay until every page is migrated.
-- `public/`: images. Real photos are the `.jpg`/`.webp` files (e.g. `bob-reina.webp`, `reina-stirring-kettle.jpg`);
-  many `.png` images are AI-generated (list in the design system, section 07). `assests/` (sic) holds original brand files.
+- `src/server/` (server only):
+  - `auth/` sign-in, session cookie, lock-out, guards
+  - `store/` where saved data lives (Redis / files / read-only)
+  - `repositories.ts` events, flavors, fundraisers; `getSiteData()` for the public pages
+  - `validation.ts` every dashboard input
+  - `shopify.ts` reads (Storefront API), `shopify-admin.ts` writes products and photos (Admin API),
+    `shopify-orders.ts` reads orders for the Orders and Sales screens
+- `src/app/actions/`: server actions. `auth`, `events`, `products`, `fundraisers`, `settings` go through
+  `adminAction()` (session checked first); `checkout.ts` is public and re-checks everything it is sent.
+- `src/app/layout.tsx` loads the three lists once and hands them to `CartProvider`
+  (`src/context/CartContext.tsx`), which holds the shopper's bag. Nothing is kept in the browser.
+- `src/lib/`: `shop.ts` (bag sizes, `sizePrice()`, `SHIPPING_AVAILABLE`), `events.ts`, `action-result.ts`.
+- `src/data/*.ts`: the built-in lists the site shows until the owners change something.
+- `src/components/admin/`: the dashboard screens and shared form parts.
+- `next.config.ts`: security headers on every page, `/admin` never cached or indexed, redirects.
+- `public/`: images. `product-*.webp` are the bag photos; real photos of the owners and trailer are
+  `.jpg` / `.webp`; many older `.png` images are AI-generated.
+
+## Settings the site needs
+
+Names only; values are never written here. See `.env.example`.
+
+| Group | Variables |
+|---|---|
+| Dashboard sign-in | `ADMIN_EMAIL`, `ADMIN_PASSWORD` or `ADMIN_PASSWORD_HASH`, `ADMIN_SESSION_SECRET` |
+| Saved data | `KV_REST_API_URL`, `KV_REST_API_TOKEN` (Upstash Redis) |
+| Shopify checkout | `NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN`, `NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN` |
+| Shopify dashboard key | `SHOPIFY_ADMIN_ACCESS_TOKEN`, or `SHOPIFY_ADMIN_CLIENT_ID` + `SHOPIFY_ADMIN_CLIENT_SECRET` |
 
 ## Branches
 

@@ -94,13 +94,13 @@ export default async function AdminOverviewPage() {
           </span>
         </Link>
 
-        <Link href="/admin/settings" className={styles.stat}>
+        <Link href={shopifyConnected ? '/admin/orders' : '/admin/settings'} className={styles.stat}>
           <ShoppingBag size={22} aria-hidden="true" />
           <span className={styles.statLabel}>Orders</span>
           <b className={styles.statValue}>{shopifyConnected ? 'Shopify' : 'By message'}</b>
           <span className={styles.statNote}>
             {shopifyConnected
-              ? 'Orders and payments are in your Shopify admin.'
+              ? 'See what has to be made on the Orders screen. Payments and refunds are in your Shopify admin.'
               : 'Until Shopify is connected, orders arrive through the contact form.'}
           </span>
         </Link>

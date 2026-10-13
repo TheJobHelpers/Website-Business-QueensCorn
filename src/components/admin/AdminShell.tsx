@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { CalendarDays, ExternalLink, HeartHandshake, LayoutDashboard, LogOut, Popcorn, Settings } from 'lucide-react';
+import { CalendarDays, ClipboardList, ExternalLink, HeartHandshake, LayoutDashboard, LogOut, Popcorn, Settings, TrendingUp } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { logoutAction } from '@/app/actions/auth';
 import styles from './admin.module.css';
@@ -12,6 +12,8 @@ import styles from './admin.module.css';
 // phones), the screen itself on the right.
 const NAV = [
   { href: '/admin', label: 'Overview', icon: LayoutDashboard },
+  { href: '/admin/orders', label: 'Orders', icon: ClipboardList },
+  { href: '/admin/sales', label: 'Sales', icon: TrendingUp },
   { href: '/admin/events', label: 'Events', icon: CalendarDays },
   { href: '/admin/products', label: 'Flavors', icon: Popcorn },
   { href: '/admin/fundraisers', label: 'Fundraisers', icon: HeartHandshake },

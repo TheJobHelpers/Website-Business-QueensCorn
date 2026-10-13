@@ -2,10 +2,11 @@
 title: Events & Farmers' Markets
 type: business
 owner: unassigned
-updated: 2026-10-10
+updated: 2026-10-13
 sources:
   - src/data/events.ts @ ee5b44c
-  - src/lib/shopify.ts @ ee5b44c
+  - src/app/actions/events.ts @ 7b5715f
+  - src/lib/events.ts @ 7b5715f
 ---
 
 # Events & Farmers' Markets
@@ -30,9 +31,10 @@ All have pickup enabled. Source: `src/data/events.ts @ ee5b44c`.
 
 ## How events are managed
 
-- **Today (`main` @ ee5b44c):** the owners edit events in the [[admin-portal]]. Edits are saved to a
-  server-side JSON file (`src/data/db.json`) through server actions in `src/app/actions/events.ts`,
-  with the code list above as the fallback. The homepage shows them in the `UpcomingEvents` section.
-- **Problem:** on Vercel that file can't be written permanently, so edits will be lost. See [[open-questions]].
-- **Planned:** events stored as Shopify Metaobjects (type `event`, fields `month, day, year, title,
-  description, time, location, pickup_available`). See [[shopify-integration]].
+- The owners add, edit and delete events in the dashboard ([[admin-portal]]), and switch pre-order
+  pickup on or off per event ("Walk-up sales only" when off).
+- Changes are saved on the server (Redis on Vercel, files locally) and show for every visitor straight
+  away, on `/events`, the homepage band and the cart's pickup list. Finished events drop off the public
+  pages by date.
+- The list above is the built-in fallback the site shows until the owners change something.
+- Orders are grouped by event on the dashboard's Orders screen. See [[fulfillment-and-shipping]].

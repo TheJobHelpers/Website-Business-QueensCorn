@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 import type { Product } from '@/data/products';
 import { productImageFor } from '@/data/product-images';
-import { BAG_SIZES, bagPrice, formatPrice } from '@/lib/shop';
+import { BAG_SIZES, formatPrice, sizePrice } from '@/lib/shop';
 import Button from '../ui/Button';
 import styles from './ShopProductCard.module.css';
 
@@ -21,7 +21,7 @@ export default function ShopProductCard({ product, index = 0 }: { product: Produ
   const [added, setAdded] = useState(false);
 
   const size = BAG_SIZES[sizeIndex];
-  const lineTotal = bagPrice(product.price, size.multiplier) * quantity;
+  const lineTotal = sizePrice(product, size) * quantity;
   const level = Math.max(0, Math.min(5, Math.round(product.taste?.level ?? 0)));
 
   const handleAdd = () => {
@@ -71,7 +71,7 @@ export default function ShopProductCard({ product, index = 0 }: { product: Produ
                 onChange={() => setSizeIndex(i)}
               />
               <span className={styles.sizeName}>{s.label}</span>
-              <span className={styles.sizePrice}>{formatPrice(bagPrice(product.price, s.multiplier))}</span>
+              <span className={styles.sizePrice}>{formatPrice(sizePrice(product, s))}</span>
             </label>
           ))}
         </div>
