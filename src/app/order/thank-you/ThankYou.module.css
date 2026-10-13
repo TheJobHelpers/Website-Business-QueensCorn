@@ -1,0 +1,130 @@
+/* Thank-you page: design system v3.1. One centered card on the paper ground. */
+
+.page {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  padding-top: calc(var(--header-height) + var(--space-6));
+  padding-bottom: var(--space-9);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: var(--space-7) var(--space-6);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.badge {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+.eyebrow {
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.title {
+  margin: var(--space-2) 0 var(--space-3);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-h1);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+.title em {
+  color: var(--red);
+}
+
+.lede {
+  margin: 0;
+  max-width: 42ch;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--ink-soft);
+}
+
+/* What happens next: three numbered steps */
+.steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 30rem;
+  margin: var(--space-6) 0;
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--butter);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-align: left;
+}
+
+.steps li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.stepNo {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--yellow);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.help {
+  margin: var(--space-5) 0 0;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+
+.help a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .card {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+}

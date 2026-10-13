@@ -110,6 +110,23 @@ export default function SettingsPanel({ status }: { status: SettingsStatus }) {
                 {shopify.domain && ` (${shopify.domain})`}: {shopify.productCount} products, answered in {shopify.latencyMs} ms.
               </p>
             )}
+            {shopify &&
+              (shopify.issues.length === 0 ? (
+                <StatusLine ok title="Every flavor can be ordered" text="Each flavor and bag size on the website matches a product in Shopify at the same price." />
+              ) : (
+                <>
+                  <StatusLine
+                    ok={false}
+                    title={`${shopify.issues.length} thing${shopify.issues.length === 1 ? '' : 's'} to fix before shoppers can check out`}
+                    text="A bag with any of these in it cannot be paid for until it is fixed in Shopify or on the Flavors screen."
+                  />
+                  <ul className={styles.plainList}>
+                    {shopify.issues.map((issue) => (
+                      <li key={issue}>{issue}</li>
+                    ))}
+                  </ul>
+                </>
+              ))}
             <div className={styles.formActions}>
               <Button variant="dark" size="sm" disabled={pending} onClick={() => run(testShopifyConnectionAction, { onSuccess: setShopify })}>
                 Test the connection

@@ -24,14 +24,14 @@ it replaced a single 1,764-line page that kept most edits in the browser only.
 | Events | `/admin/events` | `/events`, the homepage events band, the pickup lists in the shop and cart |
 | Flavors | `/admin/products` | `/shop`, `/shop/[id]`, the homepage flavor row (name, price, photo, taste meter, "on homepage", "hidden") |
 | Fundraisers | `/admin/fundraisers` | `/fundraising` and the cart's fundraiser list |
-| Settings | `/admin/settings` | Shows where data is saved and how sign-in is protected; Shopify test/import; "restore built-in list" |
+| Settings | `/admin/settings` | Shows where data is saved and how sign-in is protected; Shopify test (lists flavors and sizes that cannot be ordered) and import; "restore built-in list" |
 
 Every change is saved on the server and shows for all visitors straight away. Nothing is kept in
 the browser any more. See [[events-and-markets]], [[product-catalog]], [[fundraising-program]].
 
 **Removed:** the old "Orders & AZ Shipping" screen. Its orders were hardcoded samples and its
-"print label" was a mock. Orders live in Shopify once it is connected; until then they arrive
-through the contact form.
+"print label" was a mock. Orders, customers and payments live in Shopify ([[shopify-integration]]);
+until a store is connected, orders arrive through the contact form.
 
 ## How the data flows
 

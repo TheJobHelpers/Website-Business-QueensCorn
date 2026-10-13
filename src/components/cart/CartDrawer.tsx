@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart, FREE_AZ_SHIPPING_THRESHOLD, SHIPPING_AVAILABLE } from '@/context/CartContext';
-import { createShopifyCheckout, isShopifyConfigured } from '@/lib/shopify';
+import { startCheckoutAction } from '@/app/actions/checkout';
 import { getUpcomingEvents } from '@/lib/events';
 import { X, Check, Truck, Calendar, Heart } from 'lucide-react';
 import styles from './CartDrawer.module.css';
@@ -15,6 +15,7 @@ const CLOSE_MS = 220;
 export default function CartDrawer() {
   const router = useRouter();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState('');
   // true while the drawer plays its closing animation, just before it unmounts
   const [isClosing, setIsClosing] = useState(false);
   const {
@@ -53,28 +54,25 @@ export default function CartDrawer() {
 
   const handleCheckout = async () => {
     setIsCheckingOut(true);
+    setCheckoutError('');
     try {
-      if (isShopifyConfigured()) {
-        const checkoutUrl = await createShopifyCheckout(
-          items.map((item) => ({
-            merchandiseId: `gid://shopify/ProductVariant/${item.product.id}`,
-            quantity: item.quantity,
-          })),
-          {
-            fulfillmentMethod,
-            pickupEventTitle:
-              fulfillmentMethod === 'pickup' ? selectedPickupEvent : undefined,
-            fundraiserCode: activeFundraiser?.code,
-            fundraiserOrganization: activeFundraiser?.organization,
-          }
-        );
+      const result = await startCheckoutAction({
+        lines: items.map((item) => ({ productId: item.product.id, size: item.size, quantity: item.quantity })),
+        fulfillmentMethod,
+        pickupEvent: fulfillmentMethod === 'pickup' ? selectedPickupEvent : '',
+        fundraiserCode: activeFundraiser?.code ?? '',
+      });
 
-        if (checkoutUrl) {
-          window.location.href = checkoutUrl;
-          return;
-        }
+      if (result.ok) {
+        window.location.href = result.url;
+        return;
+      }
+      if (result.reason === 'problem') {
+        setCheckoutError(result.error);
+        return;
       }
 
+      // No Shopify store connected yet: orders are taken by message.
       closeDrawer();
       const params = new URLSearchParams();
       params.set('subject', fulfillmentMethod === 'pickup' ? 'Market Pickup Order' : 'Arizona Shipping Order');
@@ -82,6 +80,8 @@ export default function CartDrawer() {
         params.set('fundraiser', activeFundraiser.code);
       }
       router.push(`/contact?${params.toString()}`);
+    } catch {
+      setCheckoutError('Checkout is not available right now. Please try again in a moment.');
     } finally {
       setIsCheckingOut(false);
     }
@@ -296,6 +296,12 @@ export default function CartDrawer() {
                 <span className={styles.subtotal}>${subtotal.toFixed(2)}</span>
               </div>
 
+              {checkoutError && (
+                <p className={styles.checkoutError} role="alert">
+                  {checkoutError}
+                </p>
+              )}
+
               <button
                 type="button"
                 onClick={handleCheckout}
@@ -303,7 +309,7 @@ export default function CartDrawer() {
                 className={`${styles.checkoutBtn} shimmer-btn`}
               >
                 {isCheckingOut
-                  ? 'Preparing Shopify Checkout...'
+                  ? 'Preparing checkout...'
                   : 'Proceed to Checkout →'}
               </button>
             </div>
