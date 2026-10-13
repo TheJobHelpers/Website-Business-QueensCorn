@@ -62,6 +62,12 @@ export default async function AdminOrdersPage() {
 
       {testOnly && <p className={styles.cardNote}>Only test orders so far. They are shown here so you can try the screen; real orders will replace them.</p>}
       {result.truncated && <p className={styles.cardNote}>Showing the newest 500 orders of the last 60 days.</p>}
+      {!result.names && (
+        <p className={styles.cardNote}>
+          Customer names are not shown: Shopify does not share them with the dashboard app yet. In the Shopify developer dashboard, open the app&apos;s
+          protected customer data settings and select the &quot;Name&quot; field.
+        </p>
+      )}
 
       <div className={styles.stats}>
         <div className={`${styles.stat} ${styles.statPlain}`}>
@@ -111,7 +117,7 @@ export default async function AdminOrdersPage() {
                 <li key={order.id} className={styles.row}>
                   <div className={styles.rowMain}>
                     <h3 className={styles.rowTitle}>
-                      {order.name}
+                      {order.customerName ? `${order.customerName} · ${order.name}` : order.name}
                       {order.test && <span className={`${styles.tag} ${styles.tagMuted}`}>Test</span>}
                       {!order.paid && <span className={styles.tag}>Not paid</span>}
                       {order.fundraiserCode && <span className={styles.tag}>Fundraiser: {order.fundraiserGroup || order.fundraiserCode}</span>}

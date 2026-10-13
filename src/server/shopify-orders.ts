@@ -4,7 +4,8 @@ import { shopifyDomain } from './shopify';
 import { ValidationError } from './validation';
 
 // Orders, read live from Shopify for the dashboard's Sales and Orders screens. Nothing is stored
-// on the website, and no customer details are asked for: only totals, items and the notes the
+// on the website. The only customer detail asked for is the name on the order, so the owners know
+// who to hand it to; no email, phone or address. The rest is totals, items and the notes the
 // website attached at checkout (pickup market, fundraiser).
 
 /** The owners' clock: Arizona does not change its clocks, so this is the same all year. */
@@ -33,6 +34,8 @@ export interface ShopOrder {
   paid: boolean;
   /** handed over (fulfilled in Shopify) */
   done: boolean;
+  /** who collects it: the name given at checkout ('' if Shopify does not share it) */
+  customerName: string;
   pickupMarket: string;
   fundraiserCode: string;
   fundraiserGroup: string;
@@ -40,7 +43,7 @@ export interface ShopOrder {
 }
 
 export type OrdersResult =
-  | { ok: true; orders: ShopOrder[]; truncated: boolean }
+  | { ok: true; orders: ShopOrder[]; truncated: boolean; /** false when Shopify does not share customer names with the app */ names: boolean }
   | { ok: false; reason: 'not-connected' | 'no-permission' | 'error'; message: string };
 
 interface OrderNode {
@@ -54,12 +57,14 @@ interface OrderNode {
   displayFulfillmentStatus: string | null;
   currentTotalPriceSet: { shopMoney: { amount: string } };
   customAttributes: { key: string; value: string | null }[];
+  billingAddress?: { name: string | null } | null;
+  shippingAddress?: { name: string | null } | null;
   lineItems: {
     nodes: { title: string; variantTitle: string | null; currentQuantity: number; originalUnitPriceSet: { shopMoney: { amount: string } } }[];
   };
 }
 
-const ORDERS = `
+const ordersQuery = (withNames: boolean) => `
   query Orders($query: String!, $after: String) {
     orders(first: 100, after: $after, sortKey: CREATED_AT, reverse: true, query: $query) {
       pageInfo { hasNextPage endCursor }
@@ -68,6 +73,7 @@ const ORDERS = `
         displayFinancialStatus displayFulfillmentStatus
         currentTotalPriceSet { shopMoney { amount } }
         customAttributes { key value }
+        ${withNames ? 'billingAddress { name } shippingAddress { name }' : ''}
         lineItems(first: 50) { nodes { title variantTitle currentQuantity originalUnitPriceSet { shopMoney { amount } } } }
       }
     }
@@ -87,6 +93,7 @@ function toOrder(node: OrderNode, store: string): ShopOrder {
     cancelled: node.cancelledAt !== null,
     paid: PAID.has(node.displayFinancialStatus ?? ''),
     done: node.displayFulfillmentStatus === 'FULFILLED',
+    customerName: (node.shippingAddress?.name ?? node.billingAddress?.name ?? '').trim(),
     pickupMarket: note('Pickup_Market_Event'),
     fundraiserCode: note('Fundraiser_Code'),
     fundraiserGroup: note('Fundraiser_50_Percent_Giveback'),
@@ -109,21 +116,29 @@ export async function fetchRecentOrders(now: number): Promise<OrdersResult> {
   try {
     const store = shopifyDomain().replace(/\.myshopify\.com$/i, '');
     const since = new Date(now - DAYS_BACK * 86400000).toISOString().slice(0, 10);
+    type Page = { orders: { pageInfo: { hasNextPage: boolean; endCursor: string | null }; nodes: OrderNode[] } };
     const orders: ShopOrder[] = [];
     let after: string | null = null;
     let truncated = false;
+    let names = true;
 
     for (let page = 0; page < MAX_PAGES; page += 1) {
-      const data: { orders: { pageInfo: { hasNextPage: boolean; endCursor: string | null }; nodes: OrderNode[] } } = await adminQuery(
-        ORDERS,
-        { query: `created_at:>=${since}`, after }
-      );
+      const variables = { query: `created_at:>=${since}`, after };
+      let data: Page;
+      try {
+        data = await adminQuery<Page>(ordersQuery(names), variables);
+      } catch (err) {
+        // the app may read orders but not the "Name" field: carry on without names
+        if (!(names && err instanceof ValidationError && /customer names/i.test(err.fieldErrors.form ?? ''))) throw err;
+        names = false;
+        data = await adminQuery<Page>(ordersQuery(false), variables);
+      }
       orders.push(...data.orders.nodes.map((node) => toOrder(node, store)));
       if (!data.orders.pageInfo.hasNextPage) break;
       after = data.orders.pageInfo.endCursor;
       truncated = page === MAX_PAGES - 1;
     }
-    return { ok: true, orders, truncated };
+    return { ok: true, orders, truncated, names };
   } catch (err) {
     const reason = err instanceof ValidationError ? (err.fieldErrors.form ?? '') : '';
     if (/protected customer data/i.test(reason)) {

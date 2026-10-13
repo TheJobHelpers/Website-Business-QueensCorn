@@ -129,8 +129,9 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
         </p>
         <p>
           This website does not keep its own copy of your order or your contact details. The owners&apos; dashboard on this website reads
-          order numbers, items, totals, pickup markets and fundraiser choices from Shopify so that orders can be prepared; it does not read
-          or store customer names, addresses, phone numbers or email addresses.
+          the name on each order, its number, items, total, pickup market and fundraiser choice from Shopify, so that orders can be
+          prepared and handed to the right person. It does not read your address, phone number or email address, and it stores none of
+          this.
         </p>
         <p>
           We keep order records for as long as tax and bookkeeping rules require, and messages for as long as they are needed to help you.

@@ -75,11 +75,13 @@ export async function adminQuery<T>(query: string, variables: Record<string, unk
     console.error('Shopify Admin API error:', json.errors);
     const said = (pattern: RegExp) => json.errors?.some((e) => pattern.test(e.message ?? '')) ?? false;
     throw new ValidationError({
-      form: said(/not approved to access/i)
-        ? 'Shopify has not approved the dashboard app for protected customer data yet.'
-        : said(/access denied|scope/i)
-          ? 'The dashboard key is missing a permission in Shopify.'
-          : 'Shopify rejected the change. Nothing was saved.',
+      form: said(/not approved to use the name field/i)
+        ? 'Shopify does not share customer names with the dashboard app.'
+        : said(/not approved to access/i)
+          ? 'Shopify has not approved the dashboard app for protected customer data yet.'
+          : said(/access denied|scope/i)
+            ? 'The dashboard key is missing a permission in Shopify.'
+            : 'Shopify rejected the change. Nothing was saved.',
     });
   }
   return json.data;
