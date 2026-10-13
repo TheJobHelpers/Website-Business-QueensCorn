@@ -1,15 +1,19 @@
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import ProductCard from '@/components/ProductCard';
-import { ALL_PRODUCTS } from '@/data/products';
+import { getSiteData } from '@/server/repositories';
 import { Check } from 'lucide-react';
 import ProductActions from './ProductActions';
 import styles from './ProductDetail.module.css';
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const product = ALL_PRODUCTS.find(p => p.id === id) || ALL_PRODUCTS[0];
-  const relatedProducts = ALL_PRODUCTS.filter(p => p.id !== product.id).slice(0, 3);
+  // The saved catalog (edited in the admin dashboard); hidden flavors are not in it.
+  const { products } = await getSiteData();
+  const product = products.find((p) => p.id === id);
+  if (!product) notFound();
+  const relatedProducts = products.filter((p) => p.id !== product.id).slice(0, 3);
 
   return (
     <main className={styles.page}>

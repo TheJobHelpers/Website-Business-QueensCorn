@@ -2,7 +2,7 @@
 title: Open Questions
 type: overview
 owner: unassigned
-updated: 2026-10-10
+updated: 2026-10-13
 ---
 
 # Open Questions
@@ -32,15 +32,23 @@ with the answer and source, and update the related page.
     See [[landing-page-structure]]
 
 ## Website: technical
-7. **Shopify:** does a store exist, and are the env vars set in Vercel? See [[shopify-integration]]
-8. **Checkout variant ids:** the cart sends local/product ids as `ProductVariant` ids, and sizes aren't
-   mapped to variants. Real checkout will likely fail. See [[shopify-integration]]
-9. **Fundraiser code as a discount code:** do matching discount codes exist in Shopify, and should the
-   customer get a discount, or is this only for attribution? See [[fundraising-program]]
-10. **Admin security & storage (now live on `main`):** are `ADMIN_EMAIL`, `ADMIN_PASSWORD` and
-    `ADMIN_SESSION_SECRET` set in Vercel? If not, the hardcoded fallbacks are active. Event edits go to
-    `src/data/db.json`, which won't persist on Vercel; fundraiser and product edits are localStorage only.
+7. **Shopify store for the owners:** a development store is connected for testing, but the owners' real
+   store does not exist yet. They create it (their email, Basic plan, Shopify Payments), then approve a
+   collaborator request. See [[shopify-integration]]
+10. **Live admin settings:** `ADMIN_EMAIL`, `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET` must be set in Vercel
+    with new values, and an Upstash Redis database added, or the live dashboard cannot sign in or save.
     See [[admin-portal]]
+16. **Hosting plan:** Vercel's free plan does not allow commercial use; a business site needs Pro. Who pays,
+    and under whose account?
+17. **Live domain:** what is the website's final address? It goes into the Shopify theme redirect and
+    `metadataBase`. See [[shopify-integration]]
+18. **Test order:** a completed test payment, the pickup market on the order and the return to
+    `/order/thank-you` are not confirmed yet. See [[shopify-integration]]
+19. **Pickup-only checkout:** Shopify still asks for a shipping address until Local pickup is switched on
+    and shipping rates are removed. See [[fulfillment-and-shipping]]
 
 ## Resolved
-_(none yet)_
+- **8. Checkout variant ids** (2026-10-13): checkout now runs on the server and matches flavor name + `Size`
+  to the Shopify variant. See [[shopify-integration]]
+- **9. Fundraiser code as a discount code** (2026-10-13): no longer sent as a discount code; it is recorded
+  on the order for attribution only. See [[shopify-integration]]

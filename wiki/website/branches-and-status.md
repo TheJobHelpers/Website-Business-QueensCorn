@@ -2,7 +2,7 @@
 title: Branches & Project Status
 type: website
 owner: unassigned
-updated: 2026-10-10
+updated: 2026-10-13
 sources:
   - git log origin/main @ ee5b44c
   - gh pr list (PR #1, PR #2)
@@ -31,29 +31,43 @@ Timeline:
 
 | Branch | What | State |
 |---|---|---|
-| `docs/design-system-v3` → **PR #3** | Design system v3.1 "Warm Canopy" (`wiki/design-system/`), homepage blueprint, wiki sync, design rules in `AGENTS.md`/`CLAUDE.md` | Open. Docs only: no code changes vs `main` |
-| `feature/landing-page-v3` | **New homepage built** in v3.1 + responsive layout + shop blueprint | Pushed, no PR yet. Builds and lints clean (2 lint errors already on `main`, untouched) |
+| `feature/admin-dashboard` → **PR #6** | Owner dashboard rebuild, server-side storage, sign-in hardening, Shopify checkout with size variants, `/order/thank-you` | Open |
 
-## Plan (updated 2026-10-10)
+Merged since the snapshot above: PR #3 (design system v3.1), PR #4 (v3.1 site redesign, pickup-only
+ordering, 10-flavor catalog), PR #5 (branded product photos).
 
-Design direction: **v3.1 "Warm Canopy"** ([[design-palette-decision]]): today's cream, Instrument Serif
-and Outfit, with the brand's red and canopy yellow as accents and the espresso-brown hero shade.
+## Plan to go live (updated 2026-10-13)
 
 **Done**
-- Design system v3.1 + homepage blueprint (PR #3).
-- Homepage rebuilt per the blueprint ([[landing-page-structure]]): food hero, floating trust strip, three
-  ways to buy, flavors with sizes up front, dark markets band, fundraising slider, one story section,
-  reviews hidden until real, questions band, admin links removed from the footer.
-- Responsive from 360px phones to 3440px monitors: hero fills the screen, sizes follow width *and* height,
-  orphan-free grids.
-- Shop page designed ([[shop-page-structure]]), compact header revision.
+- Site redesigned in v3.1 on every public page except product detail and Terms.
+- Owner dashboard: events, flavors and fundraisers saved on the server and shown to every visitor. See [[admin-portal]].
+- Shopify checkout wired and tested against a development store. See [[shopify-integration]].
 
-**Next**
-1. **Urgent, separate from design:** set `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` in Vercel
-   (hardcoded fallbacks are live). See [[admin-portal]].
-2. Owner sign-off on v3.1, the homepage and the shop design; collect real bag photos and 3 real reviews.
-3. Build the shop page per `wiki/design-system/shop-page-blueprint.html`.
-4. Open a PR for `feature/landing-page-v3` with before/after screenshots; merge PR #3 first.
-5. Then migrate the remaining pages (product, events, fundraising, story, contact, admin last) to v3.1 tokens;
-   delete `public/design-system.html`; remove the old Buttercream variables from `globals.css`.
-6. Later: Shopify checkout with size variants, persistent store for events/fundraisers. See [[open-questions]].
+**1. Finish testing (developer)**
+1. Complete one test order on the development store; confirm the pickup market shows on the order and
+   "Continue shopping" returns to `/order/thank-you`.
+2. Switch on Local pickup in Shopify and confirm checkout no longer asks for a shipping address.
+3. Merge PR #6.
+
+**2. Hosting (developer, with the owners' go-ahead on cost)**
+1. Vercel Pro (the free plan does not allow commercial use).
+2. In Vercel: new `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`; add an Upstash Redis database.
+3. Sign in to the live dashboard, save one test event, check it shows on `/events`, delete it.
+
+**3. Shopify (owners first, then developer)**
+1. Owners: create the store in their name, choose a plan, switch on Shopify Payments with their bank details.
+2. Owners: approve the developer's collaborator request.
+3. Developer: the setup checklist in [[shopify-integration]] (10 flavors with sizes, Headless channel,
+   theme redirect, Local pickup, remove the store password).
+4. Developer: set the two Shopify variables in Vercel; run "Test the connection" in the dashboard until it
+   reports nothing to fix.
+5. One real order for a small bag, then refund it.
+
+**4. Content to settle before launch** ([[open-questions]])
+- Real prices, flavor descriptions and taste levels; whether the sample fundraisers are real
+- Real social links in the footer; Terms of Service still describes shipping
+- Product detail page and Terms are still in the old style
+- Contact form opens the visitor's email app: decide whether a real mail service is needed
+
+**Later**
+- Shipping (`SHIPPING_AVAILABLE` in `src/lib/shop.ts`), photo upload from the dashboard, real reviews.

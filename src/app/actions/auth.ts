@@ -1,65 +1,52 @@
 'use server';
 
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { validateCredentials, setAdminSession, clearAdminSession, getCurrentAdminUser } from '@/lib/auth';
+import { getAdminConfig } from '@/server/auth/config';
+import { verifyCredentials } from '@/server/auth/credentials';
+import { endAdminSession, startAdminSession } from '@/server/auth/guard';
+import { clearLoginFailures, loginLockMinutes, recordLoginFailure } from '@/server/auth/rate-limit';
 
-export interface AuthState {
-  success: boolean;
+export interface LoginState {
   error?: string;
 }
 
-/**
- * Server action to handle admin login submission.
- */
-export async function loginAction(
-  prevState: AuthState | null,
-  formData: FormData
-): Promise<AuthState> {
-  const email = (formData.get('email') as string) || '';
-  const password = (formData.get('password') as string) || '';
+const pause = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  if (!email.trim() || !password.trim()) {
-    return {
-      success: false,
-      error: 'Please enter both email and password.',
-    };
-  }
-
-  const { valid, user } = validateCredentials(email, password);
-
-  if (!valid || !user) {
-    return {
-      success: false,
-      error: 'Invalid email or password. Please check your credentials.',
-    };
-  }
-
-  await setAdminSession(user);
-
-  return {
-    success: true,
-  };
+async function clientAddress(): Promise<string> {
+  const h = await headers();
+  return h.get('x-forwarded-for')?.split(',')[0]?.trim() || h.get('x-real-ip') || 'unknown';
 }
 
-/**
- * Server action to log out of the admin portal.
- */
+/** Sign in. One message for every kind of wrong answer, so nothing leaks about which part was wrong. */
+export async function loginAction(_previous: LoginState, formData: FormData): Promise<LoginState> {
+  const email = String(formData.get('email') ?? '').slice(0, 200);
+  const password = String(formData.get('password') ?? '').slice(0, 200);
+  const address = await clientAddress();
+
+  const locked = loginLockMinutes(address);
+  if (locked > 0) {
+    return { error: `Too many attempts. Try again in ${locked} minute${locked === 1 ? '' : 's'}.` };
+  }
+
+  const result = getAdminConfig();
+  if (!result.ok) {
+    console.error('Admin sign-in is switched off:', result.problems.join(' '));
+    return { error: 'Sign-in is not set up on this server yet. Ask whoever manages the website.' };
+  }
+
+  if (!email || !password || !verifyCredentials(email, password, result.config)) {
+    recordLoginFailure(address);
+    await pause(400);
+    return { error: 'That email and password do not match.' };
+  }
+
+  clearLoginFailures(address);
+  await startAdminSession(result.config.email, result.config.sessionSecret);
+  redirect('/admin');
+}
+
 export async function logoutAction(): Promise<void> {
-  await clearAdminSession();
+  await endAdminSession();
   redirect('/admin/login');
-}
-
-/**
- * Server action to check session status.
- */
-export async function checkAdminSessionAction(): Promise<{ authenticated: boolean; email?: string; name?: string }> {
-  const user = await getCurrentAdminUser();
-  if (!user) {
-    return { authenticated: false };
-  }
-  return {
-    authenticated: true,
-    email: user.email,
-    name: user.name,
-  };
 }

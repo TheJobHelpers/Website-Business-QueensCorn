@@ -402,6 +402,13 @@
   color: var(--primary);
 }
 
+.checkoutError {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #b91c1c;
+  font-weight: 500;
+}
+
 .checkoutBtn {
   display: block;
   width: 100%;

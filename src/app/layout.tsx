@@ -45,12 +45,16 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/cart/CartDrawer";
+import { getSiteData } from "@/server/repositories";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Flavors, events and fundraisers: the built-in lists until the owners change them in /admin.
+  const { products, events, fundraisers } = await getSiteData();
+
   return (
     <html lang="en" className={`${outfit.variable} ${instrumentSerif.variable}`} suppressHydrationWarning>
       <body style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -58,7 +62,7 @@ export default function RootLayout({
         <noscript>
           <style>{`.reveal { opacity: 1 !important; transform: none !important; }`}</style>
         </noscript>
-        <CartProvider>
+        <CartProvider products={products} events={events} fundraisers={fundraisers}>
           <div className="grain-overlay"></div>
           <div className="scroll-progress" aria-hidden="true"></div>
           <Navbar />

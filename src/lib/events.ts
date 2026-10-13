@@ -23,6 +23,16 @@ export function getUpcomingEvents(events: EventItem[], now: Date = new Date()): 
     .map(({ event }) => event);
 }
 
+/** An event's first and last day as "2026-10-17" strings (for the admin's date fields). */
+export function eventDateRange(event: EventItem): { start: string; end: string } {
+  const month = MONTHS.indexOf(event.month.trim().slice(0, 3).toLowerCase());
+  const days = event.day.split(/[-–]/).map((d) => parseInt(d, 10)).filter((d) => !Number.isNaN(d));
+  const year = parseInt(event.year, 10);
+  if (month < 0 || days.length === 0 || Number.isNaN(year)) return { start: '', end: '' };
+  const iso = (day: number) => `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  return { start: iso(days[0]), end: days.length > 1 ? iso(days[days.length - 1]) : '' };
+}
+
 /** Same label format the cart uses for pickup (see CartContext selectedPickupEvent). */
 export function pickupLabel(event: EventItem): string {
   return `${event.title} (${event.month} ${event.day})`;

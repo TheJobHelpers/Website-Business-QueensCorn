@@ -328,6 +328,11 @@ button {
   display: none;
 }
 
+/* the owner dashboard is a tool: no reading-progress bar there */
+body:has([data-admin]) .scroll-progress {
+  display: none !important;
+}
+
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .scroll-progress {

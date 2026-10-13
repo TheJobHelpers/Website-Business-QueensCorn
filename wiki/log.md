@@ -3,6 +3,22 @@
 Append-only history, **newest first**. Format and types are defined in [CLAUDE.md](CLAUDE.md).
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
+## 2026-10-13 | ingest | Manula
+- Shopify checkout rebuilt on `feature/admin-dashboard` (PR #6): runs on the server, matches flavor name +
+  `Size` to the Shopify variant, refuses missing / sold-out / differently priced bags with a message in the cart
+- Dashboard "Test the connection" now lists what cannot be ordered; new `/order/thank-you` page; `src/lib/shopify.ts` removed
+- Tested against a development store (`the-queens-popcorn.myshopify.com`); a completed payment is not confirmed yet
+- Rewrote [[shopify-integration]]; updated [[branches-and-status]] (plan to go live), [[open-questions]]
+  (8 and 9 resolved; 16–19 added), [[admin-portal]]
+
+## 2026-10-13 | ingest | Manula
+- Admin dashboard rebuilt on `feature/admin-dashboard`: five screens under `/admin`, server-side storage
+  (`src/server/`), events / flavors / fundraisers now drive the public pages for every visitor
+- Security: built-in credentials and the demo login removed, every save checked on the server, input
+  validation, lock-out after wrong passwords, security headers
+- Rewrote [[admin-portal]]. Still to sync: [[website-architecture]], [[branches-and-status]], [[open-questions]]
+  (connect a Redis database in Vercel; set new sign-in variables)
+
 ## 2026-10-12 | restructure | Manula
 - Motion tokens added to `design-system/tokens.css` (`--dur-slow`, `--stagger`), mirrored in `src/app/globals.css`
 - Code on `feature/landing-page-v3` moved ahead of the wiki pages; **these pages now need a sync**:

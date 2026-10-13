@@ -1,68 +1,32 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { EventItem } from '@/data/events';
-import {
-  getDbEvents,
-  addDbEvent,
-  deleteDbEvent,
-  toggleDbEventPickup,
-  resetDbEvents,
-} from '@/lib/db';
+import type { EventItem } from '@/data/events';
+import type { ActionResult } from '@/lib/action-result';
+import { adminAction, publishSiteData } from '@/server/admin-action';
+import { events } from '@/server/repositories';
+import { parseEventInput, parseId } from '@/server/validation';
 
-export async function fetchServerEvents(): Promise<EventItem[]> {
-  try {
-    return await getDbEvents();
-  } catch (err) {
-    console.error('Failed to fetch events from server DB:', err);
-    return [];
-  }
+/** Add an event (id = null) or change one. */
+export async function saveEventAction(id: string | null, input: unknown): Promise<ActionResult<EventItem>> {
+  return adminAction(async () => {
+    const data = parseEventInput(input);
+    const saved = id === null ? await events.create(data) : await events.update(parseId(id), (previous) => ({ ...data, id: previous.id }));
+    publishSiteData();
+    return saved;
+  }, id === null ? 'Event added. It is live on the site.' : 'Event updated.');
 }
 
-export async function addServerEvent(event: Omit<EventItem, 'id'>): Promise<EventItem | null> {
-  try {
-    const res = await addDbEvent(event);
-    revalidatePath('/');
-    revalidatePath('/events');
-    return res;
-  } catch (err) {
-    console.error('Failed to add event to server DB:', err);
-    return null;
-  }
+export async function setEventPickupAction(id: string, pickupAvailable: boolean): Promise<ActionResult<EventItem>> {
+  return adminAction(async () => {
+    const saved = await events.update(parseId(id), (event) => ({ ...event, pickupAvailable: pickupAvailable === true }));
+    publishSiteData();
+    return saved;
+  }, pickupAvailable ? 'Pre-order pickup is on for this event.' : 'Pre-order pickup is off for this event.');
 }
 
-export async function deleteServerEvent(id: string): Promise<boolean> {
-  try {
-    const res = await deleteDbEvent(id);
-    revalidatePath('/');
-    revalidatePath('/events');
-    return res;
-  } catch (err) {
-    console.error('Failed to delete event from server DB:', err);
-    return false;
-  }
-}
-
-export async function toggleServerEventPickup(id: string): Promise<boolean> {
-  try {
-    const res = await toggleDbEventPickup(id);
-    revalidatePath('/');
-    revalidatePath('/events');
-    return res;
-  } catch (err) {
-    console.error('Failed to toggle event pickup on server DB:', err);
-    return false;
-  }
-}
-
-export async function resetServerEvents(): Promise<EventItem[]> {
-  try {
-    const res = await resetDbEvents();
-    revalidatePath('/');
-    revalidatePath('/events');
-    return res;
-  } catch (err) {
-    console.error('Failed to reset server DB events:', err);
-    return [];
-  }
+export async function deleteEventAction(id: string): Promise<ActionResult> {
+  return adminAction(async () => {
+    await events.remove(parseId(id));
+    publishSiteData();
+  }, 'Event deleted.');
 }
