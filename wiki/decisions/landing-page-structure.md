@@ -61,9 +61,19 @@ Merged in PR #4, with two changes to the plan above:
   ([[fulfillment-and-shipping]]).
 
 Review of the live page (developer, 2026-10-13): about 7/10.
-- The hero reads as a near-black panel: the dark overlay almost hides the photo, and the hero photos
-  are only 830px wide. No food is visible on the first screen.
+- An earlier note here said the hero read as a near-black panel. **That was wrong:** it came from
+  screenshots of a browser tab that was in the background. A proper render shows the photo clearly.
+- The hero shade was still heavy at the edges (88% dark), and the hero photos are small (830px wide,
+  so they look soft on large screens). No bag of popcorn is visible on the first screen.
 - Reviews are still hidden (no real ones yet); footer social links go nowhere; the hero's chip row
   shows six of the ten flavors.
-- Suggested order: lighten the overlay, larger hero photos, three real reviews, real social links.
-  See [[open-questions]].
+
+Changed the same day:
+- Hero shade lightened: darkest behind the copy and under the navigation, lighter towards the edges
+  (`.shade` in `src/components/Hero.module.css`).
+- Section order: **flavors now come straight after the trust strip**, before "How to get your corn",
+  so popcorn is the first thing below the hero (`src/app/page.tsx`). This swaps sections 3 and 4 of the
+  decision above.
+
+Still suggested: larger hero photos (2,000px or more), three real reviews, real social links.
+See [[open-questions]].

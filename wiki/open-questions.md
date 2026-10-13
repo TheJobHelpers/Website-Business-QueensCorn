@@ -56,8 +56,8 @@ with the answer and source, and update the related page.
     are DoorDash / Uber Eats an option. See [[fulfillment-and-shipping]]
 23. **Order cut-off:** how late before a market can someone pre-order, and is there a limit per market?
     Today orders are accepted until the event ends.
-24. **Hero:** the overlay hides the photo and the hero photos are small (830px). Lighten it and get larger
-    photos? See [[landing-page-structure]]
+24. **Hero photos:** the three hero photos are small (830px wide) and look soft on large screens. Can the
+    owners supply larger ones (2,000px or more), ideally one close-up of popcorn? See [[landing-page-structure]]
 25. **Shopify secret:** the development app's client secret was pasted into a chat on 2026-10-13. Rotate it
     in the Shopify developer dashboard before the approach is used on a real store.
 26. **Developer–owner data agreement:** Shopify's data protection form asks whether the app's developer has

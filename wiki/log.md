@@ -3,6 +3,11 @@
 Append-only history, **newest first**. Format and types are defined in [CLAUDE.md](CLAUDE.md).
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
+## 2026-10-13 | ingest | Manula
+- Homepage: hero shade lightened so the photo shows more; flavors moved above "How to get your corn"
+- Corrected [[landing-page-structure]]: the "hero looks near-black" note was a screenshot artifact, not the real page
+- Updated [[open-questions]] (24 reworded)
+
 ## 2026-10-13 | sync @ 7b5715f | Manula
 - Brought the pages that were behind the code up to date with `feature/admin-dashboard` (PR #6)
 - Rewrote: [[fulfillment-and-shipping]] (pickup only today, delivery options compared, USPS plan),
