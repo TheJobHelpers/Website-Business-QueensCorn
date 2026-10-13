@@ -3,6 +3,14 @@
 Append-only history, **newest first**. Format and types are defined in [CLAUDE.md](CLAUDE.md).
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
+## 2026-10-13 | ingest | Manula
+- Admin dashboard rebuilt on `feature/admin-dashboard`: five screens under `/admin`, server-side storage
+  (`src/server/`), events / flavors / fundraisers now drive the public pages for every visitor
+- Security: built-in credentials and the demo login removed, every save checked on the server, input
+  validation, lock-out after wrong passwords, security headers
+- Rewrote [[admin-portal]]. Still to sync: [[website-architecture]], [[branches-and-status]], [[open-questions]]
+  (connect a Redis database in Vercel; set new sign-in variables)
+
 ## 2026-10-12 | restructure | Manula
 - Motion tokens added to `design-system/tokens.css` (`--dur-slow`, `--stagger`), mirrored in `src/app/globals.css`
 - Code on `feature/landing-page-v3` moved ahead of the wiki pages; **these pages now need a sync**:

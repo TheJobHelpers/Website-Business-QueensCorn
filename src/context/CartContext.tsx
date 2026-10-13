@@ -1,18 +1,11 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { ALL_PRODUCTS, Product } from '@/data/products';
-import { UPCOMING_EVENTS, EventItem } from '@/data/events';
-import { ACTIVE_FUNDRAISERS, FundraiserCampaign } from '@/data/fundraisers';
+import { createContext, useContext, useState, ReactNode } from 'react';
+import type { Product } from '@/data/products';
+import type { EventItem } from '@/data/events';
+import type { FundraiserCampaign } from '@/data/fundraisers';
 import { SHIPPING_AVAILABLE } from '@/lib/shop';
 import { getUpcomingEvents, pickupLabel } from '@/lib/events';
-import {
-  fetchServerEvents,
-  addServerEvent,
-  deleteServerEvent,
-  toggleServerEventPickup,
-  resetServerEvents,
-} from '@/app/actions/events';
 
 export interface CartItem {
   product: Product;
@@ -33,6 +26,7 @@ interface CartContextType {
   /** true once the shopper has picked a market themselves */
   pickupChosen: boolean;
   selectedFundraiserCode: string;
+  /** Site data, loaded on the server (src/app/layout.tsx) and edited in the admin dashboard. */
   products: Product[];
   events: EventItem[];
   fundraisers: FundraiserCampaign[];
@@ -47,16 +41,6 @@ interface CartContextType {
   updateQuantity: (productId: string, size: string, delta: number) => void;
   removeItem: (productId: string, size: string) => void;
   clearCart: () => void;
-  // Admin Portal Actions
-  addEvent: (event: Omit<EventItem, 'id'>) => void;
-  deleteEvent: (id: string) => void;
-  toggleEventPickup: (id: string) => void;
-  addFundraiser: (campaign: Omit<FundraiserCampaign, 'id'>) => void;
-  updateFundraiserRaised: (id: string, newAmount: number) => void;
-  deleteFundraiser: (id: string) => void;
-  updateProductPrice: (id: string, newPrice: string) => void;
-  syncProducts: (newProducts: Product[]) => void;
-  resetStoreData: () => void;
 }
 
 const SIZE_PRICES: Record<string, number> = {
@@ -67,54 +51,26 @@ const SIZE_PRICES: Record<string, number> = {
 
 export { FREE_AZ_SHIPPING_THRESHOLD, SHIPPING_AVAILABLE } from '@/lib/shop';
 
-const STORAGE_KEYS = {
-  // v2: new flavor list (2026-10-12); a catalog saved under v1 would bring the old flavors back
-  PRODUCTS: 'queens_corn_products_v2',
-  EVENTS: 'queens_corn_events_v1',
-  FUNDRAISERS: 'queens_corn_fundraisers_v1',
-};
-
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export function CartProvider({ children }: { children: ReactNode }) {
+interface CartProviderProps {
+  children: ReactNode;
+  products: Product[];
+  events: EventItem[];
+  fundraisers: FundraiserCampaign[];
+}
+
+// Holds the shopper's bag and choices. The catalog, events and fundraisers come in as props from
+// the server, so every visitor sees what the owners last saved (nothing is kept in the browser).
+export function CartProvider({ children, products, events, fundraisers }: CartProviderProps) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [fulfillmentMethod, setFulfillmentMethod] = useState<FulfillmentMethod>(
     SHIPPING_AVAILABLE ? 'shipping' : 'pickup'
   );
-  const [products, setProducts] = useState<Product[]>(ALL_PRODUCTS);
-  const [events, setEvents] = useState<EventItem[]>(UPCOMING_EVENTS);
-  const [fundraisers, setFundraisers] = useState<FundraiserCampaign[]>(ACTIVE_FUNDRAISERS);
   // The market the shopper picked themselves ('' until they pick one).
   const [chosenPickupEvent, setSelectedPickupEvent] = useState<string>('');
   const [selectedFundraiserCode, setSelectedFundraiserCode] = useState<string>('');
-
-  // Hydrate owner-edited store data from localStorage and sync latest events from server DB
-  useEffect(() => {
-    try {
-      const savedProducts = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
-      const savedEvents = localStorage.getItem(STORAGE_KEYS.EVENTS);
-      const savedFundraisers = localStorage.getItem(STORAGE_KEYS.FUNDRAISERS);
-
-      if (savedProducts) setProducts(JSON.parse(savedProducts));
-      if (savedEvents) setEvents(JSON.parse(savedEvents));
-      if (savedFundraisers) setFundraisers(JSON.parse(savedFundraisers));
-    } catch {
-      // Ignore storage errors
-    }
-
-    // Always fetch latest synced events from server database
-    fetchServerEvents().then((serverEvents) => {
-      if (serverEvents && serverEvents.length > 0) {
-        setEvents(serverEvents);
-        try {
-          localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(serverEvents));
-        } catch {
-          // Ignore storage errors
-        }
-      }
-    }).catch(() => {});
-  }, []);
 
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
@@ -170,105 +126,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = () => setItems([]);
 
-  // Admin Portal Actions
-  const addEvent = (event: Omit<EventItem, 'id'>) => {
-    setEvents((prev) => {
-      const next = [{ ...event, id: `evt-${Date.now()}` }, ...prev];
-      try {
-        localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(next));
-      } catch {
-        // Ignore storage errors
-      }
-      return next;
-    });
-    // Persist to server database
-    addServerEvent(event).then((created) => {
-      if (created) {
-        setEvents((prev) => prev.map((e, idx) => (idx === 0 ? created : e)));
-      }
-    }).catch(() => {});
-  };
-
-  const deleteEvent = (id: string) => {
-    setEvents((prev) => {
-      const next = prev.filter((e) => e.id !== id);
-      try {
-        localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(next));
-      } catch {
-        // Ignore storage errors
-      }
-      return next;
-    });
-    // Persist to server database
-    deleteServerEvent(id).catch(() => {});
-  };
-
-  const toggleEventPickup = (id: string) => {
-    setEvents((prev) => {
-      const next = prev.map((e) =>
-        e.id === id ? { ...e, pickupAvailable: !e.pickupAvailable } : e
-      );
-      try {
-        localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(next));
-      } catch {
-        // Ignore storage errors
-      }
-      return next;
-    });
-    // Persist to server database
-    toggleServerEventPickup(id).catch(() => {});
-  };
-
-  const addFundraiser = (campaign: Omit<FundraiserCampaign, 'id'>) => {
-    setFundraisers((prev) => {
-      const next = [{ ...campaign, id: `fund-${Date.now()}` }, ...prev];
-      localStorage.setItem(STORAGE_KEYS.FUNDRAISERS, JSON.stringify(next));
-      return next;
-    });
-  };
-
-  const updateFundraiserRaised = (id: string, newAmount: number) => {
-    setFundraisers((prev) => {
-      const next = prev.map((f) =>
-        f.id === id ? { ...f, raisedAmount: Math.max(0, newAmount) } : f
-      );
-      localStorage.setItem(STORAGE_KEYS.FUNDRAISERS, JSON.stringify(next));
-      return next;
-    });
-  };
-
-  const deleteFundraiser = (id: string) => {
-    setFundraisers((prev) => {
-      const next = prev.filter((f) => f.id !== id);
-      localStorage.setItem(STORAGE_KEYS.FUNDRAISERS, JSON.stringify(next));
-      return next;
-    });
-  };
-
-  const updateProductPrice = (id: string, newPrice: string) => {
-    const formatted = newPrice.startsWith('$') ? newPrice : `$${newPrice}`;
-    setProducts((prev) => {
-      const next = prev.map((p) => (p.id === id ? { ...p, price: formatted } : p));
-      localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(next));
-      return next;
-    });
-  };
-
-  const syncProducts = (newProducts: Product[]) => {
-    setProducts(newProducts);
-    localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(newProducts));
-  };
-
-  const resetStoreData = () => {
-    localStorage.removeItem(STORAGE_KEYS.PRODUCTS);
-    localStorage.removeItem(STORAGE_KEYS.EVENTS);
-    localStorage.removeItem(STORAGE_KEYS.FUNDRAISERS);
-    setProducts(ALL_PRODUCTS);
-    setEvents(UPCOMING_EVENTS);
-    setFundraisers(ACTIVE_FUNDRAISERS);
-    resetServerEvents().catch(() => {});
-  };
-
   // Until the shopper picks a market, pickup defaults to the next upcoming one (never a past date).
   const pickupChosen = chosenPickupEvent !== '';
   const nextPickup = getUpcomingEvents(events).find((e) => e.pickupAvailable !== false);
@@ -302,15 +159,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
         updateQuantity,
         removeItem,
         clearCart,
-        addEvent,
-        deleteEvent,
-        toggleEventPickup,
-        addFundraiser,
-        updateFundraiserRaised,
-        deleteFundraiser,
-        updateProductPrice,
-        syncProducts,
-        resetStoreData,
       }}
     >
       {children}

@@ -1,6 +1,9 @@
+'use client';
+
 import ProductCard from './ProductCard';
 import Button from './ui/Button';
-import { ALL_PRODUCTS, FEATURED_PRODUCTS } from '@/data/products';
+import { useCart } from '@/context/CartContext';
+import { featuredProducts } from '@/data/products';
 import styles from './FeaturedProducts.module.css';
 
 // Landing blueprint section 4: show sizes and prices up front, 2 cards per row on phones.
@@ -11,6 +14,9 @@ const SIZES = [
 ];
 
 export default function FeaturedProducts() {
+  // The owners choose these in the admin dashboard (Flavors > On homepage).
+  const { products } = useCart();
+
   return (
     <section className="v3-section" id="featured-flavors" aria-labelledby="flavors-title">
       <div className="main-container">
@@ -33,14 +39,14 @@ export default function FeaturedProducts() {
         </header>
 
         <div className={`${styles.grid} fx-stagger`}>
-          {FEATURED_PRODUCTS.map((p) => (
+          {featuredProducts(products).map((p) => (
             <ProductCard key={p.id} {...p} />
           ))}
         </div>
 
         <div className={styles.more}>
           <Button href="/shop" variant="ghost">
-            See all {ALL_PRODUCTS.length} flavors
+            See all {products.length} flavors
           </Button>
         </div>
       </div>

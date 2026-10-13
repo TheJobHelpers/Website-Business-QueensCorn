@@ -1,32 +1,21 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { ADMIN_COOKIE_NAME, verifySessionToken } from '@/lib/auth';
+import { ADMIN_COOKIE_NAME, readSessionToken } from '@/server/auth/session';
 
+// A convenience redirect, not the security boundary: it keeps signed-out visitors off the admin
+// pages and signed-in ones off the login page. The real checks are requireAdminPage() in every
+// admin page and requireAdmin() in every admin server action (src/server/auth/guard.ts).
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  // Only handle admin routes
-  if (!pathname.startsWith('/admin')) {
-    return NextResponse.next();
-  }
-
   const token = request.cookies.get(ADMIN_COOKIE_NAME)?.value;
-  const isAuthenticated = token ? Boolean(verifySessionToken(token)) : false;
+  const signedIn = readSessionToken(token, process.env.ADMIN_SESSION_SECRET) !== null;
 
-  // If visiting /admin/login while already authenticated, go straight to dashboard
   if (pathname === '/admin/login') {
-    if (isAuthenticated) {
-      return NextResponse.redirect(new URL('/admin', request.url));
-    }
-    return NextResponse.next();
+    return signedIn ? NextResponse.redirect(new URL('/admin', request.url)) : NextResponse.next();
   }
-
-  // If visiting protected admin route without authentication, redirect to login
-  if (!isAuthenticated) {
-    const loginUrl = new URL('/admin/login', request.url);
-    return NextResponse.redirect(loginUrl);
+  if (!signedIn) {
+    return NextResponse.redirect(new URL('/admin/login', request.url));
   }
-
   return NextResponse.next();
 }
 
