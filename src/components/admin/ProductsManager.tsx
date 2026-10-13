@@ -6,7 +6,7 @@ import { Plus } from 'lucide-react';
 import { deleteProductAction, saveProductAction, setProductFlagAction } from '@/app/actions/products';
 import Button from '@/components/ui/Button';
 import { PRODUCT_IMAGE_CHOICES, type Product } from '@/data/products';
-import { BAG_SIZES, formatPrice, sizePrice } from '@/lib/shop';
+import { BAG_SIZES, sizePrice } from '@/lib/shop';
 import { ConfirmButton, Field, NoticeBar, PageHeader, Switch } from './ui';
 import { useAdminAction } from './useAdminAction';
 import styles from './admin.module.css';
@@ -32,9 +32,9 @@ const EMPTY: ProductForm = {
   name: '',
   description: '',
   category: 'Sweet',
-  price: '6',
-  familyPrice: '10',
-  partyPrice: '15',
+  price: '6.00',
+  familyPrice: '10.00',
+  partyPrice: '15.00',
   image: PRODUCT_IMAGE_CHOICES[0].src,
   tasteLabel: 'Sweet',
   tasteLevel: 3,
@@ -52,9 +52,9 @@ const toForm = (p: Product): ProductForm => ({
   name: p.name,
   description: p.description,
   category: p.category,
-  price: String(sizePrice(p, BAG_SIZES[0])),
-  familyPrice: String(sizePrice(p, BAG_SIZES[1])),
-  partyPrice: String(sizePrice(p, BAG_SIZES[2])),
+  price: sizePrice(p, BAG_SIZES[0]).toFixed(2),
+  familyPrice: sizePrice(p, BAG_SIZES[1]).toFixed(2),
+  partyPrice: sizePrice(p, BAG_SIZES[2]).toFixed(2),
   image: p.image,
   tasteLabel: p.taste?.label ?? '',
   tasteLevel: p.taste?.level ?? 0,
@@ -127,9 +127,11 @@ export default function ProductsManager({ products }: { products: Product[] }) {
                   inputMode="decimal"
                   min={0.5}
                   max={500}
-                  step={0.25}
+                  step={0.01}
                   value={form[field.key]}
                   onChange={(e) => set(field.key, e.target.value)}
+                  // typing 7.5 and leaving the box shows 7.50
+                  onBlur={(e) => e.target.value !== '' && Number.isFinite(Number(e.target.value)) && set(field.key, Number(e.target.value).toFixed(2))}
                   required
                 />
               </Field>
@@ -207,7 +209,7 @@ export default function ProductsManager({ products }: { products: Product[] }) {
                   </h3>
                   <p className={styles.rowMeta}>
                     <span>
-                      {BAG_SIZES.map((s) => `${s.label} ${formatPrice(sizePrice(product, s))}`).join(' · ')}
+                      {BAG_SIZES.map((s) => `${s.label} ${`$${sizePrice(product, s).toFixed(2)}`}`).join(' · ')}
                     </span>
                   </p>
                 </div>
