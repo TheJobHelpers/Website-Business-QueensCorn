@@ -3,6 +3,15 @@
 Append-only history, **newest first**. Format and types are defined in [CLAUDE.md](CLAUDE.md).
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
+## 2026-10-13 | sync @ 7b5715f | Manula
+- Brought the pages that were behind the code up to date with `feature/admin-dashboard` (PR #6)
+- Rewrote: [[fulfillment-and-shipping]] (pickup only today, delivery options compared, USPS plan),
+  [[product-catalog]] (10 flavors, a price per size, photos, Shopify), [[website-architecture]] (routes, layout, settings)
+- Updated: [[fundraising-program]], [[events-and-markets]], [[company-overview]], [[landing-page-structure]]
+  (hero as built; page review), [[branches-and-status]], [[admin-portal]], [[open-questions]] (1, 2, 6 reworded;
+  22–26 added), index
+- Still behind: [[brand-and-design-system]], [[shop-page-structure]] and the two blueprint HTML files
+
 ## 2026-10-13 | ingest | Manula
 - Dashboard: new Orders screen (what to make, per pickup market) and Sales screen, read live from Shopify
   (`src/server/shopify-orders.ts`); flavor photos are uploaded to Shopify

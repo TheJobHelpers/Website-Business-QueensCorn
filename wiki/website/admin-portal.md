@@ -28,7 +28,7 @@ it replaced a single 1,764-line page that kept most edits in the browser only.
 | Fundraisers | `/admin/fundraisers` | `/fundraising` and the cart's fundraiser list |
 | Settings | `/admin/settings` | Shows where data is saved and how sign-in is protected; Shopify test (lists flavors and sizes that cannot be ordered) and import; "restore built-in list" |
 
-Every change is saved on the server and shows for all visitors straight away. Nothing is kept in
+Every change on Events, Flavors and Fundraisers is saved on the server and shows for all visitors straight away. Nothing is kept in
 the browser any more. See [[events-and-markets]], [[product-catalog]], [[fundraising-program]].
 
 **Removed:** the old "Orders & AZ Shipping" screen. Its orders were hardcoded samples and its

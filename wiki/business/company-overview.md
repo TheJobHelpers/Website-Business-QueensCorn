@@ -2,7 +2,7 @@
 title: Company Overview — The Queen's Corn
 type: overview
 owner: unassigned
-updated: 2026-10-10
+updated: 2026-10-13
 sources:
   - src/app/story/page.tsx @ ee5b44c
   - src/app/layout.tsx @ ee5b44c
@@ -12,7 +12,7 @@ sources:
 # The Queen's Corn
 
 Handcrafted **kettle corn** business in **Arizona**, sold at farmers' markets, festivals and events,
-plus online orders for Arizona shipping or market pickup.
+plus online pre-orders collected at a market. Shipping is planned, not offered yet.
 
 ## Key facts
 
@@ -22,7 +22,9 @@ plus online orders for Arizona shipping or market pickup.
 | Founders | **Bob and Reina Andersen**, husband-and-wife; both work in the medical field |
 | Contact email | thequeenscornaz@gmail.com (Footer, Contact page) |
 | Current site URL | https://the-queens-corn.vercel.app (`metadataBase` in src/app/layout.tsx) |
-| Existing official site | thequeenscorn.com (the `/terms-of-service` page mirrors its terms) |
+| Existing official site | thequeenscorn.com (the Terms started as a copy of its terms; sections 02–05 were rewritten for pickup-only ordering on 2026-10-13) |
+| Phone (Terms, Privacy Policy) | (623) 692-1811 |
+| Base | Marana, Arizona |
 | Tagline (site metadata) | "Arizona's favorite handcrafted kettle corn. Popped fresh with pure corn oil and stirred with a hickory wooden paddle." |
 
 ## Origin story (as told on the website)
@@ -37,7 +39,7 @@ plus online orders for Arizona shipping or market pickup.
 
 - Farmers' markets and events. The story page says **Phoenix, Payson, and the East Valley**; the
   event list covers Avondale, Oro Valley, Phoenix, Litchfield Park and Marana. See [[events-and-markets]].
-- Online: Arizona/USPS shipping or free pickup at a market. See [[fulfillment-and-shipping]].
+- Online: pre-order and pick up free at a market. Shipping and delivery options: see [[fulfillment-and-shipping]].
 - Community fundraising with a 50% giveback. See [[fundraising-program]].
 
 > [!warning] Unverified: the service area wording differs between pages (Phoenix/Payson/East Valley

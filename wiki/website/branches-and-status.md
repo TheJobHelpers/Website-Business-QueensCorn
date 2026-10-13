@@ -31,7 +31,7 @@ Timeline:
 
 | Branch | What | State |
 |---|---|---|
-| `feature/admin-dashboard` → **PR #6** | Owner dashboard rebuild, server-side storage, sign-in hardening, Shopify checkout with size variants, `/order/thank-you` | Open |
+| `feature/admin-dashboard` → **PR #6** | Owner dashboard rebuild, server-side storage, sign-in hardening, Shopify checkout with size variants, flavors and photos written to Shopify, Orders and Sales screens, `/order/thank-you`, `/privacy-policy`, Terms rewritten for pickup, Vercel Web Analytics | Open |
 
 Merged since the snapshot above: PR #3 (design system v3.1), PR #4 (v3.1 site redesign, pickup-only
 ordering, 10-flavor catalog), PR #5 (branded product photos).
@@ -44,10 +44,12 @@ ordering, 10-flavor catalog), PR #5 (branded product photos).
 - Shopify checkout wired and tested against a development store. See [[shopify-integration]].
 
 **1. Finish testing (developer)**
-1. Complete one test order on the development store; confirm the pickup market shows on the order and
-   "Continue shopping" returns to `/order/thank-you`.
-2. Switch on Local pickup in Shopify and confirm checkout no longer asks for a shipping address.
-3. Merge PR #6.
+1. Done 2026-10-13: three paid test orders on the development store; the pickup market shows on each.
+2. Still to confirm: "Continue shopping" on Shopify's confirmation returns to `/order/thank-you`; customer
+   names on the Orders screen (the app's **Name** field is not allowed yet).
+3. Switch on Local pickup in Shopify and remove shipping rates: test orders were charged $14.00 for a
+   $6.00 bag. See [[fulfillment-and-shipping]].
+4. Merge PR #6.
 
 **2. Hosting (developer, with the owners' go-ahead on cost)**
 1. Vercel Pro (the free plan does not allow commercial use).
@@ -65,7 +67,7 @@ ordering, 10-flavor catalog), PR #5 (branded product photos).
 
 **4. Content to settle before launch** ([[open-questions]])
 - Real prices, flavor descriptions and taste levels; whether the sample fundraisers are real
-- Real social links in the footer; Terms of Service still describes shipping
+- Real social links in the footer; owners (ideally a lawyer) to approve the new Privacy Policy and Terms
 - Product detail page and Terms are still in the old style
 - Contact form opens the visitor's email app: decide whether a real mail service is needed
 
@@ -78,4 +80,5 @@ ordering, 10-flavor catalog), PR #5 (branded product photos).
 **After launch**
 1. Only if the owners ask: an "orders to pop" list per market with fundraiser totals (needs read access to orders).
 2. Send flavor photos to Shopify; photo upload from the dashboard.
-3. Shipping (`SHIPPING_AVAILABLE` in `src/lib/shop.ts`), real reviews, an order cut-off before a market.
+3. USPS shipping within Arizona: plan in [[fulfillment-and-shipping]], waiting on the owners' decisions.
+4. Real reviews, an order cut-off before a market, a lighter hero with larger photos ([[landing-page-structure]]).

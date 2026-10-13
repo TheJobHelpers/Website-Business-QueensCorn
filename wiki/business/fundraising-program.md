@@ -2,12 +2,12 @@
 title: Fundraising Program (50% Giveback)
 type: business
 owner: unassigned
-updated: 2026-10-10
+updated: 2026-10-13
 sources:
   - src/app/fundraising/page.tsx @ ee5b44c
   - src/data/fundraisers.ts @ ee5b44c
-  - src/lib/shopify.ts @ ee5b44c
-  - src/components/cart/CartDrawer.tsx @ ee5b44c
+  - src/app/actions/checkout.ts @ 7b5715f
+  - src/app/admin/(dashboard)/sales/page.tsx @ 7b5715f
 ---
 
 # Fundraising Program
@@ -22,15 +22,19 @@ Arizona schools, youth sports teams and community clubs raise money by selling Q
 
 ## How attribution works
 
-1. Each campaign has a **code** (e.g. `TIGERS50`).
-2. A customer picks the fundraiser in the cart drawer, which shows "$X (50%) of your order goes to <org>".
-3. At Shopify checkout the code is applied as a **discount code**, and two cart attributes are added:
-   `Fundraiser_Code` and `Fundraiser_50_Percent_Giveback` (org name). See [[shopify-integration]].
-4. Owners track progress (raised vs. goal) in the admin portal. See [[admin-portal]].
+1. Each campaign has a **code** (e.g. `TIGERS50`). The owners add and edit campaigns in the dashboard
+   ([[admin-portal]]).
+2. A shopper picks the fundraiser in the cart, which shows "$X (50%) of your order goes to <org>".
+3. At checkout two notes are put on the Shopify order: `Fundraiser_Code` and
+   `Fundraiser_50_Percent_Giveback` (the group's name). The code is **not** a discount code: the
+   shopper pays the normal price. See [[shopify-integration]].
+4. The dashboard's **Sales** screen adds up, per campaign, the orders of the last 60 days and the
+   group's half. The half is worked out on the popcorn only, before discounts, shipping and tax.
+5. The "raised so far" figure on the public fundraising page is typed in by the owners in the
+   dashboard; it is not updated automatically from orders.
 
-> [!warning] The code is sent to Shopify as a *discount code*. If that code doesn't exist in Shopify,
-> checkout may reject it. If it does exist, it may discount the customer's price as well as
-> attributing the sale. The intended behavior needs confirming. See [[open-questions]].
+> [!warning] The Sales screen's figures are a guide. Check against Shopify before paying a group.
+> How and when the 50% is paid out is still to be confirmed. See [[open-questions]].
 
 ## Sample campaigns in the code (demo data, not confirmed real)
 

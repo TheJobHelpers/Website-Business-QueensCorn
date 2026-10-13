@@ -2,8 +2,8 @@
 title: "Decision: Landing page structure"
 type: decision
 owner: unassigned
-updated: 2026-10-10
-status: built (feature/landing-page-v3), awaiting owner sign-off
+updated: 2026-10-13
+status: built and merged (PR #4), awaiting owner sign-off
 sources:
   - wiki/design-system/landing-page-blueprint.html (v1)
   - src/app/page.tsx @ ee5b44c
@@ -52,3 +52,18 @@ Built on `feature/landing-page-v3` in design system v3.1. Changes made while bui
   espresso-brown shade.
 - Trust strip floats over the hero's edge; markets sit on a dark band (balanced rhythm).
 - Responsive: hero fills the screen at any size; headline and food plate scale with width and height.
+
+## Status (2026-10-13)
+Merged in PR #4, with two changes to the plan above:
+- **Hero:** back to the centered "The Queen's Corn is a Happy Place" hero (flavor chips, two buttons) in
+  v3.1, with three real photos that crossfade. The two-column food hero described above was dropped.
+- **Three ways to buy** now reflects pickup only: shipping shows as "coming soon"
+  ([[fulfillment-and-shipping]]).
+
+Review of the live page (developer, 2026-10-13): about 7/10.
+- The hero reads as a near-black panel: the dark overlay almost hides the photo, and the hero photos
+  are only 830px wide. No food is visible on the first screen.
+- Reviews are still hidden (no real ones yet); footer social links go nowhere; the hero's chip row
+  shows six of the ten flavors.
+- Suggested order: lighten the overlay, larger hero photos, three real reviews, real social links.
+  See [[open-questions]].
