@@ -62,6 +62,8 @@ export async function importShopifyCatalogAction(): Promise<ActionResult<{ count
         // only Shopify's own image host is accepted; anything else gets the stock photo
         image: isAllowedProductImage(item.image) ? item.image : '/popcorn-scoop-fresh.jpg',
         shopifyId: item.id,
+        // the photo came from Shopify, so there is nothing to send back
+        ...(isAllowedProductImage(item.image) ? { shopifyImage: item.image } : {}),
       };
     });
 
@@ -84,9 +86,9 @@ export async function sendFlavorsToShopifyAction(): Promise<ActionResult<{ count
     const flavors = await products.list();
     const linked: Product[] = [];
     try {
-      // one at a time: ten flavors is a few seconds, and Shopify limits how fast an app may write
+      // one at a time: ten flavors with photos take about a minute, and Shopify limits how fast an app may write
       for (const flavor of flavors) {
-        linked.push({ ...flavor, shopifyId: await pushFlavorToShopify(flavor) });
+        linked.push({ ...flavor, ...(await pushFlavorToShopify(flavor)) });
       }
     } finally {
       // keep the links made so far even if a later flavor failed
@@ -96,7 +98,7 @@ export async function sendFlavorsToShopifyAction(): Promise<ActionResult<{ count
       }
     }
     return { count: linked.length };
-  }, "Every flavor is now in Shopify at the website's prices.");
+  }, "Every flavor is now in Shopify with the website's prices and photos.");
 }
 
 /** Puts one list back to the built-in version that ships with the website. */

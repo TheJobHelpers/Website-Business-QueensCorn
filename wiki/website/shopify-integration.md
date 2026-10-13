@@ -55,7 +55,8 @@ Shopify **first** and saved on the website only if Shopify accepted it.
 - A flavor whose name already exists in Shopify is linked to that product, not duplicated.
 - Scopes the key needs: `write_products`, `write_publications`, `write_inventory` (and their read scopes).
 - Without the key the Flavors screen only changes the website, and Settings says so.
-- **Not sent:** photos (Shopify products have no image; the website shows its own).
+- **Photos** from the website's `/public` folder are uploaded to the Shopify product, and only uploaded
+  again when the flavor's photo changes (`shopifyImage` on the flavor remembers the last one sent).
 - **Not pulled back:** changes made directly in Shopify. Settings → "Test the connection" lists any
   flavor or size that is missing, sold out or priced differently.
 - Publishing takes a few seconds to reach checkout after a flavor is added or shown again.

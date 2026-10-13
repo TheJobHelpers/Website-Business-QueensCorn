@@ -17,6 +17,8 @@ export interface Product {
   taste?: { label: string; level: number };
   /** The matching product in Shopify, set once the dashboard has sent this flavor there. */
   shopifyId?: string;
+  /** The photo last sent to that Shopify product, so it is only uploaded again when it changes. */
+  shopifyImage?: string;
 }
 
 export const PRODUCT_IMAGES: Record<string, string> = {

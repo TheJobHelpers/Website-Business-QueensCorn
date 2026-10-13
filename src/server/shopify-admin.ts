@@ -1,4 +1,7 @@
 import 'server-only';
+import { readFile } from 'fs/promises';
+import path from 'path';
+import { headers } from 'next/headers';
 import type { Product } from '@/data/products';
 import { BAG_SIZES, sizePrice } from '@/lib/shop';
 import { shopifyDomain } from './shopify';
@@ -114,6 +117,60 @@ async function websiteChannel(): Promise<string> {
   return channel.id;
 }
 
+const IMAGE_TYPES: Record<string, string> = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp' };
+const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
+
+/** A photo from the website's /public folder: from disk, or from the site itself where the disk copy is not deployed. */
+async function sitePhoto(image: string): Promise<{ bytes: Buffer; filename: string; mimeType: string }> {
+  const filename = path.basename(image);
+  const mimeType = IMAGE_TYPES[path.extname(filename).toLowerCase()];
+  if (!mimeType || image !== `/${filename}`) throw new ValidationError({ image: 'That photo cannot be sent to Shopify.' });
+
+  let bytes: Buffer;
+  try {
+    bytes = await readFile(path.join(process.cwd(), 'public', filename));
+  } catch {
+    const h = await headers();
+    const host = h.get('x-forwarded-host') ?? h.get('host');
+    if (!host) throw new ValidationError({ image: 'The photo could not be read to send it to Shopify.' });
+    const proto = h.get('x-forwarded-proto') ?? (host.startsWith('localhost') ? 'http' : 'https');
+    const res = await fetch(`${proto}://${host}/${encodeURIComponent(filename)}`, { cache: 'no-store', signal: AbortSignal.timeout(15000) });
+    if (!res.ok) throw new ValidationError({ image: 'The photo could not be read to send it to Shopify.' });
+    bytes = Buffer.from(await res.arrayBuffer());
+  }
+  if (bytes.length === 0 || bytes.length > MAX_IMAGE_BYTES) throw new ValidationError({ image: 'That photo is too large for Shopify.' });
+  return { bytes, filename, mimeType };
+}
+
+/** Uploads a website photo to Shopify and returns the address Shopify can attach to a product. */
+async function uploadPhoto(image: string): Promise<string> {
+  // a photo that already lives on Shopify's image host needs no upload
+  if (image.startsWith('https://')) return image;
+
+  const photo = await sitePhoto(image);
+  const staged = await adminQuery<{
+    stagedUploadsCreate: { stagedTargets: { url: string; resourceUrl: string; parameters: { name: string; value: string }[] }[]; userErrors: UserError[] };
+  }>(
+    `mutation Stage($input: [StagedUploadInput!]!) {
+      stagedUploadsCreate(input: $input) { stagedTargets { url resourceUrl parameters { name value } } userErrors { field message } }
+    }`,
+    { input: [{ filename: photo.filename, mimeType: photo.mimeType, httpMethod: 'POST', resource: 'IMAGE', fileSize: String(photo.bytes.length) }] }
+  );
+  failOn(staged.stagedUploadsCreate.userErrors, 'accept the photo');
+  const target = staged.stagedUploadsCreate.stagedTargets[0];
+  if (!target) throw new ValidationError({ image: 'Shopify did not accept the photo.' });
+
+  const form = new FormData();
+  for (const parameter of target.parameters) form.append(parameter.name, parameter.value);
+  form.append('file', new Blob([new Uint8Array(photo.bytes)], { type: photo.mimeType }), photo.filename);
+  const sent = await fetch(target.url, { method: 'POST', body: form, signal: AbortSignal.timeout(30000) });
+  if (!sent.ok) {
+    console.error('Shopify photo upload failed:', sent.status, (await sent.text().catch(() => '')).slice(0, 300));
+    throw new ValidationError({ image: 'The photo could not be uploaded to Shopify. Nothing was saved.' });
+  }
+  return target.resourceUrl;
+}
+
 const PRODUCT_SET = `
   mutation SetProduct($input: ProductSetInput!, $identifier: ProductSetIdentifiers) {
     productSet(synchronous: true, input: $input, identifier: $identifier) {
@@ -122,12 +179,21 @@ const PRODUCT_SET = `
     }
   }`;
 
+/** What the website remembers about a flavor's product in Shopify. */
+export interface ShopifyLink {
+  shopifyId: string;
+  shopifyImage?: string;
+}
+
 /**
- * Creates or updates the Shopify product for a flavor: title, description, type, and one variant
- * per bag size at that size's price on the website, always available (the popcorn is made to order).
- * Hidden flavors are taken off the website's sales channel. Returns the Shopify product id.
+ * Creates or updates the Shopify product for a flavor: title, description, type, photo, and one
+ * variant per bag size at that size's price on the website, always available (the popcorn is made
+ * to order). Hidden flavors are taken off the website's sales channel.
  */
-export async function pushFlavorToShopify(flavor: Omit<Product, 'id'>): Promise<string> {
+export async function pushFlavorToShopify(flavor: Omit<Product, 'id'>): Promise<ShopifyLink> {
+  // the photo is only uploaded when it is not the one Shopify already has
+  const newPhoto = flavor.image && flavor.image !== flavor.shopifyImage ? await uploadPhoto(flavor.image) : null;
+
   const input = {
     title: flavor.name,
     descriptionHtml: `<p>${escapeHtml(flavor.description)}</p>`,
@@ -140,6 +206,8 @@ export async function pushFlavorToShopify(flavor: Omit<Product, 'id'>): Promise<
       inventoryPolicy: 'CONTINUE',
       inventoryItem: { tracked: false },
     })),
+    // leaving `files` out keeps the photos Shopify already has
+    ...(newPhoto ? { files: [{ originalSource: newPhoto, alt: `${flavor.name} kettle corn`, contentType: 'IMAGE' }] } : {}),
   };
 
   type SetResult = { productSet: { product: { id: string } | null; userErrors: UserError[] } };
@@ -163,7 +231,8 @@ export async function pushFlavorToShopify(flavor: Omit<Product, 'id'>): Promise<
   );
   failOn(published[action]?.userErrors, flavor.hidden ? `hide "${flavor.name}"` : `publish "${flavor.name}"`);
 
-  return productId;
+  const shopifyImage = newPhoto ? flavor.image : flavor.shopifyImage;
+  return { shopifyId: productId, ...(shopifyImage ? { shopifyImage } : {}) };
 }
 
 /** A deleted flavor is archived in Shopify, not erased: past orders keep their product. */

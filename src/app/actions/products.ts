@@ -24,8 +24,8 @@ export async function saveProductAction(id: string | null, input: unknown): Prom
   return adminAction(async () => {
     const data = parseProductInput(input);
     const previous = id === null ? null : await existing(parseId(id));
-    const shopifyId = linked ? await pushFlavorToShopify({ ...data, shopifyId: previous?.shopifyId }) : previous?.shopifyId;
-    const flavor = { ...data, ...(shopifyId ? { shopifyId } : {}) };
+    const kept = { ...(previous?.shopifyId ? { shopifyId: previous.shopifyId } : {}), ...(previous?.shopifyImage ? { shopifyImage: previous.shopifyImage } : {}) };
+    const flavor = { ...data, ...(linked ? await pushFlavorToShopify({ ...data, ...kept }) : kept) };
 
     const saved = previous === null ? await products.create(flavor) : await products.update(previous.id, () => ({ ...flavor, id: previous.id }));
     publishSiteData();
@@ -43,9 +43,9 @@ export async function setProductFlagAction(
     if (flag !== 'featured' && flag !== 'hidden') throw new ValidationError({ form: 'Unknown setting.' });
     const changed = { ...(await existing(parseId(id))), [flag]: value === true };
     // "on the homepage" is a website matter; "hidden" also takes the flavor off sale in Shopify
-    const shopifyId = flag === 'hidden' && isShopifyAdminConnected() ? await pushFlavorToShopify(changed) : changed.shopifyId;
+    const link = flag === 'hidden' && isShopifyAdminConnected() ? await pushFlavorToShopify(changed) : {};
 
-    const saved = await products.update(changed.id, (product) => ({ ...product, [flag]: value === true, ...(shopifyId ? { shopifyId } : {}) }));
+    const saved = await products.update(changed.id, (product) => ({ ...product, [flag]: value === true, ...link }));
     publishSiteData();
     return saved;
   });
