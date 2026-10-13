@@ -68,6 +68,20 @@ flavor, delete (archived), and "Send all" (10 flavors, the two existing products
 > for stores in the developer's own Shopify organization; for the owners' store the key has to be
 > created in their admin (custom app). Not tried yet. See [[open-questions]].
 
+## The dashboard reads orders from Shopify
+
+`src/server/shopify-orders.ts` reads the last 60 days of orders (Admin API, scope `read_orders`) for
+the Orders and Sales screens ([[admin-portal]]). Nothing is stored on the website, and no customer
+name, address, phone or email is requested: only order number, time, totals, items, paid / fulfilled
+status and the notes the website attached at checkout (pickup market, fundraiser).
+
+- An order leaves the Orders screen when it is marked **fulfilled** in Shopify.
+- Cancelled orders are never counted. Test orders are counted only while the store has no real orders.
+- Fundraiser shares are half of the popcorn on each order, before discounts, shipping and tax.
+- Shopify treats orders as protected customer data: besides the scope, the app must have
+  "Protected customer data" access requested in the Shopify developer dashboard (no optional fields).
+- Days and "today" use Arizona time.
+
 ## Checkout: `startCheckoutAction()`
 
 `src/app/actions/checkout.ts`, called by the cart's "Proceed to Checkout" button.

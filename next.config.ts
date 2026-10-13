@@ -48,9 +48,9 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/privacy-policy',
-        destination: '/terms-of-service#privacy-policy',
-        permanent: false,
+        source: '/privacy',
+        destination: '/privacy-policy',
+        permanent: true,
       },
     ];
   },

@@ -21,6 +21,8 @@ it replaced a single 1,764-line page that kept most edits in the browser only.
 | Screen | Route | What it changes on the public site |
 |---|---|---|
 | Overview | `/admin` | Nothing: counts, the next event, and a "needs your attention" list |
+| Orders | `/admin/orders` | Nothing: what still has to be made, grouped by pickup market, read live from Shopify |
+| Sales | `/admin/sales` | Nothing: totals for today / 7 / 30 days, day by day, best sellers, fundraiser shares, sales per market |
 | Events | `/admin/events` | `/events`, the homepage events band, the pickup lists in the shop and cart |
 | Flavors | `/admin/products` | `/shop`, `/shop/[id]`, the homepage flavor row (name, price, photo, taste meter, "on homepage", "hidden"), **and the matching product in Shopify** ([[shopify-integration]]) |
 | Fundraisers | `/admin/fundraisers` | `/fundraising` and the cart's fundraiser list |

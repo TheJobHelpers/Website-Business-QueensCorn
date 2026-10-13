@@ -49,6 +49,9 @@ with the answer and source, and update the related page.
 20. **Dashboard key for the owners' store:** the development store uses a Dev Dashboard app, which only
     works inside the developer's Shopify organization. How the key is created in the owners' store is
     not tried yet. See [[shopify-integration]]
+21. **Privacy Policy and Terms wording:** `/privacy-policy` is new and Terms sections 02–05 were rewritten
+    for pickup-only ordering (2026-10-13). Written by the developer from what the site does; the owners (and
+    ideally a lawyer) should read and approve both, including the 30-day answer promise.
 
 ## Resolved
 - **8. Checkout variant ids** (2026-10-13): checkout now runs on the server and matches flavor name + `Size`

@@ -226,6 +226,14 @@
   margin: 0;
 }
 
+.contentBody a,
+.supportDesc a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .contentBody strong {
   color: var(--text-primary);
   font-weight: 600;

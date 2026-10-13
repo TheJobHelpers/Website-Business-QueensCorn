@@ -4,6 +4,13 @@ Append-only history, **newest first**. Format and types are defined in [CLAUDE.m
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
 ## 2026-10-13 | ingest | Manula
+- Dashboard: new Orders screen (what to make, per pickup market) and Sales screen, read live from Shopify
+  (`src/server/shopify-orders.ts`); flavor photos are uploaded to Shopify
+- New `/privacy-policy` page; Terms sections 02–05 rewritten for pickup-only ordering (shipping claims removed)
+- Tested on the development store with three paid test orders: the pickup market shows on each order
+- Updated [[admin-portal]], [[shopify-integration]], [[open-questions]] (21 added)
+
+## 2026-10-13 | ingest | Manula
 - Each flavor now has its own Small, Family and Party price in the dashboard (`familyPrice`, `partyPrice` on a
   flavor; `sizePrice()` in `src/lib/shop.ts` is the one place prices are worked out). Flavors without them still
   scale from the Small price

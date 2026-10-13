@@ -100,7 +100,7 @@ export default function Footer() {
         <div className={styles.bottom}>
           <p>&copy; {currentYear} The Queen&apos;s Corn. All rights reserved.</p>
           <div className={styles.legal}>
-            <Link href="/terms-of-service#privacy-policy">Privacy Policy</Link>
+            <Link href="/privacy-policy">Privacy Policy</Link>
             <Link href="/terms-of-service">Terms of Service</Link>
           </div>
         </div>

@@ -57,7 +57,7 @@ interface UserError {
   message: string;
 }
 
-async function adminQuery<T>(query: string, variables: Record<string, unknown> = {}): Promise<T> {
+export async function adminQuery<T>(query: string, variables: Record<string, unknown> = {}): Promise<T> {
   const res = await fetch(`https://${shopifyDomain()}/admin/api/${API_VERSION}/graphql.json`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Shopify-Access-Token': await adminToken() },
@@ -73,11 +73,13 @@ async function adminQuery<T>(query: string, variables: Record<string, unknown> =
   const json = (await res.json()) as { data?: T; errors?: { message?: string }[] };
   if (json.errors?.length || !json.data) {
     console.error('Shopify Admin API error:', json.errors);
-    const denied = json.errors?.some((e) => /access denied|scope/i.test(e.message ?? ''));
+    const said = (pattern: RegExp) => json.errors?.some((e) => pattern.test(e.message ?? '')) ?? false;
     throw new ValidationError({
-      form: denied
-        ? 'The dashboard key is missing a permission in Shopify (it needs products, publications and inventory).'
-        : 'Shopify rejected the change. Nothing was saved.',
+      form: said(/not approved to access/i)
+        ? 'Shopify has not approved the dashboard app for protected customer data yet.'
+        : said(/access denied|scope/i)
+          ? 'The dashboard key is missing a permission in Shopify.'
+          : 'Shopify rejected the change. Nothing was saved.',
     });
   }
   return json.data;
