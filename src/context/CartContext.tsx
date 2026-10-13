@@ -4,7 +4,7 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 import type { Product } from '@/data/products';
 import type { EventItem } from '@/data/events';
 import type { FundraiserCampaign } from '@/data/fundraisers';
-import { SHIPPING_AVAILABLE } from '@/lib/shop';
+import { SHIPPING_AVAILABLE, bagSize, sizePrice } from '@/lib/shop';
 import { getUpcomingEvents, pickupLabel } from '@/lib/events';
 
 export interface CartItem {
@@ -43,12 +43,6 @@ interface CartContextType {
   clearCart: () => void;
 }
 
-const SIZE_PRICES: Record<string, number> = {
-  'Small (Individual)': 6,
-  'Medium (Family)': 10,
-  'Large (Party)': 15,
-};
-
 export { FREE_AZ_SHIPPING_THRESHOLD, SHIPPING_AVAILABLE } from '@/lib/shop';
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -85,10 +79,7 @@ export function CartProvider({ children, products, events, fundraisers }: CartPr
   };
 
   const addItem = (product: Product, size: string, quantity: number) => {
-    const basePrice = parseFloat(product.price.replace(/[^0-9.]/g, '')) || 6;
-    const sizeMultiplier =
-      size === 'Large (Party)' ? 15 / 6 : size === 'Medium (Family)' ? 10 / 6 : 1;
-    const unitPrice = Math.round((basePrice * sizeMultiplier || SIZE_PRICES[size] || 6) * 100) / 100;
+    const unitPrice = sizePrice(product, bagSize(size));
 
     setItems((prev) => {
       const existingIndex = prev.findIndex(

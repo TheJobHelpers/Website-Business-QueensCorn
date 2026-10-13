@@ -46,8 +46,8 @@ Shopify **first** and saved on the website only if Shopify accepted it.
 
 | In the dashboard | In Shopify |
 |---|---|
-| Add a flavor | Product created: option `Size` = Small / Family / Party, prices from the Small price, stock not tracked (made to order), published to the Headless channel |
-| Rename, description, taste category, price | Same product updated (the flavor keeps its `shopifyId`) |
+| Add a flavor | Product created: option `Size` = Small / Family / Party, each at the price set for that size, stock not tracked (made to order), published to the Headless channel |
+| Rename, description, taste category, any of the three size prices | Same product updated (the flavor keeps its `shopifyId`) |
 | Hide / show | Unpublished from / published to the Headless channel |
 | Delete | Product archived (past orders keep it) |
 | Settings → "Send all flavors to Shopify" | Creates or updates every flavor; used once when a store is connected |

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Product } from '@/data/products';
 import { useCart } from '@/context/CartContext';
+import { BAG_SIZES, sizePrice } from '@/lib/shop';
 import { Check } from 'lucide-react';
 import styles from './ProductDetail.module.css';
 
@@ -34,9 +35,11 @@ export default function ProductActions({ product }: { product: Product }) {
             value={size}
             onChange={(e) => setSize(e.target.value)}
           >
-            <option value="Small (Individual)">Small (Individual) — $6.00</option>
-            <option value="Medium (Family)">Medium (Family) — $10.00</option>
-            <option value="Large (Party)">Large (Party) — $15.00</option>
+            {BAG_SIZES.map((s) => (
+              <option key={s.key} value={s.key}>
+                {s.key} — ${sizePrice(product, s).toFixed(2)}
+              </option>
+            ))}
           </select>
         </div>
 

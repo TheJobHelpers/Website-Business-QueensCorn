@@ -1,6 +1,6 @@
 import 'server-only';
 import type { Product } from '@/data/products';
-import { BAG_SIZES, bagPrice } from '@/lib/shop';
+import { BAG_SIZES, sizePrice } from '@/lib/shop';
 import { shopifyDomain } from './shopify';
 import { ValidationError } from './validation';
 
@@ -124,7 +124,7 @@ const PRODUCT_SET = `
 
 /**
  * Creates or updates the Shopify product for a flavor: title, description, type, and one variant
- * per bag size at the website's price, always available (the popcorn is made to order).
+ * per bag size at that size's price on the website, always available (the popcorn is made to order).
  * Hidden flavors are taken off the website's sales channel. Returns the Shopify product id.
  */
 export async function pushFlavorToShopify(flavor: Omit<Product, 'id'>): Promise<string> {
@@ -136,7 +136,7 @@ export async function pushFlavorToShopify(flavor: Omit<Product, 'id'>): Promise<
     productOptions: [{ name: 'Size', position: 1, values: BAG_SIZES.map((size) => ({ name: size.label })) }],
     variants: BAG_SIZES.map((size) => ({
       optionValues: [{ optionName: 'Size', name: size.label }],
-      price: bagPrice(flavor.price, size.multiplier).toFixed(2),
+      price: sizePrice(flavor, size).toFixed(2),
       inventoryPolicy: 'CONTINUE',
       inventoryItem: { tracked: false },
     })),

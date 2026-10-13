@@ -4,6 +4,13 @@ Append-only history, **newest first**. Format and types are defined in [CLAUDE.m
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
 ## 2026-10-13 | ingest | Manula
+- Each flavor now has its own Small, Family and Party price in the dashboard (`familyPrice`, `partyPrice` on a
+  flavor; `sizePrice()` in `src/lib/shop.ts` is the one place prices are worked out). Flavors without them still
+  scale from the Small price
+- Shop cards, product page, homepage price row, cart, checkout and the Shopify product all use it
+- Updated [[shopify-integration]]. Still to sync: [[product-catalog]] (prices per size)
+
+## 2026-10-13 | ingest | Manula
 - Flavors screen now writes to Shopify (`src/server/shopify-admin.ts`): add, rename, reprice, hide, delete,
   and "Send all flavors to Shopify" in Settings. Replaces this morning's decision to keep products out of the dashboard
 - Tested on the development store: all ten flavors created or linked, 0 mismatches

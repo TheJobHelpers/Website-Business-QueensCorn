@@ -1,6 +1,6 @@
 import 'server-only';
 import type { Product } from '@/data/products';
-import { BAG_SIZES, bagPrice } from '@/lib/shop';
+import { BAG_SIZES, sizePrice } from '@/lib/shop';
 import { ValidationError } from './validation';
 
 // Talking to the Shopify store (Storefront API). Only the server calls Shopify: the browser
@@ -133,7 +133,7 @@ export function catalogIssues(flavors: Product[], catalog: ShopifyProduct[]): st
     }
     for (const size of BAG_SIZES) {
       const variant = findVariant(catalog, flavor.name, size.label);
-      const sitePrice = bagPrice(flavor.price, size.multiplier);
+      const sitePrice = sizePrice(flavor, size);
       if (!variant) {
         issues.push(`${flavor.name}: no "${size.label}" size in Shopify.`);
       } else if (!samePrice(variant.price, sitePrice)) {

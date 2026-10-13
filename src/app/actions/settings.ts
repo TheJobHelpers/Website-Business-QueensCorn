@@ -44,15 +44,21 @@ export async function importShopifyCatalogAction(): Promise<ActionResult<{ count
     const catalog = await fetchShopifyCatalog();
 
     const imported: Product[] = catalog.map((item, index) => {
-      // a flavor's price is its Small bag; Family and Party scale from it
+      // a flavor's price is its Small bag; Family and Party keep their own Shopify prices
       const small = item.variants.find((v) => v.size.trim().toLowerCase() === 'small') ?? item.variants[0];
       const price = small?.price ?? 0;
+      const own = (label: string) => {
+        const value = item.variants.find((v) => v.size.trim().toLowerCase() === label)?.price;
+        return value && Number.isFinite(value) && value > 0 ? { [`${label}Price`]: `$${value.toFixed(2)}` } : {};
+      };
       return {
         id: (item.id.split('/').pop() ?? '').replace(/[^a-zA-Z0-9_-]/g, '') || `shopify-${index + 1}`,
         name: item.title.trim().slice(0, 60),
         description: (item.description || "The Queen's Corn handcrafted kettle corn.").trim().slice(0, 300),
         category: CATEGORIES.find((c) => c === item.productType) ?? 'Sweet',
         price: `$${(Number.isFinite(price) && price > 0 ? price : 6).toFixed(2)}`,
+        ...own('family'),
+        ...own('party'),
         // only Shopify's own image host is accepted; anything else gets the stock photo
         image: isAllowedProductImage(item.image) ? item.image : '/popcorn-scoop-fresh.jpg',
         shopifyId: item.id,

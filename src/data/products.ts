@@ -1,8 +1,11 @@
 export interface Product {
   id: string;
   name: string;
-  /** Price of a Small bag, as "$6.00". Family and Party scale from it (see BAG_SIZES). */
+  /** Price of a Small bag, as "$6.00". */
   price: string;
+  /** Family and Party bag prices. When missing they scale from the Small price (see sizePrice). */
+  familyPrice?: string;
+  partyPrice?: string;
   image: string;
   category: 'Sweet' | 'Savory' | 'Spicy' | 'Seasonal';
   description: string;

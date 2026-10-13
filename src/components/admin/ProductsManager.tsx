@@ -6,7 +6,7 @@ import { Plus } from 'lucide-react';
 import { deleteProductAction, saveProductAction, setProductFlagAction } from '@/app/actions/products';
 import Button from '@/components/ui/Button';
 import { PRODUCT_IMAGE_CHOICES, type Product } from '@/data/products';
-import { BAG_SIZES, bagPrice, formatPrice } from '@/lib/shop';
+import { BAG_SIZES, formatPrice, sizePrice } from '@/lib/shop';
 import { ConfirmButton, Field, NoticeBar, PageHeader, Switch } from './ui';
 import { useAdminAction } from './useAdminAction';
 import styles from './admin.module.css';
@@ -19,6 +19,8 @@ interface ProductForm {
   description: string;
   category: Product['category'];
   price: string;
+  familyPrice: string;
+  partyPrice: string;
   image: string;
   tasteLabel: string;
   tasteLevel: number;
@@ -31,6 +33,8 @@ const EMPTY: ProductForm = {
   description: '',
   category: 'Sweet',
   price: '6',
+  familyPrice: '10',
+  partyPrice: '15',
   image: PRODUCT_IMAGE_CHOICES[0].src,
   tasteLabel: 'Sweet',
   tasteLevel: 3,
@@ -38,11 +42,19 @@ const EMPTY: ProductForm = {
   hidden: false,
 };
 
+const PRICE_FIELDS = [
+  { key: 'price', label: 'Small' },
+  { key: 'familyPrice', label: 'Family' },
+  { key: 'partyPrice', label: 'Party' },
+] as const;
+
 const toForm = (p: Product): ProductForm => ({
   name: p.name,
   description: p.description,
   category: p.category,
-  price: String(bagPrice(p.price, 1)),
+  price: String(sizePrice(p, BAG_SIZES[0])),
+  familyPrice: String(sizePrice(p, BAG_SIZES[1])),
+  partyPrice: String(sizePrice(p, BAG_SIZES[2])),
   image: p.image,
   tasteLabel: p.taste?.label ?? '',
   tasteLevel: p.taste?.level ?? 0,
@@ -62,7 +74,6 @@ export default function ProductsManager({ products }: { products: Product[] }) {
   const photoChoices = PRODUCT_IMAGE_CHOICES.some((c) => c.src === form.image)
     ? PRODUCT_IMAGE_CHOICES
     : [{ src: form.image, label: 'Current photo' }, ...PRODUCT_IMAGE_CHOICES];
-  const smallPrice = Number(form.price);
 
   const open = (id: string, values: ProductForm) => {
     setEditing(id);
@@ -108,18 +119,21 @@ export default function ProductsManager({ products }: { products: Product[] }) {
                 ))}
               </select>
             </Field>
-            <Field
-              id="p-price"
-              label="Small bag price ($)"
-              hint={
-                Number.isFinite(smallPrice) && smallPrice > 0
-                  ? `Shoppers see: ${BAG_SIZES.map((s) => `${s.label} ${formatPrice(bagPrice(`$${smallPrice}`, s.multiplier))}`).join(' · ')}`
-                  : 'Family and Party prices follow from this one.'
-              }
-              error={errors.price}
-            >
-              <input id="p-price" type="number" inputMode="decimal" min={0.5} max={500} step={0.25} value={form.price} onChange={(e) => set('price', e.target.value)} required />
-            </Field>
+            {PRICE_FIELDS.map((field) => (
+              <Field key={field.key} id={`p-${field.key}`} label={`${field.label} bag price ($)`} error={errors[field.key]}>
+                <input
+                  id={`p-${field.key}`}
+                  type="number"
+                  inputMode="decimal"
+                  min={0.5}
+                  max={500}
+                  step={0.25}
+                  value={form[field.key]}
+                  onChange={(e) => set(field.key, e.target.value)}
+                  required
+                />
+              </Field>
+            ))}
             <Field id="p-image" label="Photo" error={errors.image}>
               <div className={styles.photoPick}>
                 <span className={styles.thumb}>
@@ -193,7 +207,7 @@ export default function ProductsManager({ products }: { products: Product[] }) {
                   </h3>
                   <p className={styles.rowMeta}>
                     <span>
-                      {BAG_SIZES.map((s) => `${s.label} ${formatPrice(bagPrice(product.price, s.multiplier))}`).join(' · ')}
+                      {BAG_SIZES.map((s) => `${s.label} ${formatPrice(sizePrice(product, s))}`).join(' · ')}
                     </span>
                   </p>
                 </div>

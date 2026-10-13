@@ -1,7 +1,7 @@
 'use server';
 
 import { getUpcomingEvents, pickupLabel } from '@/lib/events';
-import { BAG_SIZES, SHIPPING_AVAILABLE, bagPrice } from '@/lib/shop';
+import { BAG_SIZES, SHIPPING_AVAILABLE, sizePrice } from '@/lib/shop';
 import { getSiteData } from '@/server/repositories';
 import { fetchShopifyCatalog, findVariant, isShopifyConnected, samePrice, shopifyQuery } from '@/server/shopify';
 
@@ -52,7 +52,7 @@ export async function startCheckoutAction(input: unknown): Promise<CheckoutResul
       if (!variant) return problem(`${name} cannot be ordered online yet. Remove it, or message us to order.`);
       if (!variant.available) return problem(`${name} is sold out right now. Remove it to continue.`);
       // never send a shopper to pay a different price from the one the website showed
-      if (!samePrice(variant.price, bagPrice(flavor.price, size.multiplier))) {
+      if (!samePrice(variant.price, sizePrice(flavor, size))) {
         console.error(`Checkout blocked: ${name} is priced differently on the website and in Shopify.`);
         return problem(`The price of ${name} is being updated. Please try again later, or message us to order.`);
       }
