@@ -10,12 +10,10 @@ import { getUpcomingEvents, weekdayLabel } from '@/lib/events';
 import { useHydrated } from '@/lib/useHydrated';
 import styles from './Hero.module.css';
 
-// The original centered hero (photo behind, dark shade, centered copy, flavor chips, two
-// actions), restyled with design system v3.1 tokens. Behind it, a few real photos fade
-// from one to the next (the popcorn first), with dots to move between them. Under the buttons,
+// The original centered hero (photo behind, dark shade, centered copy, two actions), restyled with design system v3.1 tokens. Behind it, a few real photos fade
+// from one to the next (the popcorn first), with dots to move between them. Only photos that
+// stay calm behind the headline are used: bright canopies with printed lettering made it hard to read. Under the buttons,
 // the next market from the owners' calendar.
-const FLAVORS = ['Sweet & Salty', 'Caramel', 'Caramel Apple', 'Cheddar', 'Nacho Cheddar', 'BBQ Cheddar'];
-
 const SLIDE_MS = 6000;
 
 interface Photo {
@@ -39,12 +37,6 @@ const SLIDES: { alt: string; label: string; wide: Photo; tall: Photo }[] = [
     label: 'At the kettle',
     wide: { src: '/bob-pouring-kernels.jpg', width: 1024, height: 682, focus: '50% 20%' },
     tall: { src: '/reina-stirring-kettle.jpg', width: 768, height: 1024, focus: '50% 20%' },
-  },
-  {
-    alt: "The Queen's Corn team waving from the stand under two yellow canopies",
-    label: 'The team at the stand',
-    wide: { src: '/our-story-team.webp', width: 1240, height: 618, focus: '50% 40%' },
-    tall: { src: '/bob-reina.webp', width: 1240, height: 932, focus: '50% 50%' },
   },
 ];
 
@@ -115,13 +107,6 @@ export default function Hero() {
           Creating smiles one kernel at a time. From our family to yours, enjoy handcrafted kettle
           corn made fresh for Arizona’s markets, events, and happy moments.
         </p>
-        <ul className={styles.flavorChips} aria-label="Our flavors">
-          {FLAVORS.map((flavor) => (
-            <li key={flavor} className={styles.chip}>
-              {flavor}
-            </li>
-          ))}
-        </ul>
         <div className={styles.actions}>
           <Button href="/shop" variant="red">
             Shop our flavors

@@ -75,10 +75,15 @@ Changed the same day:
   so popcorn is the first thing below the hero (`src/app/page.tsx`). This swaps sections 3 and 4 of the
   decision above.
 
-- Hero polish: the popcorn close-up is now the first photo, followed by the kettle and the team under
-  the canopies (the blurry photo of Bob and Reina hugging left the hero; their faces sat behind the
-  headline). Dots under the buttons show and switch the photo. A "Next market" line under the buttons
-  links to `/events` and comes from the owners' calendar.
+- Hero polish: two photos now, the popcorn close-up first and then the kettle. The photo of Bob and
+  Reina hugging (blurry, faces behind the headline) and the team under the canopies (bright yellow with
+  printed lettering behind the headline: hard to read) are not used in the hero. Dots under the buttons
+  show and switch the photo. A "Next market" line under the buttons links to `/events` and comes from
+  the owners' calendar.
+- The flavor pills were removed from the hero: they were not clickable, listed six of ten flavors, and
+  the flavor cards now follow directly.
+- The shade behind the copy was made stronger again (78% in the middle) after the text proved hard to
+  read on bright photos; a tight shadow was added under the letters.
 
 Still suggested: larger hero photos (2,000px or more), three real reviews, real social links.
 See [[open-questions]].
