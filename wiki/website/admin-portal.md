@@ -22,7 +22,7 @@ it replaced a single 1,764-line page that kept most edits in the browser only.
 |---|---|---|
 | Overview | `/admin` | Nothing: counts, the next event, and a "needs your attention" list |
 | Events | `/admin/events` | `/events`, the homepage events band, the pickup lists in the shop and cart |
-| Flavors | `/admin/products` | `/shop`, `/shop/[id]`, the homepage flavor row (name, price, photo, taste meter, "on homepage", "hidden") |
+| Flavors | `/admin/products` | `/shop`, `/shop/[id]`, the homepage flavor row (name, price, photo, taste meter, "on homepage", "hidden"), **and the matching product in Shopify** ([[shopify-integration]]) |
 | Fundraisers | `/admin/fundraisers` | `/fundraising` and the cart's fundraiser list |
 | Settings | `/admin/settings` | Shows where data is saved and how sign-in is protected; Shopify test (lists flavors and sizes that cannot be ordered) and import; "restore built-in list" |
 

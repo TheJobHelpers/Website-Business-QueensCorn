@@ -57,8 +57,8 @@ ordering, 10-flavor catalog), PR #5 (branded product photos).
 **3. Shopify (owners first, then developer)**
 1. Owners: create the store in their name, choose a plan, switch on Shopify Payments with their bank details.
 2. Owners: approve the developer's collaborator request.
-3. Developer: the setup checklist in [[shopify-integration]] (10 flavors with sizes, Headless channel,
-   theme redirect, Local pickup, remove the store password).
+3. Developer: the setup checklist in [[shopify-integration]] (Headless channel, private key for the
+   dashboard, "Send all flavors to Shopify", theme redirect, Local pickup, remove the store password).
 4. Developer: set the two Shopify variables in Vercel; run "Test the connection" in the dashboard until it
    reports nothing to fix.
 5. One real order for a small bag, then refund it.
@@ -69,13 +69,13 @@ ordering, 10-flavor catalog), PR #5 (branded product photos).
 - Product detail page and Terms are still in the old style
 - Contact form opens the visitor's email app: decide whether a real mail service is needed
 
-**Decided 2026-10-13: keep the dashboard lean**
-- Dashboard = events and fundraisers. Shopify = products, orders, payments, sales reports.
-- Flavors are made to order: no stock tracking ("Track quantity" off in Shopify).
+**Decided 2026-10-13**
+- The owners edit flavors in the dashboard; each change is written to Shopify (built and tested on the
+  development store, see [[shopify-integration]]). Shopify keeps orders, payments and sales reports.
+- Flavors are made to order: no stock tracking.
 - Visitor numbers: Vercel Web Analytics (public pages only; `/admin` is not counted), viewed in Vercel.
 
-**After launch, in this order**
-1. Products read from Shopify (name, price, photo, type, tags); the dashboard's Flavors screen becomes read-only.
-2. Only if the owners ask: an "orders to pop" list per market with fundraiser totals (needs a private
-   Shopify key with read-only order access).
-3. Shipping (`SHIPPING_AVAILABLE` in `src/lib/shop.ts`), photo upload, real reviews, an order cut-off before a market.
+**After launch**
+1. Only if the owners ask: an "orders to pop" list per market with fundraiser totals (needs read access to orders).
+2. Send flavor photos to Shopify; photo upload from the dashboard.
+3. Shipping (`SHIPPING_AVAILABLE` in `src/lib/shop.ts`), real reviews, an order cut-off before a market.

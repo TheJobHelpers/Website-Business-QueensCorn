@@ -189,6 +189,7 @@ export default function ProductsManager({ products }: { products: Product[] }) {
                     {product.name}
                     <span className={styles.tag}>{product.category}</span>
                     {product.hidden && <span className={`${styles.tag} ${styles.tagMuted}`}>Hidden</span>}
+                    {product.shopifyId && <span className={`${styles.tag} ${styles.tagMuted}`}>In Shopify</span>}
                   </h3>
                   <p className={styles.rowMeta}>
                     <span>

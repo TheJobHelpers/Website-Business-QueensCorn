@@ -2,7 +2,13 @@
 
 import { useState } from 'react';
 import { AlertTriangle, CheckCircle2 } from 'lucide-react';
-import { importShopifyCatalogAction, resetCollectionAction, testShopifyConnectionAction, type ShopifyStatus } from '@/app/actions/settings';
+import {
+  importShopifyCatalogAction,
+  resetCollectionAction,
+  sendFlavorsToShopifyAction,
+  testShopifyConnectionAction,
+  type ShopifyStatus,
+} from '@/app/actions/settings';
 import Button from '@/components/ui/Button';
 import { ConfirmButton, NoticeBar, PageHeader } from './ui';
 import { useAdminAction } from './useAdminAction';
@@ -13,6 +19,8 @@ export interface SettingsStatus {
   storeKind: 'redis' | 'file' | 'readonly';
   passwordIsHashed: boolean;
   shopifyConfigured: boolean;
+  /** the server has a key that may change products in Shopify */
+  shopifyAdminConnected: boolean;
   sessionDays: number;
 }
 
@@ -104,6 +112,15 @@ export default function SettingsPanel({ status }: { status: SettingsStatus }) {
               title="Shopify is connected"
               text="Checkout goes through Shopify. Orders, payments and refunds are managed in your Shopify admin, not here."
             />
+            <StatusLine
+              ok={status.shopifyAdminConnected}
+              title={status.shopifyAdminConnected ? 'Flavor changes are sent to Shopify' : 'Flavor changes are not sent to Shopify'}
+              text={
+                status.shopifyAdminConnected
+                  ? 'When you add, rename, reprice, hide or delete a flavor here, the product in Shopify is changed to match.'
+                  : 'The Flavors screen only changes the website. Until the dashboard key is added to the server settings, every change must be repeated in Shopify by hand.'
+              }
+            />
             {shopify && (
               <p className={styles.result}>
                 Reached <b>{shopify.shopName}</b>
@@ -131,6 +148,14 @@ export default function SettingsPanel({ status }: { status: SettingsStatus }) {
               <Button variant="dark" size="sm" disabled={pending} onClick={() => run(testShopifyConnectionAction, { onSuccess: setShopify })}>
                 Test the connection
               </Button>
+              {status.shopifyAdminConnected && (
+                <ConfirmButton
+                  label="Send all flavors to Shopify"
+                  confirmLabel="Yes, create or update them in Shopify"
+                  disabled={pending}
+                  onConfirm={() => run(sendFlavorsToShopifyAction, { onSuccess: () => setShopify(null) })}
+                />
+              )}
               <ConfirmButton
                 label="Replace flavors with Shopify's products"
                 confirmLabel="Yes, replace all flavors"

@@ -46,6 +46,9 @@ with the answer and source, and update the related page.
     `/order/thank-you` are not confirmed yet. See [[shopify-integration]]
 19. **Pickup-only checkout:** Shopify still asks for a shipping address until Local pickup is switched on
     and shipping rates are removed. See [[fulfillment-and-shipping]]
+20. **Dashboard key for the owners' store:** the development store uses a Dev Dashboard app, which only
+    works inside the developer's Shopify organization. How the key is created in the owners' store is
+    not tried yet. See [[shopify-integration]]
 
 ## Resolved
 - **8. Checkout variant ids** (2026-10-13): checkout now runs on the server and matches flavor name + `Size`

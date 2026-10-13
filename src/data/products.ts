@@ -12,6 +12,8 @@ export interface Product {
   hidden?: boolean;
   /** One taste meter on the card (1–5 kernels). Owners can tune these. */
   taste?: { label: string; level: number };
+  /** The matching product in Shopify, set once the dashboard has sent this flavor there. */
+  shopifyId?: string;
 }
 
 export const PRODUCT_IMAGES: Record<string, string> = {

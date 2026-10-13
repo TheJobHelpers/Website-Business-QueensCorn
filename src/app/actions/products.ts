@@ -4,16 +4,33 @@ import type { Product } from '@/data/products';
 import type { ActionResult } from '@/lib/action-result';
 import { adminAction, publishSiteData } from '@/server/admin-action';
 import { products } from '@/server/repositories';
+import { archiveFlavorInShopify, isShopifyAdminConnected, pushFlavorToShopify } from '@/server/shopify-admin';
 import { ValidationError, parseId, parseProductInput } from '@/server/validation';
+
+// When the dashboard can write to Shopify, every flavor change goes to Shopify FIRST and is only
+// saved on the website if Shopify accepted it: the two never drift apart because of a failed save.
+
+const notFound = () => new ValidationError({ id: 'That item no longer exists. Refresh the page.' });
+
+async function existing(id: string): Promise<Product> {
+  const found = (await products.list()).find((p) => p.id === id);
+  if (!found) throw notFound();
+  return found;
+}
 
 /** Add a flavor (id = null) or change one. */
 export async function saveProductAction(id: string | null, input: unknown): Promise<ActionResult<Product>> {
+  const linked = isShopifyAdminConnected();
   return adminAction(async () => {
     const data = parseProductInput(input);
-    const saved = id === null ? await products.create(data) : await products.update(parseId(id), (previous) => ({ ...data, id: previous.id }));
+    const previous = id === null ? null : await existing(parseId(id));
+    const shopifyId = linked ? await pushFlavorToShopify({ ...data, shopifyId: previous?.shopifyId }) : previous?.shopifyId;
+    const flavor = { ...data, ...(shopifyId ? { shopifyId } : {}) };
+
+    const saved = previous === null ? await products.create(flavor) : await products.update(previous.id, () => ({ ...flavor, id: previous.id }));
     publishSiteData();
     return saved;
-  }, id === null ? 'Flavor added. It is live in the shop.' : 'Flavor updated.');
+  }, `${id === null ? 'Flavor added. It is live in the shop' : 'Flavor updated'}${linked ? ' and in Shopify' : ''}.`);
 }
 
 /** The two switches on the flavor list: on the homepage, and hidden from the site. */
@@ -24,15 +41,22 @@ export async function setProductFlagAction(
 ): Promise<ActionResult<Product>> {
   return adminAction(async () => {
     if (flag !== 'featured' && flag !== 'hidden') throw new ValidationError({ form: 'Unknown setting.' });
-    const saved = await products.update(parseId(id), (product) => ({ ...product, [flag]: value === true }));
+    const changed = { ...(await existing(parseId(id))), [flag]: value === true };
+    // "on the homepage" is a website matter; "hidden" also takes the flavor off sale in Shopify
+    const shopifyId = flag === 'hidden' && isShopifyAdminConnected() ? await pushFlavorToShopify(changed) : changed.shopifyId;
+
+    const saved = await products.update(changed.id, (product) => ({ ...product, [flag]: value === true, ...(shopifyId ? { shopifyId } : {}) }));
     publishSiteData();
     return saved;
   });
 }
 
 export async function deleteProductAction(id: string): Promise<ActionResult> {
+  const linked = isShopifyAdminConnected();
   return adminAction(async () => {
-    await products.remove(parseId(id));
+    const flavor = await existing(parseId(id));
+    if (linked) await archiveFlavorInShopify(flavor);
+    await products.remove(flavor.id);
     publishSiteData();
-  }, 'Flavor deleted.');
+  }, linked ? 'Flavor deleted, and archived in Shopify.' : 'Flavor deleted.');
 }

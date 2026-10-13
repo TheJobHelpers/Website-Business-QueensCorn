@@ -4,6 +4,12 @@ Append-only history, **newest first**. Format and types are defined in [CLAUDE.m
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
 ## 2026-10-13 | ingest | Manula
+- Flavors screen now writes to Shopify (`src/server/shopify-admin.ts`): add, rename, reprice, hide, delete,
+  and "Send all flavors to Shopify" in Settings. Replaces this morning's decision to keep products out of the dashboard
+- Tested on the development store: all ten flavors created or linked, 0 mismatches
+- Updated [[shopify-integration]], [[admin-portal]], [[branches-and-status]], [[open-questions]] (20 added)
+
+## 2026-10-13 | ingest | Manula
 - Dashboard stays lean: events and fundraisers only; products, orders and sales reports are handled in Shopify.
   Flavors are made to order, so no stock tracking
 - Vercel Web Analytics added for visitor numbers (`src/components/SiteAnalytics.tsx`, `/admin` excluded)
