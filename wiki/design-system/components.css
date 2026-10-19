@@ -57,7 +57,7 @@
 .board label { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: var(--space-3) var(--space-2); cursor: pointer; text-align: center; background: var(--white); border: var(--border); border-radius: var(--radius-md); transition: border-color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease); }
 .board input { position: absolute; opacity: 0; }
 .board .sz { font-size: var(--text-label); font-weight: 700; letter-spacing: var(--tracking-label); text-transform: uppercase; }
-.board .pr { font-family: var(--font-display); font-size: 1.75rem; line-height: 1.1; color: var(--red); }
+.board .pr { font-family: var(--font-body); font-weight: 700; font-size: 1.25rem; line-height: 1.1; color: var(--red); }
 .board .who { font-size: var(--text-xs); color: var(--ink-soft); }
 .board label:has(input:checked) { background: var(--butter); border-color: var(--ink); }
 .board label:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }

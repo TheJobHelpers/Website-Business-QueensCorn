@@ -17,6 +17,7 @@ export default function FundraisingBand() {
       <div className="main-container">
         <div className={`${styles.band} fx-zoom`}>
           <div className={styles.copy}>
+            <div className={styles.canopyStrip} aria-hidden="true" />
             <span className="v3-eyebrow">For schools &amp; teams</span>
             <h2 id="fundraising-title" className={styles.title}>
               Your team keeps <em>50%</em> of every sale.

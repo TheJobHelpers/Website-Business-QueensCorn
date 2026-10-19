@@ -66,7 +66,7 @@ export default function ProductCard({
         {description && <p className={styles.description}>{description}</p>}
 
         {taste && level > 0 && (
-          <div className={styles.meter}>
+          <div className={`${styles.meter} ${styles[category.toLowerCase()] || ''}`}>
             <span>{taste.label}</span>
             <span className={styles.kernels} role="img" aria-label={`${taste.label} ${level} of 5`}>
               {Array.from({ length: 5 }, (_, i) => (

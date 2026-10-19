@@ -172,9 +172,11 @@
 }
 
 .sizePrice {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  font-weight: 700;
   line-height: 1.1;
+  letter-spacing: -0.01em;
   color: var(--ink);
 }
 
@@ -238,7 +240,7 @@
     display: none;
   }
   .sizePrice {
-    font-size: 1.125rem;
+    font-size: 0.9375rem;
   }
   .addRow {
     grid-template-columns: 1fr;

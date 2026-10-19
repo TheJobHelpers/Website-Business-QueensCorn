@@ -7,6 +7,8 @@ type Variant = 'red' | 'dark' | 'ghost';
 
 interface Way {
   key: 'ship' | 'pickup' | 'group';
+  step: string;
+  badge?: string;
   icon: typeof Truck;
   title: string;
   text: string;
@@ -18,6 +20,8 @@ interface Way {
 
 const PICKUP: Way = {
   key: 'pickup',
+  step: '1',
+  badge: 'Most popular · Ready warm',
   icon: Store,
   title: 'Picked up at a market',
   text: 'Pre-order online, skip the line, and collect it warm from the stand.',
@@ -32,6 +36,8 @@ const PICKUP: Way = {
 
 const GROUP: Way = {
   key: 'group',
+  step: '2',
+  badge: 'Schools & Events',
   icon: School,
   title: 'For your school or event',
   text: 'Raise money with a fundraiser, or book us to pop live at your party or company event.',
@@ -45,6 +51,7 @@ const GROUP: Way = {
 const SHIP: Way = SHIPPING_AVAILABLE
   ? {
       key: 'ship',
+      step: '3',
       icon: Truck,
       title: 'Shipped to your door',
       text: 'We pop it, bag it and send it anywhere in Arizona by USPS.',
@@ -53,6 +60,7 @@ const SHIP: Way = SHIPPING_AVAILABLE
     }
   : {
       key: 'ship',
+      step: '3',
       icon: Truck,
       title: 'Shipped to your door',
       text: 'Arizona shipping is on its way. Until then, pre-order for free pickup at any market.',
@@ -70,6 +78,7 @@ export default function WaysToBuy() {
     <section className="v3-section" aria-labelledby="ways-title">
       <div className="main-container">
         <header className={styles.header}>
+          <div className={styles.canopyStrip} aria-hidden="true" />
           <span className="v3-eyebrow">How it works</span>
           <h2 id="ways-title" className="v3-title">
             {SHIPPING_AVAILABLE ? 'Three ways to get your corn' : 'How to get your corn'}
@@ -78,17 +87,33 @@ export default function WaysToBuy() {
         </header>
 
         <ol className={`${styles.grid} fx-stagger`}>
-          {WAYS.map(({ key, icon: Icon, title, text, fact, soon, actions }) => (
+          {WAYS.map(({ key, step, badge, icon: Icon, title, text, fact, soon, actions }) => (
             <li key={key} className={`${styles.card} ${styles[key]} ${soon ? styles.soon : ''}`}>
               <div className={styles.top}>
-                <span className={styles.icon} aria-hidden="true">
-                  <Icon size={26} strokeWidth={2.25} />
+                <span className={styles.numDisc} aria-label={`Step ${step}`}>
+                  {step}
                 </span>
-                {soon && <span className={styles.stamp}>Coming soon</span>}
+                {badge && !soon && (
+                  <span className={styles.badge}>
+                    <Icon size={15} strokeWidth={2.25} aria-hidden="true" />
+                    {badge}
+                  </span>
+                )}
+                {soon && (
+                  <span className={styles.stamp}>
+                    <Icon size={15} strokeWidth={2.25} aria-hidden="true" />
+                    Coming soon
+                  </span>
+                )}
               </div>
               <h3 className={styles.title}>{title}</h3>
               <p className={styles.text}>{text}</p>
-              {!soon && <p className={styles.fact}>{fact}</p>}
+              {!soon && (
+                <p className={styles.fact}>
+                  <span className={styles.factDot} aria-hidden="true" />
+                  {fact}
+                </p>
+              )}
               {actions.length > 0 && (
                 <div className={styles.actions}>
                   {actions.map((a) => (
