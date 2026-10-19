@@ -70,7 +70,7 @@ export const ALL_PRODUCTS: Product[] = [
     image: PRODUCT_IMAGES['Sweet & Salty'],
     category: 'Sweet',
     taste: { label: 'Sweet', level: 3 },
-    description: 'Our signature blend of sweet and salty perfection, hand-stirred in pure corn oil in Arizona.',
+    description: 'Our signature blend of sweet and salty perfection, hand-stirred in pure corn oil.',
     featured: true,
   },
   {
@@ -99,7 +99,7 @@ export const ALL_PRODUCTS: Product[] = [
     image: PRODUCT_IMAGES['Caramel Cheddar'],
     category: 'Savory',
     taste: { label: 'Sweet', level: 4 },
-    description: 'The ultimate gourmet mix—a harmonious marriage of sweet amber caramel and sharp cheddar.',
+    description: 'The ultimate gourmet mix—sweet amber caramel meets sharp cheddar.',
     featured: true,
   },
   {

@@ -25,6 +25,7 @@ export default function UpcomingEvents() {
       <div className="main-container">
         <div className={`${styles.band} fx-zoom`}>
           <header className={styles.header}>
+            <div className={styles.canopyStrip} aria-hidden="true" />
             <span className={styles.eyebrow}>Markets &amp; events</span>
             <h2 id="markets-title" className={styles.title}>
               Come see the kettle

@@ -12,6 +12,18 @@
   min-width: 0;
 }
 
+.canopyStrip {
+  width: 44px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--red) 0 11px,
+    var(--yellow) 11px 22px
+  );
+  margin-bottom: var(--space-3);
+}
+
 .title {
   margin: var(--space-2) 0 var(--space-3);
   font-family: var(--font-display);
@@ -46,6 +58,7 @@
   padding: var(--space-5);
   background: var(--white);
   border: var(--border);
+  border-top: 4px solid var(--red);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   text-align: center;

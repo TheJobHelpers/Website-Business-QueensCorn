@@ -38,26 +38,28 @@ export default function ContactPage() {
 
   // Links from the cart, fundraising and shop pages arrive with ?subject= (and sometimes more).
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const paramSubject = params.get('subject');
-    const paramGoal = params.get('goal');
-    const paramFundraiser = params.get('fundraiser');
+    queueMicrotask(() => {
+      const params = new URLSearchParams(window.location.search);
+      const paramSubject = params.get('subject');
+      const paramGoal = params.get('goal');
+      const paramFundraiser = params.get('fundraiser');
 
-    if (paramSubject === 'Fundraising') {
-      setSubject('50% School / Team Fundraising');
-      if (paramGoal) {
-        setMessage(
-          `Hi Bob & Reina! We would love to set up a 50% Giveback Popcorn Fundraiser with an estimated goal of $${Number(
-            paramGoal
-          ).toLocaleString()}.`
-        );
+      if (paramSubject === 'Fundraising') {
+        setSubject('50% School / Team Fundraising');
+        if (paramGoal) {
+          setMessage(
+            `Hi Bob & Reina! We would love to set up a 50% Giveback Popcorn Fundraiser with an estimated goal of $${Number(
+              paramGoal
+            ).toLocaleString()}.`
+          );
+        }
+      } else if (paramSubject && SUBJECTS.some((s) => s.value === paramSubject)) {
+        setSubject(paramSubject);
+        if (paramFundraiser) {
+          setMessage(`Supporting Fundraiser Code: ${paramFundraiser}\n\n`);
+        }
       }
-    } else if (paramSubject && SUBJECTS.some((s) => s.value === paramSubject)) {
-      setSubject(paramSubject);
-      if (paramFundraiser) {
-        setMessage(`Supporting Fundraiser Code: ${paramFundraiser}\n\n`);
-      }
-    }
+    });
   }, []);
 
   // The site has no mail server yet, so the message is handed to the visitor's own email app,

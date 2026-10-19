@@ -24,6 +24,7 @@ export default function FeaturedProducts() {
       <div className="main-container">
         <header className={styles.header}>
           <div>
+            <div className={styles.canopyStrip} aria-hidden="true" />
             <span className="v3-eyebrow">Our flavors</span>
             <h2 id="flavors-title" className="v3-title">
               The ones people come back for

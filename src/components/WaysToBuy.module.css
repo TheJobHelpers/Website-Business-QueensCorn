@@ -2,6 +2,18 @@
   margin-bottom: var(--space-6);
 }
 
+.canopyStrip {
+  width: 44px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--red) 0 11px,
+    var(--yellow) 11px 22px
+  );
+  margin-bottom: var(--space-3);
+}
+
 .grid {
   list-style: none;
   margin: 0;
@@ -26,9 +38,15 @@
   padding: var(--space-5);
   background: var(--white);
   border: var(--border);
+  border-top: 4px solid var(--line);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.card:not(.soon):hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .top {
@@ -38,10 +56,47 @@
   gap: var(--space-3);
 }
 
+.numDisc {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 400;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: transform var(--dur) var(--ease);
+}
+
+.card:not(.soon):hover .numDisc {
+  transform: scale(1.08);
+}
+
+.pickup .numDisc {
+  background: var(--yellow);
+  color: var(--ink);
+  box-shadow: 0 3px 12px rgba(255, 216, 74, 0.45);
+}
+
+.group .numDisc {
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(217, 35, 42, 0.35);
+}
+
+.ship .numDisc {
+  background: var(--line);
+  color: var(--ink-soft);
+}
+
 /* a way that is not open yet: quieter card with a stamp */
 .soon {
-  background: transparent;
+  background: rgba(255, 253, 249, 0.65);
   border-style: dashed;
+  border-top-style: dashed;
+  border-top-color: var(--line);
   box-shadow: none;
 }
 
@@ -50,27 +105,49 @@
 }
 
 .stamp {
-  padding: 6px var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px var(--space-3);
   border-radius: var(--radius-pill);
-  background: var(--butter);
+  background: var(--line);
+  font-size: var(--text-label);
+  font-weight: 700;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
   font-size: var(--text-label);
   font-weight: 800;
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
+  background: var(--butter);
   color: var(--ink);
+  border: 1px solid rgba(255, 216, 74, 0.5);
+  white-space: nowrap;
 }
 
-.icon {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
+.pickup {
+  border-top: 4px solid var(--yellow);
 }
 
-.ship .icon { background: var(--ink); color: var(--paper); }
-.pickup .icon { background: var(--yellow); color: var(--ink); }
-.group .icon { background: var(--red); color: #fff; }
+.pickup .badge {
+  background: var(--yellow);
+  color: var(--ink);
+  border-color: var(--yellow);
+  box-shadow: 0 2px 8px rgba(255, 216, 74, 0.35);
+}
+
+.group {
+  border-top: 4px solid var(--red);
+}
 
 .title {
   margin: 0;
@@ -92,6 +169,22 @@
   margin: 0;
   font-size: var(--text-sm);
   font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+}
+
+.group .fact {
+  color: var(--red-deep);
+}
+
+.factDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
 }
 
 .actions {

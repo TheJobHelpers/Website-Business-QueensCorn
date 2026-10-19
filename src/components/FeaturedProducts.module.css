@@ -7,6 +7,18 @@
   margin-bottom: var(--space-6);
 }
 
+.canopyStrip {
+  width: 44px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--red) 0 11px,
+    var(--yellow) 11px 22px
+  );
+  margin-bottom: var(--space-3);
+}
+
 .sizes {
   list-style: none;
   margin: 0;
@@ -31,9 +43,10 @@
 
 .sizes b {
   margin-left: 6px;
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 400;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
   color: var(--red);
 }
 
