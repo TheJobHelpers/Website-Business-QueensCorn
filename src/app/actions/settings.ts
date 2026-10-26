@@ -71,7 +71,7 @@ export async function importShopifyCatalogAction(): Promise<ActionResult<{ count
     await products.replaceAll(imported);
     publishSiteData();
     return { count: imported.length };
-  }, 'Flavors imported from Shopify.');
+  }, 'Flavors imported from Shopify.', ({ count }) => `Replaced the flavors with ${count} products from Shopify`);
 }
 
 /**
@@ -98,7 +98,7 @@ export async function sendFlavorsToShopifyAction(): Promise<ActionResult<{ count
       }
     }
     return { count: linked.length };
-  }, "Every flavor is now in Shopify with the website's prices and photos.");
+  }, "Every flavor is now in Shopify with the website's prices and photos.", ({ count }) => `Sent all ${count} flavors to Shopify`);
 }
 
 /** Puts one list back to the built-in version that ships with the website. */
@@ -108,5 +108,5 @@ export async function resetCollectionAction(which: 'events' | 'products' | 'fund
     if (!target) throw new ValidationError({ form: 'Unknown list.' });
     await target.reset();
     publishSiteData();
-  }, 'Restored to the built-in list.');
+  }, 'Restored to the built-in list.', `Restored the built-in ${which === 'products' ? 'flavors' : which} list`);
 }

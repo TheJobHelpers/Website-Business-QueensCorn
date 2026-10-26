@@ -20,12 +20,17 @@ export async function saveFundraiserAction(
       id === null ? await fundraisers.create(data) : await fundraisers.update(parseId(id), (previous) => ({ ...data, id: previous.id }));
     publishSiteData();
     return saved;
-  }, id === null ? 'Campaign added. It is live on the Fundraising page.' : 'Campaign updated.');
+  }, id === null ? 'Campaign added. It is live on the Fundraising page.' : 'Campaign updated.', (saved) =>
+    `${id === null ? 'Added' : 'Changed'} fundraiser "${saved.organization}" (${saved.code})`);
 }
 
 export async function deleteFundraiserAction(id: string): Promise<ActionResult> {
+  let name = '';
   return adminAction(async () => {
-    await fundraisers.remove(parseId(id));
+    const campaignId = parseId(id);
+    const campaign = (await fundraisers.list()).find((f) => f.id === campaignId);
+    name = campaign ? `"${campaign.organization}" (${campaign.code})` : campaignId;
+    await fundraisers.remove(campaignId);
     publishSiteData();
-  }, 'Campaign deleted.');
+  }, 'Campaign deleted.', () => `Deleted fundraiser ${name}`);
 }

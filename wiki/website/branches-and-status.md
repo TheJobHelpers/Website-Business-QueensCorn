@@ -53,7 +53,9 @@ ordering, 10-flavor catalog), PR #5 (branded product photos).
 
 **2. Hosting (developer, with the owners' go-ahead on cost)**
 1. Vercel Pro (the free plan does not allow commercial use).
-2. In Vercel: new `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`; add an Upstash Redis database.
+2. In Vercel: `ADMIN_1_*` for each super admin from `node scripts/admin-account.mjs`, a new `ADMIN_SESSION_SECRET`,
+   `ADMIN_DATA_KEY` (once; other admins are then invited from the dashboard);
+   delete the old `ADMIN_EMAIL` / `ADMIN_PASSWORD`; an Upstash Redis database (required for sign-in).
 3. Sign in to the live dashboard, save one test event, check it shows on `/events`, delete it.
 
 **3. Shopify (owners first, then developer)**
