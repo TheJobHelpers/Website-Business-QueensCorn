@@ -33,6 +33,7 @@ How to use the wiki: [README](README.md) · Rules for agents: [CLAUDE.md](CLAUDE
 - [[design-palette-decision]]: amber → Red & Gold → Buttercream → Canopy v3.0 → **Warm Canopy v3.1** (2026-10-10)
 
 - [[shop-page-structure]]: shop built around 3 taps: how you get it → flavor → size; compact header, bag bar (proposed)
+- [[admin-sign-in-security]]: dashboard sign-in rebuilt to OWASP ASVS L2 / NIST AAL2: per-person logins, authenticator codes, server-side sessions, 30-day activity log (2026-10-26)
 - [[landing-page-structure]]: homepage rebuilt around selling: hero, three ways to buy, flavors, markets, fundraising, one story (merged; review notes 2026-10-13)
 
 ## Templates

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { CalendarDays, ClipboardList, ExternalLink, HeartHandshake, LayoutDashboard, LogOut, Popcorn, Settings, TrendingUp } from 'lucide-react';
+import { CalendarDays, ClipboardList, ExternalLink, HeartHandshake, LayoutDashboard, LogOut, Popcorn, Settings, ShieldCheck, TrendingUp } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { logoutAction } from '@/app/actions/auth';
 import styles from './admin.module.css';
@@ -17,6 +17,7 @@ const NAV = [
   { href: '/admin/events', label: 'Events', icon: CalendarDays },
   { href: '/admin/products', label: 'Flavors', icon: Popcorn },
   { href: '/admin/fundraisers', label: 'Fundraisers', icon: HeartHandshake },
+  { href: '/admin/admins', label: 'Admins & activity', icon: ShieldCheck },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 

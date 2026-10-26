@@ -4,6 +4,16 @@ Append-only history, **newest first**. Format and types are defined in [CLAUDE.m
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
 ## 2026-10-26 | ingest | Manula
+- Dashboard sign-in rebuilt (branch `feature/admin-auth-hardening`): one login per person with an
+  authenticator code and backup codes, scrypt-only passwords, sessions in Redis (30 min idle / 12 h max,
+  real logout, sign out everywhere), shared attempt limits, new "Admins & activity" screen (30-day log)
+- Then: QR code at a super admin's first sign-in; super admin / admin roles; invite links (`/admin/setup`);
+  reset and remove from Admins & activity; Settings > Your sign-in (replace phone, new backup codes,
+  change password); admin records sealed with `ADMIN_DATA_KEY`
+- Created: [[admin-sign-in-security]]
+- Updated: [[admin-portal]], [[website-architecture]], [[branches-and-status]], [[open-questions]] (10 reworded), index
+
+## 2026-10-26 | ingest | Manula
 - Shopify readiness review fixes (branch `fix/shopify-checkout-readiness`): Storefront API `2025-01` -> `2026-07`;
   pickup checkout refused when no market is open; ended fundraisers hidden from shoppers and refused at checkout
 - Updated: [[shopify-integration]], [[fundraising-program]]

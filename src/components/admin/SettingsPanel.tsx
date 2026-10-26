@@ -1,7 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
+import Link from 'next/link';
 import { AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { signOutEverywhereAction } from '@/app/actions/auth';
 import {
   importShopifyCatalogAction,
   resetCollectionAction,
@@ -16,12 +18,19 @@ import styles from './admin.module.css';
 
 export interface SettingsStatus {
   email: string;
+  role: 'super' | 'admin';
   storeKind: 'redis' | 'file' | 'readonly';
-  passwordIsHashed: boolean;
+  /** people who can sign in */
+  accountCount: number;
+  idleMinutes: number;
+  maxHours: number;
+  /** this person's one-time backup codes */
+  backupCodes: { total: number; left: number };
+  /** sign-in settings that are wrong or no longer used (names only, never values) */
+  settingsToTidy: string[];
   shopifyConfigured: boolean;
   /** the server has a key that may change products in Shopify */
   shopifyAdminConnected: boolean;
-  sessionDays: number;
 }
 
 const STORE_TEXT: Record<SettingsStatus['storeKind'], { ok: boolean; title: string; text: string }> = {
@@ -63,10 +72,11 @@ function StatusLine({ ok, title, text }: { ok: boolean; title: string; text: str
 
 // Settings screen: where things are saved, how sign-in is protected, Shopify, and the
 // "put it back" buttons.
-export default function SettingsPanel({ status }: { status: SettingsStatus }) {
+export default function SettingsPanel({ status, mySignIn }: { status: SettingsStatus; mySignIn: ReactNode }) {
   const { pending, notice, clearNotice, run } = useAdminAction();
   const [shopify, setShopify] = useState<ShopifyStatus | null>(null);
   const store = STORE_TEXT[status.storeKind];
+  const { total: codesTotal, left: codesLeft } = status.backupCodes;
 
   return (
     <>
@@ -84,21 +94,55 @@ export default function SettingsPanel({ status }: { status: SettingsStatus }) {
         <h2 id="security-title" className={styles.cardTitle}>
           Sign-in and security
         </h2>
-        <StatusLine ok title={`Signed in as ${status.email}`} text={`You stay signed in for ${status.sessionDays} days on this device, then sign in again.`} />
         <StatusLine
-          ok={status.passwordIsHashed}
-          title={status.passwordIsHashed ? 'Password is stored as a hash' : 'Password is stored as plain text in the server settings'}
+          ok
+          title={`Signed in as ${status.email} (${status.role === 'super' ? 'super admin' : 'admin'})`}
+          text={`Two-step sign-in is on: a password plus a code from your phone. You are signed out after ${status.idleMinutes} minutes without activity, and always after ${status.maxHours} hours.`}
+        />
+        <StatusLine
+          ok={codesLeft > 2}
+          title={codesTotal === 0 ? 'You have no backup codes' : `${codesLeft} of ${codesTotal} backup codes left`}
           text={
-            status.passwordIsHashed
-              ? 'The server only keeps a scrambled form of the password.'
-              : 'It works, but a hash is safer. Whoever manages the website can run "node scripts/hash-password.mjs" and set ADMIN_PASSWORD_HASH instead.'
+            codesLeft > 2
+              ? 'Each backup code signs you in once if your phone is lost. Keep them somewhere safe, away from your phone.'
+              : 'Without backup codes, a lost phone means you cannot sign in. Make new ones below.'
           }
         />
+        {status.settingsToTidy.length > 0 && (
+          <>
+            <StatusLine
+              ok={false}
+              title="Some sign-in settings need attention"
+              text="Whoever manages the website should fix these in the server settings in Vercel."
+            />
+            <ul className={styles.plainList}>
+              {status.settingsToTidy.map((problem) => (
+                <li key={problem}>{problem}</li>
+              ))}
+            </ul>
+          </>
+        )}
         <ul className={styles.plainList}>
-          <li>Five wrong passwords in a row lock sign-in from that connection for 15 minutes.</li>
+          <li>
+            {status.accountCount === 1 ? 'One person has' : `${status.accountCount} people have`} their own sign-in: see{' '}
+            <Link href="/admin/admins">Admins &amp; activity</Link>{' '}
+            for who they are and what they did.
+            {status.role === 'super'
+              ? ' As a super admin you add, reset and remove people there.'
+              : ' A super admin adds, resets and removes people there.'}
+          </li>
+          <li>Five wrong tries from one connection, or ten for one account, pause sign-in for 15 minutes.</li>
           <li>Every change is checked on the server: nobody can save without being signed in.</li>
-          <li>To change the email or password, update the server settings in Vercel and redeploy.</li>
         </ul>
+        {mySignIn}
+        <div className={styles.formActions}>
+          <ConfirmButton
+            label="Sign out on every device"
+            confirmLabel="Yes, sign me out everywhere"
+            disabled={pending}
+            onConfirm={() => run(signOutEverywhereAction)}
+          />
+        </div>
       </section>
 
       <section className={styles.card} aria-labelledby="shopify-title">

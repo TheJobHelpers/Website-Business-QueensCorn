@@ -31,7 +31,7 @@ Repo: https://github.com/TheJobHelpers/Website-Business-QueensCorn
 
 ## Commands
 
-`npm run dev` · `npm run build` · `npm run start` · `npm run lint` · `node scripts/hash-password.mjs`
+`npm run dev` · `npm run build` · `npm run start` · `npm run lint` · `node scripts/admin-account.mjs` (adds or resets a dashboard login)
 
 ## Routes
 
@@ -75,7 +75,7 @@ Names only; values are never written here. See `.env.example`.
 
 | Group | Variables |
 |---|---|
-| Dashboard sign-in | `ADMIN_EMAIL`, `ADMIN_PASSWORD` or `ADMIN_PASSWORD_HASH`, `ADMIN_SESSION_SECRET` |
+| Dashboard sign-in | Super admins: `ADMIN_<n>_EMAIL`, `ADMIN_<n>_PASSWORD_HASH`, `ADMIN_<n>_TOTP_SECRET`, `ADMIN_<n>_BACKUP_CODES` (n = 1–9); `ADMIN_SESSION_SECRET`; `ADMIN_DATA_KEY` (seals admins added from the dashboard; set once); needs the Redis database |
 | Saved data | `KV_REST_API_URL`, `KV_REST_API_TOKEN` (Upstash Redis) |
 | Shopify checkout | `NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN`, `NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN` |
 | Shopify dashboard key | `SHOPIFY_ADMIN_ACCESS_TOKEN`, or `SHOPIFY_ADMIN_CLIENT_ID` + `SHOPIFY_ADMIN_CLIENT_SECRET` |
