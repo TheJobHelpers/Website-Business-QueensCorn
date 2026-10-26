@@ -30,7 +30,8 @@ export async function saveProductAction(id: string | null, input: unknown): Prom
     const saved = previous === null ? await products.create(flavor) : await products.update(previous.id, () => ({ ...flavor, id: previous.id }));
     publishSiteData();
     return saved;
-  }, `${id === null ? 'Flavor added. It is live in the shop' : 'Flavor updated'}${linked ? ' and in Shopify' : ''}.`);
+  }, `${id === null ? 'Flavor added. It is live in the shop' : 'Flavor updated'}${linked ? ' and in Shopify' : ''}.`, (saved) =>
+    `${id === null ? 'Added' : 'Changed'} flavor "${saved.name}" (Small ${saved.price})${linked ? ', also in Shopify' : ''}`);
 }
 
 /** The two switches on the flavor list: on the homepage, and hidden from the site. */
@@ -48,15 +49,20 @@ export async function setProductFlagAction(
     const saved = await products.update(changed.id, (product) => ({ ...product, [flag]: value === true, ...link }));
     publishSiteData();
     return saved;
-  });
+  }, undefined, (saved) =>
+    flag === 'hidden'
+      ? `${value ? 'Hid' : 'Showed'} flavor "${saved.name}" ${value ? 'from' : 'on'} the website`
+      : `${value ? 'Put' : 'Took'} flavor "${saved.name}" ${value ? 'on' : 'off'} the homepage`);
 }
 
 export async function deleteProductAction(id: string): Promise<ActionResult> {
   const linked = isShopifyAdminConnected();
+  let name = '';
   return adminAction(async () => {
     const flavor = await existing(parseId(id));
+    name = flavor.name;
     if (linked) await archiveFlavorInShopify(flavor);
     await products.remove(flavor.id);
     publishSiteData();
-  }, linked ? 'Flavor deleted, and archived in Shopify.' : 'Flavor deleted.');
+  }, linked ? 'Flavor deleted, and archived in Shopify.' : 'Flavor deleted.', () => `Deleted flavor "${name}"${linked ? ', archived in Shopify' : ''}`);
 }

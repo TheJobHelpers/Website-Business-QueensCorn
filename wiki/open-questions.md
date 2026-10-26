@@ -35,7 +35,8 @@ with the answer and source, and update the related page.
 7. **Shopify store for the owners:** a development store is connected for testing, but the owners' real
    store does not exist yet. They create it (their email, Basic plan, Shopify Payments), then approve a
    collaborator request. See [[shopify-integration]]
-10. **Live admin settings:** `ADMIN_EMAIL`, `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET` must be set in Vercel
+10. **Live admin settings:** since 2026-10-26 each super admin needs `ADMIN_<n>_*` from `scripts/admin-account.mjs`
+    (two-step sign-in) plus `ADMIN_SESSION_SECRET` and `ADMIN_DATA_KEY`, set in Vercel; other admins are invited from the dashboard
     with new values, and an Upstash Redis database added, or the live dashboard cannot sign in or save.
     See [[admin-portal]]
 16. **Hosting plan:** Vercel's free plan does not allow commercial use; a business site needs Pro. Who pays,

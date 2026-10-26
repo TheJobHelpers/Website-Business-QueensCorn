@@ -3,6 +3,16 @@
 Append-only history, **newest first**. Format and types are defined in [CLAUDE.md](CLAUDE.md).
 The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 
+## 2026-10-26 | ingest | Manula
+- Dashboard sign-in rebuilt (branch `feature/admin-auth-hardening`): one login per person with an
+  authenticator code and backup codes, scrypt-only passwords, sessions in Redis (30 min idle / 12 h max,
+  real logout, sign out everywhere), shared attempt limits, new "Admins & activity" screen (30-day log)
+- Then: QR code at a super admin's first sign-in; super admin / admin roles; invite links (`/admin/setup`);
+  reset and remove from Admins & activity; Settings > Your sign-in (replace phone, new backup codes,
+  change password); admin records sealed with `ADMIN_DATA_KEY`
+- Created: [[admin-sign-in-security]]
+- Updated: [[admin-portal]], [[website-architecture]], [[branches-and-status]], [[open-questions]] (10 reworded), index
+
 ## 2026-10-13 | ingest | Manula
 - Homepage: hero shade lightened so the photo shows more; flavors moved above "How to get your corn"
 - Hero polish: popcorn photo first then the kettle (two photos), photo dots, "Next market" line, flavor pills
