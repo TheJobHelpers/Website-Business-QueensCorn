@@ -13,6 +13,11 @@ The latest `sync` entry's `@ <hash>` is where the next code sync starts.
 - Created: [[admin-sign-in-security]]
 - Updated: [[admin-portal]], [[website-architecture]], [[branches-and-status]], [[open-questions]] (10 reworded), index
 
+## 2026-10-26 | ingest | Manula
+- Shopify readiness review fixes (branch `fix/shopify-checkout-readiness`): Storefront API `2025-01` -> `2026-07`;
+  pickup checkout refused when no market is open; ended fundraisers hidden from shoppers and refused at checkout
+- Updated: [[shopify-integration]], [[fundraising-program]]
+
 ## 2026-10-13 | ingest | Manula
 - Homepage: hero shade lightened so the photo shows more; flavors moved above "How to get your corn"
 - Hero polish: popcorn photo first then the kettle (two photos), photo dots, "Next market" line, flavor pills

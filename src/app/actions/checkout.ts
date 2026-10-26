@@ -1,6 +1,7 @@
 'use server';
 
 import { getUpcomingEvents, pickupLabel } from '@/lib/events';
+import { getOpenFundraisers } from '@/lib/fundraisers';
 import { BAG_SIZES, SHIPPING_AVAILABLE, sizePrice } from '@/lib/shop';
 import { getSiteData } from '@/server/repositories';
 import { fetchShopifyCatalog, findVariant, isShopifyConnected, samePrice, shopifyQuery } from '@/server/shopify';
@@ -65,21 +66,22 @@ export async function startCheckoutAction(input: unknown): Promise<CheckoutResul
     ];
 
     if (!wantsShipping) {
+      // a pickup order always names a market: never take payment for popcorn nobody can collect
       const chosen = text(raw.pickupEvent, 200);
       const markets = getUpcomingEvents(site.events).filter((e) => e.pickupAvailable !== false);
-      if (chosen) {
-        if (!markets.some((e) => pickupLabel(e) === chosen)) {
-          return problem('That market is no longer open for pickup. Choose another one in your bag.');
-        }
-        attributes.push({ key: 'Pickup_Market_Event', value: chosen });
-      } else if (markets.length > 0) {
-        return problem('Choose the market where you will pick up your order.');
+      if (markets.length === 0) {
+        return problem('No markets are open for pickup right now. Please message us to order.');
       }
+      if (!chosen) return problem('Choose the market where you will pick up your order.');
+      if (!markets.some((e) => pickupLabel(e) === chosen)) {
+        return problem('That market is no longer open for pickup. Choose another one in your bag.');
+      }
+      attributes.push({ key: 'Pickup_Market_Event', value: chosen });
     }
 
     const code = text(raw.fundraiserCode, 40);
     if (code) {
-      const fundraiser = site.fundraisers.find((f) => f.code === code);
+      const fundraiser = getOpenFundraisers(site.fundraisers).find((f) => f.code === code);
       if (!fundraiser) return problem('That fundraiser is no longer running. Choose another, or none.');
       attributes.push({ key: 'Fundraiser_Code', value: fundraiser.code });
       attributes.push({ key: 'Fundraiser_50_Percent_Giveback', value: fundraiser.organization });

@@ -2,11 +2,12 @@
 title: Fundraising Program (50% Giveback)
 type: business
 owner: unassigned
-updated: 2026-10-13
+updated: 2026-10-26
 sources:
   - src/app/fundraising/page.tsx @ ee5b44c
   - src/data/fundraisers.ts @ ee5b44c
-  - src/app/actions/checkout.ts @ 7b5715f
+  - src/app/actions/checkout.ts @ fix/shopify-checkout-readiness
+  - src/lib/fundraisers.ts @ fix/shopify-checkout-readiness
   - src/app/admin/(dashboard)/sales/page.tsx @ 7b5715f
 ---
 
@@ -25,6 +26,8 @@ Arizona schools, youth sports teams and community clubs raise money by selling Q
 1. Each campaign has a **code** (e.g. `TIGERS50`). The owners add and edit campaigns in the dashboard
    ([[admin-portal]]).
 2. A shopper picks the fundraiser in the cart, which shows "$X (50%) of your order goes to <org>".
+   Once a campaign's end date has passed it disappears from the public pages and the cart, and checkout
+   refuses its code (`src/lib/fundraisers.ts`). The dashboard still lists it.
 3. At checkout two notes are put on the Shopify order: `Fundraiser_Code` and
    `Fundraiser_50_Percent_Giveback` (the group's name). The code is **not** a discount code: the
    shopper pays the normal price. See [[shopify-integration]].

@@ -6,7 +6,8 @@ import { ValidationError } from './validation';
 // Talking to the Shopify store (Storefront API). Only the server calls Shopify: the browser
 // never does, so the shopper cannot choose which variants or prices are sent.
 
-const API_VERSION = '2025-01';
+// Shopify supports each version for about a year: keep this in step with shopify-admin.ts.
+const API_VERSION = '2026-07';
 
 const setting = (name: string) => (process.env[name] ?? '').trim();
 

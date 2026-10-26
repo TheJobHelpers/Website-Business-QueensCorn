@@ -6,6 +6,8 @@ import type { EventItem } from '@/data/events';
 import type { FundraiserCampaign } from '@/data/fundraisers';
 import { SHIPPING_AVAILABLE, bagSize, sizePrice } from '@/lib/shop';
 import { getUpcomingEvents, pickupLabel } from '@/lib/events';
+import { getOpenFundraisers } from '@/lib/fundraisers';
+import { useHydrated } from '@/lib/useHydrated';
 
 export interface CartItem {
   product: Product;
@@ -29,6 +31,7 @@ interface CartContextType {
   /** Site data, loaded on the server (src/app/layout.tsx) and edited in the admin dashboard. */
   products: Product[];
   events: EventItem[];
+  /** only campaigns that haven't ended */
   fundraisers: FundraiserCampaign[];
   openDrawer: () => void;
   closeDrawer: () => void;
@@ -65,6 +68,9 @@ export function CartProvider({ children, products, events, fundraisers }: CartPr
   // The market the shopper picked themselves ('' until they pick one).
   const [chosenPickupEvent, setSelectedPickupEvent] = useState<string>('');
   const [selectedFundraiserCode, setSelectedFundraiserCode] = useState<string>('');
+  // Ended campaigns drop out once the page is in the browser (pages are prerendered at build time).
+  const hydrated = useHydrated();
+  const openFundraisers = hydrated ? getOpenFundraisers(fundraisers) : fundraisers;
 
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
@@ -138,7 +144,7 @@ export function CartProvider({ children, products, events, fundraisers }: CartPr
         selectedFundraiserCode,
         products,
         events,
-        fundraisers,
+        fundraisers: openFundraisers,
         openDrawer,
         closeDrawer,
         setFulfillmentMethod,
