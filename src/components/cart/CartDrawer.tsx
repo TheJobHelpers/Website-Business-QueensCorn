@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart, FREE_AZ_SHIPPING_THRESHOLD, SHIPPING_AVAILABLE } from '@/context/CartContext';
 import { startCheckoutAction } from '@/app/actions/checkout';
-import { getUpcomingEvents } from '@/lib/events';
+import { getUpcomingEvents, pickupLabel } from '@/lib/events';
 import { X, Check, Truck, Calendar, Heart } from 'lucide-react';
 import styles from './CartDrawer.module.css';
 
@@ -51,6 +51,7 @@ export default function CartDrawer() {
   const remainingForFreeShipping = Math.max(0, FREE_AZ_SHIPPING_THRESHOLD - subtotal);
   const shippingProgress = Math.min(100, (subtotal / FREE_AZ_SHIPPING_THRESHOLD) * 100);
   const activeFundraiser = fundraisers.find((f) => f.code === selectedFundraiserCode);
+  const markets = getUpcomingEvents(events).filter((evt) => evt.pickupAvailable !== false);
 
   const handleCheckout = async () => {
     setIsCheckingOut(true);
@@ -241,16 +242,15 @@ export default function CartDrawer() {
                     onChange={(e) => setSelectedPickupEvent(e.target.value)}
                     aria-label="Select Farmers Market Pickup Location"
                   >
-                    {getUpcomingEvents(events)
-                      .filter((evt) => evt.pickupAvailable !== false)
-                      .map((evt) => {
-                        const label = `${evt.title} (${evt.month} ${evt.day})`;
-                        return (
-                          <option key={evt.id} value={label}>
-                            {label} — {evt.location}
-                          </option>
-                        );
-                      })}
+                    {markets.length === 0 && <option value="">No markets scheduled yet</option>}
+                    {markets.map((evt) => {
+                      const label = pickupLabel(evt);
+                      return (
+                        <option key={evt.id} value={label}>
+                          {label} — {evt.location}
+                        </option>
+                      );
+                    })}
                   </select>
                 )}
               </div>

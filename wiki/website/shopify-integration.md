@@ -2,12 +2,13 @@
 title: Shopify Integration
 type: website
 owner: unassigned
-updated: 2026-10-13
+updated: 2026-10-26
 sources:
   - src/server/shopify.ts @ feature/admin-dashboard
   - src/server/shopify-admin.ts @ feature/admin-dashboard
   - src/app/actions/products.ts @ feature/admin-dashboard
-  - src/app/actions/checkout.ts @ feature/admin-dashboard
+  - src/app/actions/checkout.ts @ fix/shopify-checkout-readiness
+  - src/lib/fundraisers.ts @ fix/shopify-checkout-readiness
   - src/app/actions/settings.ts @ feature/admin-dashboard
   - src/components/cart/CartDrawer.tsx @ feature/admin-dashboard
   - src/app/order/thank-you/ @ feature/admin-dashboard
@@ -27,8 +28,9 @@ payment and keeps customers, orders, receipts and refunds. The website stores no
 | `SHOPIFY_ADMIN_ACCESS_TOKEN` | **Private** Admin API token of a custom app (optional, see below) |
 | `SHOPIFY_ADMIN_CLIENT_ID` + `SHOPIFY_ADMIN_CLIENT_SECRET` | Or: a Dev Dashboard app's id and secret (store must be in the same organization) |
 
-Only the server calls Shopify (`src/server/shopify.ts` reads, API `2025-01`; `src/server/shopify-admin.ts`
-writes, API `2026-07`). If the first two variables are missing, checkout falls back to the contact form.
+Only the server calls Shopify (`src/server/shopify.ts` reads, `src/server/shopify-admin.ts` writes; both on API
+`2026-07`, moved off the unsupported `2025-01` on 2026-10-26). Shopify supports each version for about a
+year, so bump both together before 2027-07. If the first two variables are missing, checkout falls back to the contact form.
 Values are never written in this wiki; names and scopes are in `.env.example`.
 
 **Stores**
@@ -91,7 +93,8 @@ asks for address, phone or email.
 1. Looks up each bag line again on the server (flavor by id, size, quantity 1–99).
 2. Finds the Shopify variant by flavor name + `Size`. Stops with a message in the cart if it is
    missing, sold out, or **priced differently from the website**.
-3. Checks the pickup market is still upcoming and the fundraiser still exists.
+3. Checks the pickup market is still upcoming and the fundraiser exists and has not passed its end date.
+   A pickup order must name a market: with no upcoming market, checkout is refused ("message us to order").
 4. `cartCreate` with attributes, then sends the shopper to Shopify's `checkoutUrl`.
 
 Order attributes (shown on the order in the Shopify admin):
